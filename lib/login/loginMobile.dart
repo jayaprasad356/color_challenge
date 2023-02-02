@@ -1,3 +1,4 @@
+import 'package:color_challenge/login/otpVerfication.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -30,9 +31,9 @@ class _LoginMobileState extends State<LoginMobile> {
               const Text(
                 "Log in",
                 style: TextStyle(
-                  fontSize: 24,
-                  color: Colors.black,
-                ),
+                    fontSize: 24,
+                    color: Colors.black,
+                    fontFamily: "Montserrat",fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 60),
               //todo description text view
@@ -41,12 +42,13 @@ class _LoginMobileState extends State<LoginMobile> {
                 style: TextStyle(
                   fontSize: 18,
                   color: Colors.greyss,
+                    fontFamily: "Montserrat"
                 ),
               ),
               const SizedBox(height: 20),
               Container(
-                margin: const EdgeInsets.only(left: 20,right: 20),
-                child:  Material(
+                margin: const EdgeInsets.only(left: 20, right: 20),
+                child: Material(
                   child: TextField(
                     controller: _mobileNumberController,
                     decoration: const InputDecoration(
@@ -55,10 +57,8 @@ class _LoginMobileState extends State<LoginMobile> {
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.primary),
                       ),
-
                     ),
                     style: const TextStyle(backgroundColor: Colors.transparent),
-
                   ),
                 ),
               ),
@@ -66,30 +66,37 @@ class _LoginMobileState extends State<LoginMobile> {
 
               MaterialButton(
                 onPressed: () {
-                  // Perform some action
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const OtpVerification()),
+                  );
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Container(
+                  margin: EdgeInsets.only(left: 10),
                   height: 80,
                   width: double.infinity,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage("assets/images/Verify.png"),
                       fit: BoxFit.fill,
-
                     ),
                   ),
                   child: const Center(
                     child: Text(
                       'Log in',
-                      style: TextStyle(color: Colors.white, fontSize: 18),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontFamily: "Montserrat",
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
               )
-
             ],
           ),
         ),
