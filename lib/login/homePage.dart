@@ -12,11 +12,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.bg_white,
+      backgroundColor: Colors.white,
       body: Container(
           child: Column(children: <Widget>[
         Container(
-          margin: const EdgeInsets.only(right: 10, left: 10, top: 60),
+          margin: const EdgeInsets.only(right: 20, left: 20, top: 60),
           child: Card(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
                           style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(6.0),
-                              side: BorderSide(color: Colors.red),
+                              side: const BorderSide(color: Colors.red),
                             ),
                           ),
                           child: Padding(
@@ -68,7 +68,7 @@ class _HomePageState extends State<HomePage> {
                       MaterialButton(
                         onPressed: () {},
                         color: Colors.primary,
-                        shape: RoundedRectangleBorder(
+                        shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8.0)),
                         ),
                         child: Padding(
@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              Text(
+                              const Text(
                                 'Button Text',
                                 style: TextStyle(
                                   color: Colors.white,
@@ -102,47 +102,116 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Container(
-                    height: 75,
-                    color: Colors.cc_green,
+                    margin: const EdgeInsets.all(10),
                     child: Column(
-                      children: <Widget>[
-                        Image.asset(
-                          "assets/images/fly.png",
-                          width: 24.0,
-                          height: 24.0,
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.cc_green,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          onPressed: () {},
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(height: 10),
+                              Image.asset(
+                                "assets/images/fly.png",
+                                height: 24,
+                                width: 24,
+                              ),
+                              const SizedBox(height: 8),
+                              const Text(
+                                'Join Green',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 12),
+                            ],
+                          ),
                         ),
-                        SizedBox(height: 8.0),
-                        Text('Join Green'),
+                        const SizedBox(height: 10),
+                        const Text("1:2", style: TextStyle(fontSize: 12)),
                       ],
                     ),
                   ),
                   Container(
-                    height: 75,
-                    color: Colors.cc_skyblue,
+                    margin: const EdgeInsets.all(10),
                     child: Column(
-                      children: <Widget>[
-                        Image.asset(
-                          "assets/images/fly.png",
-                          width: 24.0,
-                          height: 24.0,
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.cc_skyblue,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          onPressed: () {},
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(height: 10),
+                              Image.asset(
+                                "assets/images/fly.png",
+                                height: 24,
+                                width: 24,
+                              ),
+                              const SizedBox(height: 8),
+                              const Text(
+                                'Join Blue',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 12),
+                            ],
+                          ),
                         ),
-                        SizedBox(height: 8.0),
-                        Text('Join Green'),
+                        const SizedBox(height: 10),
+                        const Text("1:2", style: TextStyle(fontSize: 12)),
                       ],
                     ),
                   ),
                   Container(
-                    height: 75,
-                    color: Colors.cc_red,
+                    margin: const EdgeInsets.all(10),
                     child: Column(
-                      children: <Widget>[
-                        Image.asset(
-                          "assets/images/fly.png",
-                          width: 24.0,
-                          height: 24.0,
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.cc_red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          onPressed: () {},
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(height: 10),
+                              Image.asset(
+                                "assets/images/fly.png",
+                                height: 24,
+                                width: 24,
+                              ),
+                              const SizedBox(height: 8),
+                              const Text(
+                                'Join Red',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 12),
+                            ],
+                          ),
                         ),
-                        SizedBox(height: 8.0),
-                        Text('Join Green'),
+                        const SizedBox(height: 10),
+                        const Text("1:2", style: TextStyle(fontSize: 12)),
                       ],
                     ),
                   ),
@@ -152,47 +221,118 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Container(
-                    height: 75,
-                    color: Colors.cc_pink,
+                    margin: const EdgeInsets.all(10),
                     child: Column(
-                      children: <Widget>[
-                        Image.asset(
-                          "assets/images/fly.png",
-                          width: 24.0,
-                          height: 24.0,
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.cc_pink,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          onPressed: () {},
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(height: 10),
+                              Image.asset(
+                                "assets/images/fly.png",
+                                height: 24,
+                                width: 24,
+                              ),
+                              const SizedBox(height: 8),
+                              const Text(
+                                'Join Pink',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 12),
+                            ],
+                          ),
                         ),
-                        SizedBox(height: 8.0),
-                        Text('Join Green'),
+                        const SizedBox(height: 10),
+                        const Text("1:2", style: TextStyle(fontSize: 12)),
                       ],
                     ),
                   ),
                   Container(
-                    height: 75,
-                    color: Colors.cc_yellow,
+                    margin: const EdgeInsets.all(10),
                     child: Column(
-                      children: <Widget>[
-                        Image.asset(
-                          "assets/images/fly.png",
-                          width: 24.0,
-                          height: 24.0,
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.cc_yellow,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          onPressed: () {},
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(height: 10),
+                              Image.asset(
+                                "assets/images/fly.png",
+                                height: 24,
+                                width: 24,
+                              ),
+                              const SizedBox(height: 8),
+                              const Text(
+                                'Join Yellow',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 12),
+                            ],
+                          ),
                         ),
-                        SizedBox(height: 8.0),
-                        Text('Join Green'),
+                        const SizedBox(height: 10),
+                        const Text("1:2", style: TextStyle(fontSize: 12)),
                       ],
                     ),
                   ),
                   Container(
-                    height: 75,
-                    color: Colors.cc_purpul,
+                    margin: const EdgeInsets.all(10),
                     child: Column(
-                      children: <Widget>[
-                        Image.asset(
-                          "assets/images/fly.png",
-                          width: 24.0,
-                          height: 24.0,
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.cc_purpul,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          onPressed: () {
+                            btmSheet();
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(height: 10),
+                              Image.asset(
+                                "assets/images/fly.png",
+                                height: 24,
+                                width: 24,
+                              ),
+                              const SizedBox(height: 8),
+                              const Text(
+                                'Join Purple',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 12),
+                            ],
+                          ),
                         ),
-                        SizedBox(height: 8.0),
-                        Text('Join Green'),
+                        const SizedBox(height: 10),
+                        const Text("1:2", style: TextStyle(fontSize: 12)),
                       ],
                     ),
                   ),
@@ -201,7 +341,175 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
+        Container(
+          margin: const EdgeInsets.only(left: 30, right: 30, top: 20),
+          height: 1,
+          color: Colors.primary,
+        ),
+        SizedBox(height: 20,),
+        SizedBox(
+          height: 300,
+          child: ListView.builder(
+            scrollDirection: Axis.vertical,
+            itemCount: 5,
+            itemBuilder: (BuildContext context, int index) {
+              return GestureDetector(
+                onTap: () {},
+                child: Card(
+                  color: Colors.cc_list_grey,
+                  margin: const EdgeInsets.only(right: 15, left: 15, bottom: 5),
+                  child: Padding(
+                      padding: const EdgeInsets.all(0),
+                      child: Row(
+                        children: [
+                          SizedBox(width: 5,),
+                          Image.asset(
+                            "assets/images/coin.png",
+                            width: 32.0,
+                            height: 30.0,
+                          ),
+                          const SizedBox(width: 8),
+                          const Text(
+                            "5",
+                            style: TextStyle(
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: Colors.primary),
+                          ),
+                          Expanded(child: Container()),
+                          const Text(
+                            "Purple",
+                            style: TextStyle(fontFamily: "Montserrat"),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Container(
+                            margin: const EdgeInsets.all(5),
+                            width: 45,
+                            height: 40,
+                            decoration: const BoxDecoration(
+                              color: Colors.cc_purpul,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(6)),
+                            ),
+                          ),
+                        ],
+                      )),
+                ),
+              );
+            },
+          ),
+        ),
       ])),
     );
+  }
+
+  btmSheet() {
+    showModalBottomSheet(
+        context: context,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(40.0),
+          ),
+        ),
+        builder: (context) {
+          return SizedBox(
+            height: 300,
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  const SizedBox(height: 30,),
+                   Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children:[
+                        Text(
+                          "Challenge",
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                              fontFamily: "Montserrat",
+                            fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        Text(
+                          " - Green",
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.cc_green,
+                              fontFamily: "Montserrat",
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20,),
+                  Center(child: Text("My Coins",style: TextStyle(fontFamily: "Montserrat"),)),
+                  SizedBox(height: 10,),
+                  Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                    Image.asset(
+                      "assets/images/coin.png",
+                      width: 24.0,
+                      height: 24.0,
+                    ),
+                      SizedBox(width: 4),
+                      Text("data"),
+                      SizedBox(width: 4),
+
+                      Image.asset(
+                        "assets/images/add.png",
+                        width: 24.0,
+                        height: 24.0,
+                      ),
+                    ]
+                  ),
+                  ),
+
+                  
+
+                  MaterialButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage()),
+                      );
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 10),
+                      height: 80,
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/images/Verify.png"),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                      child: const Center(
+                        child: Text(
+                          'Confirm',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontFamily: "Montserrat",
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  )
+                ]
+            ),
+          );
+        });
   }
 }
