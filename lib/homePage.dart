@@ -1,3 +1,9 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'dart:io';
+
+import 'package:color_challenge/result.dart';
+import 'package:color_challenge/wallet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -112,7 +118,13 @@ class _HomePageState extends State<HomePage> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const wallet()),
+                            );
+                          },
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -231,7 +243,9 @@ class _HomePageState extends State<HomePage> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            showTopupBottomSheet();
+                          },
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -269,7 +283,9 @@ class _HomePageState extends State<HomePage> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            showChallangeBottomSheet();
+                          },
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -308,7 +324,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           onPressed: () {
-                            btmSheet();
+                            showSuccesDialog();
                           },
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -346,7 +362,9 @@ class _HomePageState extends State<HomePage> {
           height: 1,
           color: Colors.primary,
         ),
-        SizedBox(height: 20,),
+        SizedBox(
+          height: 20,
+        ),
         SizedBox(
           height: 300,
           child: ListView.builder(
@@ -362,7 +380,9 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.all(0),
                       child: Row(
                         children: [
-                          SizedBox(width: 5,),
+                          SizedBox(
+                            width: 5,
+                          ),
                           Image.asset(
                             "assets/images/coin.png",
                             width: 32.0,
@@ -406,7 +426,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  btmSheet() {
+  showChallangeBottomSheet() {
     showModalBottomSheet(
         context: context,
         shape: const RoundedRectangleBorder(
@@ -416,24 +436,25 @@ class _HomePageState extends State<HomePage> {
         ),
         builder: (context) {
           return SizedBox(
-            height: 300,
+            height: 600,
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  const SizedBox(height: 30,),
-                   Center(
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children:[
+                      children: const [
                         Text(
                           "Challenge",
                           style: TextStyle(
                               fontSize: 18,
                               color: Colors.black,
                               fontFamily: "Montserrat",
-                            fontWeight: FontWeight.bold
-                          ),
+                              fontWeight: FontWeight.bold),
                         ),
                         Text(
                           " - Green",
@@ -441,46 +462,233 @@ class _HomePageState extends State<HomePage> {
                               fontSize: 18,
                               color: Colors.cc_green,
                               fontFamily: "Montserrat",
-                              fontWeight: FontWeight.bold
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Center(
+                      child: Text(
+                    "My Coins",
+                    style: TextStyle(fontFamily: "Montserrat"),
+                  )),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Image.asset(
+                            "assets/images/coin.png",
+                            width: 24.0,
+                            height: 24.0,
+                          ),
+                          SizedBox(width: 4),
+                          Text("data"),
+                          SizedBox(width: 4),
+                          Image.asset(
+                            "assets/images/add.png",
+                            width: 24.0,
+                            height: 24.0,
+                          ),
+                        ]),
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Text("Contract Coin"),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5.0)),
+                          ),
+                          child: Container(
+                            height: 50.0,
+                            width: 65.0,
+                            decoration: BoxDecoration(
+                              color: Colors.cc_lite_purple,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
+                            ),
+                            child: MaterialButton(
+                              child: Text(
+                                "10",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              onPressed: () {},
+                            ),
+                          ),
+                        ),
+                        Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5.0)),
+                          ),
+                          child: Container(
+                            height: 50.0,
+                            width: 65.0,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
+                            ),
+                            child: MaterialButton(
+                              child: Text("50"),
+                              onPressed: () {},
+                            ),
+                          ),
+                        ),
+                        Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5.0)),
+                          ),
+                          child: Container(
+                            height: 50.0,
+                            width: 65.0,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
+                            ),
+                            child: MaterialButton(
+                              child: Text("100"),
+                              onPressed: () {},
+                            ),
+                          ),
+                        ),
+                        Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5.0)),
+                          ),
+                          child: Container(
+                            height: 50.0,
+                            width: 65.0,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
+                            ),
+                            child: MaterialButton(
+                              child: Text("500"),
+                              onPressed: () {},
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0, bottom: 10),
+                    child: Text("Number"),
+                  ),
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          height: 50.0,
+                          width: 50.0,
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5.0)),
+                            border: Border.all(
+                              color: Colors.cc_border_gray,
+                              width: 1.0,
+                            ),
+                          ),
+                          child: MaterialButton(
+                            child: Text("50"),
+                            onPressed: () {},
+                          ),
+                        ),
+                        Container(
+                          height: 50.0,
+                          width: 50.0,
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5.0)),
+                            border: Border.all(
+                              color: Colors.cc_border_gray,
+                              width: 1.0,
+                            ),
+                          ),
+                          child: MaterialButton(
+                            child: Text("50"),
+                            onPressed: () {},
+                          ),
+                        ),
+                        Container(
+                          height: 50.0,
+                          width: 50.0,
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5.0)),
+                          ),
+                          child: MaterialButton(
+                            child: Text(
+                              "50",
+                              style: TextStyle(color: Colors.cc_red),
+                            ),
+                            onPressed: () {},
+                          ),
+                        ),
+                        Container(
+                          height: 50.0,
+                          width: 50.0,
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5.0)),
+                            border: Border.all(
+                              color: Colors.cc_border_gray,
+                              width: 1.0,
+                            ),
+                          ),
+                          child: MaterialButton(
+                            child: Text("50"),
+                            onPressed: () {},
+                          ),
+                        ),
+                        Container(
+                          height: 50.0,
+                          width: 50.0,
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5.0)),
+                            border: Border.all(
+                              color: Colors.cc_border_gray,
+                              width: 1.0,
+                            ),
+                          ),
+                          child: MaterialButton(
+                            child: Text("50"),
+                            onPressed: () {},
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 20,),
-                  Center(child: Text("My Coins",style: TextStyle(fontFamily: "Montserrat"),)),
-                  SizedBox(height: 10,),
-                  Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                    Image.asset(
-                      "assets/images/coin.png",
-                      width: 24.0,
-                      height: 24.0,
-                    ),
-                      SizedBox(width: 4),
-                      Text("data"),
-                      SizedBox(width: 4),
-
-                      Image.asset(
-                        "assets/images/add.png",
-                        width: 24.0,
-                        height: 24.0,
-                      ),
-                    ]
+                  SizedBox(
+                    height: 30,
                   ),
-                  ),
-
-                  
-
                   MaterialButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomePage()),
-                      );
+                      Navigator.of(context).pop();
                     },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -507,9 +715,146 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   )
-                ]
-            ),
+                ]),
           );
         });
+  }
+
+  showTopupBottomSheet() {
+    showModalBottomSheet(
+        context: context,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(40.0),
+          ),
+        ),
+        builder: (context) {
+          return SizedBox(
+            height: 350,
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text(
+                          "Top up",
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                              fontFamily: "Montserrat",
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Center(
+                      child: Text(
+                    "Current Balance",
+                    style: TextStyle(fontFamily: "Montserrat"),
+                  )),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Center(
+                      child: Text(
+                    "500.00",
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "Montserrat",
+                        color: Colors.primary),
+                  )),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Text("Enter Coins"),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 20, right: 20),
+                    child: TextField(
+                      decoration: const InputDecoration(
+                          filled: true,
+                          border: InputBorder.none,
+                          hintText: '5 - 1000'),
+                      style:
+                          const TextStyle(backgroundColor: Colors.transparent),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  MaterialButton(
+                    onPressed: () {
+                      showSuccesDialog();
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 10),
+                      height: 80,
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/images/Verify.png"),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                      child: const Center(
+                        child: Text(
+                          'Pay',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontFamily: "Montserrat",
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  )
+                ]),
+          );
+        });
+  }
+
+  showSuccesDialog() {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Center(
+            child: const Text(
+          'Successfully challenged',
+          style:
+              TextStyle(fontFamily: "Montserrat", fontWeight: FontWeight.bold),
+        )),
+        content: Image.asset(
+          "assets/images/success.png",
+          height: 80,
+          width: 80,
+        ),
+      ),
+    );
+    Future.delayed(Duration(seconds: 3), () {
+      // Your code to be executed after 3 seconds
+    });
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const Result()),
+    );
   }
 }

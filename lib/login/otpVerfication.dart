@@ -1,4 +1,4 @@
-import 'package:color_challenge/login/homePage.dart';
+import 'package:color_challenge/homePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:otp_text_field/otp_field.dart';
