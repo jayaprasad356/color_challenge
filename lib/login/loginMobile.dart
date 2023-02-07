@@ -52,6 +52,7 @@ class _LoginMobileState extends State<LoginMobile> {
                 margin: const EdgeInsets.only(left: 20, right: 20),
                 child: Material(
                   child: TextField(
+                    keyboardType: TextInputType.phone,
                     controller: _mobileNumberController,
                     decoration: const InputDecoration(
                       filled: true,
@@ -67,6 +68,11 @@ class _LoginMobileState extends State<LoginMobile> {
               const SizedBox(height: 60),
               MaterialButton(
                 onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const OtpVerification()),
+                  );
                   Navigator.push(
                     context,
                     MaterialPageRoute(
