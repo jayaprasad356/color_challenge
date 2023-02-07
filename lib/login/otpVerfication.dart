@@ -1,8 +1,11 @@
 import 'package:color_challenge/homePage.dart';
+import 'package:color_challenge/login/mainScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
+
+import '../Helper/Color.dart';
 
 class OtpVerification extends StatefulWidget {
   const OtpVerification({Key? key}) : super(key: key);
@@ -13,7 +16,8 @@ class OtpVerification extends StatefulWidget {
 
 class _OtpVerificationState extends State<OtpVerification> {
   OtpFieldController otpController = OtpFieldController();
-  TextStyle style = const TextStyle(color: Colors.white,
+  TextStyle style = const TextStyle(
+      color: colors.white,
       fontSize: 18,
       fontFamily: 'Montserrat',
       fontWeight: FontWeight.bold);
@@ -23,8 +27,7 @@ class _OtpVerificationState extends State<OtpVerification> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-
-          color: Colors.white,
+          color: colors.white,
           child: Column(
             children: <Widget>[
               const SizedBox(height: 160),
@@ -39,10 +42,9 @@ class _OtpVerificationState extends State<OtpVerification> {
                 "OTP Verification",
                 style: TextStyle(
                     fontSize: 24,
-                    color: Colors.black,
+                    color: colors.black,
                     fontWeight: FontWeight.bold,
-                    fontFamily: "Montserrat"
-                ),
+                    fontFamily: "Montserrat"),
               ),
               const SizedBox(height: 20),
               //todo description OTP view
@@ -50,9 +52,8 @@ class _OtpVerificationState extends State<OtpVerification> {
                 "The OTP sent to +998 91 234 56 87",
                 style: TextStyle(
                     fontSize: 14,
-                    color: Colors.greyss,
-                    fontFamily: "Montserrat"
-                ),
+                    color: colors.greyss,
+                    fontFamily: "Montserrat"),
               ),
               const SizedBox(height: 40),
               Container(
@@ -60,10 +61,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                 child: OTPTextField(
                     controller: otpController,
                     length: 5,
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width,
+                    width: MediaQuery.of(context).size.width,
                     textFieldAlignment: MainAxisAlignment.spaceAround,
                     fieldWidth: 45,
                     fieldStyle: FieldStyle.box,
@@ -81,14 +79,15 @@ class _OtpVerificationState extends State<OtpVerification> {
                 "Resend OTP",
                 style: TextStyle(
                     fontSize: 14,
-                    color: Colors.primary,
-                    fontFamily: "Montserrat"
-                ),
+                    color: colors.primary,
+                    fontFamily: "Montserrat"),
               ),
-              const SizedBox(height: 60,),
+              const SizedBox(
+                height: 60,
+              ),
               MaterialButton(
                 onPressed: () {
-                  btmSheet();
+                  showReferCodeSheet();
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -118,7 +117,7 @@ class _OtpVerificationState extends State<OtpVerification> {
     );
   }
 
-  btmSheet() {
+  showReferCodeSheet() {
     showModalBottomSheet(
         context: context,
         shape: const RoundedRectangleBorder(
@@ -127,73 +126,77 @@ class _OtpVerificationState extends State<OtpVerification> {
           ),
         ),
         builder: (context) {
-          return SizedBox(
-            height: 300,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                const SizedBox(height: 30,),
-                 const Center(
-                   child: Text(
-                    "Enter Referal Code (optional)",
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.greyss,
-                        fontFamily: "Montserrat"
-                    ),
-                ),
-                 ),
-                const SizedBox(height: 20),
-                Container(
-                  margin: const EdgeInsets.only(left: 20, right: 20),
-                  child: const TextField(
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.transparent,
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.primary),
+          return Padding(
+            padding:  EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: SingleChildScrollView(
+              child: SizedBox(
+                height: 300,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      const SizedBox(
+                        height: 30,
                       ),
-                    ),
-                    style: TextStyle(backgroundColor: Colors.transparent),
-                  ),
-                ),
-                const SizedBox(height: 60),
-
-                MaterialButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const HomePage()),
-                    );
-                  },
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Container(
-                    margin: const EdgeInsets.only(left: 10),
-                    height: 80,
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/images/Verify.png"),
-                        fit: BoxFit.fill,
+                      const Center(
+                        child: Text(
+                          "Enter Referal Code (optional)",
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: colors.greyss,
+                              fontFamily: "Montserrat"),
+                        ),
                       ),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'Continue',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.bold),
+                      const SizedBox(height: 20),
+                      Container(
+                        margin: const EdgeInsets.only(left: 20, right: 20),
+                        child: const TextField(
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.transparent,
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: colors.primary),
+                            ),
+                          ),
+                          style: TextStyle(backgroundColor: Colors.transparent),
+                        ),
                       ),
-                    ),
-                  ),
-                )
-        ]
+                      const SizedBox(height: 60),
+                      MaterialButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const MainScreen()),
+                          );
+                        },
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 10),
+                          height: 80,
+                          width: double.infinity,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage("assets/images/Verify.png"),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              'Continue',
+                              style: TextStyle(
+                                  color: colors.white,
+                                  fontSize: 18,
+                                  fontFamily: "Montserrat",
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                      )
+                    ]),
+              ),
             ),
           );
         });

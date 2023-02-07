@@ -2,6 +2,8 @@ import 'package:color_challenge/login/otpVerfication.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../Helper/Color.dart';
+
 class LoginMobile extends StatefulWidget {
   const LoginMobile({Key? key}) : super(key: key);
 
@@ -17,7 +19,7 @@ class _LoginMobileState extends State<LoginMobile> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          color: Colors.white,
+          color: colors.white,
           child: Column(
             children: <Widget>[
               const SizedBox(height: 250),
@@ -32,18 +34,18 @@ class _LoginMobileState extends State<LoginMobile> {
                 "Log in",
                 style: TextStyle(
                     fontSize: 24,
-                    color: Colors.black,
-                    fontFamily: "Montserrat",fontWeight: FontWeight.bold),
+                    color: colors.black,
+                    fontFamily: "Montserrat",
+                    fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 60),
               //todo description text view
               const Text(
                 "Enter Mobile Number",
                 style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.greyss,
-                    fontFamily: "Montserrat"
-                ),
+                    fontSize: 18,
+                    color: colors.greyss,
+                    fontFamily: "Montserrat"),
               ),
               const SizedBox(height: 20),
               Container(
@@ -55,7 +57,7 @@ class _LoginMobileState extends State<LoginMobile> {
                       filled: true,
                       fillColor: Colors.white,
                       enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.primary),
+                        borderSide: BorderSide(color: colors.primary),
                       ),
                     ),
                     style: const TextStyle(backgroundColor: Colors.transparent),
@@ -63,7 +65,6 @@ class _LoginMobileState extends State<LoginMobile> {
                 ),
               ),
               const SizedBox(height: 60),
-
               MaterialButton(
                 onPressed: () {
                   Navigator.push(
@@ -89,7 +90,7 @@ class _LoginMobileState extends State<LoginMobile> {
                     child: Text(
                       'Log in',
                       style: TextStyle(
-                          color: Colors.white,
+                          color: colors.white,
                           fontSize: 18,
                           fontFamily: "Montserrat",
                           fontWeight: FontWeight.bold),
