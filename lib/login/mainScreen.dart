@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../Helper/Color.dart';
 import '../homePage.dart';
+import '../test.dart';
 import '../wallet.dart';
 
 class MainScreen extends StatefulWidget {
@@ -13,11 +14,12 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  TextEditingController _payAmountController = TextEditingController();
   int _selctedIndex = 0;
   String title = "HOME";
   bool _actionsVisible = true;
   bool _leftArrowVisible = true;
-  final screens = [const HomePage(), Result(), wallet()];
+  final screens = [const HomePage(), const Result(), const wallet()];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -46,10 +48,10 @@ class _MainScreenState extends State<MainScreen> {
         centerTitle: true,
         title: Text(
           title,
-          style: TextStyle(fontFamily: 'Montserra', color: colors.black),
+          style: const TextStyle(fontFamily: 'Montserra', color: colors.black),
         ),
         leading: _leftArrowVisible
-            ? Icon(
+            ? const Icon(
                 Icons.arrow_back_outlined,
                 color: colors.black,
               )
@@ -64,7 +66,7 @@ class _MainScreenState extends State<MainScreen> {
                     width: 24,
                   ),
                 ),
-                Center(
+                const Center(
                     child: Text(
                   "200",
                   style: TextStyle(
@@ -72,15 +74,21 @@ class _MainScreenState extends State<MainScreen> {
                       fontFamily: "Montserra",
                       fontSize: 16),
                 )),
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Image.asset(
-                    "assets/images/add.png",
-                    height: 24,
-                    width: 24,
-                  ),
-                ),
-              ]
+          GestureDetector(
+            onTap: () {
+              showTopupBottomSheet();
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Image.asset(
+                "assets/images/add.png",
+                height: 24,
+                width: 24,
+              ),
+            ),
+          )
+
+        ]
             : [],
       ),
       bottomNavigationBar: Container(
@@ -119,11 +127,140 @@ class _MainScreenState extends State<MainScreen> {
               ],
               currentIndex: _selctedIndex,
               selectedItemColor: colors.primary,
-              selectedIconTheme: IconThemeData(color: colors.red),
+              selectedIconTheme: const IconThemeData(color: colors.red),
               onTap: _onItemTapped,
             ),
           )),
       body: screens[_selctedIndex],
     );
   }
+  showTopupBottomSheet() {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        shape:  const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(40.0),
+          ),
+        ),
+        builder: (context) {
+          return SingleChildScrollView(
+            child: Padding(
+              padding:  EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: Container(
+                height: 350,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text(
+                              "Top up",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: colors.black,
+                                  fontFamily: "Montserrat",
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      const Center(
+                          child: Text(
+                            "Current Balance",
+                            style: TextStyle(fontFamily: "Montserrat"),
+                          )),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const Center(
+                          child: Text(
+                            "500.00",
+                            style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "Montserrat",
+                                color: colors.primary),
+                          )),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 20),
+                        child: Text("Enter Coins"),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(left: 20, right: 20),
+                        child:  Padding(
+                          padding:  const EdgeInsets.all(8.0),
+                          child: TextField(
+                            controller: _payAmountController,
+                            keyboardType:TextInputType.number ,
+                            decoration: const InputDecoration(
+                                filled: true,
+                                border: InputBorder.none,
+                                hintText: '5 - 1000'),
+                            style:
+                            const TextStyle(backgroundColor: Colors.transparent),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      MaterialButton(
+                        onPressed: () {
+                          String amt;
+                          amt=_payAmountController.text;
+                          double doubleValue = double.parse(amt);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>  PayPage(doubleValue)),
+                          );
+                        },
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 10),
+                          height: 80,
+                          width: double.infinity,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage("assets/images/Verify.png"),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              'Pay',
+                              style: TextStyle(
+                                  color: colors.white,
+                                  fontSize: 18,
+                                  fontFamily: "Montserrat",
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                      )
+                    ]),
+              ),
+            ),
+          );
+        });
+  }
+
 }

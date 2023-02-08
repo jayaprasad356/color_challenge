@@ -1,7 +1,9 @@
 import 'package:color_challenge/login/otpVerfication.dart';
+import 'package:color_challenge/pay.dart';
+import 'package:color_challenge/test.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:upi_india/upi_india.dart';
 import '../Helper/Color.dart';
 
 class LoginMobile extends StatefulWidget {
@@ -68,11 +70,6 @@ class _LoginMobileState extends State<LoginMobile> {
               const SizedBox(height: 60),
               MaterialButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const OtpVerification()),
-                  );
                   Navigator.push(
                     context,
                     MaterialPageRoute(
