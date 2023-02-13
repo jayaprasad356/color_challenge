@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../Helper/Color.dart';
 import '../homePage.dart';
-import '../test.dart';
+import '../upiPay.dart';
 import '../wallet.dart';
 
 class MainScreen extends StatefulWidget {
@@ -74,21 +74,20 @@ class _MainScreenState extends State<MainScreen> {
                       fontFamily: "Montserra",
                       fontSize: 16),
                 )),
-          GestureDetector(
-            onTap: () {
-              showTopupBottomSheet();
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Image.asset(
-                "assets/images/add.png",
-                height: 24,
-                width: 24,
-              ),
-            ),
-          )
-
-        ]
+                GestureDetector(
+                  onTap: () {
+                    showTopupBottomSheet();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Image.asset(
+                      "assets/images/add.png",
+                      height: 24,
+                      width: 24,
+                    ),
+                  ),
+                )
+              ]
             : [],
       ),
       bottomNavigationBar: Container(
@@ -103,42 +102,44 @@ class _MainScreenState extends State<MainScreen> {
             borderRadius: const BorderRadius.all(Radius.circular(1)),
             child: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
-              items: const <BottomNavigationBarItem>[
+              items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
                   icon: ImageIcon(
-                    AssetImage(
+                    const AssetImage(
                       "assets/images/home.png",
                     ),
-                    color: colors.black,
+                    color: _selctedIndex == 0 ? colors.primary : colors.black,
                   ),
                   label: 'Home',
                   backgroundColor: colors.white,
                 ),
                 BottomNavigationBarItem(
-                    icon: ImageIcon(AssetImage("assets/images/result.png"),
-                        color: colors.black),
+                    icon: ImageIcon(const AssetImage("assets/images/result.png"),
+                        color:
+                            _selctedIndex == 1 ? colors.primary : colors.black),
                     label: 'Result',
                     backgroundColor: colors.white),
                 BottomNavigationBarItem(
-                    icon: ImageIcon(AssetImage("assets/images/Wallet.png"),
-                        color: colors.black),
+                    icon: ImageIcon(const AssetImage("assets/images/Wallet.png"),
+                        color:
+                            _selctedIndex == 2 ? colors.primary : colors.black),
                     label: 'Wallet',
                     backgroundColor: colors.white),
               ],
               currentIndex: _selctedIndex,
               selectedItemColor: colors.primary,
-              selectedIconTheme: const IconThemeData(color: colors.red),
               onTap: _onItemTapped,
             ),
           )),
       body: screens[_selctedIndex],
     );
   }
+
   showTopupBottomSheet() {
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
-        shape:  const RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(40.0),
           ),
@@ -146,7 +147,8 @@ class _MainScreenState extends State<MainScreen> {
         builder: (context) {
           return SingleChildScrollView(
             child: Padding(
-              padding:  EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
               child: Container(
                 height: 350,
                 child: Column(
@@ -176,21 +178,21 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                       const Center(
                           child: Text(
-                            "Current Balance",
-                            style: TextStyle(fontFamily: "Montserrat"),
-                          )),
+                        "Current Balance",
+                        style: TextStyle(fontFamily: "Montserrat"),
+                      )),
                       const SizedBox(
                         height: 10,
                       ),
                       const Center(
                           child: Text(
-                            "500.00",
-                            style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Montserrat",
-                                color: colors.primary),
-                          )),
+                        "500.00",
+                        style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "Montserrat",
+                            color: colors.primary),
+                      )),
                       const SizedBox(
                         height: 15,
                       ),
@@ -203,17 +205,17 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                       Container(
                         margin: const EdgeInsets.only(left: 20, right: 20),
-                        child:  Padding(
-                          padding:  const EdgeInsets.all(8.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
                           child: TextField(
                             controller: _payAmountController,
-                            keyboardType:TextInputType.number ,
+                            keyboardType: TextInputType.number,
                             decoration: const InputDecoration(
                                 filled: true,
                                 border: InputBorder.none,
                                 hintText: '5 - 1000'),
-                            style:
-                            const TextStyle(backgroundColor: Colors.transparent),
+                            style: const TextStyle(
+                                backgroundColor: Colors.transparent),
                           ),
                         ),
                       ),
@@ -223,12 +225,12 @@ class _MainScreenState extends State<MainScreen> {
                       MaterialButton(
                         onPressed: () {
                           String amt;
-                          amt=_payAmountController.text;
+                          amt = _payAmountController.text;
                           double doubleValue = double.parse(amt);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>  PayPage(doubleValue)),
+                                builder: (context) => PayPage(doubleValue)),
                           );
                         },
                         shape: RoundedRectangleBorder(
@@ -262,5 +264,4 @@ class _MainScreenState extends State<MainScreen> {
           );
         });
   }
-
 }

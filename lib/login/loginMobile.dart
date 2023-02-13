@@ -1,6 +1,6 @@
 import 'package:color_challenge/login/otpVerfication.dart';
 import 'package:color_challenge/pay.dart';
-import 'package:color_challenge/test.dart';
+import 'package:color_challenge/upiPay.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:upi_india/upi_india.dart';

@@ -6,6 +6,7 @@ import 'package:color_challenge/result.dart';
 import 'package:color_challenge/wallet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'Helper/Color.dart';
 
@@ -17,6 +18,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+   String referText="GBD 21";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,35 +46,39 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         OutlinedButton(
-                            onPressed: () {},
-                            style: OutlinedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(6.0),
-                                side: const BorderSide(color: colors.red),
-                              ),
+                          onPressed: () {
+                            Clipboard.setData(ClipboardData(text: referText));
+                          },
+                          style: OutlinedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6.0),
+                              side: const BorderSide(color: colors.red),
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(14),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Image.asset(
-                                    "assets/images/copy.png",
-                                    width: 24.0,
-                                    height: 24.0,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(14),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Image.asset(
+                                  "assets/images/copy.png",
+                                  width: 24.0,
+                                  height: 24.0,
+                                ),
+                                const SizedBox(width: 8.0),
+                                 Text(
+                                 referText,
+                                  style: TextStyle(
+                                    color: colors.primary,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  const SizedBox(width: 8.0),
-                                  const Text(
-                                    'GBD 21',
-                                    style: TextStyle(
-                                      color: colors.primary,
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+
                         const SizedBox(width: 16.0),
                         MaterialButton(
                           onPressed: () {},
@@ -82,12 +88,12 @@ class _HomePageState extends State<HomePage> {
                                 BorderRadius.all(Radius.circular(8.0)),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.only(top:16.0,bottom: 16.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                const Text(
-                                  'Button Text',
+                              children: const <Widget>[
+                                Text(
+                                  'Refer Friends',
                                   style: TextStyle(
                                     color: colors.white,
                                     fontSize: 16.0,
@@ -123,11 +129,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const wallet()),
-                              );
+
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -441,287 +443,289 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         builder: (context) {
-          return SizedBox(
-            height: 600,
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text(
-                          "Challenge",
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: colors.black,
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          " - Green",
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: colors.cc_green,
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
+          return SingleChildScrollView(
+            child: SizedBox(
+              height: 600,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    const SizedBox(
+                      height: 30,
                     ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Center(
-                      child: Text(
-                    "My Coins",
-                    style: TextStyle(fontFamily: "Montserrat"),
-                  )),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    child: Row(
+                    Center(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Image.asset(
-                            "assets/images/coin.png",
-                            width: 24.0,
-                            height: 24.0,
+                        children: const [
+                          Text(
+                            "Challenge",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: colors.black,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(width: 4),
-                          Text("data"),
-                          SizedBox(width: 4),
-                          Image.asset(
-                            "assets/images/add.png",
-                            width: 24.0,
-                            height: 24.0,
+                          Text(
+                            " - Green",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: colors.cc_green,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.bold),
                           ),
-                        ]),
-                  ),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Text("Contract Coin"),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(5.0)),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Center(
+                        child: Text(
+                      "My Coins",
+                      style: TextStyle(fontFamily: "Montserrat"),
+                    )),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Image.asset(
+                              "assets/images/coin.png",
+                              width: 24.0,
+                              height: 24.0,
+                            ),
+                            SizedBox(width: 4),
+                            Text("data"),
+                            SizedBox(width: 4),
+                            Image.asset(
+                              "assets/images/add.png",
+                              width: 24.0,
+                              height: 24.0,
+                            ),
+                          ]),
+                    ),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Text("Contract Coin"),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
+                            ),
+                            child: Container(
+                              height: 50.0,
+                              width: 65.0,
+                              decoration: BoxDecoration(
+                                color: colors.cc_lite_purple,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5.0)),
+                              ),
+                              child: MaterialButton(
+                                child: Text(
+                                  "10",
+                                  style: TextStyle(color: colors.white),
+                                ),
+                                onPressed: () {},
+                              ),
+                            ),
                           ),
-                          child: Container(
+                          Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
+                            ),
+                            child: Container(
+                              height: 50.0,
+                              width: 65.0,
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5.0)),
+                              ),
+                              child: MaterialButton(
+                                child: Text("50"),
+                                onPressed: () {},
+                              ),
+                            ),
+                          ),
+                          Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
+                            ),
+                            child: Container(
+                              height: 50.0,
+                              width: 65.0,
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5.0)),
+                              ),
+                              child: MaterialButton(
+                                child: Text("100"),
+                                onPressed: () {},
+                              ),
+                            ),
+                          ),
+                          Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
+                            ),
+                            child: Container(
+                              height: 50.0,
+                              width: 65.0,
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5.0)),
+                              ),
+                              child: MaterialButton(
+                                child: Text("500"),
+                                onPressed: () {},
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, bottom: 10),
+                      child: Text("Number"),
+                    ),
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
                             height: 50.0,
-                            width: 65.0,
+                            width: 50.0,
                             decoration: BoxDecoration(
-                              color: colors.cc_lite_purple,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
+                              border: Border.all(
+                                color: colors.cc_border_gray,
+                                width: 1.0,
+                              ),
+                            ),
+                            child: MaterialButton(
+                              child: Text("-5"),
+                              onPressed: () {},
+                            ),
+                          ),
+                          Container(
+                            height: 50.0,
+                            width: 50.0,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
+                              border: Border.all(
+                                color: colors.cc_border_gray,
+                                width: 1.0,
+                              ),
+                            ),
+                            child: MaterialButton(
+                              child: Text("-1"),
+                              onPressed: () {},
+                            ),
+                          ),
+                          Container(
+                            height: 50.0,
+                            width: 50.0,
+                            decoration: BoxDecoration(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(5.0)),
                             ),
                             child: MaterialButton(
                               child: Text(
-                                "10",
-                                style: TextStyle(color: colors.white),
+                                "50",
+                                style: TextStyle(color: colors.cc_red),
                               ),
                               onPressed: () {},
                             ),
                           ),
-                        ),
-                        Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(5.0)),
-                          ),
-                          child: Container(
+                          Container(
                             height: 50.0,
-                            width: 65.0,
+                            width: 50.0,
                             decoration: BoxDecoration(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(5.0)),
+                              border: Border.all(
+                                color: colors.cc_border_gray,
+                                width: 1.0,
+                              ),
                             ),
                             child: MaterialButton(
-                              child: Text("50"),
+                              child: Text("+1"),
                               onPressed: () {},
                             ),
                           ),
-                        ),
-                        Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(5.0)),
-                          ),
-                          child: Container(
+                          Container(
                             height: 50.0,
-                            width: 65.0,
+                            width: 50.0,
                             decoration: BoxDecoration(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(5.0)),
+                              border: Border.all(
+                                color: colors.cc_border_gray,
+                                width: 1.0,
+                              ),
                             ),
                             child: MaterialButton(
-                              child: Text("100"),
+                              child: Text("+5"),
                               onPressed: () {},
                             ),
                           ),
-                        ),
-                        Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(5.0)),
-                          ),
-                          child: Container(
-                            height: 50.0,
-                            width: 65.0,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5.0)),
-                            ),
-                            child: MaterialButton(
-                              child: Text("500"),
-                              onPressed: () {},
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20.0, bottom: 10),
-                    child: Text("Number"),
-                  ),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          height: 50.0,
-                          width: 50.0,
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(5.0)),
-                            border: Border.all(
-                              color: colors.cc_border_gray,
-                              width: 1.0,
-                            ),
-                          ),
-                          child: MaterialButton(
-                            child: Text("-5"),
-                            onPressed: () {},
-                          ),
-                        ),
-                        Container(
-                          height: 50.0,
-                          width: 50.0,
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(5.0)),
-                            border: Border.all(
-                              color: colors.cc_border_gray,
-                              width: 1.0,
-                            ),
-                          ),
-                          child: MaterialButton(
-                            child: Text("-1"),
-                            onPressed: () {},
-                          ),
-                        ),
-                        Container(
-                          height: 50.0,
-                          width: 50.0,
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(5.0)),
-                          ),
-                          child: MaterialButton(
-                            child: Text(
-                              "50",
-                              style: TextStyle(color: colors.cc_red),
-                            ),
-                            onPressed: () {},
-                          ),
-                        ),
-                        Container(
-                          height: 50.0,
-                          width: 50.0,
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(5.0)),
-                            border: Border.all(
-                              color: colors.cc_border_gray,
-                              width: 1.0,
-                            ),
-                          ),
-                          child: MaterialButton(
-                            child: Text("+1"),
-                            onPressed: () {},
-                          ),
-                        ),
-                        Container(
-                          height: 50.0,
-                          width: 50.0,
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(5.0)),
-                            border: Border.all(
-                              color: colors.cc_border_gray,
-                              width: 1.0,
-                            ),
-                          ),
-                          child: MaterialButton(
-                            child: Text("+5"),
-                            onPressed: () {},
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Container(
-                      margin: const EdgeInsets.only(left: 10),
-                      height: 80,
-                      width: double.infinity,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/images/Verify.png"),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          'Confirm',
-                          style: TextStyle(
-                              color: colors.white,
-                              fontSize: 18,
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.bold),
-                        ),
+                        ],
                       ),
                     ),
-                  )
-                ]),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    MaterialButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Container(
+                        margin: const EdgeInsets.only(left: 10),
+                        height: 80,
+                        width: double.infinity,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/Verify.png"),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            'Confirm',
+                            style: TextStyle(
+                                color: colors.white,
+                                fontSize: 18,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    )
+                  ]),
+            ),
           );
         });
   }

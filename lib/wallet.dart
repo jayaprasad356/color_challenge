@@ -50,25 +50,34 @@ class _walletState extends State<wallet> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Container(
-                      height: 60,
-                      width: double.infinity,
-                      margin: const EdgeInsets.only(left: 20, right: 20),
-                      decoration: BoxDecoration(
-                        color: colors.cc_button_grey,
-                        //DecorationImage
-                        border: Border.all(
-                          color: colors.cc_list_grey,
-                        ), //Border.all
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          ' +  Add UPI',
-                          style: TextStyle(color: colors.cc_greyText),
+                    MaterialButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const addupi()),
+                        );
+                      },
+                      child: Container(
+                        height: 60,
+                        width: double.infinity,
+                        margin: const EdgeInsets.only(left: 20, right: 20),
+                        decoration: BoxDecoration(
+                          color: colors.cc_button_grey,
+                          border: Border.all(
+                            color: colors.cc_list_grey,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            ' +  Add UPI',
+                            style: TextStyle(color: colors.cc_greyText),
+                          ),
                         ),
                       ),
                     ),
+
                     const SizedBox(
                       height: 30,
                     ),
@@ -96,6 +105,7 @@ class _walletState extends State<wallet> {
                       child: const ClipRRect(
                         borderRadius: BorderRadius.all(Radius.circular(12.0)),
                         child: TextField(
+                          keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                             filled: true,
                             border: InputBorder.none,
@@ -136,11 +146,6 @@ class _walletState extends State<wallet> {
                     ),
                     MaterialButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const addupi()),
-                        );
                       },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -200,7 +205,7 @@ class _walletState extends State<wallet> {
                         child: Card(
                           color: colors.cc_button_grey,
                           margin: const EdgeInsets.only(
-                              right: 15, left: 15, bottom: 10),
+                              right: 15, left: 15, bottom: 5,top: 5),
                           child: Padding(
                               padding: const EdgeInsets.all(0),
                               child: Column(

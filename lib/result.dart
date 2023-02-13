@@ -23,7 +23,7 @@ class _ResultState extends State<Result> {
               onTap: () {},
               child: Card(
                 color: colors.white,
-                margin: const EdgeInsets.only(right: 15, left: 15, bottom: 20),
+                margin: const EdgeInsets.only(right: 15, left: 15, bottom: 10,top: 10),
                 child: Column(
                   children: [
                     Padding(

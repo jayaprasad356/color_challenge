@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:upi_india/upi_india.dart';
 
-
 class PayPage extends StatefulWidget {
   final double amount;
+
   PayPage(this.amount);
 
   @override
@@ -43,12 +43,11 @@ class _PayPageState extends State<PayPage> {
   Future<UpiResponse> initiateTransaction(UpiApp app, double i) async {
     return _upiIndia.startTransaction(
       app: app,
-      receiverUpiId: "gpay-11186293161@okbizaxis",
+      receiverUpiId: "ezeetailtechnologiesprivalimited@icici",
       receiverName: 'name',
       transactionRefId: 'TestingUpiIndiaPlugin',
       transactionNote: 'Not actual. Just an example.',
       amount: i,
-      flexibleAmount: true,
     );
   }
 
