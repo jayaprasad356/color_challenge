@@ -30,12 +30,12 @@ class _MainScreenState extends State<MainScreen> {
         _leftArrowVisible = false;
       } else if (index == 1) {
         title = "Result";
-        _actionsVisible = true;
+        _actionsVisible = false;
         _leftArrowVisible = false;
       } else {
         title = "HOME";
         _actionsVisible = true;
-        _leftArrowVisible = true;
+        _leftArrowVisible = false;
       }
     });
   }
@@ -46,6 +46,7 @@ class _MainScreenState extends State<MainScreen> {
       appBar: AppBar(
         backgroundColor: colors.white,
         centerTitle: true,
+        automaticallyImplyLeading: false,
         title: Text(
           title,
           style: const TextStyle(fontFamily: 'Montserra', color: colors.black),

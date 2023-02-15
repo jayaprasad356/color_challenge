@@ -2,12 +2,12 @@
 
 import 'dart:io';
 
+import 'package:color_challenge/Helper/utils.dart';
 import 'package:color_challenge/result.dart';
 import 'package:color_challenge/wallet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'Helper/Color.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,6 +19,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
    String referText="GBD 21";
+   Utils utils=Utils();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,6 +48,7 @@ class _HomePageState extends State<HomePage> {
                       children: <Widget>[
                         OutlinedButton(
                           onPressed: () {
+                            utils.showToast("Copied !");
                             Clipboard.setData(ClipboardData(text: referText));
                           },
                           style: OutlinedButton.styleFrom(
@@ -81,7 +83,9 @@ class _HomePageState extends State<HomePage> {
 
                         const SizedBox(width: 16.0),
                         MaterialButton(
-                          onPressed: () {},
+                          onPressed: () {
+
+                          },
                           color: colors.primary,
                           shape: const RoundedRectangleBorder(
                             borderRadius:
@@ -206,7 +210,8 @@ class _HomePageState extends State<HomePage> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                            },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -445,70 +450,16 @@ class _HomePageState extends State<HomePage> {
         builder: (context) {
           return SingleChildScrollView(
             child: SizedBox(
-              height: 600,
+              height: 280,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Text(
-                            "Challenge",
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: colors.black,
-                                fontFamily: "Montserrat",
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            " - Green",
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: colors.cc_green,
-                                fontFamily: "Montserrat",
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
+
                     SizedBox(
                       height: 20,
                     ),
-                    Center(
-                        child: Text(
-                      "My Coins",
-                      style: TextStyle(fontFamily: "Montserrat"),
-                    )),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Image.asset(
-                              "assets/images/coin.png",
-                              width: 24.0,
-                              height: 24.0,
-                            ),
-                            SizedBox(width: 4),
-                            Text("data"),
-                            SizedBox(width: 4),
-                            Image.asset(
-                              "assets/images/add.png",
-                              width: 24.0,
-                              height: 24.0,
-                            ),
-                          ]),
-                    ),
-                    SizedBox(
-                      height: 50,
-                    ),
+
                     Padding(
                       padding: const EdgeInsets.only(left: 20),
                       child: Text("Contract Coin"),
@@ -527,7 +478,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             child: Container(
                               height: 50.0,
-                              width: 65.0,
+                              width: 50.0,
                               decoration: BoxDecoration(
                                 color: colors.cc_lite_purple,
                                 borderRadius:
@@ -535,7 +486,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                               child: MaterialButton(
                                 child: Text(
-                                  "10",
+                                  "5",
                                   style: TextStyle(color: colors.white),
                                 ),
                                 onPressed: () {},
@@ -549,10 +500,64 @@ class _HomePageState extends State<HomePage> {
                             ),
                             child: Container(
                               height: 50.0,
-                              width: 65.0,
+                              width: 50.0,
                               decoration: BoxDecoration(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(5.0)),
+                              ),
+                              child: MaterialButton(
+                                child: Text("10"),
+                                onPressed: () {},
+                              ),
+                            ),
+                          ),
+                          Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
+                            ),
+                            child: Container(
+                              height: 50.0,
+                              width: 50.0,
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5.0)),
+                              ),
+                              child: MaterialButton(
+                                child: Text("15"),
+                                onPressed: () {},
+                              ),
+                            ),
+                          ),
+                          Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
+                            ),
+                            child: Container(
+                              height: 50.0,
+                              width: 50.0,
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5.0)),
+                              ),
+                              child: MaterialButton(
+                                child: Text("25"),
+                                onPressed: () {},
+                              ),
+                            ),
+                          ),
+                          Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(5.0)),
+                            ),
+                            child: Container(
+                              height: 50.0,
+                              width: 50.0,
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(5.0)),
                               ),
                               child: MaterialButton(
                                 child: Text("50"),
@@ -563,35 +568,17 @@ class _HomePageState extends State<HomePage> {
                           Card(
                             shape: RoundedRectangleBorder(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(5.0)),
+                              BorderRadius.all(Radius.circular(5.0)),
                             ),
                             child: Container(
                               height: 50.0,
-                              width: 65.0,
+                              width: 60.0,
                               decoration: BoxDecoration(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
+                                BorderRadius.all(Radius.circular(5.0)),
                               ),
                               child: MaterialButton(
                                 child: Text("100"),
-                                onPressed: () {},
-                              ),
-                            ),
-                          ),
-                          Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5.0)),
-                            ),
-                            child: Container(
-                              height: 50.0,
-                              width: 65.0,
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
-                              ),
-                              child: MaterialButton(
-                                child: Text("500"),
                                 onPressed: () {},
                               ),
                             ),
@@ -599,99 +586,7 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0, bottom: 10),
-                      child: Text("Number"),
-                    ),
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            height: 50.0,
-                            width: 50.0,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5.0)),
-                              border: Border.all(
-                                color: colors.cc_border_gray,
-                                width: 1.0,
-                              ),
-                            ),
-                            child: MaterialButton(
-                              child: Text("-5"),
-                              onPressed: () {},
-                            ),
-                          ),
-                          Container(
-                            height: 50.0,
-                            width: 50.0,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5.0)),
-                              border: Border.all(
-                                color: colors.cc_border_gray,
-                                width: 1.0,
-                              ),
-                            ),
-                            child: MaterialButton(
-                              child: Text("-1"),
-                              onPressed: () {},
-                            ),
-                          ),
-                          Container(
-                            height: 50.0,
-                            width: 50.0,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5.0)),
-                            ),
-                            child: MaterialButton(
-                              child: Text(
-                                "50",
-                                style: TextStyle(color: colors.cc_red),
-                              ),
-                              onPressed: () {},
-                            ),
-                          ),
-                          Container(
-                            height: 50.0,
-                            width: 50.0,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5.0)),
-                              border: Border.all(
-                                color: colors.cc_border_gray,
-                                width: 1.0,
-                              ),
-                            ),
-                            child: MaterialButton(
-                              child: Text("+1"),
-                              onPressed: () {},
-                            ),
-                          ),
-                          Container(
-                            height: 50.0,
-                            width: 50.0,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5.0)),
-                              border: Border.all(
-                                color: colors.cc_border_gray,
-                                width: 1.0,
-                              ),
-                            ),
-                            child: MaterialButton(
-                              child: Text("+5"),
-                              onPressed: () {},
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+
                     SizedBox(
                       height: 30,
                     ),
