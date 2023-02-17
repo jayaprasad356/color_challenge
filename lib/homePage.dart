@@ -1,7 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:io';
-
+import 'package:color_challenge/user.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:color_challenge/Helper/utils.dart';
 import 'package:color_challenge/result.dart';
 import 'package:color_challenge/wallet.dart';
@@ -11,7 +12,8 @@ import 'package:flutter/services.dart';
 import 'Helper/Color.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final User user;
+  const HomePage(  {Key? key,required this.user}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -20,6 +22,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
    String referText="GBD 21";
    Utils utils=Utils();
+   late User user;
+   @override
+   void initState() {
+     super.initState();
+     user = widget.user;
+     referText=user.referCode;
+   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +81,7 @@ class _HomePageState extends State<HomePage> {
                                  referText,
                                   style: TextStyle(
                                     color: colors.primary,
-                                    fontSize: 16.0,
+                                    fontSize: 12.0,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -84,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                         const SizedBox(width: 16.0),
                         MaterialButton(
                           onPressed: () {
-
+                            Share.share(referText+"GreyMaterWorkers");
                           },
                           color: colors.primary,
                           shape: const RoundedRectangleBorder(
@@ -255,7 +264,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                             onPressed: () {
-                              showTopupBottomSheet();
+
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -457,12 +466,12 @@ class _HomePageState extends State<HomePage> {
                   children: <Widget>[
 
                     SizedBox(
-                      height: 20,
+                      height: 30,
                     ),
 
                     Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Text("Contract Coin"),
+                      padding: const EdgeInsets.only(left: 0),
+                      child: Center(child: Text("Contract Coin")),
                     ),
                     SizedBox(
                       height: 10,

@@ -164,11 +164,11 @@ class _OtpVerificationState extends State<OtpVerification> {
                       const SizedBox(height: 60),
                       MaterialButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const MainScreen()),
-                          );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) => const MainScreen()),
+                          // );
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),

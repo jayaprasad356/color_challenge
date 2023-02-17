@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import '../Helper/Color.dart';
 import '../homePage.dart';
 import '../upiPay.dart';
+import '../user.dart';
 import '../wallet.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  final User user;
+
+  const MainScreen({Key? key, required this.user}) : super(key: key);
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -19,7 +22,15 @@ class _MainScreenState extends State<MainScreen> {
   String title = "HOME";
   bool _actionsVisible = true;
   bool _leftArrowVisible = true;
-  final screens = [const HomePage(), const Result(), const wallet()];
+  late User user;
+  @override
+  void initState() {
+    super.initState();
+    user = widget.user;
+  }
+
+
+
 
   void _onItemTapped(int index) {
     setState(() {
@@ -67,10 +78,10 @@ class _MainScreenState extends State<MainScreen> {
                     width: 24,
                   ),
                 ),
-                const Center(
+                 Center(
                     child: Text(
-                  "200",
-                  style: TextStyle(
+                  user.coins,
+                  style: const TextStyle(
                       color: colors.primary,
                       fontFamily: "Montserra",
                       fontSize: 16),
@@ -115,13 +126,15 @@ class _MainScreenState extends State<MainScreen> {
                   backgroundColor: colors.white,
                 ),
                 BottomNavigationBarItem(
-                    icon: ImageIcon(const AssetImage("assets/images/result.png"),
+                    icon: ImageIcon(
+                        const AssetImage("assets/images/result.png"),
                         color:
                             _selctedIndex == 1 ? colors.primary : colors.black),
                     label: 'Result',
                     backgroundColor: colors.white),
                 BottomNavigationBarItem(
-                    icon: ImageIcon(const AssetImage("assets/images/Wallet.png"),
+                    icon: ImageIcon(
+                        const AssetImage("assets/images/Wallet.png"),
                         color:
                             _selctedIndex == 2 ? colors.primary : colors.black),
                     label: 'Wallet',
@@ -132,7 +145,7 @@ class _MainScreenState extends State<MainScreen> {
               onTap: _onItemTapped,
             ),
           )),
-      body: screens[_selctedIndex],
+      body:getPage(_selctedIndex)
     );
   }
 
@@ -264,5 +277,18 @@ class _MainScreenState extends State<MainScreen> {
             ),
           );
         });
+  }
+  Widget getPage(int index) {
+    switch (index){
+      case 0:
+        return HomePage(user: user);
+        break;
+      case 1:
+        return Result();
+        break;
+      default:
+        return wallet();
+        break;
+    }
   }
 }

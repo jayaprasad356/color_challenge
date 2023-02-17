@@ -1,10 +1,13 @@
+import 'dart:convert';
+
 import 'package:color_challenge/login/otpVerfication.dart';
-import 'package:color_challenge/pay.dart';
-import 'package:color_challenge/upiPay.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:upi_india/upi_india.dart';
 import '../Helper/Color.dart';
+import '../Helper/Constant.dart';
+import '../Helper/apiCall.dart';
+import '../user.dart';
+import 'mainScreen.dart';
 
 class LoginMobile extends StatefulWidget {
   const LoginMobile({Key? key}) : super(key: key);
@@ -69,12 +72,39 @@ class _LoginMobileState extends State<LoginMobile> {
               ),
               const SizedBox(height: 60),
               MaterialButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const OtpVerification()),
-                  );
+                onPressed: () async {
+                    var url = Constant.CHECK_MOBILE;
+                    Map<String, dynamic> bodyObject = {
+                      Constant.MOBILE: _mobileNumberController.text,
+                    };
+                    String jsonString = await apiCall(url, bodyObject);
+                    dynamic json = jsonDecode(jsonString);
+                    bool status = json["registered"];
+
+                    if (status) {
+                      var url = Constant.LOGIN_URL;
+                      Map<String, dynamic> bodyObject = {
+                        Constant.MOBILE: _mobileNumberController.text,
+                      };
+                      String jsonString = await apiCall(url, bodyObject);
+                      final Map<String, dynamic> responseJson = jsonDecode(jsonString);
+                      final dataList = responseJson['data'] as List;
+                      final User user = User.fromJson(dataList.first);
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MainScreen(user: user),
+                        ),
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OtpVerification(),
+                        ),
+                      );
+                    }
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
