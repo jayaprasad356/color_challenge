@@ -1,7 +1,14 @@
+import 'dart:convert';
+
+import 'package:color_challenge/Helper/utils.dart';
 import 'package:color_challenge/addupi.dart';
 import 'package:flutter/material.dart';
 
 import 'Helper/Color.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'Helper/Constant.dart';
+import 'Helper/apiCall.dart';
 
 class wallet extends StatefulWidget {
   const wallet({Key? key}) : super(key: key);
@@ -11,6 +18,11 @@ class wallet extends StatefulWidget {
 }
 
 class _walletState extends State<wallet> {
+  final TextEditingController _withdrawalAmtController =
+      TextEditingController();
+  Utils utils = Utils();
+  late SharedPreferences prefs;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,7 +89,6 @@ class _walletState extends State<wallet> {
                         ),
                       ),
                     ),
-
                     const SizedBox(
                       height: 30,
                     ),
@@ -102,16 +113,19 @@ class _walletState extends State<wallet> {
                     Container(
                       margin: const EdgeInsets.only(
                           left: 20, right: 20, top: 10, bottom: 4),
-                      child: const ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                      child: ClipRRect(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(12.0)),
                         child: TextField(
                           keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
+                          controller: _withdrawalAmtController,
+                          decoration: const InputDecoration(
                             filled: true,
                             border: InputBorder.none,
                             hintText: '₹ Please Input',
                           ),
-                          style: TextStyle(backgroundColor: Colors.transparent),
+                          style: const TextStyle(
+                              backgroundColor: Colors.transparent),
                         ),
                       ),
                     ),
@@ -146,6 +160,14 @@ class _walletState extends State<wallet> {
                     ),
                     MaterialButton(
                       onPressed: () {
+                        double withdrawalAmt =
+                            double.tryParse(_withdrawalAmtController.text) ??
+                                0.0;
+                        if (withdrawalAmt < 100) {
+                          utils.showToast("please enter minimum 100");
+                        } else {
+                          doWithdrawal();
+                        }
                       },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -205,7 +227,7 @@ class _walletState extends State<wallet> {
                         child: Card(
                           color: colors.cc_button_grey,
                           margin: const EdgeInsets.only(
-                              right: 15, left: 15, bottom: 5,top: 5),
+                              right: 15, left: 15, bottom: 5, top: 5),
                           child: Padding(
                               padding: const EdgeInsets.all(0),
                               child: Column(
@@ -297,7 +319,7 @@ class _walletState extends State<wallet> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 8,
                                   ),
                                   Container(
@@ -377,5 +399,20 @@ class _walletState extends State<wallet> {
         ),
       ),
     );
+  }
+
+  void doWithdrawal()async {
+    prefs = await SharedPreferences.getInstance();
+    var url = Constant.WITHDRAWAL_URL;
+    Map<String, dynamic> bodyObject = {
+      Constant.USER_ID: prefs.getString(Constant.ID),
+      Constant.AMOUNT: _withdrawalAmtController.text,
+      Constant.TYPE: Constant.DEBIT,
+
+    };
+    String jsonString = await apiCall(url, bodyObject);
+    final jsonResponse = jsonDecode(jsonString);
+    final message = jsonResponse['message'];
+    utils.showToast(message);
   }
 }

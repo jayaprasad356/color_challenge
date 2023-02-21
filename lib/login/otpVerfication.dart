@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:color_challenge/homePage.dart';
 import 'package:color_challenge/login/mainScreen.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,6 +8,11 @@ import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 
 import '../Helper/Color.dart';
+import '../Helper/Constant.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../Helper/apiCall.dart';
+import '../user.dart';
 
 class OtpVerification extends StatefulWidget {
   const OtpVerification({Key? key}) : super(key: key);
@@ -16,6 +23,9 @@ class OtpVerification extends StatefulWidget {
 
 class _OtpVerificationState extends State<OtpVerification> {
   OtpFieldController otpController = OtpFieldController();
+  late SharedPreferences prefs;
+  final TextEditingController _referCodeController = TextEditingController();
+
   TextStyle style = const TextStyle(
       color: colors.white,
       fontSize: 18,
@@ -127,7 +137,8 @@ class _OtpVerificationState extends State<OtpVerification> {
         ),
         builder: (context) {
           return Padding(
-            padding:  EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
             child: SingleChildScrollView(
               child: SizedBox(
                 height: 300,
@@ -150,8 +161,9 @@ class _OtpVerificationState extends State<OtpVerification> {
                       const SizedBox(height: 20),
                       Container(
                         margin: const EdgeInsets.only(left: 20, right: 20),
-                        child: const TextField(
-                          decoration: InputDecoration(
+                        child: TextField(
+                          controller: _referCodeController,
+                          decoration: const InputDecoration(
                             filled: true,
                             fillColor: Colors.transparent,
                             enabledBorder: UnderlineInputBorder(
@@ -164,11 +176,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                       const SizedBox(height: 60),
                       MaterialButton(
                         onPressed: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => const MainScreen()),
-                          // );
+                          newRegister();
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -200,5 +208,41 @@ class _OtpVerificationState extends State<OtpVerification> {
             ),
           );
         });
+  }
+
+  newRegister() async {
+    prefs = await SharedPreferences.getInstance();
+    var url = Constant.REGISTER_URL;
+    Map<String, dynamic> bodyObject = {
+      Constant.MOBILE: prefs.getString(Constant.MOBILE),
+    };
+
+    if (_referCodeController.text.isNotEmpty) {
+      bodyObject[Constant.REFERRED_BY] = _referCodeController.text;
+    }
+    String jsonString = await apiCall(url, bodyObject);
+    final Map<String, dynamic> responseJson = jsonDecode(jsonString);
+    final dataList = responseJson['data'] as List;
+    final User user = User.fromJsonNew(dataList.first);
+
+    prefs.setString(Constant.LOGED_IN, "true");
+    prefs.setString(Constant.ID, user.id);
+    prefs.setString(Constant.MOBILE, user.mobile);
+    prefs.setString(Constant.EARN, user.earn);
+    prefs.setString(Constant.COINS, user.coins);
+    prefs.setString(Constant.BALANCE, user.balance);
+    prefs.setString(Constant.REFERRED_BY, user.referredBy);
+    prefs.setString(Constant.REFER_CODE, user.referCode);
+    prefs.setString(Constant.WITHDRAWAL_STATUS, user.withdrawalStatus);
+    prefs.setString(Constant.CHALLENGE_STATUS, user.challengeStatus);
+    prefs.setString(Constant.STATUS, user.status);
+    prefs.setString(Constant.JOINED_DATE, user.joinedDate);
+    prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MainScreen(),
+      ),
+    );
   }
 }

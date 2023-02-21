@@ -10,10 +10,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'Helper/Color.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'Helper/Constant.dart';
+
 
 class HomePage extends StatefulWidget {
-  final User user;
-  const HomePage(  {Key? key,required this.user}) : super(key: key);
+  const HomePage(  {Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -22,12 +25,17 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
    String referText="GBD 21";
    Utils utils=Utils();
-   late User user;
+   late SharedPreferences prefs;
+
    @override
    void initState() {
      super.initState();
-     user = widget.user;
-     referText=user.referCode;
+     SharedPreferences.getInstance().then((value) {
+       prefs = value;
+       setState(() {
+         referText = prefs.getString(Constant.REFER_CODE)!;
+       });
+     });
    }
   @override
   Widget build(BuildContext context) {

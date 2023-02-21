@@ -8,6 +8,7 @@ import '../Helper/Constant.dart';
 import '../Helper/apiCall.dart';
 import '../user.dart';
 import 'mainScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginMobile extends StatefulWidget {
   const LoginMobile({Key? key}) : super(key: key);
@@ -17,7 +18,8 @@ class LoginMobile extends StatefulWidget {
 }
 
 class _LoginMobileState extends State<LoginMobile> {
-  TextEditingController _mobileNumberController = TextEditingController();
+  final TextEditingController _mobileNumberController = TextEditingController();
+  late SharedPreferences prefs;
 
   @override
   Widget build(BuildContext context) {
@@ -73,44 +75,31 @@ class _LoginMobileState extends State<LoginMobile> {
               const SizedBox(height: 60),
               MaterialButton(
                 onPressed: () async {
-                    var url = Constant.CHECK_MOBILE;
-                    Map<String, dynamic> bodyObject = {
-                      Constant.MOBILE: _mobileNumberController.text,
-                    };
-                    String jsonString = await apiCall(url, bodyObject);
-                    dynamic json = jsonDecode(jsonString);
-                    bool status = json["registered"];
-
-                    if (status) {
-                      var url = Constant.LOGIN_URL;
-                      Map<String, dynamic> bodyObject = {
-                        Constant.MOBILE: _mobileNumberController.text,
-                      };
-                      String jsonString = await apiCall(url, bodyObject);
-                      final Map<String, dynamic> responseJson = jsonDecode(jsonString);
-                      final dataList = responseJson['data'] as List;
-                      final User user = User.fromJson(dataList.first);
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MainScreen(user: user),
-                        ),
-                      );
-                    } else {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => OtpVerification(),
-                        ),
-                      );
-                    }
+                  var url = Constant.CHECK_MOBILE;
+                  Map<String, dynamic> bodyObject = {
+                    Constant.MOBILE: _mobileNumberController.text,
+                  };
+                  String jsonString = await apiCall(url, bodyObject);
+                  dynamic json = jsonDecode(jsonString);
+                  bool status = json["registered"];
+                  prefs = await SharedPreferences.getInstance();
+                  prefs.setString(Constant.MOBILE, _mobileNumberController.text);
+                  if (status) {
+                      newRegister();
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const OtpVerification(),
+                      ),
+                    );
+                  }
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Container(
-                  margin: EdgeInsets.only(left: 10),
+                  margin: const EdgeInsets.only(left: 10),
                   height: 80,
                   width: double.infinity,
                   decoration: const BoxDecoration(
@@ -134,6 +123,38 @@ class _LoginMobileState extends State<LoginMobile> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  newRegister() async {
+    var url = Constant.LOGIN_URL;
+    Map<String, dynamic> bodyObject = {
+      Constant.MOBILE: _mobileNumberController.text,
+    };
+    String jsonString = await apiCall(url, bodyObject);
+    final Map<String, dynamic> responseJson = jsonDecode(jsonString);
+    final dataList = responseJson['data'] as List;
+    final User user = User.fromJsonNew(dataList.first);
+
+    prefs.setString(Constant.LOGED_IN, "true");
+    prefs.setString(Constant.ID, user.id);
+    prefs.setString(Constant.MOBILE, user.mobile);
+    prefs.setString(Constant.UPI, user.upi);
+    prefs.setString(Constant.EARN, user.earn);
+    prefs.setString(Constant.COINS, user.coins);
+    prefs.setString(Constant.BALANCE, user.balance);
+    prefs.setString(Constant.REFERRED_BY, user.referredBy);
+    prefs.setString(Constant.REFER_CODE, user.referCode);
+    prefs.setString(Constant.WITHDRAWAL_STATUS, user.withdrawalStatus);
+    prefs.setString(Constant.CHALLENGE_STATUS, user.challengeStatus);
+    prefs.setString(Constant.STATUS, user.status);
+    prefs.setString(Constant.JOINED_DATE, user.joinedDate);
+    prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MainScreen(),
       ),
     );
   }

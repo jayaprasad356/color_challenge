@@ -46,4 +46,22 @@ class User {
       lastUpdated: json['last_updated'],
     );
   }
+  factory User.fromJsonNew(Map<String, dynamic> json) {
+    return User(
+      id: json['id'],
+      mobile: json['mobile'],
+      upi: "",
+      earn: json['earn'],
+      coins: json['coins'],
+      balance: json['balance'],
+      referredBy: json['referred_by'],
+      referCode: json['refer_code'],
+      withdrawalStatus: json['withdrawal_status'],
+      challengeStatus: json['challenge_status'],
+      status: json['status'],
+      joinedDate: json['joined_date'],
+      lastUpdated: json['last_updated'],
+    );
+  }
+
 }

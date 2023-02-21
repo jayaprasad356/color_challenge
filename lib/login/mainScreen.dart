@@ -1,16 +1,16 @@
 import 'package:color_challenge/result.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Helper/Color.dart';
+import '../Helper/Constant.dart';
 import '../homePage.dart';
 import '../upiPay.dart';
 import '../user.dart';
 import '../wallet.dart';
 
 class MainScreen extends StatefulWidget {
-  final User user;
-
-  const MainScreen({Key? key, required this.user}) : super(key: key);
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -23,14 +23,21 @@ class _MainScreenState extends State<MainScreen> {
   bool _actionsVisible = true;
   bool _leftArrowVisible = true;
   late User user;
+  late SharedPreferences prefs;
+  String coins = "0";
+  String balance="";
+
   @override
   void initState() {
     super.initState();
-    user = widget.user;
+    SharedPreferences.getInstance().then((value) {
+      prefs = value;
+      setState(() {
+        coins = prefs.getString(Constant.COINS)!;
+        balance=prefs.getString(Constant.BALANCE)!;
+      });
+    });
   }
-
-
-
 
   void _onItemTapped(int index) {
     setState(() {
@@ -54,99 +61,102 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: colors.white,
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        title: Text(
-          title,
-          style: const TextStyle(fontFamily: 'Montserra', color: colors.black),
-        ),
-        leading: _leftArrowVisible
-            ? const Icon(
-                Icons.arrow_back_outlined,
-                color: colors.black,
-              )
-            : (null),
-        actions: _actionsVisible
-            ? [
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Image.asset(
-                    "assets/images/coin.png",
-                    height: 24,
-                    width: 24,
-                  ),
-                ),
-                 Center(
-                    child: Text(
-                  user.coins,
-                  style: const TextStyle(
-                      color: colors.primary,
-                      fontFamily: "Montserra",
-                      fontSize: 16),
-                )),
-                GestureDetector(
-                  onTap: () {
-                    showTopupBottomSheet();
-                  },
-                  child: Padding(
+        appBar: AppBar(
+          backgroundColor: colors.white,
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+          title: Text(
+            title,
+            style:
+                const TextStyle(fontFamily: 'Montserra', color: colors.black),
+          ),
+          leading: _leftArrowVisible
+              ? const Icon(
+                  Icons.arrow_back_outlined,
+                  color: colors.black,
+                )
+              : (null),
+          actions: _actionsVisible
+              ? [
+                  Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Image.asset(
-                      "assets/images/add.png",
+                      "assets/images/coin.png",
                       height: 24,
                       width: 24,
                     ),
                   ),
-                )
-              ]
-            : [],
-      ),
-      bottomNavigationBar: Container(
-          margin: const EdgeInsets.only(bottom: 1),
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            boxShadow: [
-              BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
-            ],
-          ),
-          child: ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(1)),
-            child: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              items: <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: ImageIcon(
-                    const AssetImage(
-                      "assets/images/home.png",
+                  Center(
+                      child: Text(
+                    coins,
+                    style: const TextStyle(
+                        color: colors.primary,
+                        fontFamily: "Montserra",
+                        fontSize: 16),
+                  )),
+                  GestureDetector(
+                    onTap: () {
+                      showTopupBottomSheet();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Image.asset(
+                        "assets/images/add.png",
+                        height: 24,
+                        width: 24,
+                      ),
                     ),
-                    color: _selctedIndex == 0 ? colors.primary : colors.black,
-                  ),
-                  label: 'Home',
-                  backgroundColor: colors.white,
-                ),
-                BottomNavigationBarItem(
-                    icon: ImageIcon(
-                        const AssetImage("assets/images/result.png"),
-                        color:
-                            _selctedIndex == 1 ? colors.primary : colors.black),
-                    label: 'Result',
-                    backgroundColor: colors.white),
-                BottomNavigationBarItem(
-                    icon: ImageIcon(
-                        const AssetImage("assets/images/Wallet.png"),
-                        color:
-                            _selctedIndex == 2 ? colors.primary : colors.black),
-                    label: 'Wallet',
-                    backgroundColor: colors.white),
+                  )
+                ]
+              : [],
+        ),
+        bottomNavigationBar: Container(
+            margin: const EdgeInsets.only(bottom: 1),
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black38, spreadRadius: 0, blurRadius: 10),
               ],
-              currentIndex: _selctedIndex,
-              selectedItemColor: colors.primary,
-              onTap: _onItemTapped,
             ),
-          )),
-      body:getPage(_selctedIndex)
-    );
+            child: ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(1)),
+              child: BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
+                items: <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: ImageIcon(
+                      const AssetImage(
+                        "assets/images/home.png",
+                      ),
+                      color: _selctedIndex == 0 ? colors.primary : colors.black,
+                    ),
+                    label: 'Home',
+                    backgroundColor: colors.white,
+                  ),
+                  BottomNavigationBarItem(
+                      icon: ImageIcon(
+                          const AssetImage("assets/images/result.png"),
+                          color: _selctedIndex == 1
+                              ? colors.primary
+                              : colors.black),
+                      label: 'Result',
+                      backgroundColor: colors.white),
+                  BottomNavigationBarItem(
+                      icon: ImageIcon(
+                          const AssetImage("assets/images/Wallet.png"),
+                          color: _selctedIndex == 2
+                              ? colors.primary
+                              : colors.black),
+                      label: 'Wallet',
+                      backgroundColor: colors.white),
+                ],
+                currentIndex: _selctedIndex,
+                selectedItemColor: colors.primary,
+                onTap: _onItemTapped,
+              ),
+            )),
+        body: getPage(_selctedIndex));
   }
 
   showTopupBottomSheet() {
@@ -198,9 +208,9 @@ class _MainScreenState extends State<MainScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      const Center(
+                       Center(
                           child: Text(
-                        "500.00",
+                        balance,
                         style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
@@ -278,10 +288,11 @@ class _MainScreenState extends State<MainScreen> {
           );
         });
   }
+
   Widget getPage(int index) {
-    switch (index){
+    switch (index) {
       case 0:
-        return HomePage(user: user);
+        return HomePage();
         break;
       case 1:
         return Result();
