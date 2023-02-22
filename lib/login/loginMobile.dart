@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:color_challenge/login/otpVerfication.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../Helper/Color.dart';
 import '../Helper/Constant.dart';
 import '../Helper/apiCall.dart';
@@ -59,7 +60,9 @@ class _LoginMobileState extends State<LoginMobile> {
                 margin: const EdgeInsets.only(left: 20, right: 20),
                 child: Material(
                   child: TextField(
-                    keyboardType: TextInputType.phone,
+                    maxLength: 10,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     controller: _mobileNumberController,
                     decoration: const InputDecoration(
                       filled: true,
@@ -75,25 +78,27 @@ class _LoginMobileState extends State<LoginMobile> {
               const SizedBox(height: 60),
               MaterialButton(
                 onPressed: () async {
-                  var url = Constant.CHECK_MOBILE;
-                  Map<String, dynamic> bodyObject = {
-                    Constant.MOBILE: _mobileNumberController.text,
-                  };
-                  String jsonString = await apiCall(url, bodyObject);
-                  dynamic json = jsonDecode(jsonString);
-                  bool status = json["registered"];
-                  prefs = await SharedPreferences.getInstance();
-                  prefs.setString(Constant.MOBILE, _mobileNumberController.text);
-                  if (status) {
-                      newRegister();
-                  } else {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const OtpVerification(),
-                      ),
-                    );
-                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => OtpVerification(mobileNumber: _mobileNumberController.text),
+                    ),
+                  );
+                  // var url = Constant.CHECK_MOBILE;
+                  // Map<String, dynamic> bodyObject = {
+                  //   Constant.MOBILE: _mobileNumberController.text,
+                  // };
+                  // String jsonString = await apiCall(url, bodyObject);
+                  // dynamic json = jsonDecode(jsonString);
+                  // bool status = json["registered"];
+                  // prefs = await SharedPreferences.getInstance();
+                  // prefs.setString(Constant.MOBILE, _mobileNumberController.text);
+                  // if (status) {
+                  //     newRegister();
+                  // } else {
+                  //
+                  //
+                  // }
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),

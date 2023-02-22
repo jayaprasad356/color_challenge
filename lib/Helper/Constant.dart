@@ -1,6 +1,6 @@
 class Constant {
-  static const String MainBaseUrl =
-      "https://colorchallenge.graymatterworks.com/";
+  //static const String MainBaseUrl = "https://colorchallenge.graymatterworks.com/";
+  static const String MainBaseUrl = "http://192.168.43.38/color_challenge_admin/";
   static const String BaseUrl = "${MainBaseUrl}api/";
   static const String LOGIN_URL = "${BaseUrl}login.php";
   static const String USER_DETAIL_URL = "${BaseUrl}user_details.php";

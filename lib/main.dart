@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Helper/Constant.dart';
+import 'login/otpVerfication.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,6 +27,9 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
+            routes: {
+              '/otpVerification': (context) => OtpVerification(mobileNumber: '',),
+            },
             home: screens(prefs),
           );
         } else {

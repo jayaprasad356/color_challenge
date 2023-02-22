@@ -4,6 +4,7 @@ import 'package:color_challenge/homePage.dart';
 import 'package:color_challenge/login/mainScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 
@@ -15,16 +16,24 @@ import '../Helper/apiCall.dart';
 import '../user.dart';
 
 class OtpVerification extends StatefulWidget {
-  const OtpVerification({Key? key}) : super(key: key);
+  final String mobileNumber;
+
+  const OtpVerification({Key? key, required this.mobileNumber}) : super(key: key);
 
   @override
-  State<OtpVerification> createState() => _OtpVerificationState();
+  _OtpVerificationState createState() => _OtpVerificationState(mobileNumber);
 }
 
 class _OtpVerificationState extends State<OtpVerification> {
   OtpFieldController otpController = OtpFieldController();
   late SharedPreferences prefs;
   final TextEditingController _referCodeController = TextEditingController();
+  late String _mobileNumber;
+
+  _OtpVerificationState(String mobileNumber) {
+    _mobileNumber = mobileNumber;
+  }
+
 
   TextStyle style = const TextStyle(
       color: colors.white,
@@ -58,8 +67,8 @@ class _OtpVerificationState extends State<OtpVerification> {
               ),
               const SizedBox(height: 20),
               //todo description OTP view
-              const Text(
-                "The OTP sent to +998 91 234 56 87",
+               Text(
+                  "The OTP sent to +91 $_mobileNumber",
                 style: TextStyle(
                     fontSize: 14,
                     color: colors.greyss,
@@ -77,6 +86,9 @@ class _OtpVerificationState extends State<OtpVerification> {
                     fieldStyle: FieldStyle.box,
                     outlineBorderRadius: 15,
                     style: const TextStyle(fontSize: 17),
+                    inputFormatter: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                    ],
                     onChanged: (pin) {
                       print("Changed: " + pin);
                     },
@@ -84,20 +96,50 @@ class _OtpVerificationState extends State<OtpVerification> {
                       print("Completed: " + pin);
                     }),
               ),
-              const SizedBox(height: 60),
-              const Text(
-                "Resend OTP",
-                style: TextStyle(
-                    fontSize: 14,
-                    color: colors.primary,
-                    fontFamily: "Montserrat"),
-              ),
               const SizedBox(
                 height: 60,
               ),
               MaterialButton(
-                onPressed: () {
-                  showReferCodeSheet();
+                onPressed: () async {
+                  prefs = await SharedPreferences.getInstance();
+                  var url = Constant.CHECK_MOBILE;
+                  Map<String, dynamic> bodyObject = {
+                    Constant.MOBILE: _mobileNumber
+                  };
+                  String jsonString = await apiCall(url, bodyObject);
+                  dynamic json = jsonDecode(jsonString);
+                  bool status = json["registered"];
+
+                  if (status) {
+                    final Map<String, dynamic> responseJson = jsonDecode(jsonString);
+                    final dataList = responseJson['data'] as List;
+                    final User user = User.fromJsonNew(dataList.first);
+
+                    prefs.setString(Constant.LOGED_IN, "true");
+                    prefs.setString(Constant.ID, user.id);
+                    prefs.setString(Constant.MOBILE, user.mobile);
+                    prefs.setString(Constant.EARN, user.earn);
+                    prefs.setString(Constant.COINS, user.coins);
+                    prefs.setString(Constant.BALANCE, user.balance);
+                    prefs.setString(Constant.REFERRED_BY, user.referredBy);
+                    prefs.setString(Constant.REFER_CODE, user.referCode);
+                    prefs.setString(Constant.WITHDRAWAL_STATUS, user.withdrawalStatus);
+                    prefs.setString(Constant.CHALLENGE_STATUS, user.challengeStatus);
+                    prefs.setString(Constant.STATUS, user.status);
+                    prefs.setString(Constant.JOINED_DATE, user.joinedDate);
+                    prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MainScreen(),
+                      ),
+                    );
+                  } else {
+                    showReferCodeSheet();
+
+
+                  }
+
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -214,7 +256,7 @@ class _OtpVerificationState extends State<OtpVerification> {
     prefs = await SharedPreferences.getInstance();
     var url = Constant.REGISTER_URL;
     Map<String, dynamic> bodyObject = {
-      Constant.MOBILE: prefs.getString(Constant.MOBILE),
+      Constant.MOBILE: _mobileNumber,
     };
 
     if (_referCodeController.text.isNotEmpty) {

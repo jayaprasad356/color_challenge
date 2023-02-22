@@ -62,30 +62,40 @@ class _walletState extends State<wallet> {
                     const SizedBox(
                       height: 20,
                     ),
-                    MaterialButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const addupi()),
-                        );
-                      },
-                      child: Container(
-                        height: 60,
-                        width: double.infinity,
+                    Container(
                         margin: const EdgeInsets.only(left: 20, right: 20),
-                        decoration: BoxDecoration(
-                          color: colors.cc_button_grey,
-                          border: Border.all(
-                            color: colors.cc_list_grey,
+                        child: Column(
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                child: const Text(
+                                  "UPI ID",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: colors.black,
+                                      fontFamily: "Montserra"),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )),
+                    Container(
+                      margin: const EdgeInsets.only(
+                          left: 20, right: 20, top: 10, bottom: 4),
+                      child: ClipRRect(
+                        borderRadius:
+                        const BorderRadius.all(Radius.circular(12.0)),
+                        child: TextField(
+                          keyboardType: TextInputType.number,
+                          controller: _withdrawalAmtController,
+                          decoration: const InputDecoration(
+                            filled: true,
+                            border: InputBorder.none,
+                            hintText: 'Enter UPI ID',
                           ),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            ' +  Add UPI',
-                            style: TextStyle(color: colors.cc_greyText),
-                          ),
+                          style: const TextStyle(
+                              backgroundColor: Colors.transparent),
                         ),
                       ),
                     ),
