@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:convert';
 import 'dart:io';
 import 'package:color_challenge/user.dart';
 import 'package:share_plus/share_plus.dart';
@@ -13,6 +14,8 @@ import 'Helper/Color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Helper/Constant.dart';
+import 'Helper/apiCall.dart';
+import 'muChallenges.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -32,10 +35,9 @@ class _HomePageState extends State<HomePage> {
      super.initState();
      SharedPreferences.getInstance().then((value) {
        prefs = value;
-       setState(() {
-         referText = prefs.getString(Constant.REFER_CODE)!;
-       });
      });
+     userDeatils();
+
    }
   @override
   Widget build(BuildContext context) {
@@ -393,64 +395,7 @@ class _HomePageState extends State<HomePage> {
           SizedBox(
             height: 20,
           ),
-          SizedBox(
-            height: 300,
-            child: ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: 5,
-              itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                  onTap: () {},
-                  child: Card(
-                    color: colors.cc_list_grey,
-                    margin:
-                        const EdgeInsets.only(right: 15, left: 15, bottom: 5),
-                    child: Padding(
-                        padding: const EdgeInsets.all(0),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Image.asset(
-                              "assets/images/coin.png",
-                              width: 32.0,
-                              height: 30.0,
-                            ),
-                            const SizedBox(width: 8),
-                            const Text(
-                              "5",
-                              style: TextStyle(
-                                  fontFamily: "Montserrat",
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                  color: colors.primary),
-                            ),
-                            Expanded(child: Container()),
-                            const Text(
-                              "Purple",
-                              style: TextStyle(fontFamily: "Montserrat"),
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Container(
-                              margin: const EdgeInsets.all(5),
-                              width: 45,
-                              height: 40,
-                              decoration: const BoxDecoration(
-                                color: colors.cc_purpul,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(6)),
-                              ),
-                            ),
-                          ],
-                        )),
-                  ),
-                );
-              },
-            ),
-          ),
+          MyChallenge(),
         ])),
       ),
     );
@@ -779,5 +724,35 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  void userDeatils()async {
+    prefs = await SharedPreferences.getInstance();
+    var url = Constant.USER_DETAIL_URL;
+    Map<String, dynamic> bodyObject = {
+      Constant.USER_ID: prefs.getString(Constant.ID)
+    };
+    String jsonString = await apiCall(url, bodyObject);
+    final Map<String, dynamic> responseJson = jsonDecode(jsonString);
+    final dataList = responseJson['data'] as List;
+    final User user = User.fromJsonNew(dataList.first);
+
+    prefs.setString(Constant.LOGED_IN, "true");
+    prefs.setString(Constant.ID, user.id);
+    prefs.setString(Constant.MOBILE, user.mobile);
+    prefs.setString(Constant.UPI, user.upi);
+    prefs.setString(Constant.EARN, user.earn);
+    prefs.setString(Constant.COINS, user.coins);
+    prefs.setString(Constant.BALANCE, user.balance);
+    prefs.setString(Constant.REFERRED_BY, user.referredBy);
+    prefs.setString(Constant.REFER_CODE, user.referCode);
+    prefs.setString(Constant.WITHDRAWAL_STATUS, user.withdrawalStatus);
+    prefs.setString(Constant.CHALLENGE_STATUS, user.challengeStatus);
+    prefs.setString(Constant.STATUS, user.status);
+    prefs.setString(Constant.JOINED_DATE, user.joinedDate);
+    prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
+    setState(() {
+      referText=prefs.getString(Constant.REFER_CODE)!;
+    });
   }
 }

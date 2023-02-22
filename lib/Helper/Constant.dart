@@ -3,9 +3,11 @@ class Constant {
       "https://colorchallenge.graymatterworks.com/";
   static const String BaseUrl = "${MainBaseUrl}api/";
   static const String LOGIN_URL = "${BaseUrl}login.php";
+  static const String USER_DETAIL_URL = "${BaseUrl}user_details.php";
   static const String REGISTER_URL = "${BaseUrl}register.php";
   static const String WITHDRAWAL_URL = "${BaseUrl}withdrawals.php";
   static const String CHECK_MOBILE = "${BaseUrl}check_mobile.php";
+  static const String MY_CHALLENGES_URL = "${BaseUrl}my_challenges.php";
 
   static const String SUCCESS = "success";
   static const String MESSAGE = "message";

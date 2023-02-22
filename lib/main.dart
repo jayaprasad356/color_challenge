@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            home: hjfs(prefs),
+            home: screens(prefs),
           );
         } else {
           return const CircularProgressIndicator();
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
       },
     );
   }
-  Widget hjfs(SharedPreferences prefs) {
+  Widget screens(SharedPreferences prefs) {
     final String? isLoggedIn = prefs.getString(Constant.LOGED_IN);
     if (isLoggedIn != null && isLoggedIn == "true") {
       return const MainScreen();

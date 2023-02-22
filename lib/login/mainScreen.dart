@@ -21,7 +21,7 @@ class _MainScreenState extends State<MainScreen> {
   int _selctedIndex = 0;
   String title = "HOME";
   bool _actionsVisible = true;
-  bool _leftArrowVisible = true;
+  bool _leftArrowVisible = false;
   late User user;
   late SharedPreferences prefs;
   String coins = "0";
