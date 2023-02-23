@@ -43,7 +43,7 @@ class _PayPageState extends State<PayPage> {
   Future<UpiResponse> initiateTransaction(UpiApp app, double i) async {
     return _upiIndia.startTransaction(
       app: app,
-      receiverUpiId: "ezeetailtechnologiesprivalimited@icici",
+      receiverUpiId: "BHARATPE09912930379@yesbankltd",
       receiverName: 'name',
       transactionRefId: 'TestingUpiIndiaPlugin',
       transactionNote: 'Not actual. Just an example.',
