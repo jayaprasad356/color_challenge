@@ -19,6 +19,7 @@ class _MyResultsState extends State<MyResults> {
   late List<ResultData> datas = [];
   late SharedPreferences prefs;
   Future<List<ResultData>> _getUser() async {
+    datas.clear();
     prefs = await SharedPreferences.getInstance();
 
     var response = await dataCall(Constant.MY_RESULTS_URL);

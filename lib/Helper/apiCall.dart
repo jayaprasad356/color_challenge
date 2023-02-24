@@ -27,3 +27,12 @@ Future<dynamic> dataCall(String url) async {
     throw Exception('API call failed with status code: ${response.statusCode}');
   }
 }
+Future<dynamic> withdrawalList(String url, Map<String, dynamic> bodyObject) async {
+  var response = await http.post(Uri.parse(url), body: bodyObject);
+
+  if (response.statusCode == 200) {
+    return response.body;
+  } else {
+    throw Exception('API call failed with status code: ${response.statusCode}');
+  }
+}

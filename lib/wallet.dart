@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:color_challenge/Helper/utils.dart';
 import 'package:color_challenge/addupi.dart';
+import 'package:color_challenge/withdrawal_data.dart';
 import 'package:flutter/material.dart';
 
 import 'Helper/Color.dart';
@@ -18,10 +19,36 @@ class wallet extends StatefulWidget {
 }
 
 class _walletState extends State<wallet> {
+  late List<WithdrawalData> datas = [];
   final TextEditingController _withdrawalAmtController =
       TextEditingController();
   Utils utils = Utils();
   late SharedPreferences prefs;
+  Future<List<WithdrawalData>> _getUser() async {
+    datas.clear();
+    prefs = await SharedPreferences.getInstance();
+
+    Map<String, dynamic> bodyObject = {
+      Constant.USER_ID: prefs.getString(Constant.ID)!,
+    };
+
+    var response = await withdrawalList(Constant.MY_RESULTS_URL,bodyObject);
+
+    String jsonsDataString = response.toString();
+    final jsonsData = jsonDecode(jsonsDataString);
+
+    for (var u in jsonsData['data']) {
+      final id = u['id'];
+      final amount = u["amount"];
+      final type = u['type'];
+      final status = u['status'];
+      final datetime = u['datetime'];
+
+      WithdrawalData data = WithdrawalData(id, amount, type, status, datetime);
+      datas.add(data);
+    }
+    return datas;
+  }
 
   @override
   Widget build(BuildContext context) {
