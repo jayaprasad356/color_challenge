@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:color_challenge/Helper/utils.dart';
 import 'package:color_challenge/addupi.dart';
+import 'package:color_challenge/my_withdrawal_records.dart';
 import 'package:color_challenge/withdrawal_data.dart';
 import 'package:flutter/material.dart';
 
@@ -19,36 +20,10 @@ class wallet extends StatefulWidget {
 }
 
 class _walletState extends State<wallet> {
-  late List<WithdrawalData> datas = [];
   final TextEditingController _withdrawalAmtController =
       TextEditingController();
   Utils utils = Utils();
   late SharedPreferences prefs;
-  Future<List<WithdrawalData>> _getUser() async {
-    datas.clear();
-    prefs = await SharedPreferences.getInstance();
-
-    Map<String, dynamic> bodyObject = {
-      Constant.USER_ID: prefs.getString(Constant.ID)!,
-    };
-
-    var response = await withdrawalList(Constant.MY_RESULTS_URL,bodyObject);
-
-    String jsonsDataString = response.toString();
-    final jsonsData = jsonDecode(jsonsDataString);
-
-    for (var u in jsonsData['data']) {
-      final id = u['id'];
-      final amount = u["amount"];
-      final type = u['type'];
-      final status = u['status'];
-      final datetime = u['datetime'];
-
-      WithdrawalData data = WithdrawalData(id, amount, type, status, datetime);
-      datas.add(data);
-    }
-    return datas;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -253,184 +228,8 @@ class _walletState extends State<wallet> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: 300,
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: 5,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                        onTap: () {},
-                        child: Card(
-                          color: colors.cc_button_grey,
-                          margin: const EdgeInsets.only(
-                              right: 15, left: 15, bottom: 5, top: 5),
-                          child: Padding(
-                              padding: const EdgeInsets.all(0),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        children: const [
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 15,
-                                                top: 10,
-                                                bottom: 10.0),
-                                            child: Text("Coins",
-                                                style: TextStyle(
-                                                    color: colors.cc_greyText,
-                                                    fontFamily: 'Montserrat',
-                                                    fontSize: 12)),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 15, bottom: 10),
-                                            child: Text("₹ 800",
-                                                style: TextStyle(
-                                                    color: colors.black,
-                                                    fontFamily: 'Montserrat',
-                                                    fontSize: 12,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                          ),
-                                        ],
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: const [
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                top: 10, bottom: 10),
-                                            child: Text("Time",
-                                                style: TextStyle(
-                                                    color: colors.cc_greyText,
-                                                    fontFamily: 'Montserrat',
-                                                    fontSize: 12)),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsets.only(bottom: 10),
-                                            child: Text("01/23  10:36",
-                                                style: TextStyle(
-                                                    color: colors.black,
-                                                    fontFamily: 'Montserrat',
-                                                    fontSize: 12,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                          ),
-                                        ],
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: const [
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                right: 15.0,
-                                                top: 10,
-                                                bottom: 10),
-                                            child: Text("State",
-                                                style: TextStyle(
-                                                    color: colors.cc_greyText,
-                                                    fontFamily: 'Montserrat',
-                                                    fontSize: 12)),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                right: 15, bottom: 10),
-                                            child: Text(
-                                              "Completed",
-                                              style: TextStyle(
-                                                  color: colors.cc_green,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: 'Montserrat',
-                                                  fontSize: 12),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  Container(
-                                    height: 1,
-                                    color: Colors.grey,
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 20),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: 15.0, top: 4.0, bottom: 4),
-                                      child: RichText(
-                                        text: const TextSpan(
-                                          text: "Fee : ",
-                                          style: TextStyle(
-                                              color: colors.black,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "Montserrat"),
-                                          children: [
-                                            TextSpan(
-                                              text: "₹ 30",
-                                              style: TextStyle(
-                                                  color: colors.black,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily:
-                                                      "Montserconst rat"),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: const [
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 12),
-                                          child: Text(
-                                            "Tamilarasan",
-                                            style: TextStyle(
-                                                color: colors.black,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: "Montserrat"),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 12, bottom: 15),
-                                          child: Text(
-                                            "tamil@okaxis",
-                                            style: TextStyle(
-                                                color: colors.black,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: "Montserrat"),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              )),
-                        ));
-                  },
-                ),
-              ),
+              MyWithdrawals()
+
             ],
           ),
         ),

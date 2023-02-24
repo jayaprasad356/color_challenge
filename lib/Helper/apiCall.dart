@@ -1,9 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-Future<String> apiCall(
-
-    String urlString, Map<String, dynamic> bodyObject) async {
+Future<String> apiCall(String urlString, Map<String, dynamic> bodyObject) async {
   // Make the HTTP request
   var response = await http.post(Uri.parse(urlString), body: bodyObject);
 

@@ -9,6 +9,7 @@ class Constant {
   static const String CHECK_MOBILE = "${BaseUrl}check_mobile.php";
   static const String MY_CHALLENGES_URL = "${BaseUrl}my_challenges.php";
   static const String MY_RESULTS_URL = "${BaseUrl}results.php";
+  static const String MY_WITHDRAWALS_LIST_URL = "${BaseUrl}withdrawals_list.php";
 
   static const String SUCCESS = "success";
   static const String MESSAGE = "message";
