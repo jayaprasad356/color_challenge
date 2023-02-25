@@ -49,7 +49,7 @@ class _MyChallengeState extends State<MyChallenge> {
           return Center(
               child: Column(
                 children: const [
-                  CircularProgressIndicator(color: colors.primary),
+                 // CircularProgressIndicator(color: colors.primary),
                 ],
               ));
         } else {

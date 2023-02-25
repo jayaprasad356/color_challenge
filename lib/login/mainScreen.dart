@@ -1,9 +1,11 @@
 import 'package:color_challenge/result.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Helper/Color.dart';
 import '../Helper/Constant.dart';
+import '../Helper/utils.dart';
 import '../homePage.dart';
 import '../upiPay.dart';
 import '../user.dart';
@@ -21,11 +23,12 @@ class _MainScreenState extends State<MainScreen> {
   int _selctedIndex = 0;
   String title = "HOME";
   bool _actionsVisible = true;
+  bool _logoutVisible=false;
   bool _leftArrowVisible = false;
   late User user;
   late SharedPreferences prefs;
   String coins = "0";
-  String balance="";
+  String balance = "";
 
   @override
   void initState() {
@@ -34,8 +37,14 @@ class _MainScreenState extends State<MainScreen> {
       prefs = value;
       setState(() {
         coins = prefs.getString(Constant.COINS)!;
-        balance=prefs.getString(Constant.BALANCE)!;
+        balance = prefs.getString(Constant.BALANCE)!;
       });
+    });
+  }
+
+  void updateAmount(String coinss) {
+    setState(() {
+      coins = coinss;
     });
   }
 
@@ -45,14 +54,17 @@ class _MainScreenState extends State<MainScreen> {
       if (index == 2) {
         title = "wallet";
         _actionsVisible = false;
+        _logoutVisible=true;
         _leftArrowVisible = false;
       } else if (index == 1) {
         title = "Result";
         _actionsVisible = false;
+        _logoutVisible=false;
         _leftArrowVisible = false;
       } else {
         title = "HOME";
         _actionsVisible = true;
+        _logoutVisible=false;
         _leftArrowVisible = false;
       }
     });
@@ -96,7 +108,7 @@ class _MainScreenState extends State<MainScreen> {
                   )),
                   GestureDetector(
                     onTap: () {
-                      showTopupBottomSheet();
+                      showUpiDeatilSheet();
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
@@ -108,7 +120,24 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                   )
                 ]
-              : [],
+              : [
+                  _logoutVisible? GestureDetector(
+                    onTap: () {
+                      prefs.setString(Constant.LOGED_IN, "false");
+
+                      SystemNavigator.pop();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Image.asset(
+                        "assets/images/logout.png",
+                        height: 24,
+                        width: 30,
+                      ),
+                    ),
+                  ):
+                      Text("")
+                ],
         ),
         bottomNavigationBar: Container(
             margin: const EdgeInsets.only(bottom: 1),
@@ -208,7 +237,7 @@ class _MainScreenState extends State<MainScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                       Center(
+                      Center(
                           child: Text(
                         balance,
                         style: TextStyle(
@@ -289,10 +318,116 @@ class _MainScreenState extends State<MainScreen> {
         });
   }
 
+  showUpiDeatilSheet() {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(40.0),
+          ),
+        ),
+        builder: (context) {
+          return SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: Container(
+                height: 250,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text(
+                              "Add Payment",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: colors.black,
+                                  fontFamily: "Montserrat",
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Center(
+                        child: OutlinedButton(
+                          onPressed: () {
+                            Utils().showToast("Copied !");
+                            Clipboard.setData(ClipboardData(
+                                text: "BHARATPE09912930379@yesbankltd"));
+                          },
+                          style: OutlinedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6.0),
+                              side: const BorderSide(color: colors.red),
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(14),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Text(
+                                  "BHARATPE09912930379@yesbankltd",
+                                  style: TextStyle(
+                                    color: colors.primary,
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(width: 8.0),
+                                Image.asset(
+                                  "assets/images/copy.png",
+                                  width: 24.0,
+                                  height: 24.0,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      const Center(
+                          child: Text(
+                        "Send amount to this UPI Id ",
+                        style: TextStyle(fontFamily: "Montserrat"),
+                      )),
+                      const Center(
+                          child: Text(
+                        "and mention your mobile number in message.",
+                        style: TextStyle(fontFamily: "Montserrat"),
+                      )),
+                      const Center(
+                          child: Text(
+                        "Your coins  will added in few mins",
+                        style: TextStyle(fontFamily: "Montserrat"),
+                      )),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ]),
+              ),
+            ),
+          );
+        });
+  }
+
   Widget getPage(int index) {
     switch (index) {
       case 0:
-        return HomePage();
+        return HomePage(updateAmount: updateAmount);
         break;
       case 1:
         return Result();

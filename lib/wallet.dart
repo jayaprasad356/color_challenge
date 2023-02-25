@@ -24,6 +24,17 @@ class _walletState extends State<wallet> {
       TextEditingController();
   Utils utils = Utils();
   late SharedPreferences prefs;
+  String balance = "";
+  @override
+  void initState() {
+    // TODO: implement initState
+    SharedPreferences.getInstance().then((value) {
+      prefs = value;
+      setState(() {
+        balance = prefs.getString(Constant.BALANCE)!;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +54,7 @@ class _walletState extends State<wallet> {
                       height: 10,
                     ),
                     const Text(
-                      "My Coins",
+                      "My Balance",
                       style: TextStyle(
                           fontSize: 14,
                           color: colors.greyss,
@@ -53,8 +64,8 @@ class _walletState extends State<wallet> {
                     const SizedBox(
                       height: 4,
                     ),
-                    const Text(
-                      "₹ 8500.00",
+                     Text(
+                       "₹$balance",
                       style: TextStyle(
                           fontSize: 24,
                           color: colors.primary,

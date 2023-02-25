@@ -18,7 +18,7 @@ class MyResults extends StatefulWidget {
 class _MyResultsState extends State<MyResults> {
   late List<ResultData> datas = [];
   late SharedPreferences prefs;
-  Future<List<ResultData>> _getUser() async {
+  Future<List<ResultData>> _getMyResults() async {
     datas.clear();
     prefs = await SharedPreferences.getInstance();
 
@@ -41,13 +41,13 @@ class _MyResultsState extends State<MyResults> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _getUser(),
+      future: _getMyResults(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (datas.isEmpty) {
           return Center(
               child: Column(
                 children: const [
-                  CircularProgressIndicator(color: colors.primary),
+                 // CircularProgressIndicator(color: colors.primary),
                 ],
               ));
         } else {
