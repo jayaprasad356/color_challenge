@@ -60,7 +60,7 @@ class _MyAppState extends State<MyApp> {
   late SharedPreferences _prefs;
   late String _fcmToken;
   late String appVersion;
-  late bool update;
+   bool update=true;
 
   @override
   void initState() {
@@ -98,6 +98,8 @@ class _MyAppState extends State<MyApp> {
                 importance: channel.importance!,
                 playSound: channel.playSound!,
                 color: Colors.blue,
+                priority: Priority.high,
+                icon: '@mipmap/ic_launcher',
               ),
             ));
       }
@@ -156,14 +158,16 @@ class _MyAppState extends State<MyApp> {
   void getAppVersion() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     appVersion = packageInfo.version;
-    update=false;
     var url = Constant.APPUPDATE_URL;
     Map<String, dynamic> bodyObject = {
       Constant.APP_VERSION: appVersion,
     };
     String jsonString = await apiCall(url, bodyObject);
     final Map<String, dynamic> responseJson = jsonDecode(jsonString);
-    update=responseJson["success"];
+    setState(() {
+      update = responseJson["success"];
+    });
+
   }
 }
 
@@ -194,6 +198,7 @@ void showNotification() {
               channelDescription: channel.description,
               importance: Importance.high,
               color: Colors.blue,
+              priority: Priority.high,
               playSound: true,
               icon: '@mipmap/ic_launcher')));
 }
