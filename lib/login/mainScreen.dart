@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:color_challenge/result.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../Helper/Color.dart';
 import '../Helper/Constant.dart';
+import '../Helper/apiCall.dart';
 import '../Helper/utils.dart';
 import '../homePage.dart';
 import '../upiPay.dart';
@@ -23,12 +28,14 @@ class _MainScreenState extends State<MainScreen> {
   int _selctedIndex = 0;
   String title = "HOME";
   bool _actionsVisible = true;
-  bool _logoutVisible=false;
+  bool _logoutVisible = false;
   bool _leftArrowVisible = false;
   late User user;
   late SharedPreferences prefs;
   String coins = "0";
   String balance = "";
+  String text = 'Click here Send ScreenShoot';
+  String link = 'http://t.me/Colorchallengeapp1';
 
   @override
   void initState() {
@@ -36,6 +43,7 @@ class _MainScreenState extends State<MainScreen> {
     SharedPreferences.getInstance().then((value) {
       prefs = value;
       setState(() {
+        setupSettings();
         coins = prefs.getString(Constant.COINS)!;
         balance = prefs.getString(Constant.BALANCE)!;
       });
@@ -54,17 +62,17 @@ class _MainScreenState extends State<MainScreen> {
       if (index == 2) {
         title = "wallet";
         _actionsVisible = false;
-        _logoutVisible=true;
+        _logoutVisible = true;
         _leftArrowVisible = false;
       } else if (index == 1) {
         title = "Result";
         _actionsVisible = false;
-        _logoutVisible=false;
+        _logoutVisible = false;
         _leftArrowVisible = false;
       } else {
         title = "HOME";
         _actionsVisible = true;
-        _logoutVisible=false;
+        _logoutVisible = false;
         _leftArrowVisible = false;
       }
     });
@@ -121,22 +129,22 @@ class _MainScreenState extends State<MainScreen> {
                   )
                 ]
               : [
-                  _logoutVisible? GestureDetector(
-                    onTap: () {
-                      prefs.setString(Constant.LOGED_IN, "false");
-
-                      SystemNavigator.pop();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Image.asset(
-                        "assets/images/logout.png",
-                        height: 24,
-                        width: 30,
-                      ),
-                    ),
-                  ):
-                      Text("")
+                  _logoutVisible
+                      ? GestureDetector(
+                          onTap: () {
+                            prefs.setString(Constant.LOGED_IN, "false");
+                            SystemNavigator.pop();
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Image.asset(
+                              "assets/images/logout.png",
+                              height: 24,
+                              width: 30,
+                            ),
+                          ),
+                        )
+                      : const Text("")
                 ],
         ),
         bottomNavigationBar: Container(
@@ -240,7 +248,7 @@ class _MainScreenState extends State<MainScreen> {
                       Center(
                           child: Text(
                         balance,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
                             fontFamily: "Montserrat",
@@ -333,7 +341,7 @@ class _MainScreenState extends State<MainScreen> {
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
               child: Container(
-                height: 250,
+                height: 350,
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
@@ -363,7 +371,7 @@ class _MainScreenState extends State<MainScreen> {
                         child: OutlinedButton(
                           onPressed: () {
                             Utils().showToast("Copied !");
-                            Clipboard.setData(ClipboardData(
+                            Clipboard.setData(const ClipboardData(
                                 text: "BHARATPE09912930379@yesbankltd"));
                           },
                           style: OutlinedButton.styleFrom(
@@ -377,7 +385,7 @@ class _MainScreenState extends State<MainScreen> {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-                                Text(
+                                const Text(
                                   "BHARATPE09912930379@yesbankltd",
                                   style: TextStyle(
                                     color: colors.primary,
@@ -396,7 +404,7 @@ class _MainScreenState extends State<MainScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       const Center(
@@ -404,18 +412,69 @@ class _MainScreenState extends State<MainScreen> {
                         "Send amount to this UPI Id ",
                         style: TextStyle(fontFamily: "Montserrat"),
                       )),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              launch(link);
+                            },
+                            child: Text(link),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 5.0),
+                            child: IconButton(
+                              icon: Icon(Icons.copy),
+                              onPressed: () {
+                               ontop();
+                              },
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+
                       const Center(
                           child: Text(
-                        "and mention your mobile number in message.",
+                        "After completing your payment send screen shot ",
                         style: TextStyle(fontFamily: "Montserrat"),
                       )),
                       const Center(
                           child: Text(
-                        "Your coins  will added in few mins",
+                        " to above telegram chat and claim your coins",
                         style: TextStyle(fontFamily: "Montserrat"),
                       )),
                       const SizedBox(
                         height: 10,
+                      ),
+                      Center(
+                        child: MaterialButton(
+                          onPressed: () {
+                            launch(link);
+                          },
+                          color: colors.primary,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(8.0)),
+                          ),
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.only(top: 16.0, bottom: 16.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: const <Widget>[
+                                Text(
+                                  'Chat Support',
+                                  style: TextStyle(
+                                    color: colors.white,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ]),
               ),
@@ -430,11 +489,41 @@ class _MainScreenState extends State<MainScreen> {
         return HomePage(updateAmount: updateAmount);
         break;
       case 1:
-        return Result();
+        return const Result();
         break;
       default:
-        return wallet();
+        return const wallet();
         break;
     }
+  }
+
+  void setupSettings() async {
+    prefs = await SharedPreferences.getInstance();
+
+    var response = await dataCall(Constant.SETTINGS_URL);
+
+    String jsonDataString = response.toString();
+    final jsonData = jsonDecode(jsonDataString);
+
+    final dataList = jsonData['data'] as List;
+
+    final datass = dataList.first;
+
+    prefs.setString(
+        Constant.WITHDRAWAL_STATUS, datass[Constant.WITHDRAWAL_STATUS]);
+    prefs.setString(
+        Constant.CHALLENGE_STATUS, datass[Constant.CHALLENGE_STATUS]);
+    prefs.setString(Constant.REGISTER_POINTS, datass[Constant.REGISTER_POINTS]);
+    prefs.setString(Constant.MIN_WITHDRAWAL, datass[Constant.MIN_WITHDRAWAL]);
+    prefs.setString(Constant.MIN_DP_COINS, datass[Constant.MIN_DP_COINS]);
+    prefs.setString(Constant.MAX_DP_COINS, datass[Constant.MAX_DP_COINS]);
+  }
+
+  ontop() {
+    Clipboard.setData(ClipboardData(text: link));
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Copied to clipboard')),
+    );
+    Utils().showToast("Copied!");
   }
 }

@@ -191,7 +191,7 @@ class _ColorListState extends State<ColorList> {
                       ),
                       MaterialButton(
                         onPressed: () {
-                          addCoins();
+                          colorChallenge(datas,index);
                           Navigator.of(context).pop();
                         },
                         shape: RoundedRectangleBorder(
@@ -225,11 +225,12 @@ class _ColorListState extends State<ColorList> {
           );
         });
   }
-  addCoins()async{
+  colorChallenge(List<ColorData> datas, int index)async{
     prefs = await SharedPreferences.getInstance();
-    var url = Constant.ADD_COINS_URL;
+    var url = Constant.COLOR_CHALLENGE_URL;
     Map<String, dynamic> bodyObject = {
       Constant.USER_ID: prefs.getString(Constant.ID),
+      Constant.COLOR_ID:datas[index].id.toString(),
       Constant.COINS: _coinController.text
     };
     String jsonString = await apiCall(url, bodyObject);

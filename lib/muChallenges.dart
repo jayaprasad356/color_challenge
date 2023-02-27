@@ -17,6 +17,7 @@ class MyChallenge extends StatefulWidget {
 class _MyChallengeState extends State<MyChallenge> {
   late List<ChallangeData> datas = [];
   late SharedPreferences prefs;
+
   Future<List<ChallangeData>> _getUser() async {
     prefs = await SharedPreferences.getInstance();
 
@@ -27,7 +28,7 @@ class _MyChallengeState extends State<MyChallenge> {
     };
     String jsonString = await apiCall(url, bodyObject);
     final jsonsData = jsonDecode(jsonString);
-    datas=[];
+    datas = [];
 
     for (var u in jsonsData['data']) {
       final coins = u['coins'];
@@ -48,12 +49,12 @@ class _MyChallengeState extends State<MyChallenge> {
         if (datas.isEmpty) {
           return Center(
               child: Column(
-                children: const [
-                 // CircularProgressIndicator(color: colors.primary),
-                ],
-              ));
+            children: const [
+              // CircularProgressIndicator(color: colors.primary),
+            ],
+          ));
         } else {
-          return  SizedBox(
+          return SizedBox(
             height: 300,
             child: ListView.builder(
               scrollDirection: Axis.vertical,
@@ -64,48 +65,69 @@ class _MyChallengeState extends State<MyChallenge> {
                   child: Card(
                     color: colors.cc_list_grey,
                     margin:
-                    const EdgeInsets.only(right: 15, left: 15, bottom: 5),
+                        const EdgeInsets.only(right: 15, left: 15, bottom: 5),
                     child: Padding(
                         padding: const EdgeInsets.all(0),
-                        child: Row(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start, // add this line
+
                           children: [
-                            const SizedBox(
-                              width: 5,
+                            Row(
+                              children: [
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Image.asset(
+                                  "assets/images/coin.png",
+                                  width: 32.0,
+                                  height: 30.0,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  datas[index].coins,
+                                  style: const TextStyle(
+                                      fontFamily: "Montserrat",
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      color: colors.primary),
+                                ),
+
+                                Expanded(child: Container()),
+                                Text(
+                                  datas[index].name,
+                                  style: const TextStyle(fontFamily: "Montserrat"),
+                                ),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.all(5),
+                                  width: 45,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: Color(int.parse(
+                                        datas[index].code.replaceAll('#', '0xFF'))),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(6)),
+                                  ),
+                                ),
+                              ],
                             ),
-                            Image.asset(
-                              "assets/images/coin.png",
-                              width: 32.0,
-                              height: 30.0,
-                            ),
-                            const SizedBox(width: 8),
-                             Text(
-                              datas[index].coins,
-                              style: const TextStyle(
-                                  fontFamily: "Montserrat",
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                  color: colors.primary),
-                            ),
-                            Expanded(child: Container()),
-                             Text(
-                              datas[index].name,
-                              style: const TextStyle(fontFamily: "Montserrat"),
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Container(
-                              margin: const EdgeInsets.all(5),
-                              width: 45,
-                              height: 40,
-                              decoration:  BoxDecoration(
-                                color: Color(int.parse(datas[index].code.replaceAll('#', '0xFF'))),
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(6)),
+                            Padding(
+
+                              padding: const EdgeInsets.only(left: 8.0,bottom: 4.0),
+                              child: Text(
+                                datas[index].datetime,
+                                style: const TextStyle(
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    color: colors.black),
                               ),
                             ),
                           ],
-                        )),
+                        )
+                    ),
                   ),
                 );
               },

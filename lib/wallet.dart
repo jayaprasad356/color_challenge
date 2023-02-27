@@ -21,23 +21,31 @@ class wallet extends StatefulWidget {
 
 class _walletState extends State<wallet> {
   final TextEditingController _withdrawalAmtController =
-      TextEditingController();
+  TextEditingController();
+  TextEditingController _upiIdController = TextEditingController();
   Utils utils = Utils();
   late SharedPreferences prefs;
   String balance = "";
+  String minimum = "";
+  String _upiId = '';
+
   @override
   void initState() {
     // TODO: implement initState
     SharedPreferences.getInstance().then((value) {
       prefs = value;
       setState(() {
+        _upiIdController.text = "f";
         balance = prefs.getString(Constant.BALANCE)!;
+        minimum = prefs.getString(Constant.MIN_WITHDRAWAL)!;
       });
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
+    bool _isDisabled = true;
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -64,9 +72,9 @@ class _walletState extends State<wallet> {
                     const SizedBox(
                       height: 4,
                     ),
-                     Text(
-                       "₹$balance",
-                      style: TextStyle(
+                    Text(
+                      "₹$balance",
+                      style: const TextStyle(
                           fontSize: 24,
                           color: colors.primary,
                           fontWeight: FontWeight.bold,
@@ -93,24 +101,55 @@ class _walletState extends State<wallet> {
                             ),
                           ],
                         )),
-                    Container(
-                      margin: const EdgeInsets.only(
-                          left: 20, right: 20, top: 10, bottom: 4),
-                      child: ClipRRect(
-                        borderRadius:
-                        const BorderRadius.all(Radius.circular(12.0)),
-                        child: TextField(
-                          keyboardType: TextInputType.number,
-                          controller: _withdrawalAmtController,
-                          decoration: const InputDecoration(
-                            filled: true,
-                            border: InputBorder.none,
-                            hintText: 'Enter UPI ID',
+                    Stack(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(
+                              left: 20, right: 20, top: 10, bottom: 4),
+                          child: ClipRRect(
+                            borderRadius:
+                            const BorderRadius.all(Radius.circular(12.0)),
+                            child: IgnorePointer(
+                              ignoring: _isDisabled,
+                              child: TextField(
+                                keyboardType: TextInputType.number,
+                                controller: _upiIdController,
+                                decoration: const InputDecoration(
+                                  filled: true,
+                                  border: InputBorder.none,
+                                ),
+                                style: const TextStyle(
+                                    backgroundColor: Colors.transparent),
+                              ),
+                            ),
                           ),
-                          style: const TextStyle(
-                              backgroundColor: Colors.transparent),
                         ),
-                      ),
+                        Positioned(
+                          right: 0,
+                          top: 0,
+                          bottom: 0,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 15.0),
+                            child: IconButton(
+                              icon: Icon(
+                                _isDisabled ? Icons.edit : Icons.check,
+                                color: colors.primary,
+                              ),
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      buildUpdateUpiDialog(
+                                          context, (String upiId) {
+                                        // update the UPI ID here using the upiId parameter
+                                        // ...
+                                      }),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(
                       height: 30,
@@ -138,7 +177,7 @@ class _walletState extends State<wallet> {
                           left: 20, right: 20, top: 10, bottom: 4),
                       child: ClipRRect(
                         borderRadius:
-                            const BorderRadius.all(Radius.circular(12.0)),
+                        const BorderRadius.all(Radius.circular(12.0)),
                         child: TextField(
                           keyboardType: TextInputType.number,
                           controller: _withdrawalAmtController,
@@ -157,17 +196,17 @@ class _walletState extends State<wallet> {
                       child: Align(
                         alignment: Alignment.centerRight,
                         child: RichText(
-                          text: const TextSpan(
+                          text: TextSpan(
                             text: "Minimum : ",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: colors.black,
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: "Montserrat"),
                             children: [
                               TextSpan(
-                                text: "₹ 100",
-                                style: TextStyle(
+                                text: "₹$minimum",
+                                style: const TextStyle(
                                     color: colors.primary,
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
@@ -219,7 +258,7 @@ class _walletState extends State<wallet> {
                     ),
                     Container(
                         margin:
-                            const EdgeInsets.only(left: 20, right: 20, top: 15),
+                        const EdgeInsets.only(left: 20, right: 20, top: 15),
                         child: Column(
                           children: <Widget>[
                             Align(
@@ -239,8 +278,7 @@ class _walletState extends State<wallet> {
                   ],
                 ),
               ),
-              MyWithdrawals()
-
+              const MyWithdrawals()
             ],
           ),
         ),
@@ -248,18 +286,97 @@ class _walletState extends State<wallet> {
     );
   }
 
-  void doWithdrawal()async {
+  void doWithdrawal() async {
     prefs = await SharedPreferences.getInstance();
     var url = Constant.WITHDRAWAL_URL;
     Map<String, dynamic> bodyObject = {
       Constant.USER_ID: prefs.getString(Constant.ID),
       Constant.AMOUNT: _withdrawalAmtController.text,
       Constant.TYPE: Constant.DEBIT,
-
     };
     String jsonString = await apiCall(url, bodyObject);
     final jsonResponse = jsonDecode(jsonString);
     final message = jsonResponse['message'];
     utils.showToast(message);
   }
+
+  void updateUpi(String upi) async {
+    prefs = await SharedPreferences.getInstance();
+
+    var url = Constant.UPDATE_UPI_URL;
+    Map<String, dynamic> bodyObject = {
+      Constant.USER_ID: prefs.getString(Constant.ID),
+      Constant.UPI: upi
+    };
+    String jsonString = await apiCall(url, bodyObject);
+    final jsonData = jsonDecode(jsonString);
+    Utils().showToast(jsonData["message"]);
+    final dataList = jsonData['data'] as List;
+    if (jsonData["success"]) {
+      final datass = dataList.first;
+      prefs.setString(Constant.UPI, datass[Constant.UPI]);
+      setState(() {
+        String upi_id=datass[Constant.UPI];
+        _upiIdController.text = upi_id;
+      });
+    }
+  }
+
+  Widget buildUpdateUpiDialog(BuildContext context,
+      void Function(String) upiIdCallback) {
+    final TextEditingController _enterupiController = TextEditingController();
+
+    return AlertDialog(
+      title: const Center(
+        child: Text(
+          'Enter UPI ID',
+          style: TextStyle(
+            fontFamily: 'Montserrat',
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+            child: TextField(
+              keyboardType: TextInputType.text,
+              controller: _enterupiController,
+              decoration: const InputDecoration(
+                filled: true,
+                border: InputBorder.none,
+                hintText: 'testupibankid@okaxis,com',
+              ),
+              style: const TextStyle(
+                backgroundColor: Colors.transparent,
+              ),
+              enabled: true, // set to false if you want the text field to be disabled
+            ),
+          ),
+          const SizedBox(height: 20,),
+          ElevatedButton(
+            onPressed: () {
+              String upi=_enterupiController.text;
+              updateUpi(upi);
+
+              Navigator.pop(context);
+            },
+            child: const Text(
+              'Update UPI',
+              style: TextStyle(
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            style: ElevatedButton.styleFrom(
+              primary: colors.primary, // set button background color here
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
 }

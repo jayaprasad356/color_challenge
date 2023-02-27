@@ -12,6 +12,11 @@ class Constant {
   static const String MY_WITHDRAWALS_LIST_URL = "${BaseUrl}withdrawals_list.php";
   static const String COLOR_LIST_URL = "${BaseUrl}color_list.php";
   static const String ADD_COINS_URL = "${BaseUrl}add_coins.php";
+  static const String COLOR_CHALLENGE_URL = "${BaseUrl}color_challenge.php";
+  static const String SETTINGS_URL = "${BaseUrl}settings.php";
+  static const String UPDATE_UPI_URL = "${BaseUrl}update_upi.php";
+  static const String APPUPDATE_URL = "${BaseUrl}appupdate.php";
+
 
   static const String SUCCESS = "success";
   static const String MESSAGE = "message";
@@ -20,6 +25,9 @@ class Constant {
   static const String AMOUNT = "amount";
   static const String TYPE = "type";
   static const String DEBIT = "debit";
+  static const String COLOR_ID = "color_id";
+  static const String APP_VERSION = "app_version";
+
 
 
   static const String ID = "id";
@@ -30,9 +38,16 @@ class Constant {
   static const String BALANCE = "balance";
   static const String REFERRED_BY = "referred_by";
   static const String REFER_CODE = "refer_code";
-  static const String WITHDRAWAL_STATUS = "withdrawal_status";
-  static const String CHALLENGE_STATUS = "challenge_status";
   static const String STATUS = "status";
   static const String JOINED_DATE = "joined_date";
   static const String LAST_UPDATED = "last_updated";
+
+
+  //settings
+  static const String WITHDRAWAL_STATUS = "withdrawal_status";
+  static const String CHALLENGE_STATUS = "challenge_status";
+  static const String REGISTER_POINTS    = "register_points";
+  static const String MIN_WITHDRAWAL    = "min_withdrawal";
+  static const String MIN_DP_COINS        = "min_dp_coins";
+  static const String MAX_DP_COINS      = "max_dp_coins";
 }
