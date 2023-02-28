@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:color_challenge/Helper/utils.dart';
 import 'package:color_challenge/login/otpVerfication.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -78,12 +79,21 @@ class _LoginMobileState extends State<LoginMobile> {
               const SizedBox(height: 60),
               MaterialButton(
                 onPressed: () async {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => OtpVerification(mobileNumber: _mobileNumberController.text),
-                    ),
-                  );
+
+
+                  if(_mobileNumberController.text.isEmpty){
+                    Utils().showToast("Please Enter Mobile Number");
+                  }else if(_mobileNumberController.text.length<10){
+                    Utils().showToast("Please Enter Valid Mobile Number");
+                  }else{
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => OtpVerification(mobileNumber: _mobileNumberController.text),
+                      ),
+                    );
+                  }
+
                   // var url = Constant.CHECK_MOBILE;
                   // Map<String, dynamic> bodyObject = {
                   //   Constant.MOBILE: _mobileNumberController.text,

@@ -1,4 +1,4 @@
-package com.cc.color_challenge
+package com.app.colorchallenge
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -194,7 +194,8 @@ void showNotification() {
       "Testing Notification",
       "This notification comes all the time of opening app",
       NotificationDetails(
-          android: AndroidNotificationDetails(channel.id, channel.name,
+          android: AndroidNotificationDetails(channel.id,
+              channel.name,
               channelDescription: channel.description,
               importance: Importance.high,
               color: Colors.blue,

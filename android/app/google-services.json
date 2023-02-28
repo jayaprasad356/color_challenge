@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "859911812141",
+    "project_id": "color-challenge-d9336",
+    "storage_bucket": "color-challenge-d9336.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:859911812141:android:98723dc36ce1b7b58674a4",
+        "android_client_info": {
+          "package_name": "com.app.colorchallenge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "859911812141-blhtt434iqa3p4lu1s5283qdok4n5j4h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWjQ5GpgbyEfCQoGXKo31WzAWbBuNfT9c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "859911812141-blhtt434iqa3p4lu1s5283qdok4n5j4h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
