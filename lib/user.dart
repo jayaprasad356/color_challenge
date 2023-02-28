@@ -50,7 +50,7 @@ class Users {
     return Users(
       id: json['id'],
       mobile: json['mobile'],
-      upi: "",
+      upi: json['upi'],
       earn: json['earn'],
       coins: json['coins'],
       balance: json['balance'],

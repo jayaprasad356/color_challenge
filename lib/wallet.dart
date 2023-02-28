@@ -21,13 +21,13 @@ class wallet extends StatefulWidget {
 
 class _walletState extends State<wallet> {
   final TextEditingController _withdrawalAmtController =
-  TextEditingController();
+      TextEditingController();
   TextEditingController _upiIdController = TextEditingController();
   Utils utils = Utils();
   late SharedPreferences prefs;
   String balance = "";
   String minimum = "";
-  String _upiId = '';
+  late String _upiId;
 
   @override
   void initState() {
@@ -35,13 +35,12 @@ class _walletState extends State<wallet> {
     SharedPreferences.getInstance().then((value) {
       prefs = value;
       setState(() {
-        _upiIdController.text = "f";
         balance = prefs.getString(Constant.BALANCE)!;
         minimum = prefs.getString(Constant.MIN_WITHDRAWAL)!;
+        _upiIdController.text = prefs.getString(Constant.UPI)!;
       });
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +107,7 @@ class _walletState extends State<wallet> {
                               left: 20, right: 20, top: 10, bottom: 4),
                           child: ClipRRect(
                             borderRadius:
-                            const BorderRadius.all(Radius.circular(12.0)),
+                                const BorderRadius.all(Radius.circular(12.0)),
                             child: IgnorePointer(
                               ignoring: _isDisabled,
                               child: TextField(
@@ -139,11 +138,11 @@ class _walletState extends State<wallet> {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) =>
-                                      buildUpdateUpiDialog(
-                                          context, (String upiId) {
-                                        // update the UPI ID here using the upiId parameter
-                                        // ...
-                                      }),
+                                      buildUpdateUpiDialog(context,
+                                          (String upiId) {
+                                    // update the UPI ID here using the upiId parameter
+                                    // ...
+                                  }),
                                 );
                               },
                             ),
@@ -177,7 +176,7 @@ class _walletState extends State<wallet> {
                           left: 20, right: 20, top: 10, bottom: 4),
                       child: ClipRRect(
                         borderRadius:
-                        const BorderRadius.all(Radius.circular(12.0)),
+                            const BorderRadius.all(Radius.circular(12.0)),
                         child: TextField(
                           keyboardType: TextInputType.number,
                           controller: _withdrawalAmtController,
@@ -258,7 +257,7 @@ class _walletState extends State<wallet> {
                     ),
                     Container(
                         margin:
-                        const EdgeInsets.only(left: 20, right: 20, top: 15),
+                            const EdgeInsets.only(left: 20, right: 20, top: 15),
                         child: Column(
                           children: <Widget>[
                             Align(
@@ -314,16 +313,16 @@ class _walletState extends State<wallet> {
     final dataList = jsonData['data'] as List;
     if (jsonData["success"]) {
       final datass = dataList.first;
-      prefs.setString(Constant.UPI, datass[Constant.UPI]);
       setState(() {
-        String upi_id=datass[Constant.UPI];
+        String upi_id = datass[Constant.UPI];
+        prefs.setString(Constant.UPI, datass[Constant.UPI]);
         _upiIdController.text = upi_id;
       });
     }
   }
 
-  Widget buildUpdateUpiDialog(BuildContext context,
-      void Function(String) upiIdCallback) {
+  Widget buildUpdateUpiDialog(
+      BuildContext context, void Function(String) upiIdCallback) {
     final TextEditingController _enterupiController = TextEditingController();
 
     return AlertDialog(
@@ -352,13 +351,16 @@ class _walletState extends State<wallet> {
               style: const TextStyle(
                 backgroundColor: Colors.transparent,
               ),
-              enabled: true, // set to false if you want the text field to be disabled
+              enabled:
+                  true, // set to false if you want the text field to be disabled
             ),
           ),
-          const SizedBox(height: 20,),
+          const SizedBox(
+            height: 20,
+          ),
           ElevatedButton(
             onPressed: () {
-              String upi=_enterupiController.text;
+              String upi = _enterupiController.text;
               updateUpi(upi);
 
               Navigator.pop(context);
@@ -378,5 +380,4 @@ class _walletState extends State<wallet> {
       ),
     );
   }
-
 }

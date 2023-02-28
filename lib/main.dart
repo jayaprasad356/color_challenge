@@ -139,7 +139,7 @@ class _MyAppState extends State<MyApp> {
           final SharedPreferences prefs = snapshot.data!;
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'Flutter Demo',
+            title: 'Color Challenge',
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),

@@ -26,7 +26,7 @@ class _MyResultsState extends State<MyResults> {
 
     String jsonsDataString = response.toString();
     final jsonsData = jsonDecode(jsonsDataString);
-
+    datas.clear();
     for (var u in jsonsData['data']) {
       final name = u['name'];
       final code = u["code"];
