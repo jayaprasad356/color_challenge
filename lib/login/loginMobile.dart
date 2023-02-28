@@ -79,8 +79,6 @@ class _LoginMobileState extends State<LoginMobile> {
               const SizedBox(height: 60),
               MaterialButton(
                 onPressed: () async {
-
-
                   if(_mobileNumberController.text.isEmpty){
                     Utils().showToast("Please Enter Mobile Number");
                   }else if(_mobileNumberController.text.length<10){
@@ -150,7 +148,7 @@ class _LoginMobileState extends State<LoginMobile> {
     String jsonString = await apiCall(url, bodyObject);
     final Map<String, dynamic> responseJson = jsonDecode(jsonString);
     final dataList = responseJson['data'] as List;
-    final User user = User.fromJsonNew(dataList.first);
+    final Users user = Users.fromJsonNew(dataList.first);
 
     prefs.setString(Constant.LOGED_IN, "true");
     prefs.setString(Constant.ID, user.id);

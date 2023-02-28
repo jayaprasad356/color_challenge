@@ -30,7 +30,7 @@ class _MainScreenState extends State<MainScreen> {
   bool _actionsVisible = true;
   bool _logoutVisible = false;
   bool _leftArrowVisible = false;
-  late User user;
+  late Users user;
   late SharedPreferences prefs;
   String coins = "0";
   String balance = "";

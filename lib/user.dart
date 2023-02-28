@@ -1,4 +1,4 @@
-class User {
+class Users {
   final String id;
   final String mobile;
   final String upi;
@@ -13,7 +13,7 @@ class User {
   final String joinedDate;
   final String lastUpdated;
 
-  User({
+  Users({
     required this.id,
     required this.mobile,
     required this.upi,
@@ -29,8 +29,8 @@ class User {
     required this.lastUpdated,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
+  factory Users.fromJson(Map<String, dynamic> json) {
+    return Users(
       id: json['id'],
       mobile: json['mobile'],
       upi: json['upi'],
@@ -46,8 +46,8 @@ class User {
       lastUpdated: json['last_updated'],
     );
   }
-  factory User.fromJsonNew(Map<String, dynamic> json) {
-    return User(
+  factory Users.fromJsonNew(Map<String, dynamic> json) {
+    return Users(
       id: json['id'],
       mobile: json['mobile'],
       upi: "",

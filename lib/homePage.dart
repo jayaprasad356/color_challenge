@@ -298,7 +298,7 @@ class _HomePageState extends State<HomePage> {
     String jsonString = await apiCall(url, bodyObject);
     final Map<String, dynamic> responseJson = jsonDecode(jsonString);
     final dataList = responseJson['data'] as List;
-    final User user = User.fromJsonNew(dataList.first);
+    final Users user = Users.fromJsonNew(dataList.first);
 
     prefs.setString(Constant.LOGED_IN, "true");
     prefs.setString(Constant.ID, user.id);

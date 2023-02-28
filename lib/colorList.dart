@@ -248,7 +248,7 @@ class _ColorListState extends State<ColorList> {
     String jsonString = await apiCall(url, bodyObject);
     final Map<String, dynamic> responseJson = jsonDecode(jsonString);
     final dataList = responseJson['data'] as List;
-    final User user = User.fromJsonNew(dataList.first);
+    final Users user = Users.fromJsonNew(dataList.first);
     widget.updateAmount(user.coins);
 
     prefs.setString(Constant.LOGED_IN, "true");
