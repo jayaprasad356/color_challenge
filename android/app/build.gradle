@@ -58,7 +58,7 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
-//todo release process
+    //todo for release purpose
 //    signingConfigs {
 //        release {
 //            keyAlias keystoreProperties['keyAlias']

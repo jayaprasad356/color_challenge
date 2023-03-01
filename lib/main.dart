@@ -14,7 +14,7 @@ import 'login/authentication_repository.dart';
 import 'login/otpVerfication.dart';
 import 'package:package_info/package_info.dart';
 import 'package:get/get.dart';
-
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'updateApp.dart';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
@@ -69,6 +69,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     SharedPreferences.getInstance().then((prefs) {
       setState(() {
+        FirebaseAnalytics.instance.logEvent(name: "appStart");
         _prefs = prefs;
       });
     });

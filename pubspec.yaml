@@ -32,6 +32,7 @@ dependencies:
   flutter_native_splash: ^2.2.15
   flutter:
     sdk: flutter
+  firebase_analytics: ^10.1.4
 
 flutter_native_splash:
   color: "#FFFFFF"

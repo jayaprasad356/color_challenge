@@ -11,6 +11,7 @@ import '../Helper/apiCall.dart';
 import '../user.dart';
 import 'mainScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 class LoginMobile extends StatefulWidget {
   const LoginMobile({Key? key}) : super(key: key);
@@ -84,6 +85,7 @@ class _LoginMobileState extends State<LoginMobile> {
                   }else if(_mobileNumberController.text.length<10){
                     Utils().showToast("Please Enter Valid Mobile Number");
                   }else{
+                    FirebaseAnalytics.instance.logEvent(name: "EnteredCorrect mobile number${_mobileNumberController.text}");
                     Navigator.push(
                       context,
                       MaterialPageRoute(
