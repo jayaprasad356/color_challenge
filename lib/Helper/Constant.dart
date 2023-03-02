@@ -27,6 +27,7 @@ class Constant {
   static const String DEBIT = "debit";
   static const String COLOR_ID = "color_id";
   static const String APP_VERSION = "app_version";
+  static const String LINK = "link";
 
 
 

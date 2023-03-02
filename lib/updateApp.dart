@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UpdateDialog extends StatelessWidget {
+  final String link;
 
-  UpdateDialog({Key? key});
-
+  UpdateDialog({required this.link, Key? key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +17,7 @@ class UpdateDialog extends StatelessWidget {
             TextButton(
               child: Text('Update'),
               onPressed: () {
-                launch("http://t.me/Colorchallengeapp1");
+                launch(link);
               },
             ),
           ],

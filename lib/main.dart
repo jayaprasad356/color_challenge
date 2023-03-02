@@ -63,6 +63,7 @@ class _MyAppState extends State<MyApp> {
   late String _fcmToken;
   late String appVersion;
    bool update=true;
+    String link="";
 
   @override
   void initState() {
@@ -149,7 +150,7 @@ class _MyAppState extends State<MyApp> {
                     mobileNumber: '',
                   ),
             },
-            home: screens(prefs, update),
+            home: screens(prefs, update,link),
           );
         } else {
           return const CircularProgressIndicator();
@@ -167,7 +168,12 @@ class _MyAppState extends State<MyApp> {
     };
     String jsonString = await apiCall(url, bodyObject);
     final Map<String, dynamic> responseJson = jsonDecode(jsonString);
+    final jsonData = jsonDecode(jsonString);
+    final dataList = jsonData['data'] as List;
+    final datass = dataList.first;
+
     setState(() {
+      link = datass[Constant.LINK];
       update = responseJson["success"];
     });
 
@@ -176,7 +182,7 @@ class _MyAppState extends State<MyApp> {
 
 Widget screens(
   SharedPreferences prefs,
-  bool update,
+  bool update, String link
 ) {
   final String? isLoggedIn = prefs.getString(Constant.LOGED_IN);
   if (isLoggedIn != null && isLoggedIn == "true") {
@@ -184,10 +190,14 @@ Widget screens(
     if (update) {
       return const MainScreen();
     } else {
-      return  UpdateDialog();
+      return  UpdateDialog(link: link);
     }
   } else {
-    return const LoginMobile();
+    if (update) {
+      return const LoginMobile();
+    } else {
+      return  UpdateDialog(link: link);
+    }
   }
 }
 
