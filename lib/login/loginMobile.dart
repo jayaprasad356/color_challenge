@@ -12,6 +12,8 @@ import '../user.dart';
 import 'mainScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginMobile extends StatefulWidget {
   const LoginMobile({Key? key}) : super(key: key);
@@ -23,6 +25,15 @@ class LoginMobile extends StatefulWidget {
 class _LoginMobileState extends State<LoginMobile> {
   final TextEditingController _mobileNumberController = TextEditingController();
   late SharedPreferences prefs;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final googleSignIn = GoogleSignIn();
+  bool _isSigningIn = false;
+
+  bool get isSigningIn => _isSigningIn;
+
+  set isSigningIn(bool isSigningIn) {
+    _isSigningIn = isSigningIn;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,16 +91,19 @@ class _LoginMobileState extends State<LoginMobile> {
               const SizedBox(height: 60),
               MaterialButton(
                 onPressed: () async {
-                  if(_mobileNumberController.text.isEmpty){
+                  if (_mobileNumberController.text.isEmpty) {
                     Utils().showToast("Please Enter Mobile Number");
-                  }else if(_mobileNumberController.text.length<10){
+                  } else if (_mobileNumberController.text.length < 10) {
                     Utils().showToast("Please Enter Valid Mobile Number");
-                  }else{
-                    FirebaseAnalytics.instance.logEvent(name: "EnteredCorrect mobile number${_mobileNumberController.text}");
+                  } else {
+                    FirebaseAnalytics.instance.logEvent(
+                        name:
+                            "EnteredCorrect mobile number${_mobileNumberController.text}");
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => OtpVerification(mobileNumber: _mobileNumberController.text),
+                        builder: (context) => OtpVerification(
+                            mobileNumber: _mobileNumberController.text),
                       ),
                     );
                   }
@@ -126,6 +140,38 @@ class _LoginMobileState extends State<LoginMobile> {
                   child: const Center(
                     child: Text(
                       'Log in',
+                      style: TextStyle(
+                          color: colors.white,
+                          fontSize: 18,
+                          fontFamily: "Montserrat",
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ),
+              MaterialButton(
+                onPressed: () async {
+                  login();
+                  if(isSigningIn){
+Utils().showToast("success");
+                  }
+                },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Container(
+                  margin: const EdgeInsets.only(left: 10),
+                  height: 80,
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/Verify.png"),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'Google Signin',
                       style: TextStyle(
                           color: colors.white,
                           fontSize: 18,
@@ -172,5 +218,29 @@ class _LoginMobileState extends State<LoginMobile> {
         builder: (context) => MainScreen(),
       ),
     );
+  }
+
+  Future login() async {
+    final user = await googleSignIn.signIn();
+    if (user == null) {
+      isSigningIn = false;
+      return;
+    } else {
+      final googleAuth = await user.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      var credentia = await _auth.signInWithCredential(credential);
+      isSigningIn= credentia.user !=null ? true : false;
+
+    }
+  }
+  void logout() async {
+    await googleSignIn.disconnect();
+    FirebaseAuth.instance.signOut();
   }
 }
