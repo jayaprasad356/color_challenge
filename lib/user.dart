@@ -1,6 +1,5 @@
 class Users {
   final String id;
-  final String mobile;
   final String upi;
   final String earn;
   final String coins;
@@ -15,7 +14,6 @@ class Users {
 
   Users({
     required this.id,
-    required this.mobile,
     required this.upi,
     required this.earn,
     required this.coins,
@@ -32,7 +30,6 @@ class Users {
   factory Users.fromJson(Map<String, dynamic> json) {
     return Users(
       id: json['id'],
-      mobile: json['mobile'],
       upi: json['upi'],
       earn: json['earn'],
       coins: json['coins'],
@@ -49,7 +46,6 @@ class Users {
   factory Users.fromJsonNew(Map<String, dynamic> json) {
     return Users(
       id: json['id'],
-      mobile: json['mobile'],
       upi: json['upi'],
       earn: json['earn'],
       coins: json['coins'],

@@ -15,6 +15,8 @@ import '../homePage.dart';
 import '../upiPay.dart';
 import '../user.dart';
 import '../wallet.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -36,6 +38,7 @@ class _MainScreenState extends State<MainScreen> {
   String balance = "";
   String text = 'Click here Send ScreenShoot';
   String link = 'http://t.me/Colorchallengeapp1';
+  final googleSignIn = GoogleSignIn();
 
   @override
   void initState() {
@@ -133,6 +136,7 @@ class _MainScreenState extends State<MainScreen> {
                       ? GestureDetector(
                           onTap: () {
                             prefs.setString(Constant.LOGED_IN, "false");
+                            logout();
                             SystemNavigator.pop();
                           },
                           child: Padding(
@@ -525,5 +529,9 @@ class _MainScreenState extends State<MainScreen> {
       const SnackBar(content: Text('Copied to clipboard')),
     );
     Utils().showToast("Copied!");
+  }
+  void logout() async {
+    await googleSignIn.disconnect();
+    FirebaseAuth.instance.signOut();
   }
 }

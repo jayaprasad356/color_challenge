@@ -116,7 +116,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                     if(OtpText=="011011"){
                       Utils().showToast("login success");
                       prefs = await SharedPreferences.getInstance();
-                      var url = Constant.CHECK_MOBILE;
+                      var url = Constant.CHECK_EMAIL;
                       Map<String, dynamic> bodyObject = {
                         Constant.MOBILE: _mobileNumber
                       };
@@ -130,7 +130,6 @@ class _OtpVerificationState extends State<OtpVerification> {
                         final Users user = Users.fromJsonNew(dataList.first);
                         prefs.setString(Constant.LOGED_IN, "true");
                         prefs.setString(Constant.ID, user.id);
-                        prefs.setString(Constant.MOBILE, user.mobile);
                         prefs.setString(Constant.EARN, user.earn);
                         prefs.setString(Constant.COINS, user.coins);
                         prefs.setString(Constant.BALANCE, user.balance);
@@ -153,7 +152,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                     }else if(await verifyOTP(OtpText)){
                     Utils().showToast("login success");
                     prefs = await SharedPreferences.getInstance();
-                    var url = Constant.CHECK_MOBILE;
+                    var url = Constant.CHECK_EMAIL;
                     Map<String, dynamic> bodyObject = {
                       Constant.MOBILE: _mobileNumber
                     };
@@ -168,7 +167,6 @@ class _OtpVerificationState extends State<OtpVerification> {
 
                       prefs.setString(Constant.LOGED_IN, "true");
                       prefs.setString(Constant.ID, user.id);
-                      prefs.setString(Constant.MOBILE, user.mobile);
                       prefs.setString(Constant.EARN, user.earn);
                       prefs.setString(Constant.COINS, user.coins);
                       prefs.setString(Constant.BALANCE, user.balance);
@@ -320,7 +318,6 @@ class _OtpVerificationState extends State<OtpVerification> {
 
     prefs.setString(Constant.LOGED_IN, "true");
     prefs.setString(Constant.ID, user.id);
-    prefs.setString(Constant.MOBILE, user.mobile);
     prefs.setString(Constant.EARN, user.earn);
     prefs.setString(Constant.COINS, user.coins);
     prefs.setString(Constant.BALANCE, user.balance);

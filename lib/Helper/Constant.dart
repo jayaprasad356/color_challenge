@@ -6,7 +6,7 @@ class Constant {
   static const String USER_DETAIL_URL = "${BaseUrl}user_details.php";
   static const String REGISTER_URL = "${BaseUrl}register.php";
   static const String WITHDRAWAL_URL = "${BaseUrl}withdrawals.php";
-  static const String CHECK_MOBILE = "${BaseUrl}check_mobile.php";
+  static const String CHECK_EMAIL = "${BaseUrl}check_email.php";
   static const String MY_CHALLENGES_URL = "${BaseUrl}my_challenges.php";
   static const String MY_RESULTS_URL = "${BaseUrl}results.php";
   static const String MY_WITHDRAWALS_LIST_URL = "${BaseUrl}withdrawals_list.php";
@@ -21,6 +21,7 @@ class Constant {
   static const String SUCCESS = "success";
   static const String MESSAGE = "message";
   static const String MOBILE = "mobile";
+  static const String EMAIL = "email";
   static const String USER_ID = "user_id";
   static const String AMOUNT = "amount";
   static const String TYPE = "type";
@@ -28,6 +29,7 @@ class Constant {
   static const String COLOR_ID = "color_id";
   static const String APP_VERSION = "app_version";
   static const String LINK = "link";
+  static const String BET_STATUS = "bet_status";
 
 
 
@@ -42,6 +44,8 @@ class Constant {
   static const String STATUS = "status";
   static const String JOINED_DATE = "joined_date";
   static const String LAST_UPDATED = "last_updated";
+
+  static const String NAME = "name";
 
 
   //settings

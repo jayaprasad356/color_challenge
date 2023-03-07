@@ -23,17 +23,14 @@ class LoginMobile extends StatefulWidget {
 }
 
 class _LoginMobileState extends State<LoginMobile> {
-  final TextEditingController _mobileNumberController = TextEditingController();
+  final TextEditingController _referCodeController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   late SharedPreferences prefs;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final googleSignIn = GoogleSignIn();
-  bool _isSigningIn = false;
+  bool isSigningIn = false;
+  String email = "";
 
-  bool get isSigningIn => _isSigningIn;
-
-  set isSigningIn(bool isSigningIn) {
-    _isSigningIn = isSigningIn;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,100 +58,97 @@ class _LoginMobileState extends State<LoginMobile> {
               ),
               const SizedBox(height: 60),
               //todo description text view
-              const Text(
-                "Enter Mobile Number",
-                style: TextStyle(
-                    fontSize: 18,
-                    color: colors.greyss,
-                    fontFamily: "Montserrat"),
-              ),
-              const SizedBox(height: 20),
-              Container(
-                margin: const EdgeInsets.only(left: 20, right: 20),
-                child: Material(
-                  child: TextField(
-                    maxLength: 10,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    controller: _mobileNumberController,
-                    decoration: const InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: colors.primary),
-                      ),
-                    ),
-                    style: const TextStyle(backgroundColor: Colors.transparent),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 60),
-              MaterialButton(
-                onPressed: () async {
-                  if (_mobileNumberController.text.isEmpty) {
-                    Utils().showToast("Please Enter Mobile Number");
-                  } else if (_mobileNumberController.text.length < 10) {
-                    Utils().showToast("Please Enter Valid Mobile Number");
-                  } else {
-                    FirebaseAnalytics.instance.logEvent(
-                        name:
-                            "EnteredCorrect mobile number${_mobileNumberController.text}");
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => OtpVerification(
-                            mobileNumber: _mobileNumberController.text),
-                      ),
-                    );
-                  }
-
-                  // var url = Constant.CHECK_MOBILE;
-                  // Map<String, dynamic> bodyObject = {
-                  //   Constant.MOBILE: _mobileNumberController.text,
-                  // };
-                  // String jsonString = await apiCall(url, bodyObject);
-                  // dynamic json = jsonDecode(jsonString);
-                  // bool status = json["registered"];
-                  // prefs = await SharedPreferences.getInstance();
-                  // prefs.setString(Constant.MOBILE, _mobileNumberController.text);
-                  // if (status) {
-                  //     newRegister();
-                  // } else {
-                  //
-                  //
-                  // }
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Container(
-                  margin: const EdgeInsets.only(left: 10),
-                  height: 80,
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/images/Verify.png"),
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      'Log in',
-                      style: TextStyle(
-                          color: colors.white,
-                          fontSize: 18,
-                          fontFamily: "Montserrat",
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-              ),
+              // const Text(
+              //   "Enter Mobile Number",
+              //   style: TextStyle(
+              //       fontSize: 18,
+              //       color: colors.greyss,
+              //       fontFamily: "Montserrat"),
+              // ),
+              // const SizedBox(height: 20),
+              // Container(
+              //   margin: const EdgeInsets.only(left: 20, right: 20),
+              //   child: Material(
+              //     child: TextField(
+              //       maxLength: 10,
+              //       keyboardType: TextInputType.number,
+              //       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              //       controller: _mobileNumberController,
+              //       decoration: const InputDecoration(
+              //         filled: true,
+              //         fillColor: Colors.white,
+              //         enabledBorder: UnderlineInputBorder(
+              //           borderSide: BorderSide(color: colors.primary),
+              //         ),
+              //       ),
+              //       style: const TextStyle(backgroundColor: Colors.transparent),
+              //     ),
+              //   ),
+              // ),
+              // const SizedBox(height: 60),
+              // MaterialButton(
+              //   onPressed: () async {
+              //     if (_mobileNumberController.text.isEmpty) {
+              //       Utils().showToast("Please Enter Mobile Number");
+              //     } else if (_mobileNumberController.text.length < 10) {
+              //       Utils().showToast("Please Enter Valid Mobile Number");
+              //     } else {
+              //       FirebaseAnalytics.instance.logEvent(
+              //           name:
+              //               "EnteredCorrect mobile number${_mobileNumberController.text}");
+              //       Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //           builder: (context) => OtpVerification(
+              //               mobileNumber: _mobileNumberController.text),
+              //         ),
+              //       );
+              //     }
+              //
+              //     // var url = Constant.CHECK_MOBILE;
+              //     // Map<String, dynamic> bodyObject = {
+              //     //   Constant.MOBILE: _mobileNumberController.text,
+              //     // };
+              //     // String jsonString = await apiCall(url, bodyObject);
+              //     // dynamic json = jsonDecode(jsonString);
+              //     // bool status = json["registered"];
+              //     // prefs = await SharedPreferences.getInstance();
+              //     // prefs.setString(Constant.MOBILE, _mobileNumberController.text);
+              //     // if (status) {
+              //     //     newRegister();
+              //     // } else {
+              //     //
+              //     //
+              //     // }
+              //   },
+              //   shape: RoundedRectangleBorder(
+              //     borderRadius: BorderRadius.circular(10),
+              //   ),
+              //   child: Container(
+              //     margin: const EdgeInsets.only(left: 10),
+              //     height: 80,
+              //     width: double.infinity,
+              //     decoration: const BoxDecoration(
+              //       image: DecorationImage(
+              //         image: AssetImage("assets/images/Verify.png"),
+              //         fit: BoxFit.fill,
+              //       ),
+              //     ),
+              //     child: const Center(
+              //       child: Text(
+              //         'Log in',
+              //         style: TextStyle(
+              //             color: colors.white,
+              //             fontSize: 18,
+              //             fontFamily: "Montserrat",
+              //             fontWeight: FontWeight.bold),
+              //       ),
+              //     ),
+              //   ),
+              // ),
               MaterialButton(
                 onPressed: () async {
                   login();
-                  if(isSigningIn){
-Utils().showToast("success");
-                  }
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -189,10 +183,16 @@ Utils().showToast("success");
   }
 
   newRegister() async {
-    var url = Constant.LOGIN_URL;
+    prefs = await SharedPreferences.getInstance();
+    var url = Constant.REGISTER_URL;
     Map<String, dynamic> bodyObject = {
-      Constant.MOBILE: _mobileNumberController.text,
+      Constant.EMAIL: email,
+      Constant.NAME: _nameController.text.toString(),
     };
+
+    if (_referCodeController.text.isNotEmpty) {
+      bodyObject[Constant.REFERRED_BY] = _referCodeController.text;
+    }
     String jsonString = await apiCall(url, bodyObject);
     final Map<String, dynamic> responseJson = jsonDecode(jsonString);
     final dataList = responseJson['data'] as List;
@@ -200,8 +200,6 @@ Utils().showToast("success");
 
     prefs.setString(Constant.LOGED_IN, "true");
     prefs.setString(Constant.ID, user.id);
-    prefs.setString(Constant.MOBILE, user.mobile);
-    prefs.setString(Constant.UPI, user.upi);
     prefs.setString(Constant.EARN, user.earn);
     prefs.setString(Constant.COINS, user.coins);
     prefs.setString(Constant.BALANCE, user.balance);
@@ -235,12 +233,158 @@ Utils().showToast("success");
 
       await FirebaseAuth.instance.signInWithCredential(credential);
       var credentia = await _auth.signInWithCredential(credential);
-      isSigningIn= credentia.user !=null ? true : false;
+      isSigningIn = credentia.user != null ? true : false;
+      setState(() {
+        email = user.email;
+      });
+    }
+    if (isSigningIn) {
+      prefs = await SharedPreferences.getInstance();
+      var url = Constant.LOGIN_URL;
+      Map<String, dynamic> bodyObject = {Constant.EMAIL: email};
+      String jsonString = await apiCall(url, bodyObject);
+      dynamic json = jsonDecode(jsonString);
+      bool status = json["user_registered"];
 
+      if (status) {
+        final Map<String, dynamic> responseJson =
+        jsonDecode(jsonString);
+        final dataList = responseJson['data'] as List;
+        final Users user = Users.fromJsonNew(dataList.first);
+        prefs.setString(Constant.LOGED_IN, "true");
+        prefs.setString(Constant.ID, user.id);
+        prefs.setString(Constant.UPI, user.upi);
+        prefs.setString(Constant.EARN, user.earn);
+        prefs.setString(Constant.COINS, user.coins);
+        prefs.setString(Constant.BALANCE, user.balance);
+        prefs.setString(Constant.REFERRED_BY, user.referredBy);
+        prefs.setString(Constant.REFER_CODE, user.referCode);
+        prefs.setString(
+            Constant.WITHDRAWAL_STATUS, user.withdrawalStatus);
+        prefs.setString(
+            Constant.CHALLENGE_STATUS, user.challengeStatus);
+        prefs.setString(Constant.STATUS, user.status);
+        prefs.setString(Constant.JOINED_DATE, user.joinedDate);
+        prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MainScreen(),
+          ),
+        );
+      } else {
+        showReferCodeSheet();
+      }
+    }else{
+      Utils().showToast("Signin Failed");
     }
   }
+
   void logout() async {
     await googleSignIn.disconnect();
     FirebaseAuth.instance.signOut();
+    Utils().showToast("done");
+  }
+
+  showReferCodeSheet() {
+    showModalBottomSheet(
+        context: context,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(40.0),
+          ),
+        ),
+        builder: (context) {
+          return Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: SingleChildScrollView(
+              child: SizedBox(
+                height: 300,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      // const Center(
+                      //   child: Text(
+                      //     "Enter Referal Code (optional)",
+                      //     style: TextStyle(
+                      //         fontSize: 18,
+                      //         color: colors.greyss,
+                      //         fontFamily: "Montserrat"),
+                      //   ),
+                      // ),
+                      const SizedBox(height: 20),
+                      Container(
+                        margin: const EdgeInsets.only(left: 20, right: 20),
+                        child: TextField(
+                          controller: _nameController,
+                          decoration: const InputDecoration(
+                            filled: true,
+                            hintText: "Enter Name",
+                            fillColor: Colors.transparent,
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: colors.primary),
+                            ),
+                          ),
+                          style: TextStyle(backgroundColor: Colors.transparent),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+
+                      Container(
+                        margin: const EdgeInsets.only(left: 20, right: 20),
+                        child: TextField(
+                          controller: _referCodeController,
+                          decoration: const InputDecoration(
+                            hintText: "Enter Refer Code (optional)",
+                            filled: true,
+                            fillColor: Colors.transparent,
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: colors.primary),
+                            ),
+                          ),
+                          style: TextStyle(backgroundColor: Colors.transparent),
+                        ),
+                      ),
+
+                      const SizedBox(height: 30),
+                      MaterialButton(
+                        onPressed: () {
+                          newRegister();
+                        },
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 10),
+                          height: 80,
+                          width: double.infinity,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage("assets/images/Verify.png"),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              'Continue',
+                              style: TextStyle(
+                                  color: colors.white,
+                                  fontSize: 18,
+                                  fontFamily: "Montserrat",
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                      )
+                    ]),
+              ),
+            ),
+          );
+        });
   }
 }

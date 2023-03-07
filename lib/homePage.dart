@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:color_challenge/login/mainScreen.dart';
@@ -32,6 +33,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
    String referText="GBD 21";
    Utils utils=Utils();
+   late int _secondsRemaining ;
+   late Timer _timer;
+    bool? betstatus;
+    final ValueNotifier<int> _timerValueNotifier=ValueNotifier<int>(60);
+
+
    late SharedPreferences prefs;
 
    @override
@@ -39,9 +46,33 @@ class _HomePageState extends State<HomePage> {
      super.initState();
      SharedPreferences.getInstance().then((value) {
        prefs = value;
+       setState(() {
+         betstatus = prefs.getBool(Constant.BET_STATUS);
+       });
+       if (!(betstatus!)) {
+         _startTimer();
+       }
      });
      userDeatils();
+   }
+   void _startTimer() {
+     _secondsRemaining=60;
 
+     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+       if (_secondsRemaining > 0) {
+         _secondsRemaining--;
+         _timerValueNotifier.value = _secondsRemaining; // update the ValueNotifier's value
+       } else {
+         _secondsRemaining = 60;
+        // _timer.cancel();
+       }
+     });
+   }
+
+   @override
+   void dispose() {
+     _timer.cancel();
+     super.dispose();
    }
   @override
   Widget build(BuildContext context) {
@@ -58,6 +89,15 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
+                  ValueListenableBuilder(
+                  valueListenable: _timerValueNotifier,
+                  builder: (context, int value, child) {
+                    return Text(
+                      value.toString(),
+                      style: TextStyle(fontSize: 24),
+                    );
+                  },
+                ),
                     const Text(
                       'Refer  a friend and get 50 coins',
                       style: TextStyle(
@@ -302,7 +342,6 @@ class _HomePageState extends State<HomePage> {
 
     prefs.setString(Constant.LOGED_IN, "true");
     prefs.setString(Constant.ID, user.id);
-    prefs.setString(Constant.MOBILE, user.mobile);
     prefs.setString(Constant.UPI, user.upi);
     prefs.setString(Constant.EARN, user.earn);
     prefs.setString(Constant.COINS, user.coins);
