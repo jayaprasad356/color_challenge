@@ -251,7 +251,7 @@ class _ColorListState extends State<ColorList> {
     final Users user = Users.fromJsonNew(dataList.first);
     widget.updateAmount(user.coins);
 
-    prefs.setBool(Constant.BET_STATUS, false);
+    prefs.setBool(Constant.BET_STATUS, true);
 
     prefs.setString(Constant.LOGED_IN, "true");
     prefs.setString(Constant.ID, user.id);

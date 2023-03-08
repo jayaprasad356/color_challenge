@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:color_challenge/login/mainScreen.dart';
+import 'package:color_challenge/time_lestener.dart';
 import 'package:color_challenge/user.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:color_challenge/Helper/utils.dart';
@@ -35,7 +36,7 @@ class _HomePageState extends State<HomePage> {
    Utils utils=Utils();
    late int _secondsRemaining ;
    late Timer _timer;
-    bool? betstatus;
+    bool? betstatus=false;
     final ValueNotifier<int> _timerValueNotifier=ValueNotifier<int>(60);
 
 
@@ -47,10 +48,12 @@ class _HomePageState extends State<HomePage> {
      SharedPreferences.getInstance().then((value) {
        prefs = value;
        setState(() {
-         betstatus = prefs.getBool(Constant.BET_STATUS);
+        // betstatus = prefs.getBool(Constant.BET_STATUS);
        });
-       if (!(betstatus!)) {
+       if((_timerValueNotifier.hasListeners)){
          _startTimer();
+       }else{
+
        }
      });
      userDeatils();
@@ -89,15 +92,19 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                  ValueListenableBuilder(
-                  valueListenable: _timerValueNotifier,
-                  builder: (context, int value, child) {
-                    return Text(
-                      value.toString(),
-                      style: TextStyle(fontSize: 24),
-                    );
-                  },
-                ),
+                   betstatus!? StreamBuilder(
+                     stream: timerBloc.timerStreams,
+                     builder: (context, snapshot) {
+                       return Text(snapshot.data.toString());
+                     },): ValueListenableBuilder(
+                     valueListenable: _timerValueNotifier,
+                     builder: (context, int value, child) {
+                       return Text(
+                         value.toString(),
+                         style: TextStyle(fontSize: 24),
+                       );
+                     },
+                   ) ,
                     const Text(
                       'Refer  a friend and get 50 coins',
                       style: TextStyle(
