@@ -14,12 +14,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'Helper/Color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'Helper/Constant.dart';
 import 'Helper/apiCall.dart';
 import 'blinking_text.dart';
 import 'colorList.dart';
 import 'muChallenges.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class HomePage extends StatefulWidget {
   final void Function(String coins) updateAmount;
@@ -32,7 +35,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String referText = "GBD 21";
+  String referCoins = "";
+
   Utils utils = Utils();
+  String resultTime = "";
+  int leftTime=0;
+  late String _fcmToken;
+  final googleSignIn = GoogleSignIn();
 
   late SharedPreferences prefs;
 
@@ -41,8 +50,17 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     SharedPreferences.getInstance().then((value) {
       prefs = value;
+      referCoins = prefs.getString(Constant.REFER_COINS)!;
     });
-    userDeatils();
+    FirebaseMessaging.instance.getToken().then((token) {
+      setState(() {
+        _fcmToken = token!;
+        userDeatils();
+      });
+      print('FCM Token: $_fcmToken');
+    });
+
+    resultTiming();
   }
 
   @override
@@ -60,8 +78,8 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    const Text(
-                      'Refer  a friend and get 50 coins',
+                     Text(
+                      "Refer  a friend and get "+referCoins+" coins",
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -98,7 +116,7 @@ class _HomePageState extends State<HomePage> {
                                   style: TextStyle(
                                     color: colors.primary,
                                     fontSize: 12.0,
-                                    fontFamily: "Montserra",
+                                    fontFamily: "Montserrat",
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -144,15 +162,17 @@ class _HomePageState extends State<HomePage> {
           SizedBox(
             height: 10,
           ),
-              BlinkingText( text: 'Result Announce Time',),
-              const Text(
-                '12:30 AM 12/15/2023',
-                style: TextStyle(
-                    fontSize: 16,
-                    color: colors.cc_green,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "Montserrat"),
-              ),
+          BlinkingText(
+            text: 'Result Announce Time',
+          ),
+          Text(
+            resultTime+"("+leftTime.toString()+"Min)",
+            style: TextStyle(
+                fontSize: 16,
+                color: colors.cc_green,
+                fontWeight: FontWeight.bold,
+                fontFamily: "Montserrat"),
+          ),
           ColorList(updateAmount: widget.updateAmount),
           SizedBox(
             height: 20,
@@ -307,7 +327,8 @@ class _HomePageState extends State<HomePage> {
     prefs = await SharedPreferences.getInstance();
     var url = Constant.USER_DETAIL_URL;
     Map<String, dynamic> bodyObject = {
-      Constant.USER_ID: prefs.getString(Constant.ID)
+      Constant.USER_ID: prefs.getString(Constant.ID),
+      Constant.FCM_ID:_fcmToken
     };
     String jsonString = await apiCall(url, bodyObject);
     final Map<String, dynamic> responseJson = jsonDecode(jsonString);
@@ -327,8 +348,28 @@ class _HomePageState extends State<HomePage> {
     prefs.setString(Constant.STATUS, user.status);
     prefs.setString(Constant.JOINED_DATE, user.joinedDate);
     prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
+    if(user.status=="0"){
+      logout();
+    }
     setState(() {
       referText = prefs.getString(Constant.REFER_CODE)!;
     });
+  }
+
+  void resultTiming() async {
+    prefs = await SharedPreferences.getInstance();
+    var url = Constant.RESULT_TIME_URL;
+
+    String jsonString = await dataCall(url);
+    final Map<String, dynamic> responseJson = jsonDecode(jsonString);
+
+    setState(() {
+      resultTime = responseJson[Constant.RESULT_ANNOUNCE_TIME];
+      leftTime = responseJson["time_diff"];
+    });
+  }
+  void logout() async {
+    await googleSignIn.disconnect();
+    FirebaseAuth.instance.signOut();
   }
 }

@@ -30,7 +30,7 @@ class _MyResultsState extends State<MyResults> {
     for (var u in jsonsData['data']) {
       final name = u['name'];
       final code = u["code"];
-      final date = u['date'];
+      final date = u['datetime'];
 
       ResultData data = ResultData(name, code, date);
       datas.add(data);
@@ -93,14 +93,6 @@ class _MyResultsState extends State<MyResults> {
                             padding: const EdgeInsets.only(left: 12),
                             child: Row(
                               children: [
-                                const Text(
-                                  "2023-03-10",
-                                  style: TextStyle(
-                                      fontFamily: "Montserrat",
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                      color: colors.black),
-                                ),
                                  Text(
                                   datas[index].date,
                                   style: TextStyle(

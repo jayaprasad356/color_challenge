@@ -4,6 +4,7 @@ class Constant {
   static const String BaseUrl = "${MainBaseUrl}api/";
   static const String LOGIN_URL = "${BaseUrl}login.php";
   static const String USER_DETAIL_URL = "${BaseUrl}user_details.php";
+  static const String RESULT_TIME_URL = "${BaseUrl}result_time.php";
   static const String REGISTER_URL = "${BaseUrl}register.php";
   static const String WITHDRAWAL_URL = "${BaseUrl}withdrawals.php";
   static const String CHECK_EMAIL = "${BaseUrl}check_email.php";
@@ -30,6 +31,7 @@ class Constant {
   static const String APP_VERSION = "app_version";
   static const String LINK = "link";
   static const String BET_STATUS = "bet_status";
+  static const String FCM_ID = "fcm_id";
 
 
 
@@ -46,13 +48,17 @@ class Constant {
   static const String LAST_UPDATED = "last_updated";
 
   static const String NAME = "name";
+  static const String RESULT_ANNOUNCE_TIME = "result_announce_time";
+
 
 
   //settings
   static const String WITHDRAWAL_STATUS = "withdrawal_status";
+  static const String REFER_COINS = "refer_coins";
   static const String CHALLENGE_STATUS = "challenge_status";
   static const String REGISTER_POINTS    = "register_points";
   static const String MIN_WITHDRAWAL    = "min_withdrawal";
   static const String MIN_DP_COINS        = "min_dp_coins";
   static const String MAX_DP_COINS      = "max_dp_coins";
+  static const String UPI_ID      = "upi_id";
 }

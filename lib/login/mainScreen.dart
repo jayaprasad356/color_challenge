@@ -29,6 +29,7 @@ class _MainScreenState extends State<MainScreen> {
   TextEditingController _payAmountController = TextEditingController();
   int _selctedIndex = 0;
   String title = "HOME";
+  String upi_id = "";
   bool _actionsVisible = true;
   bool _logoutVisible = false;
   bool _leftArrowVisible = false;
@@ -345,7 +346,7 @@ class _MainScreenState extends State<MainScreen> {
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
               child: Container(
-                height: 350,
+                height: 400,
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
@@ -369,7 +370,7 @@ class _MainScreenState extends State<MainScreen> {
                         ),
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
                       Center(
                         child: OutlinedButton(
@@ -389,8 +390,8 @@ class _MainScreenState extends State<MainScreen> {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-                                const Text(
-                                  "BHARATPE09912930379@yesbankltd",
+                                 Text(
+                                  upi_id,
                                   style: TextStyle(
                                     color: colors.primary,
                                     fontSize: 12.0,
@@ -411,43 +412,32 @@ class _MainScreenState extends State<MainScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      const Center(
-                          child: Text(
-                        "Send amount to this UPI Id ",
-                        style: TextStyle(fontFamily: "Montserrat"),
-                      )),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              launch(link);
-                            },
-                            child: Text(link),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 5.0),
-                            child: IconButton(
-                              icon: Icon(Icons.copy),
-                              onPressed: () {
-                               ontop();
-                              },
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
 
-                      const Center(
-                          child: Text(
-                        "After completing your payment send screen shot ",
-                        style: TextStyle(fontFamily: "Montserrat"),
-                      )),
-                      const Center(
-                          child: Text(
-                        " to above telegram chat and claim your coins",
-                        style: TextStyle(fontFamily: "Montserrat"),
-                      )),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 30),
+                        child: Text("Step: 1",
+                            style: TextStyle(fontFamily: "Montserrat",fontWeight: FontWeight.bold)),
+                      ),const Padding(
+                        padding: EdgeInsets.only(left: 30,bottom: 16),
+                        child: Text("Pay your amount using this upi",
+                            style: TextStyle(fontFamily: "Montserrat",fontWeight: FontWeight.bold)),
+                      ),const Padding(
+                        padding: EdgeInsets.only(left: 30),
+                        child: Text("Step: 2",
+                            style: TextStyle(fontFamily: "Montserrat",fontWeight: FontWeight.bold)),
+                      ),const Padding(
+                        padding: EdgeInsets.only(left: 30,bottom: 15),
+                        child: Text("If you have paid, please send screenshot to \ntelegram",
+                            style: TextStyle(fontFamily: "Montserrat",fontWeight: FontWeight.bold)),
+                      ),const Padding(
+                        padding: EdgeInsets.only(left: 30),
+                        child: Text("Step: 3",
+                            style: TextStyle(fontFamily: "Montserrat",fontWeight: FontWeight.bold)),
+                      ),const Padding(
+                        padding: EdgeInsets.only(left: 30,bottom: 15),
+                        child: Text("Color challenge agents will add your coins",
+                            style: TextStyle(fontFamily: "Montserrat",fontWeight: FontWeight.bold)),
+                      ),
                       const SizedBox(
                         height: 10,
                       ),
@@ -468,7 +458,7 @@ class _MainScreenState extends State<MainScreen> {
                               mainAxisSize: MainAxisSize.min,
                               children: const <Widget>[
                                 Text(
-                                  'Chat Support',
+                                  'Send Screenshot',
                                   style: TextStyle(
                                     color: colors.white,
                                     fontSize: 16.0,
@@ -509,15 +499,20 @@ class _MainScreenState extends State<MainScreen> {
     final dataList = jsonData['data'] as List;
 
     final datass = dataList.first;
-
+    setState(() {
+      upi_id=datass[Constant.UPI];
+    });
     prefs.setString(
         Constant.WITHDRAWAL_STATUS, datass[Constant.WITHDRAWAL_STATUS]);
+    prefs.setString(
+        Constant.REFER_COINS, datass[Constant.REFER_COINS]);
     prefs.setString(
         Constant.CHALLENGE_STATUS, datass[Constant.CHALLENGE_STATUS]);
     prefs.setString(Constant.REGISTER_POINTS, datass[Constant.REGISTER_POINTS]);
     prefs.setString(Constant.MIN_WITHDRAWAL, datass[Constant.MIN_WITHDRAWAL]);
     prefs.setString(Constant.MIN_DP_COINS, datass[Constant.MIN_DP_COINS]);
     prefs.setString(Constant.MAX_DP_COINS, datass[Constant.MAX_DP_COINS]);
+
   }
 
   ontop() {
@@ -527,6 +522,7 @@ class _MainScreenState extends State<MainScreen> {
     );
     Utils().showToast("Copied!");
   }
+
   void logout() async {
     await googleSignIn.disconnect();
     FirebaseAuth.instance.signOut();

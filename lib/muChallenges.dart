@@ -34,8 +34,9 @@ class _MyChallengeState extends State<MyChallenge> {
       final coins = u['coins'];
       final name = u["name"];
       final code = u['code'];
+      final status = u['status'];
       final dateTime = u["datetime"];
-      ChallangeData data = ChallangeData(coins, name, code, dateTime);
+      ChallangeData data = ChallangeData(coins, name, code,status, dateTime);
       datas.add(data);
     }
     return datas;
@@ -113,18 +114,49 @@ class _MyChallengeState extends State<MyChallenge> {
                                 ),
                               ],
                             ),
-                            Padding(
+                            Row(
+                              children: [
+                                Padding(
 
-                              padding: const EdgeInsets.only(left: 8.0,bottom: 4.0),
-                              child: Text(
-                                datas[index].datetime,
-                                style: const TextStyle(
-                                    fontFamily: "Montserrat",
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: colors.black),
-                              ),
+                                  padding: const EdgeInsets.only(left: 8.0,bottom: 4.0),
+                                  child: Text(
+                                    datas[index].datetime,
+                                    style: const TextStyle(
+                                        fontFamily: "Montserrat",
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                        color: colors.black),
+                                  ),
+                                ),
+
+                                Expanded(child: Container()),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 5.0),
+                                  child: Text(
+                                    datas[index].status == "0"
+                                        ? "Wait For Result"
+                                        : datas[index].status == "1"
+                                        ? "Won"
+                                        : datas[index].status == "2"
+                                        ? "Loss"
+                                        : "", // handle other cases if necessary
+                                    style: TextStyle(
+                                      fontFamily: "Montserra",
+                                      color: datas[index].status == "0"
+                                          ? colors.primary
+                                          : datas[index].status == "1"
+                                          ? colors.cc_green
+                                          : datas[index].status == "2"
+                                          ? colors.red
+                                          : Colors.black, // default color if necessary
+                                    ),
+                                  ),
+                                ),
+
+
+                              ],
                             ),
+
                           ],
                         )
                     ),

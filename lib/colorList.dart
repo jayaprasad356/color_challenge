@@ -28,13 +28,13 @@ class _ColorListState extends State<ColorList> {
 
 
   Future<List<ColorData>> _getUser() async {
-    datas.clear();
     prefs = await SharedPreferences.getInstance();
 
     var response = await dataCall(Constant.COLOR_LIST_URL);
 
     String jsonDataString = response.toString();
     final jsonData = jsonDecode(jsonDataString);
+    datas.clear();
 
     for (var u in jsonData['data']) {
       final id = u['id'];

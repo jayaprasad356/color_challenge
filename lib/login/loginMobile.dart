@@ -267,14 +267,16 @@ class _LoginMobileState extends State<LoginMobile> {
         prefs.setString(Constant.STATUS, user.status);
         prefs.setString(Constant.JOINED_DATE, user.joinedDate);
         prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
-
+        if(user.status=="0"){
+          Utils().showToast("Your Blocked");
+        }else{
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
             builder: (context) => MainScreen(),
           ),
               (_) => false, // Remove all the previous routes.
-        );
+        );}
       } else {
         showReferCodeSheet();
       }
