@@ -4,7 +4,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:color_challenge/login/mainScreen.dart';
-import 'package:color_challenge/time_lestener.dart';
 import 'package:color_challenge/user.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:color_challenge/Helper/utils.dart';
@@ -18,65 +17,34 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Helper/Constant.dart';
 import 'Helper/apiCall.dart';
+import 'blinking_text.dart';
 import 'colorList.dart';
 import 'muChallenges.dart';
-
 
 class HomePage extends StatefulWidget {
   final void Function(String coins) updateAmount;
 
-  const HomePage(  {Key? key, required this.updateAmount}) : super(key: key);
+  const HomePage({Key? key, required this.updateAmount}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-   String referText="GBD 21";
-   Utils utils=Utils();
-   late int _secondsRemaining ;
-   late Timer _timer;
-    bool? betstatus=false;
-    final ValueNotifier<int> _timerValueNotifier=ValueNotifier<int>(60);
+  String referText = "GBD 21";
+  Utils utils = Utils();
 
+  late SharedPreferences prefs;
 
-   late SharedPreferences prefs;
+  @override
+  void initState() {
+    super.initState();
+    SharedPreferences.getInstance().then((value) {
+      prefs = value;
+    });
+    userDeatils();
+  }
 
-   @override
-   void initState() {
-     super.initState();
-     SharedPreferences.getInstance().then((value) {
-       prefs = value;
-       setState(() {
-        // betstatus = prefs.getBool(Constant.BET_STATUS);
-       });
-       if((_timerValueNotifier.hasListeners)){
-         _startTimer();
-       }else{
-
-       }
-     });
-     userDeatils();
-   }
-   void _startTimer() {
-     _secondsRemaining=60;
-
-     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-       if (_secondsRemaining > 0) {
-         _secondsRemaining--;
-         _timerValueNotifier.value = _secondsRemaining; // update the ValueNotifier's value
-       } else {
-         _secondsRemaining = 60;
-        // _timer.cancel();
-       }
-     });
-   }
-
-   @override
-   void dispose() {
-     _timer.cancel();
-     super.dispose();
-   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,19 +60,6 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                   betstatus!? StreamBuilder(
-                     stream: timerBloc.timerStreams,
-                     builder: (context, snapshot) {
-                       return Text(snapshot.data.toString());
-                     },): ValueListenableBuilder(
-                     valueListenable: _timerValueNotifier,
-                     builder: (context, int value, child) {
-                       return Text(
-                         value.toString(),
-                         style: TextStyle(fontSize: 24),
-                       );
-                     },
-                   ) ,
                     const Text(
                       'Refer  a friend and get 50 coins',
                       style: TextStyle(
@@ -138,11 +93,12 @@ class _HomePageState extends State<HomePage> {
                                   height: 24.0,
                                 ),
                                 const SizedBox(width: 8.0),
-                                 Text(
-                                 referText,
+                                Text(
+                                  referText,
                                   style: TextStyle(
                                     color: colors.primary,
                                     fontSize: 12.0,
+                                    fontFamily: "Montserra",
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -150,11 +106,10 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                         ),
-
                         const SizedBox(width: 16.0),
                         MaterialButton(
                           onPressed: () {
-                            Share.share(referText+"GreyMaterWorkers");
+                            Share.share(referText + "GreyMaterWorkers");
                           },
                           color: colors.primary,
                           shape: const RoundedRectangleBorder(
@@ -162,7 +117,8 @@ class _HomePageState extends State<HomePage> {
                                 BorderRadius.all(Radius.circular(8.0)),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.only(top:16.0,bottom: 16.0),
+                            padding:
+                                const EdgeInsets.only(top: 16.0, bottom: 16.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: const <Widget>[
@@ -185,7 +141,18 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
+              BlinkingText( text: 'Result Announce Time',),
+              const Text(
+                '12:30 AM 12/15/2023',
+                style: TextStyle(
+                    fontSize: 16,
+                    color: colors.cc_green,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "Montserrat"),
+              ),
           ColorList(updateAmount: widget.updateAmount),
           SizedBox(
             height: 20,
@@ -196,12 +163,11 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
   showTopupBottomSheet() {
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
-        shape:  RoundedRectangleBorder(
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(40.0),
           ),
@@ -209,7 +175,8 @@ class _HomePageState extends State<HomePage> {
         builder: (context) {
           return SingleChildScrollView(
             child: Padding(
-              padding:  EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
               child: Container(
                 height: 350,
                 child: Column(
@@ -267,14 +234,14 @@ class _HomePageState extends State<HomePage> {
                       Container(
                         margin: EdgeInsets.only(left: 20, right: 20),
                         child: Padding(
-                          padding:  EdgeInsets.all(8.0),
+                          padding: EdgeInsets.all(8.0),
                           child: TextField(
                             decoration: const InputDecoration(
                                 filled: true,
                                 border: InputBorder.none,
                                 hintText: '5 - 1000'),
-                            style:
-                                const TextStyle(backgroundColor: Colors.transparent),
+                            style: const TextStyle(
+                                backgroundColor: Colors.transparent),
                           ),
                         ),
                       ),
@@ -336,7 +303,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void userDeatils()async {
+  void userDeatils() async {
     prefs = await SharedPreferences.getInstance();
     var url = Constant.USER_DETAIL_URL;
     Map<String, dynamic> bodyObject = {
@@ -361,9 +328,7 @@ class _HomePageState extends State<HomePage> {
     prefs.setString(Constant.JOINED_DATE, user.joinedDate);
     prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
     setState(() {
-      referText=prefs.getString(Constant.REFER_CODE)!;
-
-
+      referText = prefs.getString(Constant.REFER_CODE)!;
     });
   }
 }

@@ -117,7 +117,7 @@ class _ColorListState extends State<ColorList> {
                       const SizedBox(height: 10),
                       Text(
                         datas[index].name,
-                        style: const TextStyle(fontSize: 12),
+                        style: const TextStyle(fontSize: 12,fontFamily: "Montserrat",fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),

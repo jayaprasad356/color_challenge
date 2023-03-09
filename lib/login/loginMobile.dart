@@ -210,11 +210,12 @@ class _LoginMobileState extends State<LoginMobile> {
     prefs.setString(Constant.STATUS, user.status);
     prefs.setString(Constant.JOINED_DATE, user.joinedDate);
     prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
-    Navigator.push(
+    Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
         builder: (context) => MainScreen(),
       ),
+          (_) => false, // Remove all the previous routes.
     );
   }
 
@@ -266,11 +267,13 @@ class _LoginMobileState extends State<LoginMobile> {
         prefs.setString(Constant.STATUS, user.status);
         prefs.setString(Constant.JOINED_DATE, user.joinedDate);
         prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
-        Navigator.push(
+
+        Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
             builder: (context) => MainScreen(),
           ),
+              (_) => false, // Remove all the previous routes.
         );
       } else {
         showReferCodeSheet();

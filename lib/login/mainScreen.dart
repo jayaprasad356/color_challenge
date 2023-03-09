@@ -491,13 +491,10 @@ class _MainScreenState extends State<MainScreen> {
     switch (index) {
       case 0:
         return HomePage(updateAmount: updateAmount);
-        break;
       case 1:
         return const Result();
-        break;
       default:
         return const wallet();
-        break;
     }
   }
 
