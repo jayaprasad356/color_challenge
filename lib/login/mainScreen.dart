@@ -501,7 +501,10 @@ class _MainScreenState extends State<MainScreen> {
     final datass = dataList.first;
     setState(() {
       upi_id=datass[Constant.UPI];
+      link=datass[Constant.CONTACT_US];
     });
+    prefs.setString(
+        Constant.CONTACT_US, datass[Constant.CONTACT_US]);
     prefs.setString(
         Constant.WITHDRAWAL_STATUS, datass[Constant.WITHDRAWAL_STATUS]);
     prefs.setString(

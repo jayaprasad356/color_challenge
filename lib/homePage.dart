@@ -350,6 +350,7 @@ class _HomePageState extends State<HomePage> {
     prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
     if(user.status=="0"){
       logout();
+      SystemNavigator.pop();
     }
     setState(() {
       referText = prefs.getString(Constant.REFER_CODE)!;
@@ -369,6 +370,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
   void logout() async {
+    prefs.setString(Constant.LOGED_IN, "false");
     await googleSignIn.disconnect();
     FirebaseAuth.instance.signOut();
   }

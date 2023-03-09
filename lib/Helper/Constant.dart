@@ -54,6 +54,8 @@ class Constant {
 
   //settings
   static const String WITHDRAWAL_STATUS = "withdrawal_status";
+
+  static const String CONTACT_US = "contact_us";
   static const String REFER_COINS = "refer_coins";
   static const String CHALLENGE_STATUS = "challenge_status";
   static const String REGISTER_POINTS    = "register_points";

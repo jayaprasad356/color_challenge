@@ -11,6 +11,7 @@ import 'Helper/apiCall.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'color_data.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class ColorList extends StatefulWidget {
   final void Function(String coins) updateAmount;
@@ -26,6 +27,7 @@ class _ColorListState extends State<ColorList> {
   late SharedPreferences prefs;
   TextEditingController _coinController = TextEditingController();
 
+  late String _fcmToken;
 
   Future<List<ColorData>> _getUser() async {
     prefs = await SharedPreferences.getInstance();
@@ -236,22 +238,28 @@ class _ColorListState extends State<ColorList> {
     String jsonString = await apiCall(url, bodyObject);
     final jsonResponse = jsonDecode(jsonString);
     final message = jsonResponse['message'];
-    userDeatils();
+    FirebaseMessaging.instance.getToken().then((token) {
+      setState(() {
+        _fcmToken = token!;
+        userDeatils();
+
+      });
+      print('FCM Token: $_fcmToken');
+    });
     Utils().showToast(message);
   }
   void userDeatils()async {
     prefs = await SharedPreferences.getInstance();
     var url = Constant.USER_DETAIL_URL;
     Map<String, dynamic> bodyObject = {
-      Constant.USER_ID: prefs.getString(Constant.ID)
+      Constant.USER_ID: prefs.getString(Constant.ID),
+      Constant.FCM_ID:_fcmToken
     };
     String jsonString = await apiCall(url, bodyObject);
     final Map<String, dynamic> responseJson = jsonDecode(jsonString);
     final dataList = responseJson['data'] as List;
     final Users user = Users.fromJsonNew(dataList.first);
     widget.updateAmount(user.coins);
-
-    prefs.setBool(Constant.BET_STATUS, true);
 
     prefs.setString(Constant.LOGED_IN, "true");
     prefs.setString(Constant.ID, user.id);
