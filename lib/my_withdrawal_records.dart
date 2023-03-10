@@ -32,11 +32,10 @@ class _MyWithdrawalsState extends State<MyWithdrawals> {
     for (var Data in jsonsData['data']) {
       final id = Data['id'];
       final amount = Data["amount"];
-      final type = Data['type'];
       final status = Data['status'];
       final datetime = Data['datetime'];
 
-      WithdrawalData data = WithdrawalData(id, amount, type, status, datetime);
+      WithdrawalData data = WithdrawalData(id, amount, status, datetime);
       withdrawalsData.add(data);
     }
     return withdrawalsData;

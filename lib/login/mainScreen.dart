@@ -511,7 +511,7 @@ class _MainScreenState extends State<MainScreen> {
         Constant.REFER_COINS, datass[Constant.REFER_COINS]);
     prefs.setString(
         Constant.CHALLENGE_STATUS, datass[Constant.CHALLENGE_STATUS]);
-    prefs.setString(Constant.REGISTER_POINTS, datass[Constant.REGISTER_POINTS]);
+   // prefs.setString(Constant.REGISTER_POINTS, datass[Constant.REGISTER_POINTS]);
     prefs.setString(Constant.MIN_WITHDRAWAL, datass[Constant.MIN_WITHDRAWAL]);
     prefs.setString(Constant.MIN_DP_COINS, datass[Constant.MIN_DP_COINS]);
     prefs.setString(Constant.MAX_DP_COINS, datass[Constant.MAX_DP_COINS]);

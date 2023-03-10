@@ -3,12 +3,13 @@ import 'dart:convert';
 import 'package:color_challenge/Helper/utils.dart';
 import 'package:color_challenge/addupi.dart';
 import 'package:color_challenge/my_withdrawal_records.dart';
+import 'package:color_challenge/user.dart';
 import 'package:color_challenge/withdrawal_data.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'Helper/Color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'Helper/Constant.dart';
 import 'Helper/apiCall.dart';
 
@@ -28,6 +29,7 @@ class _walletState extends State<wallet> {
   String balance = "";
   String minimum = "";
   late String _upiId;
+  late String _fcmToken;
 
   @override
   void initState() {
@@ -277,7 +279,7 @@ class _walletState extends State<wallet> {
                   ],
                 ),
               ),
-              const MyWithdrawals()
+               MyWithdrawals()
             ],
           ),
         ),
@@ -296,6 +298,20 @@ class _walletState extends State<wallet> {
     String jsonString = await apiCall(url, bodyObject);
     final jsonResponse = jsonDecode(jsonString);
     final message = jsonResponse['message'];
+    final status = jsonResponse['success'];
+
+    if(status){
+      FirebaseMessaging.instance.getToken().then((token) {
+        setState(() {
+          _fcmToken = token!;
+          userDeatils();
+        });
+        print('FCM Token: $_fcmToken');
+      });
+      setState(() {
+        _withdrawalAmtController.text = "";
+      });
+    }
     utils.showToast(message);
   }
 
@@ -319,6 +335,34 @@ class _walletState extends State<wallet> {
         _upiIdController.text = upi_id;
       });
     }
+  }
+  void userDeatils() async {
+    prefs = await SharedPreferences.getInstance();
+    var url = Constant.USER_DETAIL_URL;
+    Map<String, dynamic> bodyObject = {
+      Constant.USER_ID: prefs.getString(Constant.ID),
+      Constant.FCM_ID:_fcmToken
+    };
+    String jsonString = await apiCall(url, bodyObject);
+    final Map<String, dynamic> responseJson = jsonDecode(jsonString);
+    final dataList = responseJson['data'] as List;
+    final Users user = Users.fromJsonNew(dataList.first);
+
+    prefs.setString(Constant.ID, user.id);
+    prefs.setString(Constant.UPI, user.upi);
+    prefs.setString(Constant.EARN, user.earn);
+    prefs.setString(Constant.COINS, user.coins);
+    prefs.setString(Constant.BALANCE, user.balance);
+    prefs.setString(Constant.REFERRED_BY, user.referredBy);
+    prefs.setString(Constant.REFER_CODE, user.referCode);
+    prefs.setString(Constant.WITHDRAWAL_STATUS, user.withdrawalStatus);
+    prefs.setString(Constant.CHALLENGE_STATUS, user.challengeStatus);
+    prefs.setString(Constant.STATUS, user.status);
+    prefs.setString(Constant.JOINED_DATE, user.joinedDate);
+    prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
+    setState(() {
+      balance = user.balance!;
+    });
   }
 
   Widget buildUpdateUpiDialog(
