@@ -16,6 +16,7 @@ import 'Helper/Color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 
 import 'Helper/Constant.dart';
 import 'Helper/apiCall.dart';
@@ -39,6 +40,7 @@ class _HomePageState extends State<HomePage> {
 
   Utils utils = Utils();
   String resultTime = "";
+  String blinkText="";
   int leftTime=0;
   late String _fcmToken;
   final googleSignIn = GoogleSignIn();
@@ -127,7 +129,7 @@ class _HomePageState extends State<HomePage> {
                         const SizedBox(width: 16.0),
                         MaterialButton(
                           onPressed: () {
-                            Share.share(referText + "GreyMaterWorkers");
+                            Share.share(referText + " Use my Refer Code and install this app https://play.google.com/store/apps/details?id=com.app.colorchallenge");
                           },
                           color: colors.primary,
                           shape: const RoundedRectangleBorder(
@@ -163,10 +165,10 @@ class _HomePageState extends State<HomePage> {
             height: 10,
           ),
           BlinkingText(
-            text: 'Result Announce Time',
+            text: blinkText,
           ),
           Text(
-            resultTime+"("+leftTime.toString()+"Min)",
+            resultTime,
             style: TextStyle(
                 fontSize: 16,
                 color: colors.cc_green,
@@ -363,10 +365,14 @@ class _HomePageState extends State<HomePage> {
 
     String jsonString = await dataCall(url);
     final Map<String, dynamic> responseJson = jsonDecode(jsonString);
+    final dateTime =responseJson['result_announce_time'];
+    DateTime date = DateTime.parse(dateTime);
+    final formattedTime = DateFormat('h:mm a').format(date);
 
     setState(() {
-      resultTime = responseJson[Constant.RESULT_ANNOUNCE_TIME];
+      resultTime ="Today $formattedTime";
       leftTime = responseJson["time_diff"];
+      blinkText="Result Annouce in ${leftTime} Min";
     });
   }
   void logout() async {

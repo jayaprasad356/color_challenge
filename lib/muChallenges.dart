@@ -55,114 +55,116 @@ class _MyChallengeState extends State<MyChallenge> {
             ],
           ));
         } else {
-          return SizedBox(
-            height: 300,
-            child: ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemCount: datas.length,
-              itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                  onTap: () {},
-                  child: Card(
-                    color: colors.cc_list_grey,
-                    margin:
-                        const EdgeInsets.only(right: 15, left: 15, bottom: 5),
-                    child: Padding(
-                        padding: const EdgeInsets.all(0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start, // add this line
+          return SingleChildScrollView(
+            child: SizedBox(
+              height: 200,
+              child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: datas.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return GestureDetector(
+                    onTap: () {},
+                    child: Card(
+                      color: colors.cc_list_grey,
+                      margin:
+                          const EdgeInsets.only(right: 15, left: 15, bottom: 5),
+                      child: Padding(
+                          padding: const EdgeInsets.all(0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start, // add this line
 
-                          children: [
-                            Row(
-                              children: [
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Image.asset(
-                                  "assets/images/coin.png",
-                                  width: 32.0,
-                                  height: 30.0,
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  datas[index].coins,
-                                  style: const TextStyle(
-                                      fontFamily: "Montserrat",
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                      color: colors.primary),
-                                ),
-
-                                Expanded(child: Container()),
-                                Text(
-                                  datas[index].name,
-                                  style: const TextStyle(fontFamily: "Montserrat"),
-                                ),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.all(5),
-                                  width: 45,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    color: Color(int.parse(
-                                        datas[index].code.replaceAll('#', '0xFF'))),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(6)),
+                            children: [
+                              Row(
+                                children: [
+                                  const SizedBox(
+                                    width: 5,
                                   ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Padding(
-
-                                  padding: const EdgeInsets.only(left: 8.0,bottom: 4.0),
-                                  child: Text(
-                                    datas[index].datetime,
+                                  Image.asset(
+                                    "assets/images/coin.png",
+                                    width: 32.0,
+                                    height: 30.0,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    datas[index].coins,
                                     style: const TextStyle(
                                         fontFamily: "Montserrat",
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16,
-                                        color: colors.black),
+                                        color: colors.primary),
                                   ),
-                                ),
 
-                                Expanded(child: Container()),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 5.0),
-                                  child: Text(
-                                    datas[index].status == "0"
-                                        ? "Wait For Result"
-                                        : datas[index].status == "1"
-                                        ? "Won"
-                                        : datas[index].status == "2"
-                                        ? "Loss"
-                                        : "", // handle other cases if necessary
-                                    style: TextStyle(
-                                      fontFamily: "Montserra",
-                                      color: datas[index].status == "0"
-                                          ? colors.primary
-                                          : datas[index].status == "1"
-                                          ? colors.cc_green
-                                          : datas[index].status == "2"
-                                          ? colors.red
-                                          : Colors.black, // default color if necessary
+                                  Expanded(child: Container()),
+                                  Text(
+                                    datas[index].name,
+                                    style: const TextStyle(fontFamily: "Montserrat"),
+                                  ),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.all(5),
+                                    width: 45,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      color: Color(int.parse(
+                                          datas[index].code.replaceAll('#', '0xFF'))),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(6)),
                                     ),
                                   ),
-                                ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Padding(
+
+                                    padding: const EdgeInsets.only(left: 8.0,bottom: 4.0),
+                                    child: Text(
+                                      datas[index].datetime,
+                                      style: const TextStyle(
+                                          fontFamily: "Montserrat",
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                          color: colors.black),
+                                    ),
+                                  ),
+
+                                  Expanded(child: Container()),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 5.0),
+                                    child: Text(
+                                      datas[index].status == "0"
+                                          ? "Wait For Result"
+                                          : datas[index].status == "1"
+                                          ? "Won"
+                                          : datas[index].status == "2"
+                                          ? "Loss"
+                                          : "", // handle other cases if necessary
+                                      style: TextStyle(
+                                        fontFamily: "Montserra",
+                                        color: datas[index].status == "0"
+                                            ? colors.primary
+                                            : datas[index].status == "1"
+                                            ? colors.cc_green
+                                            : datas[index].status == "2"
+                                            ? colors.red
+                                            : Colors.black, // default color if necessary
+                                      ),
+                                    ),
+                                  ),
 
 
-                              ],
-                            ),
+                                ],
+                              ),
 
-                          ],
-                        )
+                            ],
+                          )
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           );
         }
