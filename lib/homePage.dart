@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:color_challenge/bettings.dart';
 import 'package:color_challenge/login/mainScreen.dart';
 import 'package:color_challenge/user.dart';
 import 'package:share_plus/share_plus.dart';
@@ -179,7 +180,7 @@ class _HomePageState extends State<HomePage> {
           SizedBox(
             height: 20,
           ),
-          MyChallenge(),
+          Bettings(),
         ])),
       ),
     );

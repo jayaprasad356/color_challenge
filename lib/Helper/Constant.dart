@@ -48,6 +48,8 @@ class Constant {
   static const String LAST_UPDATED = "last_updated";
 
   static const String NAME = "name";
+  static const String DEVICE_ID = "device_id";
+
   static const String RESULT_ANNOUNCE_TIME = "result_announce_time";
 
 

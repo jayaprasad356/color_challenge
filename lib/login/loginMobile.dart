@@ -14,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:device_info/device_info.dart';
 
 class LoginMobile extends StatefulWidget {
   const LoginMobile({Key? key}) : super(key: key);
@@ -30,6 +31,7 @@ class _LoginMobileState extends State<LoginMobile> {
   final googleSignIn = GoogleSignIn();
   bool isSigningIn = false;
   String email = "";
+  final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
 
 
   @override
@@ -174,7 +176,66 @@ class _LoginMobileState extends State<LoginMobile> {
                     ),
                   ),
                 ),
-              )
+              ),
+              const SizedBox(height: 60),
+
+              MaterialButton(
+                onPressed: () {
+                 // launch(link);
+                  deviceInfo();
+                },
+                color: colors.cc_telegram,
+                shape: const RoundedRectangleBorder(
+                  borderRadius:
+                  BorderRadius.all(Radius.circular(8.0)),
+                ),
+                child: Padding(
+                  padding:
+                  const EdgeInsets.only(top: 16.0, bottom: 16.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const <Widget>[
+                      Text(
+                        'Join Our Telegram Channel',
+                        style: TextStyle(
+                          color: colors.white,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 30),
+
+              MaterialButton(
+                onPressed: () {
+                 // launch(link);
+                },
+                color: colors.cc_whatsapp,
+                shape: const RoundedRectangleBorder(
+                  borderRadius:
+                  BorderRadius.all(Radius.circular(8.0)),
+                ),
+                child: Padding(
+                  padding:
+                  const EdgeInsets.only(top: 16.0, bottom: 16.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const <Widget>[
+                      Text(
+                        'Contact Us with WhatsApp',
+                        style: TextStyle(
+                          color: colors.white,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -183,11 +244,15 @@ class _LoginMobileState extends State<LoginMobile> {
   }
 
   newRegister() async {
+    AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
+    String deviceId = androidInfo.androidId;
+    Utils().showToast(deviceId);
     prefs = await SharedPreferences.getInstance();
     var url = Constant.REGISTER_URL;
     Map<String, dynamic> bodyObject = {
       Constant.EMAIL: email,
       Constant.NAME: _nameController.text.toString(),
+      Constant.DEVICE_ID: deviceId
     };
 
     if (_referCodeController.text.isNotEmpty) {
@@ -202,6 +267,7 @@ class _LoginMobileState extends State<LoginMobile> {
     prefs.setString(Constant.ID, user.id);
     prefs.setString(Constant.EARN, user.earn);
     prefs.setString(Constant.COINS, user.coins);
+    prefs.setString(Constant.EMAIL, user.mail);
     prefs.setString(Constant.BALANCE, user.balance);
     prefs.setString(Constant.REFERRED_BY, user.referredBy);
     prefs.setString(Constant.REFER_CODE, user.referCode);
@@ -220,6 +286,9 @@ class _LoginMobileState extends State<LoginMobile> {
   }
 
   Future login() async {
+    AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
+    String deviceId = androidInfo.androidId;
+    Utils().showToast(deviceId);
     final user = await googleSignIn.signIn();
     if (user == null) {
       isSigningIn = false;
@@ -257,6 +326,7 @@ class _LoginMobileState extends State<LoginMobile> {
         prefs.setString(Constant.UPI, user.upi);
         prefs.setString(Constant.EARN, user.earn);
         prefs.setString(Constant.COINS, user.coins);
+        prefs.setString(Constant.EMAIL, user.mail);
         prefs.setString(Constant.BALANCE, user.balance);
         prefs.setString(Constant.REFERRED_BY, user.referredBy);
         prefs.setString(Constant.REFER_CODE, user.referCode);
@@ -283,6 +353,11 @@ class _LoginMobileState extends State<LoginMobile> {
     }else{
       Utils().showToast("Signin Failed");
     }
+  }
+  deviceInfo()async{
+    AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
+    String deviceId = androidInfo.androidId;
+    Utils().showToast(deviceId);
   }
 
   void logout() async {

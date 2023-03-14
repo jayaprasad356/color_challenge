@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:color_challenge/muChallenges.dart';
 import 'package:color_challenge/result.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import '../Helper/Constant.dart';
 import '../Helper/apiCall.dart';
 import '../Helper/utils.dart';
 import '../homePage.dart';
+import '../my_challenges.dart';
 import '../upiPay.dart';
 import '../user.dart';
 import '../wallet.dart';
@@ -27,6 +29,8 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   TextEditingController _payAmountController = TextEditingController();
+  TextEditingController _addCoinController = TextEditingController();
+
   int _selctedIndex = 0;
   String title = "HOME";
   String upi_id = "";
@@ -37,6 +41,7 @@ class _MainScreenState extends State<MainScreen> {
   late SharedPreferences prefs;
   String coins = "0";
   String balance = "";
+  String mailId = "";
   String text = 'Click here Send ScreenShoot';
   String link = 'http://t.me/Colorchallengeapp1';
   final googleSignIn = GoogleSignIn();
@@ -50,6 +55,7 @@ class _MainScreenState extends State<MainScreen> {
         setupSettings();
         coins = prefs.getString(Constant.COINS)!;
         balance = prefs.getString(Constant.BALANCE)!;
+        mailId = prefs.getString(Constant.EMAIL)!;
       });
     });
   }
@@ -69,6 +75,11 @@ class _MainScreenState extends State<MainScreen> {
         _logoutVisible = true;
         _leftArrowVisible = false;
       } else if (index == 1) {
+        title = "My Challenges";
+        _actionsVisible = false;
+        _logoutVisible = false;
+        _leftArrowVisible = false;
+      } else if (index == 3) {
         title = "Result";
         _actionsVisible = false;
         _logoutVisible = false;
@@ -177,9 +188,19 @@ class _MainScreenState extends State<MainScreen> {
                     backgroundColor: colors.white,
                   ),
                   BottomNavigationBarItem(
+                    icon: ImageIcon(
+                      const AssetImage(
+                        "assets/images/challenge.png",
+                      ),
+                      color: _selctedIndex == 1 ? colors.primary : colors.black,
+                    ),
+                    label: 'My Challenges',
+                    backgroundColor: colors.white,
+                  ),
+                  BottomNavigationBarItem(
                       icon: ImageIcon(
                           const AssetImage("assets/images/result.png"),
-                          color: _selctedIndex == 1
+                          color: _selctedIndex == 2
                               ? colors.primary
                               : colors.black),
                       label: 'Result',
@@ -187,7 +208,7 @@ class _MainScreenState extends State<MainScreen> {
                   BottomNavigationBarItem(
                       icon: ImageIcon(
                           const AssetImage("assets/images/Wallet.png"),
-                          color: _selctedIndex == 2
+                          color: _selctedIndex == 3
                               ? colors.primary
                               : colors.black),
                       label: 'Wallet',
@@ -346,7 +367,7 @@ class _MainScreenState extends State<MainScreen> {
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
               child: Container(
-                height: 400,
+                height: 250,
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
@@ -359,7 +380,7 @@ class _MainScreenState extends State<MainScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
                             Text(
-                              "Add Payment",
+                              "Add Coins",
                               style: TextStyle(
                                   fontSize: 18,
                                   color: colors.black,
@@ -372,79 +393,71 @@ class _MainScreenState extends State<MainScreen> {
                       const SizedBox(
                         height: 20,
                       ),
-                      Center(
-                        child: OutlinedButton(
-                          onPressed: () {
-                            Utils().showToast("Copied !");
-                            Clipboard.setData(const ClipboardData(
-                                text: "BHARATPE09912930379@yesbankltd"));
-                          },
-                          style: OutlinedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6.0),
-                              side: const BorderSide(color: colors.red),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 30.0,left: 30.0),
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+                          child: TextField(
+                            keyboardType: TextInputType.number,
+                            controller: _addCoinController,
+                            decoration: const InputDecoration(
+                              filled: true,
+                              border: InputBorder.none,
+                              hintText: 'Enter Coins',
                             ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(14),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                 Text(
-                                  upi_id,
-                                  style: TextStyle(
-                                    color: colors.primary,
-                                    fontSize: 12.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(width: 8.0),
-                                Image.asset(
-                                  "assets/images/copy.png",
-                                  width: 24.0,
-                                  height: 24.0,
-                                ),
-                              ],
+                            style: const TextStyle(
+                              backgroundColor: Colors.transparent,
                             ),
+                            enabled:
+                            true, // set to false if you want the text field to be disabled
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      // const SizedBox(
+                      //   height: 10,
+                      // ),
 
-                      const Padding(
-                        padding: EdgeInsets.only(left: 30),
-                        child: Text("Step: 1",
-                            style: TextStyle(fontFamily: "Montserrat",fontWeight: FontWeight.bold)),
-                      ),const Padding(
-                        padding: EdgeInsets.only(left: 30,bottom: 16),
-                        child: Text("Pay your amount using this upi",
-                            style: TextStyle(fontFamily: "Montserrat",fontWeight: FontWeight.bold)),
-                      ),const Padding(
-                        padding: EdgeInsets.only(left: 30),
-                        child: Text("Step: 2",
-                            style: TextStyle(fontFamily: "Montserrat",fontWeight: FontWeight.bold)),
-                      ),const Padding(
-                        padding: EdgeInsets.only(left: 30,bottom: 15),
-                        child: Text("If you have paid, please send screenshot to \ntelegram",
-                            style: TextStyle(fontFamily: "Montserrat",fontWeight: FontWeight.bold)),
-                      ),const Padding(
-                        padding: EdgeInsets.only(left: 30),
-                        child: Text("Step: 3",
-                            style: TextStyle(fontFamily: "Montserrat",fontWeight: FontWeight.bold)),
-                      ),const Padding(
-                        padding: EdgeInsets.only(left: 30,bottom: 15),
-                        child: Text("Color challenge agents will add your coins",
-                            style: TextStyle(fontFamily: "Montserrat",fontWeight: FontWeight.bold)),
-                      ),
+                      // const Padding(
+                      //   padding: EdgeInsets.only(left: 30),
+                      //   child: Text("Step: 1",
+                      //       style: TextStyle(fontFamily: "Montserrat",fontWeight: FontWeight.bold)),
+                      // ),const Padding(
+                      //   padding: EdgeInsets.only(left: 30,bottom: 16),
+                      //   child: Text("Pay your amount using this upi",
+                      //       style: TextStyle(fontFamily: "Montserrat",fontWeight: FontWeight.bold)),
+                      // ),const Padding(
+                      //   padding: EdgeInsets.only(left: 30),
+                      //   child: Text("Step: 2",
+                      //       style: TextStyle(fontFamily: "Montserrat",fontWeight: FontWeight.bold)),
+                      // ),const Padding(
+                      //   padding: EdgeInsets.only(left: 30,bottom: 15),
+                      //   child: Text("If you have paid, please send screenshot to \ntelegram",
+                      //       style: TextStyle(fontFamily: "Montserrat",fontWeight: FontWeight.bold)),
+                      // ),const Padding(
+                      //   padding: EdgeInsets.only(left: 30),
+                      //   child: Text("Step: 3",
+                      //       style: TextStyle(fontFamily: "Montserrat",fontWeight: FontWeight.bold)),
+                      // ),const Padding(
+                      //   padding: EdgeInsets.only(left: 30,bottom: 15),
+                      //   child: Text("Color challenge agents will add your coins",
+                      //       style: TextStyle(fontFamily: "Montserrat",fontWeight: FontWeight.bold)),
+                      // ),
                       const SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
                       Center(
                         child: MaterialButton(
                           onPressed: () {
-                            launch(link);
+                            if(_addCoinController.text.isNotEmpty) {
+                              String messageText = "Please add ${_addCoinController
+                                  .text} coins... \n$mailId";
+                              link = '$link&text=${Uri.encodeFull(
+                                  messageText)}';
+                              launch(link);
+                              _addCoinController.text="";
+                            }else{
+                              Utils().showToast("Please Enter Coins");
+                            }
                           },
                           color: colors.primary,
                           shape: const RoundedRectangleBorder(
@@ -458,7 +471,7 @@ class _MainScreenState extends State<MainScreen> {
                               mainAxisSize: MainAxisSize.min,
                               children: const <Widget>[
                                 Text(
-                                  'Send Screenshot',
+                                  'Add Coins',
                                   style: TextStyle(
                                     color: colors.white,
                                     fontSize: 16.0,
@@ -482,6 +495,8 @@ class _MainScreenState extends State<MainScreen> {
       case 0:
         return HomePage(updateAmount: updateAmount);
       case 1:
+        return const MyChallenges();
+      case 2:
         return const Result();
       default:
         return const wallet();
