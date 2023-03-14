@@ -4,6 +4,7 @@ class Users {
   final String earn;
   final String coins;
   final String mail;
+  final String name;
   final String balance;
   final String referredBy;
   final String referCode;
@@ -18,6 +19,7 @@ class Users {
     required this.upi,
     required this.earn,
     required this.coins,
+    required this.name,
     required this.mail,
     required this.balance,
     required this.referredBy,
@@ -35,6 +37,7 @@ class Users {
       upi: json['upi'],
       earn: json['earn'],
       coins: json['coins'],
+      name: json['name'],
       mail: json['email'],
       balance: json['balance'],
       referredBy: json['referred_by'],
@@ -53,6 +56,7 @@ class Users {
       earn: json['earn'],
       coins: json['coins'],
       mail: json['email'],
+      name: json['name'],
       balance: json['balance'],
       referredBy: json['referred_by'],
       referCode: json['refer_code'],

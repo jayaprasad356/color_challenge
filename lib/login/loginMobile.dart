@@ -182,7 +182,7 @@ class _LoginMobileState extends State<LoginMobile> {
               MaterialButton(
                 onPressed: () {
                  // launch(link);
-                  deviceInfo();
+                  showSuccesDialog();
                 },
                 color: colors.cc_telegram,
                 shape: const RoundedRectangleBorder(
@@ -268,6 +268,7 @@ class _LoginMobileState extends State<LoginMobile> {
     prefs.setString(Constant.EARN, user.earn);
     prefs.setString(Constant.COINS, user.coins);
     prefs.setString(Constant.EMAIL, user.mail);
+    prefs.setString(Constant.NAME, user.name);
     prefs.setString(Constant.BALANCE, user.balance);
     prefs.setString(Constant.REFERRED_BY, user.referredBy);
     prefs.setString(Constant.REFER_CODE, user.referCode);
@@ -325,6 +326,7 @@ class _LoginMobileState extends State<LoginMobile> {
         prefs.setString(Constant.ID, user.id);
         prefs.setString(Constant.UPI, user.upi);
         prefs.setString(Constant.EARN, user.earn);
+        prefs.setString(Constant.NAME, user.name);
         prefs.setString(Constant.COINS, user.coins);
         prefs.setString(Constant.EMAIL, user.mail);
         prefs.setString(Constant.BALANCE, user.balance);
@@ -467,4 +469,30 @@ class _LoginMobileState extends State<LoginMobile> {
           );
         });
   }
+  showSuccesDialog() {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Center(
+          child: const Text(
+            'Allow one device one Registration only',
+            style: TextStyle(
+              fontFamily: "Montserrat",
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+
+        actions: <Widget>[
+          ElevatedButton(
+            child: const Text('OK'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
 }

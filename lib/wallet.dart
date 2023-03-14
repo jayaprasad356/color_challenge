@@ -28,6 +28,9 @@ class _walletState extends State<wallet> {
   late SharedPreferences prefs;
   String balance = "";
   String minimum = "";
+  String name = "";
+  String email = "";
+
   late String _upiId;
   late String _fcmToken;
 
@@ -40,6 +43,8 @@ class _walletState extends State<wallet> {
         balance = prefs.getString(Constant.BALANCE)!;
         minimum = prefs.getString(Constant.MIN_WITHDRAWAL)!;
         _upiIdController.text = prefs.getString(Constant.UPI)!;
+        email = prefs.getString(Constant.EMAIL).toString();
+        name=prefs.getString(Constant.NAME).toString();
       });
     });
   }
@@ -62,6 +67,47 @@ class _walletState extends State<wallet> {
                     const SizedBox(
                       height: 10,
                     ),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    color: colors.profile_grey
+                  ),
+                  margin: EdgeInsets.only(right: 10,left: 10),
+                 // color: colors.greyss,
+                  padding: EdgeInsets.all(16),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundImage: AssetImage("assets/images/profile.png"),
+                        radius: 30,
+                      ),
+                      SizedBox(width: 18),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            name,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            email,
+                            style: TextStyle(
+                              fontSize: 16,
+                                color: colors.black
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: 10,),
+
                     const Text(
                       "My Balance",
                       style: TextStyle(
@@ -279,7 +325,7 @@ class _walletState extends State<wallet> {
                   ],
                 ),
               ),
-               MyWithdrawals()
+              MyWithdrawals()
             ],
           ),
         ),
@@ -300,7 +346,7 @@ class _walletState extends State<wallet> {
     final message = jsonResponse['message'];
     final status = jsonResponse['success'];
 
-    if(status){
+    if (status) {
       FirebaseMessaging.instance.getToken().then((token) {
         setState(() {
           _fcmToken = token!;
@@ -336,12 +382,13 @@ class _walletState extends State<wallet> {
       });
     }
   }
+
   void userDeatils() async {
     prefs = await SharedPreferences.getInstance();
     var url = Constant.USER_DETAIL_URL;
     Map<String, dynamic> bodyObject = {
       Constant.USER_ID: prefs.getString(Constant.ID),
-      Constant.FCM_ID:_fcmToken
+      Constant.FCM_ID: _fcmToken
     };
     String jsonString = await apiCall(url, bodyObject);
     final Map<String, dynamic> responseJson = jsonDecode(jsonString);

@@ -70,9 +70,9 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {
       _selctedIndex = index;
       if (index == 2) {
-        title = "wallet";
+        title = "Result";
         _actionsVisible = false;
-        _logoutVisible = true;
+        _logoutVisible = false;
         _leftArrowVisible = false;
       } else if (index == 1) {
         title = "My Challenges";
@@ -80,9 +80,9 @@ class _MainScreenState extends State<MainScreen> {
         _logoutVisible = false;
         _leftArrowVisible = false;
       } else if (index == 3) {
-        title = "Result";
+        title = "wallet";
         _actionsVisible = false;
-        _logoutVisible = false;
+        _logoutVisible = true;
         _leftArrowVisible = false;
       } else {
         title = "HOME";
