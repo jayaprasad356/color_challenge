@@ -212,6 +212,9 @@ class _LoginMobileState extends State<LoginMobile> {
               MaterialButton(
                 onPressed: () {
                  // launch(link);
+                 // String id=Utils().deviceInfo() as String;
+                  showReferCodeSheet();
+                 // Utils().logout();
                 },
                 color: colors.cc_whatsapp,
                 shape: const RoundedRectangleBorder(
@@ -225,7 +228,7 @@ class _LoginMobileState extends State<LoginMobile> {
                     mainAxisSize: MainAxisSize.min,
                     children: const <Widget>[
                       Text(
-                        'Contact Us with WhatsApp',
+                        'Join Our Whatsapp Group',
                         style: TextStyle(
                           color: colors.white,
                           fontSize: 16.0,
@@ -341,6 +344,7 @@ class _LoginMobileState extends State<LoginMobile> {
         prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
         if(user.status=="0"){
           Utils().showToast("Your Blocked");
+          Utils().logout();
         }else{
         Navigator.pushAndRemoveUntil(
           context,
@@ -356,17 +360,7 @@ class _LoginMobileState extends State<LoginMobile> {
       Utils().showToast("Signin Failed");
     }
   }
-  deviceInfo()async{
-    AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
-    String deviceId = androidInfo.androidId;
-    Utils().showToast(deviceId);
-  }
 
-  void logout() async {
-    await googleSignIn.disconnect();
-    FirebaseAuth.instance.signOut();
-    Utils().showToast("done");
-  }
 
   showReferCodeSheet() {
     showModalBottomSheet(
@@ -382,7 +376,7 @@ class _LoginMobileState extends State<LoginMobile> {
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: SingleChildScrollView(
               child: SizedBox(
-                height: 300,
+                height: 350,
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
@@ -432,6 +426,31 @@ class _LoginMobileState extends State<LoginMobile> {
                           style: TextStyle(backgroundColor: Colors.transparent),
                         ),
                       ),
+
+                      Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text(
+                              "Same device Multiple Register",
+                              style: TextStyle(
+                                color: colors.cc_red,
+                                fontFamily: 'Montserrat',
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            Text(
+                              "Refer bonus can’t be send",
+                              style: TextStyle(
+                                color: colors.cc_red,
+                                fontFamily: 'Montserrat',
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
+
 
                       const SizedBox(height: 30),
                       MaterialButton(

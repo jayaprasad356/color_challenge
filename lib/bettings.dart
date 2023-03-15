@@ -7,6 +7,8 @@ import 'Helper/Constant.dart';
 import 'Helper/apiCall.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'model/dummy_challenges.dart';
+
 class Bettings extends StatefulWidget {
   const Bettings({Key? key}) : super(key: key);
 
@@ -15,13 +17,13 @@ class Bettings extends StatefulWidget {
 }
 
 class _BettingsState extends State<Bettings> {
-  late List<ChallangeData> datas = [];
+  late List<DummyChallenges> datas = [];
   late SharedPreferences prefs;
 
-  Future<List<ChallangeData>> _getUser() async {
+  Future<List<DummyChallenges>> _getUser() async {
     prefs = await SharedPreferences.getInstance();
 
-    var url = Constant.MY_CHALLENGES_URL;
+    var url = Constant.DUMMY_CHALLENGES;
     Map<String, dynamic> bodyObject = {
       Constant.USER_ID: prefs.getString(Constant.ID)
       //Constant.USER_ID: "1"
@@ -33,10 +35,8 @@ class _BettingsState extends State<Bettings> {
     for (var u in jsonsData['data']) {
       final coins = u['coins'];
       final name = u["name"];
-      final code = u['code'];
-      final status = u['status'];
-      final dateTime = u["datetime"];
-      ChallangeData data = ChallangeData(coins, name, code,status, dateTime);
+      final code = u['color_code'];
+      DummyChallenges data = DummyChallenges(coins, name, code);
       datas.add(data);
     }
     return datas;

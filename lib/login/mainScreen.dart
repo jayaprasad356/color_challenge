@@ -148,8 +148,7 @@ class _MainScreenState extends State<MainScreen> {
                       ? GestureDetector(
                           onTap: () {
                             prefs.setString(Constant.LOGED_IN, "false");
-                            logout();
-                            SystemNavigator.pop();
+                            Utils().logout();
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(12.0),
