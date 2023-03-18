@@ -182,7 +182,7 @@ class _LoginMobileState extends State<LoginMobile> {
               MaterialButton(
                 onPressed: () {
                  // launch(link);
-                  showSuccesDialog();
+                 // showSuccesDialog();
                 },
                 color: colors.cc_telegram,
                 shape: const RoundedRectangleBorder(
@@ -213,7 +213,7 @@ class _LoginMobileState extends State<LoginMobile> {
                 onPressed: () {
                  // launch(link);
                  // String id=Utils().deviceInfo() as String;
-                  showReferCodeSheet();
+                  //showReferCodeSheet();
                  // Utils().logout();
                 },
                 color: colors.cc_whatsapp,
