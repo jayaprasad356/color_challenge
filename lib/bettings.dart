@@ -24,18 +24,19 @@ class _BettingsState extends State<Bettings> {
     prefs = await SharedPreferences.getInstance();
 
     var url = Constant.DUMMY_CHALLENGES;
-    Map<String, dynamic> bodyObject = {
-      Constant.USER_ID: prefs.getString(Constant.ID)
-      //Constant.USER_ID: "1"
-    };
-    String jsonString = await apiCall(url, bodyObject);
-    final jsonsData = jsonDecode(jsonString);
-    datas = [];
+    // Map<String, dynamic> bodyObject = {
+    //   Constant.USER_ID: prefs.getString(Constant.ID)
+    //   //Constant.USER_ID: "1"
+    // };
+    var response = await dataCall(url);
+    String jsonDataString = response.toString();
+    final jsonData = jsonDecode(jsonDataString);
+    datas.clear();
 
-    for (var u in jsonsData['data']) {
+    for (var u in jsonData['data']) {
       final coins = u['coins'];
       final name = u["name"];
-      final code = u['color_code'];
+      final code = u['code'];
       DummyChallenges data = DummyChallenges(coins, name, code);
       datas.add(data);
     }
@@ -86,7 +87,7 @@ class _BettingsState extends State<Bettings> {
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
-                                    "100",
+                                    datas[index].coins,
                                     style: const TextStyle(
                                         fontFamily: "Montserra",
                                         fontWeight: FontWeight.bold,
@@ -95,7 +96,7 @@ class _BettingsState extends State<Bettings> {
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
-                                    "ArunKumar",
+                                    datas[index].name,
                                     style: const TextStyle(
                                         fontFamily: "Montserrat",
                                         fontWeight: FontWeight.bold,

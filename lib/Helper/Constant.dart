@@ -1,6 +1,7 @@
 class Constant {
-  static const String MainBaseUrl = "https://democc.graymatterworks.com/";
-  //static const String MainBaseUrl = "http://192.168.43.38/color_challenge_admin/";
+  //static const String MainBaseUrl = "https://democc.graymatterworks.com/";
+  static const String MainBaseUrl = "https://colorchallenge.graymatterworks.com/";
+ // static const String MainBaseUrl = "http://192.168.43.38/color_challenge_admin/";
   static const String BaseUrl = "${MainBaseUrl}api/";
   static const String LOGIN_URL = "${BaseUrl}login.php";
   static const String USER_DETAIL_URL = "${BaseUrl}user_details.php";
@@ -17,7 +18,7 @@ class Constant {
   static const String SETTINGS_URL = "${BaseUrl}settings.php";
   static const String UPDATE_UPI_URL = "${BaseUrl}update_upi.php";
   static const String APPUPDATE_URL = "${BaseUrl}appupdate.php";
-  static const String DUMMY_CHALLENGES = "${BaseUrl}dummy_challenges.php";
+  static const String DUMMY_CHALLENGES = "${BaseUrl}dummy_challengers.php";
 
 
   static const String SUCCESS = "success";
