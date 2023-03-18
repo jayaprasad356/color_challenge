@@ -193,7 +193,7 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                       color: _selctedIndex == 1 ? colors.primary : colors.black,
                     ),
-                    label: 'My Challenges',
+                    label: 'Challenges',
                     backgroundColor: colors.white,
                   ),
                   BottomNavigationBarItem(
