@@ -73,95 +73,95 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         child: Container(
             child: Column(children: <Widget>[
-          Container(
-            margin: const EdgeInsets.only(right: 20, left: 20, top: 0),
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                     Text(
-                      "Refer  a friend and get "+referCoins+" coins",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "Montserrat"),
-                    ),
-                    const SizedBox(height: 16.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        OutlinedButton(
-                          onPressed: () {
-                            utils.showToast("Copied !");
-                            Clipboard.setData(ClipboardData(text: referText));
-                          },
-                          style: OutlinedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6.0),
-                              side: const BorderSide(color: colors.red),
-                            ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(14),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Image.asset(
-                                  "assets/images/copy.png",
-                                  width: 24.0,
-                                  height: 24.0,
-                                ),
-                                const SizedBox(width: 8.0),
-                                Text(
-                                  referText,
-                                  style: TextStyle(
-                                    color: colors.primary,
-                                    fontSize: 12.0,
-                                    fontFamily: "Montserrat",
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 16.0),
-                        MaterialButton(
-                          onPressed: () {
-                            Share.share(referText + " Use my Refer Code and install this app https://play.google.com/store/apps/details?id=com.app.colorchallenge");
-                          },
-                          color: colors.primary,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8.0)),
-                          ),
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.only(top: 16.0, bottom: 16.0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: const <Widget>[
-                                Text(
-                                  'Refer Friends',
-                                  style: TextStyle(
-                                    color: colors.white,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          // Container(
+          //   margin: const EdgeInsets.only(right: 20, left: 20, top: 0),
+          //   child: Card(
+          //     child: Padding(
+          //       padding: const EdgeInsets.all(16.0),
+          //       child: Column(
+          //         crossAxisAlignment: CrossAxisAlignment.center,
+          //         children: <Widget>[
+          //            Text(
+          //             "Refer  a friend and get "+referCoins+" coins",
+          //             style: TextStyle(
+          //                 fontSize: 16,
+          //                 fontWeight: FontWeight.bold,
+          //                 fontFamily: "Montserrat"),
+          //           ),
+          //           const SizedBox(height: 16.0),
+          //           Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //             children: <Widget>[
+          //               OutlinedButton(
+          //                 onPressed: () {
+          //                   utils.showToast("Copied !");
+          //                   Clipboard.setData(ClipboardData(text: referText));
+          //                 },
+          //                 style: OutlinedButton.styleFrom(
+          //                   shape: RoundedRectangleBorder(
+          //                     borderRadius: BorderRadius.circular(6.0),
+          //                     side: const BorderSide(color: colors.red),
+          //                   ),
+          //                 ),
+          //                 child: Padding(
+          //                   padding: const EdgeInsets.all(14),
+          //                   child: Row(
+          //                     mainAxisSize: MainAxisSize.min,
+          //                     children: <Widget>[
+          //                       Image.asset(
+          //                         "assets/images/copy.png",
+          //                         width: 24.0,
+          //                         height: 24.0,
+          //                       ),
+          //                       const SizedBox(width: 8.0),
+          //                       Text(
+          //                         referText,
+          //                         style: TextStyle(
+          //                           color: colors.primary,
+          //                           fontSize: 12.0,
+          //                           fontFamily: "Montserrat",
+          //                           fontWeight: FontWeight.bold,
+          //                         ),
+          //                       ),
+          //                     ],
+          //                   ),
+          //                 ),
+          //               ),
+          //               const SizedBox(width: 16.0),
+          //               MaterialButton(
+          //                 onPressed: () {
+          //                   Share.share(referText + " Use my Refer Code and install this app https://play.google.com/store/apps/details?id=com.app.colorchallenge");
+          //                 },
+          //                 color: colors.primary,
+          //                 shape: const RoundedRectangleBorder(
+          //                   borderRadius:
+          //                       BorderRadius.all(Radius.circular(8.0)),
+          //                 ),
+          //                 child: Padding(
+          //                   padding:
+          //                       const EdgeInsets.only(top: 16.0, bottom: 16.0),
+          //                   child: Row(
+          //                     mainAxisSize: MainAxisSize.min,
+          //                     children: const <Widget>[
+          //                       Text(
+          //                         'Refer Friends',
+          //                         style: TextStyle(
+          //                           color: colors.white,
+          //                           fontSize: 16.0,
+          //                           fontWeight: FontWeight.bold,
+          //                         ),
+          //                       ),
+          //                     ],
+          //                   ),
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // ),
           SizedBox(
             height: 10,
           ),

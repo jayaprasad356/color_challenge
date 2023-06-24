@@ -177,68 +177,68 @@ class _LoginMobileState extends State<LoginMobile> {
                   ),
                 ),
               ),
-              const SizedBox(height: 60),
+              const SizedBox(height: 280),
 
-              MaterialButton(
-                onPressed: () {
-                 // launch(link);
-                 // showSuccesDialog();
-                },
-                color: colors.cc_telegram,
-                shape: const RoundedRectangleBorder(
-                  borderRadius:
-                  BorderRadius.all(Radius.circular(8.0)),
-                ),
-                child: Padding(
-                  padding:
-                  const EdgeInsets.only(top: 16.0, bottom: 16.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: const <Widget>[
-                      Text(
-                        'Join Our Telegram Channel',
-                        style: TextStyle(
-                          color: colors.white,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 30),
-
-              MaterialButton(
-                onPressed: () {
-                 // launch(link);
-                 // String id=Utils().deviceInfo() as String;
-                  //showReferCodeSheet();
-                 // Utils().logout();
-                },
-                color: colors.cc_whatsapp,
-                shape: const RoundedRectangleBorder(
-                  borderRadius:
-                  BorderRadius.all(Radius.circular(8.0)),
-                ),
-                child: Padding(
-                  padding:
-                  const EdgeInsets.only(top: 16.0, bottom: 16.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: const <Widget>[
-                      Text(
-                        'Join Our Whatsapp Group',
-                        style: TextStyle(
-                          color: colors.white,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              // MaterialButton(
+              //   onPressed: () {
+              //    // launch(link);
+              //    // showSuccesDialog();
+              //   },
+              //   color: colors.cc_telegram,
+              //   shape: const RoundedRectangleBorder(
+              //     borderRadius:
+              //     BorderRadius.all(Radius.circular(8.0)),
+              //   ),
+              //   child: Padding(
+              //     padding:
+              //     const EdgeInsets.only(top: 16.0, bottom: 16.0),
+              //     child: Row(
+              //       mainAxisSize: MainAxisSize.min,
+              //       children: const <Widget>[
+              //         Text(
+              //           'Join Our Telegram Channel',
+              //           style: TextStyle(
+              //             color: colors.white,
+              //             fontSize: 16.0,
+              //             fontWeight: FontWeight.bold,
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
+              // const SizedBox(height: 30),
+              //
+              // MaterialButton(
+              //   onPressed: () {
+              //    // launch(link);
+              //    // String id=Utils().deviceInfo() as String;
+              //     //showReferCodeSheet();
+              //    // Utils().logout();
+              //   },
+              //   color: colors.cc_whatsapp,
+              //   shape: const RoundedRectangleBorder(
+              //     borderRadius:
+              //     BorderRadius.all(Radius.circular(8.0)),
+              //   ),
+              //   child: Padding(
+              //     padding:
+              //     const EdgeInsets.only(top: 16.0, bottom: 16.0),
+              //     child: Row(
+              //       mainAxisSize: MainAxisSize.min,
+              //       children: const <Widget>[
+              //         Text(
+              //           'Join Our Whatsapp Group',
+              //           style: TextStyle(
+              //             color: colors.white,
+              //             fontSize: 16.0,
+              //             fontWeight: FontWeight.bold,
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),

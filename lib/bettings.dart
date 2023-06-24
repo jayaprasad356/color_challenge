@@ -58,7 +58,7 @@ class _BettingsState extends State<Bettings> {
         } else {
           return SingleChildScrollView(
             child: SizedBox(
-              height: 200,
+              height: 400,
               child: ListView.builder(
                 scrollDirection: Axis.vertical,
                 itemCount: datas.length,

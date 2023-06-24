@@ -469,7 +469,7 @@ class _MainScreenState extends State<MainScreen> {
                               borderRadius: BorderRadius.circular(12.0),
                             ),
                             child: Container(
-                              height: 150,
+                              height: 160,
                               width: double.infinity,
                               padding: const EdgeInsets.all(0),
                               margin: EdgeInsets.all(4),
@@ -480,9 +480,9 @@ class _MainScreenState extends State<MainScreen> {
 
                                   Center(
                                     child: Image.asset(
-                                      "assets/images/coin.png",
-                                      height: 24,
-                                      width: 24,
+                                      "assets/images/multidoller.png",
+                                      height: 40,
+                                      width: 40,
                                     ),
                                   ),
                                   const SizedBox(height: 15.0),
@@ -538,7 +538,7 @@ class _MainScreenState extends State<MainScreen> {
                               borderRadius: BorderRadius.circular(12.0),
                             ),
                             child: Container(
-                              height: 150,
+                              height: 160,
                               width: double.infinity,
                               padding: const EdgeInsets.all(0),
                               margin: EdgeInsets.all(4),
@@ -549,9 +549,9 @@ class _MainScreenState extends State<MainScreen> {
 
                                   Center(
                                     child: Image.asset(
-                                      "assets/images/coin.png",
-                                      height: 24,
-                                      width: 24,
+                                      "assets/images/multidoller.png",
+                                      height: 40,
+                                      width: 40,
                                     ),
                                   ),
                                   const SizedBox(height: 15.0),
@@ -612,7 +612,7 @@ class _MainScreenState extends State<MainScreen> {
                               borderRadius: BorderRadius.circular(12.0),
                             ),
                             child: Container(
-                              height: 150,
+                              height: 160,
                               width: double.infinity,
                               padding: const EdgeInsets.all(0),
                               margin: EdgeInsets.all(4),
@@ -623,9 +623,9 @@ class _MainScreenState extends State<MainScreen> {
 
                                   Center(
                                     child: Image.asset(
-                                      "assets/images/coin.png",
-                                      height: 24,
-                                      width: 24,
+                                      "assets/images/multidoller.png",
+                                      height: 40,
+                                      width: 40,
                                     ),
                                   ),
                                   const SizedBox(height: 15.0),
@@ -681,7 +681,7 @@ class _MainScreenState extends State<MainScreen> {
                               borderRadius: BorderRadius.circular(12.0),
                             ),
                             child: Container(
-                              height: 150,
+                              height: 160,
                               width: double.infinity,
                               padding: const EdgeInsets.all(0),
                               margin: EdgeInsets.all(4),
@@ -692,9 +692,9 @@ class _MainScreenState extends State<MainScreen> {
 
                                   Center(
                                     child: Image.asset(
-                                      "assets/images/coin.png",
-                                      height: 24,
-                                      width: 24,
+                                      "assets/images/multidoller.png",
+                                      height: 40,
+                                      width: 40,
                                     ),
                                   ),
                                   const SizedBox(height: 15.0),
