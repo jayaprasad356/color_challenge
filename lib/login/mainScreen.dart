@@ -131,7 +131,7 @@ class _MainScreenState extends State<MainScreen> {
                   )),
                   GestureDetector(
                     onTap: () {
-                      showUpiDeatilSheet();
+                      showUpiDetailSheet();
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
@@ -351,142 +351,406 @@ class _MainScreenState extends State<MainScreen> {
         });
   }
 
-  showUpiDeatilSheet() {
+  showUpiDetailSheet() {
     showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(40.0),
-          ),
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(40.0),
         ),
-        builder: (context) {
-          return SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: Container(
-                height: 250,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
+      ),
+      builder: (context) {
+        return SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+            child: Container(
+              height: 500, // Adjust the height according to your needs
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text(
+                          "Add Coins",
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.black,
+                            fontFamily: "Montserrat",
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  // todo below lines are commented for card view implementation
+                  // Padding(
+                  //   padding: const EdgeInsets.only(right: 30.0, left: 30.0),
+                  //   child: ClipRRect(
+                  //     borderRadius:
+                  //     const BorderRadius.all(Radius.circular(12.0)),
+                  //     child: TextField(
+                  //       keyboardType: TextInputType.number,
+                  //       controller: _addCoinController,
+                  //       decoration: const InputDecoration(
+                  //         filled: true,
+                  //         border: InputBorder.none,
+                  //         hintText: 'Enter Coins1',
+                  //       ),
+                  //       style: const TextStyle(
+                  //         backgroundColor: Colors.transparent,
+                  //       ),
+                  //       enabled:
+                  //       true, // set to false if you want the text field to be disabled
+                  //     ),
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   height: 20,
+                  // ),
+                  // Center(
+                  //   child: MaterialButton(
+                  //     onPressed: () {
+                  //       if (_addCoinController.text.isNotEmpty) {
+                  //         String messageText =
+                  //             "Please add ${_addCoinController.text} coins... \n$mailId";
+                  //         link = '$link&text=${Uri.encodeFull(messageText)}';
+                  //         launch(link);
+                  //         _addCoinController.text = "";
+                  //       } else {
+                  //         Utils().showToast("Please Enter Coins");
+                  //       }
+                  //     },
+                  //     color: colors.primary,
+                  //     shape: const RoundedRectangleBorder(
+                  //       borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  //     ),
+                  //     child: Padding(
+                  //       padding: const EdgeInsets.only(
+                  //           top: 16.0, bottom: 16.0),
+                  //       child: Row(
+                  //         mainAxisSize: MainAxisSize.min,
+                  //         children: const <Widget>[
+                  //           Text(
+                  //             'Add Coins',
+                  //             style: TextStyle(
+                  //               color: Colors.white,
+                  //               fontSize: 16.0,
+                  //               fontWeight: FontWeight.bold,
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   height: 20,
+                  // ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Text(
-                              "Add Coins",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: colors.black,
-                                  fontFamily: "Montserrat",
-                                  fontWeight: FontWeight.bold),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(0),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
                             ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 30.0,left: 30.0),
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-                          child: TextField(
-                            keyboardType: TextInputType.number,
-                            controller: _addCoinController,
-                            decoration: const InputDecoration(
-                              filled: true,
-                              border: InputBorder.none,
-                              hintText: 'Enter Coins',
-                            ),
-                            style: const TextStyle(
-                              backgroundColor: Colors.transparent,
-                            ),
-                            enabled:
-                            true, // set to false if you want the text field to be disabled
-                          ),
-                        ),
-                      ),
-                      // const SizedBox(
-                      //   height: 10,
-                      // ),
+                            child: Container(
+                              height: 150,
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(0),
+                              margin: EdgeInsets.all(4),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(height: 12.0),
 
-                      // const Padding(
-                      //   padding: EdgeInsets.only(left: 30),
-                      //   child: Text("Step: 1",
-                      //       style: TextStyle(fontFamily: "Montserrat",fontWeight: FontWeight.bold)),
-                      // ),const Padding(
-                      //   padding: EdgeInsets.only(left: 30,bottom: 16),
-                      //   child: Text("Pay your amount using this upi",
-                      //       style: TextStyle(fontFamily: "Montserrat",fontWeight: FontWeight.bold)),
-                      // ),const Padding(
-                      //   padding: EdgeInsets.only(left: 30),
-                      //   child: Text("Step: 2",
-                      //       style: TextStyle(fontFamily: "Montserrat",fontWeight: FontWeight.bold)),
-                      // ),const Padding(
-                      //   padding: EdgeInsets.only(left: 30,bottom: 15),
-                      //   child: Text("If you have paid, please send screenshot to \ntelegram",
-                      //       style: TextStyle(fontFamily: "Montserrat",fontWeight: FontWeight.bold)),
-                      // ),const Padding(
-                      //   padding: EdgeInsets.only(left: 30),
-                      //   child: Text("Step: 3",
-                      //       style: TextStyle(fontFamily: "Montserrat",fontWeight: FontWeight.bold)),
-                      // ),const Padding(
-                      //   padding: EdgeInsets.only(left: 30,bottom: 15),
-                      //   child: Text("Color challenge agents will add your coins",
-                      //       style: TextStyle(fontFamily: "Montserrat",fontWeight: FontWeight.bold)),
-                      // ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Center(
-                        child: MaterialButton(
-                          onPressed: () {
-                            if(_addCoinController.text.isNotEmpty) {
-                              String messageText = "Please add ${_addCoinController
-                                  .text} coins... \n$mailId";
-                              link = '$link&text=${Uri.encodeFull(
-                                  messageText)}';
-                              launch(link);
-                              _addCoinController.text="";
-                            }else{
-                              Utils().showToast("Please Enter Coins");
-                            }
-                          },
-                          color: colors.primary,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8.0)),
-                          ),
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.only(top: 16.0, bottom: 16.0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: const <Widget>[
-                                Text(
-                                  'Add Coins',
-                                  style: TextStyle(
-                                    color: colors.white,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold,
+                                  Center(
+                                    child: Image.asset(
+                                      "assets/images/coin.png",
+                                      height: 24,
+                                      width: 24,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  const SizedBox(height: 15.0),
+                                  const Center(
+                                    child: Text(
+                                      '4500 ',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 12.0),
+                                  const Center(
+                                    child: Text(
+                                      '4500',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        decoration: TextDecoration.lineThrough,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                  const Spacer(), // Added Spacer to push '125' to the bottom
+                                  Container(
+                                    color: Colors.grey, // Change to desired background color
+                                    child: Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                        child: Text(
+                                          '125',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ]),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(0),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                            child: Container(
+                              height: 150,
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(0),
+                              margin: EdgeInsets.all(4),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(height: 12.0),
+
+                                  Center(
+                                    child: Image.asset(
+                                      "assets/images/coin.png",
+                                      height: 24,
+                                      width: 24,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 15.0),
+                                  const Center(
+                                    child: Text(
+                                      '4500 ',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 12.0),
+                                  const Center(
+                                    child: Text(
+                                      '4500',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        decoration: TextDecoration.lineThrough,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                  const Spacer(), // Added Spacer to push '125' to the bottom
+                                  Container(
+                                    color: Colors.grey, // Change to desired background color
+                                    child: Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                        child: Text(
+                                          '125',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(0),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                            child: Container(
+                              height: 150,
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(0),
+                              margin: EdgeInsets.all(4),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(height: 12.0),
+
+                                  Center(
+                                    child: Image.asset(
+                                      "assets/images/coin.png",
+                                      height: 24,
+                                      width: 24,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 15.0),
+                                  const Center(
+                                    child: Text(
+                                      '4500 ',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 12.0),
+                                  const Center(
+                                    child: Text(
+                                      '4500',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        decoration: TextDecoration.lineThrough,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                  const Spacer(), // Added Spacer to push '125' to the bottom
+                                  Container(
+                                    color: Colors.grey, // Change to desired background color
+                                    child: Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                        child: Text(
+                                          '125',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(0),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                            child: Container(
+                              height: 150,
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(0),
+                              margin: EdgeInsets.all(4),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(height: 12.0),
+
+                                  Center(
+                                    child: Image.asset(
+                                      "assets/images/coin.png",
+                                      height: 24,
+                                      width: 24,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 15.0),
+                                  const Center(
+                                    child: Text(
+                                      '4500 ',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 12.0),
+                                  const Center(
+                                    child: Text(
+                                      '4500',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        decoration: TextDecoration.lineThrough,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                  const Spacer(), // Added Spacer to push '125' to the bottom
+                                  Container(
+                                    color: Colors.grey, // Change to desired background color
+                                    child: Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                        child: Text(
+                                          '125',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 
   Widget getPage(int index) {
