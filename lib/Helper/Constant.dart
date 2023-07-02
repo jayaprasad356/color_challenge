@@ -13,6 +13,7 @@ class Constant {
   static const String MY_RESULTS_URL = "${BaseUrl}results.php";
   static const String MY_WITHDRAWALS_LIST_URL = "${BaseUrl}withdrawals_list.php";
   static const String COLOR_LIST_URL = "${BaseUrl}color_list.php";
+  static const String COIN_LIST_URL = "${BaseUrl}coins_list.php";
   static const String ADD_COINS_URL = "${BaseUrl}add_coins.php";
   static const String COLOR_CHALLENGE_URL = "${BaseUrl}color_challenge.php";
   static const String SETTINGS_URL = "${BaseUrl}settings.php";

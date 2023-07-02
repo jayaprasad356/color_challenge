@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "859911812141",
-    "project_id": "color-challenge-d9336",
-    "storage_bucket": "color-challenge-d9336.appspot.com"
+    "project_number": "766073031164",
+    "project_id": "color-challenge-524cd",
+    "storage_bucket": "color-challenge-524cd.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:859911812141:android:98723dc36ce1b7b58674a4",
+        "mobilesdk_app_id": "1:766073031164:android:3219b095e39dea9c420a79",
         "android_client_info": {
           "package_name": "com.app.colorchallenge"
         }
       },
       "oauth_client": [
         {
-          "client_id": "859911812141-blhtt434iqa3p4lu1s5283qdok4n5j4h.apps.googleusercontent.com",
+          "client_id": "766073031164-en1577e60g18m6mvlsosth1t8835p87p.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBWjQ5GpgbyEfCQoGXKo31WzAWbBuNfT9c"
+          "current_key": "AIzaSyDqNw2YCrZC-jlKay03bUF5mztsD_3lTNE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "859911812141-blhtt434iqa3p4lu1s5283qdok4n5j4h.apps.googleusercontent.com",
+              "client_id": "766073031164-en1577e60g18m6mvlsosth1t8835p87p.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:color_challenge/coinList.dart';
 import 'package:color_challenge/muChallenges.dart';
 import 'package:color_challenge/result.dart';
 import 'package:flutter/gestures.dart';
@@ -394,6 +395,7 @@ class _MainScreenState extends State<MainScreen> {
                   const SizedBox(
                     height: 20,
                   ),
+                  CoinList(),
                   // todo below lines are commented for card view implementation
                   // Padding(
                   //   padding: const EdgeInsets.only(right: 30.0, left: 30.0),
@@ -458,292 +460,292 @@ class _MainScreenState extends State<MainScreen> {
                   // const SizedBox(
                   //   height: 20,
                   // ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(0),
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            child: Container(
-                              height: 160,
-                              width: double.infinity,
-                              padding: const EdgeInsets.all(0),
-                              margin: EdgeInsets.all(4),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(height: 12.0),
-
-                                  Center(
-                                    child: Image.asset(
-                                      "assets/images/multidoller.png",
-                                      height: 40,
-                                      width: 40,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 15.0),
-                                  const Center(
-                                    child: Text(
-                                      '4500 ',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 12.0),
-                                  const Center(
-                                    child: Text(
-                                      '4500',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        decoration: TextDecoration.lineThrough,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ),
-                                  const Spacer(), // Added Spacer to push '125' to the bottom
-                                  Container(
-                                    color: Colors.grey, // Change to desired background color
-                                    child: Center(
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                        child: Text(
-                                          '125',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(0),
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            child: Container(
-                              height: 160,
-                              width: double.infinity,
-                              padding: const EdgeInsets.all(0),
-                              margin: EdgeInsets.all(4),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(height: 12.0),
-
-                                  Center(
-                                    child: Image.asset(
-                                      "assets/images/multidoller.png",
-                                      height: 40,
-                                      width: 40,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 15.0),
-                                  const Center(
-                                    child: Text(
-                                      '4500 ',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 12.0),
-                                  const Center(
-                                    child: Text(
-                                      '4500',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        decoration: TextDecoration.lineThrough,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ),
-                                  const Spacer(), // Added Spacer to push '125' to the bottom
-                                  Container(
-                                    color: Colors.grey, // Change to desired background color
-                                    child: Center(
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                        child: Text(
-                                          '125',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(0),
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            child: Container(
-                              height: 160,
-                              width: double.infinity,
-                              padding: const EdgeInsets.all(0),
-                              margin: EdgeInsets.all(4),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(height: 12.0),
-
-                                  Center(
-                                    child: Image.asset(
-                                      "assets/images/multidoller.png",
-                                      height: 40,
-                                      width: 40,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 15.0),
-                                  const Center(
-                                    child: Text(
-                                      '4500 ',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 12.0),
-                                  const Center(
-                                    child: Text(
-                                      '4500',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        decoration: TextDecoration.lineThrough,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ),
-                                  const Spacer(), // Added Spacer to push '125' to the bottom
-                                  Container(
-                                    color: Colors.grey, // Change to desired background color
-                                    child: Center(
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                        child: Text(
-                                          '125',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(0),
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            child: Container(
-                              height: 160,
-                              width: double.infinity,
-                              padding: const EdgeInsets.all(0),
-                              margin: EdgeInsets.all(4),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(height: 12.0),
-
-                                  Center(
-                                    child: Image.asset(
-                                      "assets/images/multidoller.png",
-                                      height: 40,
-                                      width: 40,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 15.0),
-                                  const Center(
-                                    child: Text(
-                                      '4500 ',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 12.0),
-                                  const Center(
-                                    child: Text(
-                                      '4500',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        decoration: TextDecoration.lineThrough,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ),
-                                  const Spacer(), // Added Spacer to push '125' to the bottom
-                                  Container(
-                                    color: Colors.grey, // Change to desired background color
-                                    child: Center(
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                        child: Text(
-                                          '125',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //   children: <Widget>[
+                  //     Expanded(
+                  //       child: Padding(
+                  //         padding: const EdgeInsets.all(0),
+                  //         child: Card(
+                  //           shape: RoundedRectangleBorder(
+                  //             borderRadius: BorderRadius.circular(12.0),
+                  //           ),
+                  //           child: Container(
+                  //             height: 160,
+                  //             width: double.infinity,
+                  //             padding: const EdgeInsets.all(0),
+                  //             margin: EdgeInsets.all(4),
+                  //             child: Column(
+                  //               crossAxisAlignment: CrossAxisAlignment.start,
+                  //               children: [
+                  //                 const SizedBox(height: 12.0),
+                  //
+                  //                 Center(
+                  //                   child: Image.asset(
+                  //                     "assets/images/multidoller.png",
+                  //                     height: 40,
+                  //                     width: 40,
+                  //                   ),
+                  //                 ),
+                  //                 const SizedBox(height: 15.0),
+                  //                 const Center(
+                  //                   child: Text(
+                  //                     '4500 ',
+                  //                     style: TextStyle(
+                  //                       fontSize: 16,
+                  //                       fontWeight: FontWeight.bold,
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //                 const SizedBox(height: 12.0),
+                  //                 const Center(
+                  //                   child: Text(
+                  //                     '4500',
+                  //                     style: TextStyle(
+                  //                       fontSize: 16,
+                  //                       fontWeight: FontWeight.bold,
+                  //                       decoration: TextDecoration.lineThrough,
+                  //                       color: Colors.grey,
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //                 const Spacer(), // Added Spacer to push '125' to the bottom
+                  //                 Container(
+                  //                   color: Colors.grey, // Change to desired background color
+                  //                   child: Center(
+                  //                     child: Padding(
+                  //                       padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  //                       child: Text(
+                  //                         '125',
+                  //                         style: TextStyle(
+                  //                           fontSize: 16,
+                  //                           fontWeight: FontWeight.bold,
+                  //                           color: Colors.white,
+                  //                         ),
+                  //                       ),
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     Expanded(
+                  //       child: Padding(
+                  //         padding: const EdgeInsets.all(0),
+                  //         child: Card(
+                  //           shape: RoundedRectangleBorder(
+                  //             borderRadius: BorderRadius.circular(12.0),
+                  //           ),
+                  //           child: Container(
+                  //             height: 160,
+                  //             width: double.infinity,
+                  //             padding: const EdgeInsets.all(0),
+                  //             margin: EdgeInsets.all(4),
+                  //             child: Column(
+                  //               crossAxisAlignment: CrossAxisAlignment.start,
+                  //               children: [
+                  //                 const SizedBox(height: 12.0),
+                  //
+                  //                 Center(
+                  //                   child: Image.asset(
+                  //                     "assets/images/multidoller.png",
+                  //                     height: 40,
+                  //                     width: 40,
+                  //                   ),
+                  //                 ),
+                  //                 const SizedBox(height: 15.0),
+                  //                 const Center(
+                  //                   child: Text(
+                  //                     '4500 ',
+                  //                     style: TextStyle(
+                  //                       fontSize: 16,
+                  //                       fontWeight: FontWeight.bold,
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //                 const SizedBox(height: 12.0),
+                  //                 const Center(
+                  //                   child: Text(
+                  //                     '4500',
+                  //                     style: TextStyle(
+                  //                       fontSize: 16,
+                  //                       fontWeight: FontWeight.bold,
+                  //                       decoration: TextDecoration.lineThrough,
+                  //                       color: Colors.grey,
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //                 const Spacer(), // Added Spacer to push '125' to the bottom
+                  //                 Container(
+                  //                   color: Colors.grey, // Change to desired background color
+                  //                   child: Center(
+                  //                     child: Padding(
+                  //                       padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  //                       child: Text(
+                  //                         '125',
+                  //                         style: TextStyle(
+                  //                           fontSize: 16,
+                  //                           fontWeight: FontWeight.bold,
+                  //                           color: Colors.white,
+                  //                         ),
+                  //                       ),
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //   children: <Widget>[
+                  //     Expanded(
+                  //       child: Padding(
+                  //         padding: const EdgeInsets.all(0),
+                  //         child: Card(
+                  //           shape: RoundedRectangleBorder(
+                  //             borderRadius: BorderRadius.circular(12.0),
+                  //           ),
+                  //           child: Container(
+                  //             height: 160,
+                  //             width: double.infinity,
+                  //             padding: const EdgeInsets.all(0),
+                  //             margin: EdgeInsets.all(4),
+                  //             child: Column(
+                  //               crossAxisAlignment: CrossAxisAlignment.start,
+                  //               children: [
+                  //                 const SizedBox(height: 12.0),
+                  //
+                  //                 Center(
+                  //                   child: Image.asset(
+                  //                     "assets/images/multidoller.png",
+                  //                     height: 40,
+                  //                     width: 40,
+                  //                   ),
+                  //                 ),
+                  //                 const SizedBox(height: 15.0),
+                  //                 const Center(
+                  //                   child: Text(
+                  //                     '4500 ',
+                  //                     style: TextStyle(
+                  //                       fontSize: 16,
+                  //                       fontWeight: FontWeight.bold,
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //                 const SizedBox(height: 12.0),
+                  //                 const Center(
+                  //                   child: Text(
+                  //                     '4500',
+                  //                     style: TextStyle(
+                  //                       fontSize: 16,
+                  //                       fontWeight: FontWeight.bold,
+                  //                       decoration: TextDecoration.lineThrough,
+                  //                       color: Colors.grey,
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //                 const Spacer(), // Added Spacer to push '125' to the bottom
+                  //                 Container(
+                  //                   color: Colors.grey, // Change to desired background color
+                  //                   child: Center(
+                  //                     child: Padding(
+                  //                       padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  //                       child: Text(
+                  //                         '125',
+                  //                         style: TextStyle(
+                  //                           fontSize: 16,
+                  //                           fontWeight: FontWeight.bold,
+                  //                           color: Colors.white,
+                  //                         ),
+                  //                       ),
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     Expanded(
+                  //       child: Padding(
+                  //         padding: const EdgeInsets.all(0),
+                  //         child: Card(
+                  //           shape: RoundedRectangleBorder(
+                  //             borderRadius: BorderRadius.circular(12.0),
+                  //           ),
+                  //           child: Container(
+                  //             height: 160,
+                  //             width: double.infinity,
+                  //             padding: const EdgeInsets.all(0),
+                  //             margin: EdgeInsets.all(4),
+                  //             child: Column(
+                  //               crossAxisAlignment: CrossAxisAlignment.start,
+                  //               children: [
+                  //                 const SizedBox(height: 12.0),
+                  //
+                  //                 Center(
+                  //                   child: Image.asset(
+                  //                     "assets/images/multidoller.png",
+                  //                     height: 40,
+                  //                     width: 40,
+                  //                   ),
+                  //                 ),
+                  //                 const SizedBox(height: 15.0),
+                  //                 const Center(
+                  //                   child: Text(
+                  //                     '4500 ',
+                  //                     style: TextStyle(
+                  //                       fontSize: 16,
+                  //                       fontWeight: FontWeight.bold,
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //                 const SizedBox(height: 12.0),
+                  //                 const Center(
+                  //                   child: Text(
+                  //                     '4500',
+                  //                     style: TextStyle(
+                  //                       fontSize: 16,
+                  //                       fontWeight: FontWeight.bold,
+                  //                       decoration: TextDecoration.lineThrough,
+                  //                       color: Colors.grey,
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //                 const Spacer(), // Added Spacer to push '125' to the bottom
+                  //                 Container(
+                  //                   color: Colors.grey, // Change to desired background color
+                  //                   child: Center(
+                  //                     child: Padding(
+                  //                       padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  //                       child: Text(
+                  //                         '125',
+                  //                         style: TextStyle(
+                  //                           fontSize: 16,
+                  //                           fontWeight: FontWeight.bold,
+                  //                           color: Colors.white,
+                  //                         ),
+                  //                       ),
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ),
             ),
