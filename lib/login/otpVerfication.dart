@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:color_challenge/Helper/utils.dart';
 import 'package:color_challenge/homePage.dart';
 import 'package:color_challenge/login/mainScreen.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:otp_text_field/otp_field.dart';
@@ -19,27 +21,36 @@ import '../user.dart';
 
 class OtpVerification extends StatefulWidget {
   final String mobileNumber;
+  final String otp;
 
-  const OtpVerification({Key? key, required this.mobileNumber}) : super(key: key);
+
+  const OtpVerification({Key? key, required this.mobileNumber,required this.otp}) : super(key: key);
 
   @override
-  _OtpVerificationState createState() => _OtpVerificationState(mobileNumber);
+  _OtpVerificationState createState() => _OtpVerificationState(mobileNumber,otp);
 }
 
 class _OtpVerificationState extends State<OtpVerification> {
+
   OtpFieldController otpController = OtpFieldController();
   late SharedPreferences prefs;
   final TextEditingController _referCodeController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   late String _mobileNumber;
+  late String realotp;
   late String OtpText;
   final _auth = FirebaseAuth.instance;
   //late final Rx<User?> firebaseUser;
   var verificationId = ''.obs;
    String otpSuccessMsg="OTP send Successfully";
+  static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+  Map<String, dynamic> _deviceData = <String, dynamic>{};
+  String device_id = '';
 
-  _OtpVerificationState(String mobileNumber) {
+  _OtpVerificationState(String mobileNumber,String otp) {
     _mobileNumber = mobileNumber;
-   phoneAuthentication(mobileNumber);
+    realotp = otp;
+   //phoneAuthentication(mobileNumber);
   }
 
 
@@ -52,8 +63,10 @@ class _OtpVerificationState extends State<OtpVerification> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: SingleChildScrollView(
         child: Container(
+
           color: colors.white,
           child: Column(
             children: <Widget>[
@@ -112,23 +125,26 @@ class _OtpVerificationState extends State<OtpVerification> {
               MaterialButton(
                 onPressed: () async {
 
-                    if(OtpText=="011011"){
-                      Utils().showToast("login success");
+                    if(OtpText== '011011' || OtpText== realotp){
                       prefs = await SharedPreferences.getInstance();
-                      var url = Constant.CHECK_EMAIL;
+                      var url = Constant.LOGIN_URL;
                       Map<String, dynamic> bodyObject = {
-                        Constant.MOBILE: _mobileNumber
+                        Constant.MOBILE: _mobileNumber,
+                        Constant.DEVICE_ID: device_id,
                       };
                       String jsonString = await apiCall(url, bodyObject);
                       dynamic json = jsonDecode(jsonString);
-                      bool status = json["registered"];
+                      bool success = json["success"];
+                      bool registered = json["registered"];
+                      String message = json["message"];
+                      if (success && registered) {
 
-                      if (status) {
                         final Map<String, dynamic> responseJson = jsonDecode(jsonString);
                         final dataList = responseJson['data'] as List;
                         final Users user = Users.fromJsonNew(dataList.first);
                         prefs.setString(Constant.LOGED_IN, "true");
                         prefs.setString(Constant.ID, user.id);
+                        prefs.setString(Constant.MOBILE, user.mobile);
                         prefs.setString(Constant.EARN, user.earn);
                         prefs.setString(Constant.COINS, user.coins);
                         prefs.setString(Constant.BALANCE, user.balance);
@@ -145,47 +161,19 @@ class _OtpVerificationState extends State<OtpVerification> {
                             builder: (context) => MainScreen(),
                           ),
                         );
-                      } else {
-                        showReferCodeSheet();
                       }
-                    }else if(await verifyOTP(OtpText)){
-                    Utils().showToast("login success");
-                    prefs = await SharedPreferences.getInstance();
-                    var url = Constant.CHECK_EMAIL;
-                    Map<String, dynamic> bodyObject = {
-                      Constant.MOBILE: _mobileNumber
-                    };
-                    String jsonString = await apiCall(url, bodyObject);
-                    dynamic json = jsonDecode(jsonString);
-                    bool status = json["registered"];
+                      else if(success && !registered){
+                        showReferCodeSheet();
 
-                    if (status) {
-                      final Map<String, dynamic> responseJson = jsonDecode(jsonString);
-                      final dataList = responseJson['data'] as List;
-                      final Users user = Users.fromJsonNew(dataList.first);
+                      }
+                      else {
+                        Utils().showToast(message);
 
-                      prefs.setString(Constant.LOGED_IN, "true");
-                      prefs.setString(Constant.ID, user.id);
-                      prefs.setString(Constant.EARN, user.earn);
-                      prefs.setString(Constant.COINS, user.coins);
-                      prefs.setString(Constant.BALANCE, user.balance);
-                      prefs.setString(Constant.REFERRED_BY, user.referredBy);
-                      prefs.setString(Constant.REFER_CODE, user.referCode);
-                      prefs.setString(Constant.WITHDRAWAL_STATUS, user.withdrawalStatus);
-                      prefs.setString(Constant.CHALLENGE_STATUS, user.challengeStatus);
-                      prefs.setString(Constant.STATUS, user.status);
-                      prefs.setString(Constant.JOINED_DATE, user.joinedDate);
-                      prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MainScreen(),
-                        ),
-                      );
-                    } else {
-                      showReferCodeSheet();
+                      }
+
+
                     }
-                  }else{
+                    else{
                     Utils().showToast("Please Enter valid Otp");
                   }
                 },
@@ -216,6 +204,62 @@ class _OtpVerificationState extends State<OtpVerification> {
       ),
     );
   }
+  @override
+  void initState() {
+    super.initState();
+    initPlatformState();
+  }
+
+  Future<void> initPlatformState() async {
+    var deviceData = <String, dynamic>{};
+    deviceData = _readAndroidBuildData(await deviceInfoPlugin.androidInfo);
+
+    }
+
+
+  Map<String, dynamic> _readAndroidBuildData(AndroidDeviceInfo build) {
+
+    setState(() {
+      device_id = build.id + build.serialNumber + build.fingerprint;
+    });
+    return <String, dynamic>{
+      'version.securityPatch': build.version.securityPatch,
+      'version.sdkInt': build.version.sdkInt,
+      'version.release': build.version.release,
+      'version.previewSdkInt': build.version.previewSdkInt,
+      'version.incremental': build.version.incremental,
+      'version.codename': build.version.codename,
+      'version.baseOS': build.version.baseOS,
+      'board': build.board,
+      'bootloader': build.bootloader,
+      'brand': build.brand,
+      'device': build.device,
+      'display': build.display,
+      'fingerprint': build.fingerprint,
+      'hardware': build.hardware,
+      'host': build.host,
+      'id': build.id,
+      'manufacturer': build.manufacturer,
+      'model': build.model,
+      'product': build.product,
+      'supported32BitAbis': build.supported32BitAbis,
+      'supported64BitAbis': build.supported64BitAbis,
+      'supportedAbis': build.supportedAbis,
+      'tags': build.tags,
+      'type': build.type,
+      'isPhysicalDevice': build.isPhysicalDevice,
+      'systemFeatures': build.systemFeatures,
+      'displaySizeInches':
+      ((build.displayMetrics.sizeInches * 10).roundToDouble() / 10),
+      'displayWidthPixels': build.displayMetrics.widthPx,
+      'displayWidthInches': build.displayMetrics.widthInches,
+      'displayHeightPixels': build.displayMetrics.heightPx,
+      'displayHeightInches': build.displayMetrics.heightInches,
+      'displayXDpi': build.displayMetrics.xDpi,
+      'displayYDpi': build.displayMetrics.yDpi,
+      'serialNumber': build.serialNumber,
+    };
+  }
 
   showReferCodeSheet() {
     showModalBottomSheet(
@@ -231,11 +275,38 @@ class _OtpVerificationState extends State<OtpVerification> {
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: SingleChildScrollView(
               child: SizedBox(
-                height: 300,
+                height: 500,
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      const Center(
+                        child: Text(
+                          "Enter Name",
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: colors.greyss,
+                              fontFamily: "Montserrat"),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      Container(
+                        margin: const EdgeInsets.only(left: 20, right: 20),
+                        child: TextField(
+                          controller: _nameController,
+                          decoration: const InputDecoration(
+                            filled: true,
+                            fillColor: Colors.transparent,
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: colors.primary),
+                            ),
+                          ),
+                          style: TextStyle(backgroundColor: Colors.transparent),
+                        ),
+                      ),
                       const SizedBox(
                         height: 30,
                       ),
@@ -302,9 +373,12 @@ class _OtpVerificationState extends State<OtpVerification> {
 
   newRegister() async {
     prefs = await SharedPreferences.getInstance();
+
     var url = Constant.REGISTER_URL;
     Map<String, dynamic> bodyObject = {
       Constant.MOBILE: _mobileNumber,
+      Constant.NAME: _nameController.text,
+      Constant.DEVICE_ID: device_id,
     };
 
     if (_referCodeController.text.isNotEmpty) {
@@ -312,27 +386,35 @@ class _OtpVerificationState extends State<OtpVerification> {
     }
     String jsonString = await apiCall(url, bodyObject);
     final Map<String, dynamic> responseJson = jsonDecode(jsonString);
-    final dataList = responseJson['data'] as List;
-    final Users user = Users.fromJsonNew(dataList.first);
+    if(responseJson['success']){
+      final dataList = responseJson['data'] as List;
+      final Users user = Users.fromJsonNew(dataList.first);
 
-    prefs.setString(Constant.LOGED_IN, "true");
-    prefs.setString(Constant.ID, user.id);
-    prefs.setString(Constant.EARN, user.earn);
-    prefs.setString(Constant.COINS, user.coins);
-    prefs.setString(Constant.BALANCE, user.balance);
-    prefs.setString(Constant.REFERRED_BY, user.referredBy);
-    prefs.setString(Constant.REFER_CODE, user.referCode);
-    prefs.setString(Constant.WITHDRAWAL_STATUS, user.withdrawalStatus);
-    prefs.setString(Constant.CHALLENGE_STATUS, user.challengeStatus);
-    prefs.setString(Constant.STATUS, user.status);
-    prefs.setString(Constant.JOINED_DATE, user.joinedDate);
-    prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => MainScreen(),
-      ),
-    );
+      prefs.setString(Constant.LOGED_IN, "true");
+      prefs.setString(Constant.ID, user.id);
+      prefs.setString(Constant.MOBILE, user.mobile);
+      prefs.setString(Constant.EARN, user.earn);
+      prefs.setString(Constant.COINS, user.coins);
+      prefs.setString(Constant.BALANCE, user.balance);
+      prefs.setString(Constant.REFERRED_BY, user.referredBy);
+      prefs.setString(Constant.REFER_CODE, user.referCode);
+      prefs.setString(Constant.WITHDRAWAL_STATUS, user.withdrawalStatus);
+      prefs.setString(Constant.CHALLENGE_STATUS, user.challengeStatus);
+      prefs.setString(Constant.STATUS, user.status);
+      prefs.setString(Constant.JOINED_DATE, user.joinedDate);
+      prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MainScreen(),
+        ),
+      );
+
+    }
+    else{
+      Utils().showToast(responseJson['message']);
+    }
+
   }
   Future<void> phoneAuthentication(String phoneNo) async {
     await _auth.verifyPhoneNumber(
@@ -363,4 +445,5 @@ class _OtpVerificationState extends State<OtpVerification> {
             verificationId: verificationId.value, smsCode: otp));
     return credential.user !=null ? true : false;
   }
+
 }

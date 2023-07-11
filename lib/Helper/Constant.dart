@@ -8,7 +8,7 @@ class Constant {
   static const String RESULT_TIME_URL = "${BaseUrl}result_time.php";
   static const String REGISTER_URL = "${BaseUrl}register.php";
   static const String WITHDRAWAL_URL = "${BaseUrl}withdrawals.php";
-  static const String CHECK_EMAIL = "${BaseUrl}check_email.php";
+  static const String CHECK_MOBILE = "${BaseUrl}check_mobile.php";
   static const String MY_CHALLENGES_URL = "${BaseUrl}my_challenges.php";
   static const String MY_RESULTS_URL = "${BaseUrl}results.php";
   static const String MY_WITHDRAWALS_LIST_URL = "${BaseUrl}withdrawals_list.php";
@@ -16,11 +16,11 @@ class Constant {
   static const String COIN_LIST_URL = "${BaseUrl}coins_list.php";
   static const String ADD_COINS_URL = "${BaseUrl}add_coins.php";
   static const String COLOR_CHALLENGE_URL = "${BaseUrl}color_challenge.php";
+  static const String DAILY_BONUS_URL = "${BaseUrl}daily_bonus.php";
   static const String SETTINGS_URL = "${BaseUrl}settings.php";
   static const String UPDATE_UPI_URL = "${BaseUrl}update_upi.php";
   static const String APPUPDATE_URL = "${BaseUrl}appupdate.php";
   static const String DUMMY_CHALLENGES = "${BaseUrl}dummy_challengers.php";
-
 
   static const String SUCCESS = "success";
   static const String MESSAGE = "message";

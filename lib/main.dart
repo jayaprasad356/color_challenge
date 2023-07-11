@@ -85,7 +85,7 @@ class _MyAppState extends State<MyApp> {
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print('onMessage received: $message');
-      showNotification();
+      //showNotification();
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       if (notification != null && android != null) {
@@ -146,7 +146,7 @@ class _MyAppState extends State<MyApp> {
             ),
             routes: {
               '/otpVerification': (context) => OtpVerification(
-                    mobileNumber: '',
+                    mobileNumber: '',otp: '',
                   ),
             },
             home: screens(prefs, update,link),

@@ -39,6 +39,7 @@ extension colors on ColorScheme {
   static const Color black12 = Colors.black12;
   static const Color disableColor = Color(0xffEEF2F9);
   static const Color greyss = Color(0xFFB9B9B9);
+  static const Color light_greyss = Color(0x6EB9B9B9);
   static const Color profile_grey = Color(0xFFE0DCDC);
   static const Color primary = Color(0xFF2743FD);
   static const Color cc_telegram = Color(0xFF229ED9);
@@ -48,6 +49,8 @@ extension colors on ColorScheme {
   static const Color cc_skyblue = Color(0xFF22A7F0);
   static const Color cc_red = Color(0xFFCF000F);
   static const Color cc_pink = Color(0xFFC93756);
+  static const Color gold_dark = Color(0xFFDAA520);
+  static const Color gold_light = Color(0xFFFFD700);
   static const Color cc_yellow = Color(0xFFFFB61E);
   static const Color cc_purpul = Color(0xFF8E44AD);
   static const Color cc_list_grey = Color(0xFFF5F6FA);

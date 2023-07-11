@@ -29,7 +29,8 @@ class _walletState extends State<wallet> {
   String balance = "";
   String minimum = "";
   String name = "";
-  String email = "";
+  String mobile = "";
+  String earn = "";
 
   late String _upiId;
   late String _fcmToken;
@@ -43,7 +44,8 @@ class _walletState extends State<wallet> {
         balance = prefs.getString(Constant.BALANCE)!;
         minimum = prefs.getString(Constant.MIN_WITHDRAWAL)!;
         _upiIdController.text = prefs.getString(Constant.UPI)!;
-        email = prefs.getString(Constant.EMAIL).toString();
+        mobile = prefs.getString(Constant.MOBILE).toString();
+        earn = prefs.getString(Constant.EARN).toString();
         name=prefs.getString(Constant.NAME).toString();
       });
     });
@@ -70,7 +72,7 @@ class _walletState extends State<wallet> {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
-                    color: colors.profile_grey
+                    color: colors.light_greyss
                   ),
                   margin: EdgeInsets.only(right: 10,left: 10),
                  // color: colors.greyss,
@@ -94,9 +96,17 @@ class _walletState extends State<wallet> {
                           ),
                           SizedBox(height: 8),
                           Text(
-                            email,
+                            mobile,
                             style: TextStyle(
                               fontSize: 16,
+                                color: colors.black
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            'Total Earnings = Rs.'+earn,
+                            style: TextStyle(
+                                fontSize: 16,
                                 color: colors.black
                             ),
                           ),
@@ -272,8 +282,11 @@ class _walletState extends State<wallet> {
                         double withdrawalAmt =
                             double.tryParse(_withdrawalAmtController.text) ??
                                 0.0;
-                        if (withdrawalAmt < 100) {
-                          utils.showToast("please enter minimum 100");
+                        double minimumAmt =
+                            double.tryParse(minimum) ??
+                                0.0;
+                        if (withdrawalAmt < minimumAmt) {
+                          utils.showToast("please enter minimum $minimum");
                         } else {
                           doWithdrawal();
                         }

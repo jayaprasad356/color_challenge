@@ -29,8 +29,6 @@ class Utils {
   }
 
   void logout() async {
-    await googleSignIn.disconnect();
-    FirebaseAuth.instance.signOut();
     SystemNavigator.pop();
   }
 }

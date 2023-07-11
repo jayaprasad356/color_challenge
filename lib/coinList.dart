@@ -17,18 +17,20 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 class CoinList extends StatefulWidget {
 
+
   const CoinList({Key? key}) : super(key: key);
 
   @override
   State<CoinList> createState() => _CoinListState();
 }
 
+
 class _CoinListState extends State<CoinList> {
   late List<CoinData> datas = [];
   late SharedPreferences prefs;
   TextEditingController _coinController = TextEditingController();
 
-  late String _fcmToken;
+  late String _fcmToken,contact_us;
 
   Future<List<CoinData>> _getUser() async {
     prefs = await SharedPreferences.getInstance();
@@ -49,7 +51,16 @@ class _CoinListState extends State<CoinList> {
     }
     return datas;
   }
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    SharedPreferences.getInstance().then((value) {
+      prefs = value;
+      setState(() {
+        contact_us = prefs.getString(Constant.CONTACT_US).toString();
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -70,100 +81,108 @@ class _CoinListState extends State<CoinList> {
           );
         }else{
           return Container(
-            height: 400,width: double.infinity,
-            child: GridView.count(
-              crossAxisCount: 2,
-              children: List.generate(
-                datas.length,
-                    (index) => Container(
-                  margin: const EdgeInsets.only(top: 10),
-                      child: Padding(
-                        padding: const EdgeInsets.all(0),
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          child: Container(
-                            height: 160,
-                            width: double.infinity,
-                            padding: const EdgeInsets.all(0),
-                            margin: EdgeInsets.all(4),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(height: 12.0),
-
-                                Center(
-                                  child: Image.asset(
-                                    "assets/images/multidoller.png",
-                                    height: 40,
-                                    width: 40,
+            width: double.infinity,
+            child: SingleChildScrollView(
+              child: GridView.count(
+                shrinkWrap: true,
+                crossAxisCount: 2,
+                children: List.generate(
+                  datas.length,
+                      (index) => Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    child: Padding(
+                      padding: const EdgeInsets.all(0),
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        child: Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(0),
+                          margin: EdgeInsets.all(4),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 12.0),
+                              Center(
+                                child: Image.asset(
+                                  "assets/images/multidoller.png",
+                                  height: 40,
+                                  width: 40,
+                                ),
+                              ),
+                              const SizedBox(height: 15.0),
+                              Center(
+                                child: Text(
+                                  datas[index].coins + ' Coins',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(height: 15.0),
-                                Center(
-                                  child: Text(
-                                    datas[index].coins + ' Coins',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                              ),
+                              const SizedBox(height: 12.0),
+                              Center(
+                                child: Text(
+                                  'Rs.' + datas[index].price,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey,
                                   ),
                                 ),
-                                const SizedBox(height: 12.0),
-                                Center(
-                                  child: Text(
-                                    'Rs.'+datas[index].price,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      decoration: TextDecoration.lineThrough,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                                const Spacer(), // Added Spacer to push '125' to the bottom
-                                Container(
-                                  color: Colors.grey,
-                                  child: GestureDetector(
-                                    onTap: () async {
-                                      // Define the text to be sent to WhatsApp
-                                      String text = 'Hello, I want to purchase '+datas[index].coins+' coins and i will pay '+datas[index].price+' rupees.';
+                              ),
+                              const Spacer(),
+                              Container(
+                                color: Colors.grey,
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    // Define the text to be sent to WhatsApp
+                                    String text =
+                                        'Hello, I want to purchase ' +
+                                            datas[index].coins +
+                                            ' coins and I will pay ' +
+                                            datas[index].price +
+                                            ' rupees.';
 
-                                      // Encode the text for the URL
-                                      String encodedText = Uri.encodeFull(text);
-                                      final Uri launchUri = Uri(
-                                        path: 'https://wa.me/+919442071531?text=$encodedText',
-                                      );
-                                      String uri = 'https://wa.me/+919442071531?text=$encodedText';
-                                      launchUrl(Uri.parse(uri),mode: LaunchMode.externalApplication);
+                                    // Encode the text for the URL
+                                    String encodedText = Uri.encodeFull(text);
+                                    final Uri launchUri = Uri(
+                                      path: 'https://wa.me/+919442071531?text=$encodedText',
+                                    );
+                                    String uri =
+                                        'https://wa.me/$contact_us?text=$encodedText';
+                                    launchUrl(
+                                      Uri.parse(uri),
+                                      mode: LaunchMode.externalApplication,
+                                    );
 
-                                      // Check if the WhatsApp app is installed on the device
-                                      // if (await canLaunchUrl(launchUri)) {
-                                      //
-                                      //   await launchUrl(launchUri);
-                                      // } else {
-                                      //   // Display an error message if the WhatsApp app is not installed
-                                      //   showDialog(
-                                      //     context: context,
-                                      //     builder: (_) => AlertDialog(
-                                      //       title: Text('Error'),
-                                      //       content: Text('WhatsApp is not installed on your device.'),
-                                      //       actions: [
-                                      //         TextButton(
-                                      //           child: Text('OK'),
-                                      //           onPressed: () => Navigator.pop(context),
-                                      //         ),
-                                      //       ],
-                                      //     ),
-                                      //   );
-                                      // }
-                                    },// Change to desired background color
+                                    // Check if the WhatsApp app is installed on the device
+                                    // if (await canLaunchUrl(launchUri)) {
+                                    //
+                                    //   await launchUrl(launchUri);
+                                    // } else {
+                                    //   // Display an error message if the WhatsApp app is not installed
+                                    //   showDialog(
+                                    //     context: context,
+                                    //     builder: (_) => AlertDialog(
+                                    //       title: Text('Error'),
+                                    //       content: Text('WhatsApp is not installed on your device.'),
+                                    //       actions: [
+                                    //         TextButton(
+                                    //           child: Text('OK'),
+                                    //           onPressed: () => Navigator.pop(context),
+                                    //         ),
+                                    //       ],
+                                    //     ),
+                                    //   );
+                                    // }
+                                  },
                                   child: Center(
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                                       child: Text(
-                                        'Purchase',
+                                        'Get it Now',
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
@@ -173,15 +192,18 @@ class _CoinListState extends State<CoinList> {
                                     ),
                                   ),
                                 ),
-                                )],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
+                    ),
+                  ),
                 ),
               ),
             ),
           );
+
         }
 
 

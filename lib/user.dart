@@ -3,7 +3,7 @@ class Users {
   final String upi;
   final String earn;
   final String coins;
-  final String mail;
+  final String mobile;
   final String name;
   final String balance;
   final String referredBy;
@@ -13,6 +13,10 @@ class Users {
   final String status;
   final String joinedDate;
   final String lastUpdated;
+  final String refer_coins;
+  final String min_withdrawal;
+  final String device_id;
+
 
   Users({
     required this.id,
@@ -20,7 +24,7 @@ class Users {
     required this.earn,
     required this.coins,
     required this.name,
-    required this.mail,
+    required this.mobile,
     required this.balance,
     required this.referredBy,
     required this.referCode,
@@ -29,6 +33,10 @@ class Users {
     required this.status,
     required this.joinedDate,
     required this.lastUpdated,
+    required this.refer_coins,
+    required this.min_withdrawal,
+    required this.device_id,
+
   });
 
   factory Users.fromJson(Map<String, dynamic> json) {
@@ -38,7 +46,7 @@ class Users {
       earn: json['earn'],
       coins: json['coins'],
       name: json['name'],
-      mail: json['email'],
+      mobile: json['mobile'],
       balance: json['balance'],
       referredBy: json['referred_by'],
       referCode: json['refer_code'],
@@ -47,6 +55,9 @@ class Users {
       status: json['status'],
       joinedDate: json['joined_date'],
       lastUpdated: json['last_updated'],
+      refer_coins: json['refer_coins'],
+      min_withdrawal: json['min_withdrawal'],
+      device_id: json['device_id'],
     );
   }
   factory Users.fromJsonNew(Map<String, dynamic> json) {
@@ -55,7 +66,7 @@ class Users {
       upi: json['upi'],
       earn: json['earn'],
       coins: json['coins'],
-      mail: json['email'],
+      mobile: json['mobile'],
       name: json['name'],
       balance: json['balance'],
       referredBy: json['referred_by'],
@@ -65,6 +76,9 @@ class Users {
       status: json['status'],
       joinedDate: json['joined_date'],
       lastUpdated: json['last_updated'],
+      refer_coins: json['refer_coins'],
+      min_withdrawal: json['min_withdrawal'],
+      device_id: json['device_id'],
     );
   }
 
