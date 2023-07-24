@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                      Text(
-                      "Refer  a friend get "+referCoins+" coins and get commission 10% for their purchasing coins will add in your balance.",
+                      "Refer  a friend get "+referCoins+" coins ,after first transaction then only coins credited.",
                       style: TextStyle(
                           fontSize: 12,
                           color: Colors.red,

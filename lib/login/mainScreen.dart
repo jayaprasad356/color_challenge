@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:color_challenge/coinList.dart';
+import 'package:color_challenge/contest_ad.dart';
 import 'package:color_challenge/muChallenges.dart';
 import 'package:color_challenge/result.dart';
 import 'package:flutter/gestures.dart';
@@ -76,7 +77,7 @@ class _MainScreenState extends State<MainScreen> {
         _logoutVisible = false;
         _leftArrowVisible = false;
       } else if (index == 1) {
-        title = "My Challenges";
+        title = "Contest";
         _actionsVisible = false;
         _logoutVisible = false;
         _leftArrowVisible = false;
@@ -194,7 +195,7 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                       color: _selctedIndex == 1 ? colors.primary : colors.black,
                     ),
-                    label: 'Challenges',
+                    label: 'Contest',
                     backgroundColor: colors.white,
                   ),
                   BottomNavigationBarItem(
@@ -760,7 +761,7 @@ class _MainScreenState extends State<MainScreen> {
       case 0:
         return HomePage(updateAmount: updateAmount);
       case 1:
-        return const MyChallenges();
+        return const ContestAd();
       case 2:
         return const Result();
       default:
@@ -785,6 +786,8 @@ class _MainScreenState extends State<MainScreen> {
     });
     prefs.setString(
         Constant.CONTACT_US, datass[Constant.CONTACT_US]);
+    prefs.setString(
+        Constant.IMAGE, datass[Constant.IMAGE]);
     prefs.setString(
         Constant.WITHDRAWAL_STATUS, datass[Constant.WITHDRAWAL_STATUS]);
     // prefs.setString(

@@ -10,6 +10,7 @@ class Constant {
   static const String WITHDRAWAL_URL = "${BaseUrl}withdrawals.php";
   static const String CHECK_MOBILE = "${BaseUrl}check_mobile.php";
   static const String MY_CHALLENGES_URL = "${BaseUrl}my_challenges.php";
+  static const String CONTEST_RANK_URL = "${BaseUrl}contest_rank.php";
   static const String MY_RESULTS_URL = "${BaseUrl}results.php";
   static const String MY_WITHDRAWALS_LIST_URL = "${BaseUrl}withdrawals_list.php";
   static const String COLOR_LIST_URL = "${BaseUrl}color_list.php";
@@ -21,14 +22,21 @@ class Constant {
   static const String UPDATE_UPI_URL = "${BaseUrl}update_upi.php";
   static const String APPUPDATE_URL = "${BaseUrl}appupdate.php";
   static const String DUMMY_CHALLENGES = "${BaseUrl}dummy_challengers.php";
+  static const String TASK_START = "${BaseUrl}task_start.php";
+  static const String TASK_END = "${BaseUrl}task_end.php";
+  static const String TASK_LIST = "${BaseUrl}task_list.php";
 
   static const String SUCCESS = "success";
   static const String MESSAGE = "message";
   static const String MOBILE = "mobile";
   static const String EMAIL = "email";
+  static const String START_COINS = "start_coins";
+  static const String PRIZE = "prize";
   static const String USER_ID = "user_id";
   static const String AMOUNT = "amount";
   static const String TYPE = "type";
+  static const String RESULT = "result";
+  static const String TIME = "time";
   static const String DEBIT = "debit";
   static const String COLOR_ID = "color_id";
   static const String APP_VERSION = "app_version";
@@ -61,6 +69,7 @@ class Constant {
   static const String WITHDRAWAL_STATUS = "withdrawal_status";
 
   static const String CONTACT_US = "contact_us";
+  static const String IMAGE = "image";
   static const String REFER_COINS = "refer_coins";
   static const String CHALLENGE_STATUS = "challenge_status";
   static const String REGISTER_POINTS    = "register_points";
