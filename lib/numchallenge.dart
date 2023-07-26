@@ -51,11 +51,7 @@ class _NumChallengeState extends State<NumChallenge> {
   @override
   void initState() {
     super.initState();
-
     taskList();
-
-
-
   }
   @override
   Widget build(BuildContext context) {
@@ -477,24 +473,6 @@ class _NumChallengeState extends State<NumChallenge> {
     }else{
       Utils().showToast(message);
     }
-  }
-  void _showDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Time Out'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Start Again'),
-            ),
-          ],
-        );
-      },
-    );
   }
 
   Future<void> taskList() async {

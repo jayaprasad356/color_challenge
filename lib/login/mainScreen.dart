@@ -16,6 +16,7 @@ import '../Helper/apiCall.dart';
 import '../Helper/utils.dart';
 import '../homePage.dart';
 import '../my_challenges.dart';
+import '../task_show.dart';
 import '../upiPay.dart';
 import '../user.dart';
 import '../wallet.dart';
@@ -77,7 +78,7 @@ class _MainScreenState extends State<MainScreen> {
         _logoutVisible = false;
         _leftArrowVisible = false;
       } else if (index == 1) {
-        title = "Contest";
+        title = "Task";
         _actionsVisible = false;
         _logoutVisible = false;
         _leftArrowVisible = false;
@@ -195,7 +196,7 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                       color: _selctedIndex == 1 ? colors.primary : colors.black,
                     ),
-                    label: 'Contest',
+                    label: 'Task',
                     backgroundColor: colors.white,
                   ),
                   BottomNavigationBarItem(
@@ -761,7 +762,7 @@ class _MainScreenState extends State<MainScreen> {
       case 0:
         return HomePage(updateAmount: updateAmount);
       case 1:
-        return const ContestAd();
+        return const TaskShow();
       case 2:
         return const Result();
       default:

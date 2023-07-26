@@ -61,6 +61,7 @@ class _MyChallengeState extends State<MyChallenge> {
               scrollDirection: Axis.vertical,
               itemCount: datas.length,
               itemBuilder: (BuildContext context, int index) {
+
                 return GestureDetector(
                   onTap: () {},
                   child: Card(
