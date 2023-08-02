@@ -14,6 +14,7 @@ import '../Helper/Color.dart';
 import '../Helper/Constant.dart';
 import '../Helper/apiCall.dart';
 import '../Helper/utils.dart';
+import '../generate_coins.dart';
 import '../homePage.dart';
 import '../my_challenges.dart';
 import '../task_show.dart';
@@ -73,12 +74,12 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {
       _selctedIndex = index;
       if (index == 2) {
-        title = "Result";
+        title = "Task";
         _actionsVisible = false;
         _logoutVisible = false;
         _leftArrowVisible = false;
       } else if (index == 1) {
-        title = "Task";
+        title = "Generate Coins";
         _actionsVisible = false;
         _logoutVisible = false;
         _leftArrowVisible = false;
@@ -196,7 +197,7 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                       color: _selctedIndex == 1 ? colors.primary : colors.black,
                     ),
-                    label: 'Task',
+                    label: 'Generate',
                     backgroundColor: colors.white,
                   ),
                   BottomNavigationBarItem(
@@ -205,7 +206,7 @@ class _MainScreenState extends State<MainScreen> {
                           color: _selctedIndex == 2
                               ? colors.primary
                               : colors.black),
-                      label: 'Result',
+                      label: 'Task',
                       backgroundColor: colors.white),
                   BottomNavigationBarItem(
                       icon: ImageIcon(
@@ -762,9 +763,9 @@ class _MainScreenState extends State<MainScreen> {
       case 0:
         return HomePage(updateAmount: updateAmount);
       case 1:
-        return const TaskShow();
+        return const GenerateCoins();
       case 2:
-        return const Result();
+        return const TaskShow();
       default:
         return const wallet();
     }

@@ -43,6 +43,7 @@ extension colors on ColorScheme {
   static const Color profile_grey = Color(0xFFE0DCDC);
   static const Color primary = Color(0xFF2743FD);
   static const Color cc_telegram = Color(0xFF229ED9);
+  static const Color cc_telegram_light = Color(0xFF75C8EF);
   static const Color cc_whatsapp = Color(0xFF128C7E);
   static const Color bg_white = Color(0xFFF5F5F5);
   static const Color cc_green = Color(0xFF32A852);

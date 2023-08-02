@@ -5,6 +5,7 @@ class Constant {
   static const String BaseUrl = "${MainBaseUrl}api/";
   static const String LOGIN_URL = "${BaseUrl}login.php";
   static const String USER_DETAIL_URL = "${BaseUrl}user_details.php";
+  static const String GENERATE_COINS_URL = "${BaseUrl}generate_coins.php";
   static const String RESULT_TIME_URL = "${BaseUrl}result_time.php";
   static const String REGISTER_URL = "${BaseUrl}register.php";
   static const String WITHDRAWAL_URL = "${BaseUrl}withdrawals.php";

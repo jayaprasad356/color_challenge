@@ -1,5 +1,6 @@
 import 'package:color_challenge/contestUsers.dart';
 import 'package:color_challenge/muChallenges.dart';
+import 'package:color_challenge/result.dart';
 import 'package:color_challenge/spinnerPage.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -125,7 +126,10 @@ class TaskShowState extends State<TaskShow> {
                 ],
               ),
             ),
-          )
+          ),          Expanded(
+
+            child: Result(),
+          ),
 
 
         ],

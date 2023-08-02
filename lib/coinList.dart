@@ -134,7 +134,7 @@ class _CoinListState extends State<CoinList> {
                               ),
                               const Spacer(),
                               Container(
-                                color: Colors.grey,
+                                color: colors.primary,
                                 child: GestureDetector(
                                   onTap: () async {
                                     // Define the text to be sent to WhatsApp
