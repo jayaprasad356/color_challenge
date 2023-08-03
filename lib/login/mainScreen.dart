@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:color_challenge/coinList.dart';
 import 'package:color_challenge/contest_ad.dart';
+import 'package:color_challenge/jobs_show.dart';
 import 'package:color_challenge/muChallenges.dart';
 import 'package:color_challenge/result.dart';
 import 'package:flutter/gestures.dart';
@@ -763,7 +764,7 @@ class _MainScreenState extends State<MainScreen> {
       case 0:
         return HomePage(updateAmount: updateAmount);
       case 1:
-        return const GenerateCoins();
+        return const JobShow();
       case 2:
         return const TaskShow();
       default:

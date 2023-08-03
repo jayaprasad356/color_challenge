@@ -267,7 +267,7 @@ class _GenerateCoinsState extends State<GenerateCoins> {
                   ],
                 ),
               ),
-            ),// Adjust the height as needed for spacing
+            ),
             SizedBox(height: 20),
             Text(
               starttime.round().toString() + " seconds left",
