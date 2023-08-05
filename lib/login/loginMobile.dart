@@ -42,6 +42,7 @@ class _LoginMobileState extends State<LoginMobile> {
   @override
   void initState() {
     super.initState();
+    Utils().deviceInfo();
     setState(() {
       setupSettings();
     });

@@ -54,6 +54,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
+
     SharedPreferences.getInstance().then((value) {
       prefs = value;
       setState(() {
@@ -80,7 +81,7 @@ class _MainScreenState extends State<MainScreen> {
         _logoutVisible = false;
         _leftArrowVisible = false;
       } else if (index == 1) {
-        title = "Generate Coins";
+        title = "Jobs";
         _actionsVisible = false;
         _logoutVisible = false;
         _leftArrowVisible = false;
@@ -198,7 +199,7 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                       color: _selctedIndex == 1 ? colors.primary : colors.black,
                     ),
-                    label: 'Generate',
+                    label: 'Jobs',
                     backgroundColor: colors.white,
                   ),
                   BottomNavigationBarItem(

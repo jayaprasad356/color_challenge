@@ -356,7 +356,7 @@ class _HomePageState extends State<HomePage> {
     prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
     prefs.setString(Constant.REFER_COINS, user.refer_coins);
     prefs.setString(Constant.MIN_WITHDRAWAL, user.min_withdrawal);
-    if(user.status=="0" || user.device_id==""){
+    if(user.status=="0"){
       logout();
       SystemNavigator.pop();
     }

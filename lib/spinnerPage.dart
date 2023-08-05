@@ -24,11 +24,11 @@ class spinnerPageState extends State<spinnerPage> {
   late SharedPreferences prefs;
   final items = <String>[
     'No Coins',
+    '1 Coin',
+    '2 Coins',
+    '3 Coins',
+    '4 Coins',
     '5 Coins',
-    '10 Coins',
-    '15 Coins',
-    '20 Coins',
-    '25 Coins',
   ];
 
   int selectedIndex = 0; // Track the selected index separately
@@ -130,7 +130,7 @@ class spinnerPageState extends State<spinnerPage> {
   }
 
   Future<void> dailyBonusApi(int itempos, String result) async {
-    int iteemresult = itempos * 5;
+    int iteemresult = itempos;
     prefs = await SharedPreferences.getInstance();
     var url = Constant.DAILY_BONUS_URL;
     Map<String, dynamic> bodyObject = {

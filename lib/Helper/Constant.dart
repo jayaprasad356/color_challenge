@@ -1,6 +1,6 @@
 class Constant {
   //static const String MainBaseUrl = "https://democc.graymatterworks.com/";
-  static const String MainBaseUrl = "https://colorchallenge.graymatterworks.com/";
+  static const String MainBaseUrl = "https://admin.colorjobs.site/";
  // static const String MainBaseUrl = "http://192.168.43.38/color_challenge_admin/";
   static const String BaseUrl = "${MainBaseUrl}api/";
   static const String LOGIN_URL = "${BaseUrl}login.php";
@@ -48,6 +48,7 @@ class Constant {
   static const String LINK = "link";
   static const String BET_STATUS = "bet_status";
   static const String FCM_ID = "fcm_id";
+  static const String MY_DEVICE_ID = "my_device_id";
 
 
 

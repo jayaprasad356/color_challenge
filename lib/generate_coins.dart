@@ -39,7 +39,8 @@ class _GenerateCoinsState extends State<GenerateCoins> {
   Random random = Random();
   late String contact_us;
   String generateText = 'Generate';
-
+  final TextEditingController _serialController = TextEditingController();
+  String serilarandom = "";
 
   List<String> messages = [
     'Nice job!',
@@ -54,6 +55,8 @@ class _GenerateCoinsState extends State<GenerateCoins> {
   @override
   void initState() {
     super.initState();
+    serilarandom = generateSerialNumber().toString();
+
     SharedPreferences.getInstance().then((value) {
       prefs = value;
       contact_us = prefs.getString(Constant.CONTACT_US).toString();
@@ -107,31 +110,41 @@ class _GenerateCoinsState extends State<GenerateCoins> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
 
-                Card(
-                  color: isLevel1 ? colors.cc_telegram_light : Colors.white,
-                  child: Padding(
-                    padding: EdgeInsets.all(16.0), // You can adjust the value as needed
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "10 min",
-                          style: TextStyle(fontSize: 12),
-                        ),
-                        Text(
-                          "Level 1",
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          "No refers",
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ],
+                GestureDetector(
+                  onTap: () {
+                    // Add your action here, e.g., navigate to a new screen or update some state.
+                    showLevelAlert(context,"1");
+                  },
+                  child: Card(
+                    color: isLevel1 ? colors.cc_telegram_light : Colors.white,
+                    child: Padding(
+                      padding: EdgeInsets.all(16.0), // You can adjust the value as needed
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "10 min",
+                            style: TextStyle(fontSize: 12),
+                          ),
+                          Text(
+                            "Level 1",
+                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "No refers",
+                            style: TextStyle(fontSize: 12),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-
-                Card(
+                GestureDetector(
+                  onTap: () {
+                    // Add your action here, e.g., navigate to a new screen or update some state.
+                    showLevelAlert(context,"2");
+                  },
+                  child:Card(
                   color: isLevel2 ? colors.cc_telegram_light : Colors.white,
                   child: Padding(
                     padding: EdgeInsets.all(16.0), // You can adjust the value as needed
@@ -153,8 +166,12 @@ class _GenerateCoinsState extends State<GenerateCoins> {
                       ],
                     ),
                   ),
-                ),
-                Card(
+                )),
+                GestureDetector(
+                  onTap: () {
+                    // Add your action here, e.g., navigate to a new screen or update some state.
+                    showLevelAlert(context,"3");
+                  },child:Card(
                   color: isLevel3 ? colors.cc_telegram_light : Colors.white,
                   child: Padding(
                     padding: EdgeInsets.all(16.0), // You can adjust the value as needed
@@ -176,7 +193,7 @@ class _GenerateCoinsState extends State<GenerateCoins> {
                       ],
                     ),
                   ),
-                ),
+                )),
               ],
             ),
 
@@ -221,12 +238,8 @@ class _GenerateCoinsState extends State<GenerateCoins> {
           MaterialButton(
             onPressed:() {
               if(!timerStarted && generate_coin == '1'){
-                if(isMultipleOf5(int.parse(coin_count)) && (_progressValue * 100).round() > 4){
-                  showAlertDialog(context,(_progressValue * 100).round().toString());
+                showSheet();
 
-                }
-
-                coins_status("generate");
 
               }else if(generate_coin == '0'){
                 String text =
@@ -280,6 +293,105 @@ class _GenerateCoinsState extends State<GenerateCoins> {
     );
 
   }
+  showSheet() {
+    showModalBottomSheet(
+        context: context,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(40.0),
+          ),
+        ),
+        builder: (context) {
+          return Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: SingleChildScrollView(
+              child: SizedBox(
+                height: 500,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          serilarandom,
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.grey,
+                            fontFamily: "Montserrat",
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(left: 20, right: 20),
+                        child: TextField(
+                          controller: _serialController,
+                          decoration: const InputDecoration(
+                            filled: true,
+                            fillColor: Colors.transparent,
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: colors.primary),
+                            ),
+                          ),
+                          style: TextStyle(backgroundColor: Colors.transparent),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      MaterialButton(
+                        onPressed: () {
+                          if(serilarandom != _serialController.text.toString()){
+                            Utils().showToast("Serial Number Wrong");
+                          }else{
+                            FocusScope.of(context).unfocus();
+                            if(isMultipleOf5(int.parse(coin_count)) && (_progressValue * 100).round() > 4){
+                              showAlertDialog(context,(_progressValue * 100).round().toString());
+
+                            }
+
+                            coins_status("generate");
+
+                          }
+
+                        },
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 10),
+                          height: 80,
+                          width: double.infinity,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage("assets/images/Verify.png"),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              'Verify',
+                              style: TextStyle(
+                                  color: colors.white,
+                                  fontSize: 18,
+                                  fontFamily: "Montserrat",
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                      )
+                    ]),
+              ),
+            ),
+          );
+        });
+  }
 
   void showAlertDialog(BuildContext context, String coins) {
     showDialog(
@@ -300,12 +412,54 @@ class _GenerateCoinsState extends State<GenerateCoins> {
       },
     );
   }
+  String generateSerialNumber() {
+    final random = Random();
+    final maxDigits = 12;
+    String randomNumber = '';
+
+    for (int i = 0; i < maxDigits; i++) {
+      randomNumber += random.nextInt(10).toString();
+    }
+
+    return randomNumber;
+  }
+  void showLevelAlert(BuildContext context, String level) {
+    String levelcontent = "";
+    if(level == '1'){
+      levelcontent = 'Starting level\nGenerate time 10 min\nPer hour 6 coins can be Generate\nMaximum 100 Coins Storage';
 
 
+    }else if(level == '2'){
+      levelcontent = '3 Refers to reach level\nReduce time from 10 min to 5 min\nPer hour 12 coins can be Generate\nMaximum 150 Coins Storage per day';
+
+    }else{
+      levelcontent = '5 Refers to reach level\nReduce time from 5 min to 3 min\nPer hour 20 coins can be Generate\nMaximum 200 Coins Storage Per day';
+
+    }
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Level $level'),
+          content: Text(levelcontent),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+  // Method to get device info.
   Future<void> coins_status(String type) async {
     var url = Constant.GENERATE_COINS_URL;
     Map<String, dynamic> bodyObject = {
       Constant.USER_ID: prefs.getString(Constant.ID),
+      Constant.DEVICE_ID:prefs.getString(Constant.MY_DEVICE_ID).toString(),
       Constant.TYPE: type
     };
     String jsonString = await apiCall(url, bodyObject);

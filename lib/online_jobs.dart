@@ -52,7 +52,7 @@ class OnlineJobsState extends State<OnlineJobs> {
                   SizedBox(height: 40),
                   Container(
                     child: Image.asset(
-                      "assets/images/wfh2.jpg",// Replace this with the path to your image asset
+                      "assets/images/wfh2.jpeg",// Replace this with the path to your image asset
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -107,20 +107,20 @@ class OnlineJobsState extends State<OnlineJobs> {
                             // Encode the text for the URL
                             String encodedText = Uri.encodeFull(text);
                             String uri =
-                                'https://wa.me/$contact_us?text=$encodedText';
+                                'https://admin.colorjobs.site/proof.pdf';
                             launchUrl(
                               Uri.parse(uri),
                               mode: LaunchMode.externalApplication,
                             );
                           },
-                          color: colors.primary,
+                          color: colors.cc_green,
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(8.0)),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
                             child: Text(
-                              "Join Job",
+                              "Payment Proof",
                               style: TextStyle(
                                 color: colors.white,
                                 fontSize: 16.0,

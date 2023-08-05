@@ -43,9 +43,7 @@ class _OtpVerificationState extends State<OtpVerification> {
   //late final Rx<User?> firebaseUser;
   var verificationId = ''.obs;
    String otpSuccessMsg="OTP send Successfully";
-  static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
   Map<String, dynamic> _deviceData = <String, dynamic>{};
-  String device_id = '';
 
   _OtpVerificationState(String mobileNumber,String otp) {
     _mobileNumber = mobileNumber;
@@ -130,7 +128,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                       var url = Constant.LOGIN_URL;
                       Map<String, dynamic> bodyObject = {
                         Constant.MOBILE: _mobileNumber,
-                        Constant.DEVICE_ID: device_id,
+                        Constant.DEVICE_ID: prefs.getString(Constant.MY_DEVICE_ID).toString(),
                       };
                       String jsonString = await apiCall(url, bodyObject);
                       dynamic json = jsonDecode(jsonString);
@@ -207,21 +205,14 @@ class _OtpVerificationState extends State<OtpVerification> {
   @override
   void initState() {
     super.initState();
-    initPlatformState();
   }
 
-  Future<void> initPlatformState() async {
-    var deviceData = <String, dynamic>{};
-    deviceData = _readAndroidBuildData(await deviceInfoPlugin.androidInfo);
 
-    }
 
 
   Map<String, dynamic> _readAndroidBuildData(AndroidDeviceInfo build) {
 
-    setState(() {
-      device_id = build.id + build.serialNumber + build.fingerprint;
-    });
+
     return <String, dynamic>{
       'version.securityPatch': build.version.securityPatch,
       'version.sdkInt': build.version.sdkInt,
@@ -378,7 +369,7 @@ class _OtpVerificationState extends State<OtpVerification> {
     Map<String, dynamic> bodyObject = {
       Constant.MOBILE: _mobileNumber,
       Constant.NAME: _nameController.text,
-      Constant.DEVICE_ID: device_id,
+      Constant.DEVICE_ID: prefs.getString(Constant.MY_DEVICE_ID).toString(),
     };
 
     if (_referCodeController.text.isNotEmpty) {
