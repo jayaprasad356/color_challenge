@@ -76,7 +76,7 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {
       _selctedIndex = index;
       if (index == 2) {
-        title = "Task";
+        title = "Wallet";
         _actionsVisible = false;
         _logoutVisible = false;
         _leftArrowVisible = false;
@@ -202,14 +202,14 @@ class _MainScreenState extends State<MainScreen> {
                     label: 'Jobs',
                     backgroundColor: colors.white,
                   ),
-                  BottomNavigationBarItem(
-                      icon: ImageIcon(
-                          const AssetImage("assets/images/result.png"),
-                          color: _selctedIndex == 2
-                              ? colors.primary
-                              : colors.black),
-                      label: 'Task',
-                      backgroundColor: colors.white),
+                  // BottomNavigationBarItem(
+                  //     icon: ImageIcon(
+                  //         const AssetImage("assets/images/result.png"),
+                  //         color: _selctedIndex == 2
+                  //             ? colors.primary
+                  //             : colors.black),
+                  //     label: 'Task',
+                  //     backgroundColor: colors.white),
                   BottomNavigationBarItem(
                       icon: ImageIcon(
                           const AssetImage("assets/images/Wallet.png"),
@@ -763,11 +763,11 @@ class _MainScreenState extends State<MainScreen> {
   Widget getPage(int index) {
     switch (index) {
       case 0:
-        return HomePage(updateAmount: updateAmount);
+        return GenerateCoins();//HomePage(updateAmount: updateAmount);
       case 1:
         return const JobShow();
       case 2:
-        return const TaskShow();
+        return const wallet();
       default:
         return const wallet();
     }

@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:color_challenge/Helper/apiCall.dart';
 import 'package:color_challenge/Helper/utils.dart';
+import 'package:color_challenge/adScreen.dart';
 import 'package:color_challenge/muChallenges.dart';
 import 'package:color_challenge/spinnerPage.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,7 @@ class _GenerateCoinsState extends State<GenerateCoins> {
   bool isLevel1 = false,isLevel2 = false,isLevel3 = false;
   Random random = Random();
   late String contact_us;
-  String generateText = 'Generate';
+  String generateText = 'Watch Ad';
   final TextEditingController _serialController = TextEditingController();
   String serilarandom = "";
 
@@ -237,24 +238,32 @@ class _GenerateCoinsState extends State<GenerateCoins> {
             SizedBox(height: 120),
           MaterialButton(
             onPressed:() {
-              if(!timerStarted && generate_coin == '1'){
-                showSheet();
-
-
-              }else if(generate_coin == '0'){
-                String text =
-                    'Hello I need to Join in work from home job';
-
-                // Encode the text for the URL
-                String encodedText = Uri.encodeFull(text);
-                String uri =
-                    'https://wa.me/$contact_us?text=$encodedText';
-                launchUrl(
-                  Uri.parse(uri),
-                  mode: LaunchMode.externalApplication,
-                );
-
-              }
+              Utils().showToast("msg");
+              //AdScreen();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AdScreen(),
+                ),
+              );
+              // if(!timerStarted && generate_coin == '1'){
+              //   showSheet();
+              //
+              //
+              // }else if(generate_coin == '0'){
+              //   String text =
+              //       'Hello I need to Join in work from home job';
+              //
+              //   // Encode the text for the URL
+              //   String encodedText = Uri.encodeFull(text);
+              //   String uri =
+              //       'https://wa.me/$contact_us?text=$encodedText';
+              //   launchUrl(
+              //     Uri.parse(uri),
+              //     mode: LaunchMode.externalApplication,
+              //   );
+              //
+              // }
 
             },
             color: timerStarted && generate_coin == '1' ? Colors.grey : colors.primary,
@@ -475,10 +484,7 @@ class _GenerateCoinsState extends State<GenerateCoins> {
         generate_coin = jsonResponse['generate_coin'].toString();
         _progressValue = double.parse(coin_count)/100;
         starttime = double.parse(time_left);
-        if(generate_coin == '0'){
-          generateText = 'Join now';
 
-        }
         if(level == 1){
           isLevel1 = true;
         }else if(level == 2){
@@ -506,10 +512,7 @@ class _GenerateCoinsState extends State<GenerateCoins> {
         generate_coin = jsonResponse['generate_coin'].toString();
         _progressValue = double.parse(coin_count)/100;
         starttime = double.parse(time_left);
-        if(generate_coin == '0'){
-          generateText = 'Join now';
 
-        }
 
         if(starttime <= 600){
 

@@ -60,14 +60,17 @@ class JobShowState extends State<JobShow> {
                         Expanded(
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return OnlineJobs();
-                                  },
-                                ),
-                              );
+                              String phoneNumber = 'PHONE_NUMBER';
+                              String message = Uri.encodeFull('Hello, this is a pre-filled message!');
+                              launch('https://wa.me/$phoneNumber?text=$message');
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (context) {
+                              //       return OnlineJobs();
+                              //     },
+                              //   ),
+                              // );
                             },
                             child: Container(
                               height: 150,
@@ -78,7 +81,7 @@ class JobShowState extends State<JobShow> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'Online Jobs',
+                                        'Post Your Ad',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,

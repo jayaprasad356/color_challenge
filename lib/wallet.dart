@@ -12,6 +12,7 @@ import 'Helper/Color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Helper/Constant.dart';
 import 'Helper/apiCall.dart';
+import 'bank_detail_screen.dart';
 
 class wallet extends StatefulWidget {
   const wallet({Key? key}) : super(key: key);
@@ -140,74 +141,95 @@ class _walletState extends State<wallet> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Container(
-                        margin: const EdgeInsets.only(left: 20, right: 20),
-                        child: Column(
-                          children: <Widget>[
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Container(
-                                child: const Text(
-                                  "UPI ID",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: colors.black,
-                                      fontFamily: "Montserra"),
-                                ),
-                              ),
-                            ),
-                          ],
-                        )),
-                    Stack(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(
-                              left: 20, right: 20, top: 10, bottom: 4),
-                          child: ClipRRect(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(12.0)),
-                            child: IgnorePointer(
-                              ignoring: _isDisabled,
-                              child: TextField(
-                                keyboardType: TextInputType.number,
-                                controller: _upiIdController,
-                                decoration: const InputDecoration(
-                                  filled: true,
-                                  border: InputBorder.none,
-                                ),
-                                style: const TextStyle(
-                                    backgroundColor: Colors.transparent),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          right: 0,
-                          top: 0,
-                          bottom: 0,
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 15.0),
-                            child: IconButton(
-                              icon: Icon(
-                                _isDisabled ? Icons.edit : Icons.check,
-                                color: colors.primary,
-                              ),
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      buildUpdateUpiDialog(context,
-                                          (String upiId) {
-                                    // update the UPI ID here using the upiId parameter
-                                    // ...
-                                  }),
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+            MaterialButton(
+              color: colors.primary,
+              onPressed: () {
+                // Navigate to the BankDetailsScreen when the button is clicked
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BankDetailsScreen(),
+                  ),
+                );
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Text('Add Bank Detail',
+                  style: TextStyle(
+                  fontSize: 14,
+                  color: colors.white,
+                  fontFamily: "Montserra")),
+            )
+            ,
+                    // Container(
+                    //     margin: const EdgeInsets.only(left: 20, right: 20),
+                    //     child: Column(
+                    //       children: <Widget>[
+                    //         Align(
+                    //           alignment: Alignment.centerLeft,
+                    //           child: Container(
+                    //             child: const Text(
+                    //               "UPI ID",
+                    //               style: TextStyle(
+                    //                   fontSize: 14,
+                    //                   color: colors.black,
+                    //                   fontFamily: "Montserra"),
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       ],
+                    //     )),
+                    // Stack(
+                    //   children: [
+                    //     Container(
+                    //       margin: const EdgeInsets.only(
+                    //           left: 20, right: 20, top: 10, bottom: 4),
+                    //       child: ClipRRect(
+                    //         borderRadius:
+                    //             const BorderRadius.all(Radius.circular(12.0)),
+                    //         child: IgnorePointer(
+                    //           ignoring: _isDisabled,
+                    //           child: TextField(
+                    //             keyboardType: TextInputType.number,
+                    //             controller: _upiIdController,
+                    //             decoration: const InputDecoration(
+                    //               filled: true,
+                    //               border: InputBorder.none,
+                    //             ),
+                    //             style: const TextStyle(
+                    //                 backgroundColor: Colors.transparent),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     Positioned(
+                    //       right: 0,
+                    //       top: 0,
+                    //       bottom: 0,
+                    //       child: Padding(
+                    //         padding: const EdgeInsets.only(right: 15.0),
+                    //         child: IconButton(
+                    //           icon: Icon(
+                    //             _isDisabled ? Icons.edit : Icons.check,
+                    //             color: colors.primary,
+                    //           ),
+                    //           onPressed: () {
+                    //             showDialog(
+                    //               context: context,
+                    //               builder: (BuildContext context) =>
+                    //                   buildUpdateUpiDialog(context,
+                    //                       (String upiId) {
+                    //                 // update the UPI ID here using the upiId parameter
+                    //                 // ...
+                    //               }),
+                    //             );
+                    //           },
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                     const SizedBox(
                       height: 30,
                     ),
