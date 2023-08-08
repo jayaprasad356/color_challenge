@@ -134,13 +134,16 @@ class OnlineJobsState extends State<OnlineJobs> {
                       Expanded(
                         child: MaterialButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return GenerateCoins(); // Replace FindColor with the actual page you want to navigate to
-                                },
-                              ),
+                            String text =
+                                'Hello, I want to purchase database and I will pay for that';
+
+                            // Encode the text for the URL
+                            String encodedText = Uri.encodeFull(text);
+                            String uri =
+                                'https://wa.me/$contact_us?text=$encodedText';
+                            launchUrl(
+                              Uri.parse(uri),
+                              mode: LaunchMode.externalApplication,
                             );
                           },
                           color: colors.primary,
@@ -150,7 +153,7 @@ class OnlineJobsState extends State<OnlineJobs> {
                           child: Padding(
                             padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
                             child: Text(
-                              "View Job",
+                              "Purchase",
                               style: TextStyle(
                                 color: colors.white,
                                 fontSize: 16.0,

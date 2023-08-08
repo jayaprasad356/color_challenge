@@ -51,6 +51,7 @@ extension colors on ColorScheme {
   static const Color cc_skyblue = Color(0xFF22A7F0);
   static const Color cc_red = Color(0xFFCF000F);
   static const Color cc_pink = Color(0xFFC93756);
+  static const Color cc_velvet = Color(0xFF750851);
   static const Color gold_dark = Color(0xFFDAA520);
   static const Color gold_light = Color(0xFFFFD700);
   static const Color cc_yellow = Color(0xFFFFB61E);

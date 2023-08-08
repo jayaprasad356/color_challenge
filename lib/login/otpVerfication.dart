@@ -141,18 +141,16 @@ class _OtpVerificationState extends State<OtpVerification> {
                         final dataList = responseJson['data'] as List;
                         final Users user = Users.fromJsonNew(dataList.first);
                         prefs.setString(Constant.LOGED_IN, "true");
-                        prefs.setString(Constant.ID, user.id);
-                        prefs.setString(Constant.MOBILE, user.mobile);
-                        prefs.setString(Constant.EARN, user.earn);
-                        prefs.setString(Constant.COINS, user.coins);
-                        prefs.setString(Constant.BALANCE, user.balance);
-                        prefs.setString(Constant.REFERRED_BY, user.referredBy);
-                        prefs.setString(Constant.REFER_CODE, user.referCode);
-                        prefs.setString(Constant.WITHDRAWAL_STATUS, user.withdrawalStatus);
-                        prefs.setString(Constant.CHALLENGE_STATUS, user.challengeStatus);
-                        prefs.setString(Constant.STATUS, user.status);
-                        prefs.setString(Constant.JOINED_DATE, user.joinedDate);
-                        prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
+                        prefs.setString(Constant.ID, Constant.handleNullableString(user.id));
+                        prefs.setString(Constant.MOBILE, Constant.handleNullableString(user.mobile));
+                        prefs.setString(Constant.EARN, Constant.handleNullableString(user.earn));
+                        prefs.setString(Constant.BALANCE, Constant.handleNullableString(user.balance));
+                        prefs.setString(Constant.REFERRED_BY, Constant.handleNullableString(user.referredBy));
+                        prefs.setString(Constant.REFER_CODE, Constant.handleNullableString(user.referCode));
+                        prefs.setString(Constant.WITHDRAWAL_STATUS, Constant.handleNullableString(user.withdrawalStatus));
+                        prefs.setString(Constant.STATUS, Constant.handleNullableString(user.status));
+                        prefs.setString(Constant.JOINED_DATE, Constant.handleNullableString(user.joinedDate));
+                        prefs.setString(Constant.LAST_UPDATED, Constant.handleNullableString(user.lastUpdated));
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -385,12 +383,10 @@ class _OtpVerificationState extends State<OtpVerification> {
       prefs.setString(Constant.ID, user.id);
       prefs.setString(Constant.MOBILE, user.mobile);
       prefs.setString(Constant.EARN, user.earn);
-      prefs.setString(Constant.COINS, user.coins);
       prefs.setString(Constant.BALANCE, user.balance);
       prefs.setString(Constant.REFERRED_BY, user.referredBy);
       prefs.setString(Constant.REFER_CODE, user.referCode);
       prefs.setString(Constant.WITHDRAWAL_STATUS, user.withdrawalStatus);
-      prefs.setString(Constant.CHALLENGE_STATUS, user.challengeStatus);
       prefs.setString(Constant.STATUS, user.status);
       prefs.setString(Constant.JOINED_DATE, user.joinedDate);
       prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);

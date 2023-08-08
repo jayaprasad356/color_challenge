@@ -142,7 +142,7 @@ class _MyAppState extends State<MyApp> {
           final SharedPreferences prefs = snapshot.data!;
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'Color Challenge',
+            title: 'A1 Ads',
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),

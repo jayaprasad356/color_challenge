@@ -335,7 +335,7 @@ class _LoginMobileState extends State<LoginMobile> {
     if (_referCodeController.text.isNotEmpty) {
       bodyObject[Constant.REFERRED_BY] = _referCodeController.text;
     }
-    String jsonString = await apiCall("https://api.authkey.io/request?authkey=b45c58db6d261f2a&mobile="+_mobileNumberController.text+"&country_code=91&sid=9214&otp="+randomNumber.toString()+"&company=Color Challenge", bodyObject);
+    String jsonString = await apiCall("https://api.authkey.io/request?authkey=b45c58db6d261f2a&mobile="+_mobileNumberController.text+"&country_code=91&sid=9214&otp="+randomNumber.toString()+"&company=A1 Ads", bodyObject);
   }
 
   // Future login() async {

@@ -4,6 +4,7 @@ import 'package:color_challenge/coinList.dart';
 import 'package:color_challenge/contest_ad.dart';
 import 'package:color_challenge/jobs_show.dart';
 import 'package:color_challenge/muChallenges.dart';
+import 'package:color_challenge/online_jobs.dart';
 import 'package:color_challenge/result.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -19,12 +20,13 @@ import '../generate_coins.dart';
 import '../homePage.dart';
 import '../my_challenges.dart';
 import '../task_show.dart';
+import '../trial_ad.dart';
 import '../upiPay.dart';
 import '../user.dart';
 import '../wallet.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:firebase_messaging/firebase_messaging.dart';
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
 
@@ -50,27 +52,72 @@ class _MainScreenState extends State<MainScreen> {
   String text = 'Click here Send ScreenShoot';
   String link = 'http://t.me/Colorchallengeapp1';
   final googleSignIn = GoogleSignIn();
+  late String contact_us;
+  late String _fcmToken;
+
 
   @override
   void initState() {
     super.initState();
-
     SharedPreferences.getInstance().then((value) {
       prefs = value;
+      setupSettings();
       setState(() {
-        setupSettings();
+
         coins = prefs.getString(Constant.COINS)!;
         balance = prefs.getString(Constant.BALANCE)!;
         mailId = prefs.getString(Constant.EMAIL)!;
+        contact_us = prefs.getString(Constant.CONTACT_US).toString();
       });
+    });
+    FirebaseMessaging.instance.getToken().then((token) {
+      setState(() {
+        _fcmToken = token!;
+        userDeatils();
+      });
+      print('FCM Token: $_fcmToken');
     });
   }
 
-  void updateAmount(String coinss) {
-    setState(() {
-      coins = coinss;
-    });
+
+
+  void userDeatils() async {
+    prefs = await SharedPreferences.getInstance();
+    var url = Constant.USER_DETAIL_URL;
+    Map<String, dynamic> bodyObject = {
+      Constant.USER_ID: prefs.getString(Constant.ID),
+      Constant.FCM_ID:_fcmToken
+    };
+    String jsonString = await apiCall(url, bodyObject);
+    final Map<String, dynamic> responseJson = jsonDecode(jsonString);
+    final dataList = responseJson['data'] as List;
+    final Users user = Users.fromJsonNew(dataList.first);
+
+    prefs.setString(Constant.LOGED_IN, "true");
+    prefs.setString(Constant.ID, user.id);
+    prefs.setString(Constant.MOBILE, user.mobile);
+    prefs.setString(Constant.NAME, user.name);
+    prefs.setString(Constant.UPI, user.upi);
+    prefs.setString(Constant.EARN, user.earn);
+    prefs.setString(Constant.BALANCE, user.balance);
+    prefs.setString(Constant.REFERRED_BY, user.referredBy);
+    prefs.setString(Constant.REFER_CODE, user.referCode);
+    prefs.setString(Constant.WITHDRAWAL_STATUS, user.withdrawalStatus);
+    prefs.setString(Constant.STATUS, user.status);
+    prefs.setString(Constant.JOINED_DATE, user.joinedDate);
+    prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
+    prefs.setString(Constant.MIN_WITHDRAWAL, user.min_withdrawal);
+    prefs.setString(Constant.HOLDER_NAME, user.holder_name);
+    prefs.setString(Constant.ACCOUNT_NUM, user.account_num);
+    prefs.setString(Constant.IFSC, user.ifsc);
+    prefs.setString(Constant.BANK, user.bank);
+    prefs.setString(Constant.BRANCH, user.branch);
+    if(user.status=="2" || user.device_id=="0"){
+      logout();
+      SystemNavigator.pop();
+    }
   }
+
 
   void _onItemTapped(int index) {
     setState(() {
@@ -78,10 +125,10 @@ class _MainScreenState extends State<MainScreen> {
       if (index == 2) {
         title = "Wallet";
         _actionsVisible = false;
-        _logoutVisible = false;
+        _logoutVisible = true;
         _leftArrowVisible = false;
       } else if (index == 1) {
-        title = "Jobs";
+        title = "Info";
         _actionsVisible = false;
         _logoutVisible = false;
         _leftArrowVisible = false;
@@ -119,35 +166,47 @@ class _MainScreenState extends State<MainScreen> {
               : (null),
           actions: _actionsVisible
               ? [
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Image.asset(
-                      "assets/images/coin.png",
-                      height: 24,
-                      width: 24,
-                    ),
-                  ),
-                  Center(
-                      child: Text(
-                    coins,
-                    style: const TextStyle(
-                        color: colors.primary,
-                        fontFamily: "Montserra",
-                        fontSize: 16),
-                  )),
-                  GestureDetector(
-                    onTap: () {
-                      showUpiDetailSheet();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Image.asset(
-                        "assets/images/add.png",
-                        height: 24,
-                        width: 24,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: MaterialButton(
+                onPressed:() {
+                  String text =
+                      'Hello I need help in app';
+
+                  // Encode the text for the URL
+                  String encodedText = Uri.encodeFull(text);
+                  String uri =
+                      'https://wa.me/$contact_us?text=$encodedText';
+                  launchUrl(
+                    Uri.parse(uri),
+                    mode: LaunchMode.externalApplication,
+                  );
+                },
+                color:  colors.cc_green,
+
+                shape: const RoundedRectangleBorder(
+                  borderRadius:
+                  BorderRadius.all(Radius.circular(8.0)),
+                ),
+                child: Padding(
+                  padding:
+                  const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        'Help',
+                        style: TextStyle(
+                          color: colors.white,
+                          fontSize: 11.0,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  )
+                    ],
+                  ),
+                ),
+              ),
+            )
                 ]
               : [
                   _logoutVisible
@@ -199,7 +258,7 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                       color: _selctedIndex == 1 ? colors.primary : colors.black,
                     ),
-                    label: 'Jobs',
+                    label: 'Info',
                     backgroundColor: colors.white,
                   ),
                   // BottomNavigationBarItem(
@@ -213,7 +272,7 @@ class _MainScreenState extends State<MainScreen> {
                   BottomNavigationBarItem(
                       icon: ImageIcon(
                           const AssetImage("assets/images/Wallet.png"),
-                          color: _selctedIndex == 3
+                          color: _selctedIndex == 2
                               ? colors.primary
                               : colors.black),
                       label: 'Wallet',
@@ -226,6 +285,20 @@ class _MainScreenState extends State<MainScreen> {
             )),
         body: getPage(_selctedIndex));
   }
+  String separateNumber(String number) {
+    if (number.length != 12) {
+      throw Exception("Number must be 12 digits long.");
+    }
+
+    List<String> groups = [];
+
+    for (int i = 0; i < 12; i += 4) {
+      groups.add(number.substring(i, i + 4));
+    }
+
+    return groups.join('-');
+  }
+
 
   showTopupBottomSheet() {
     showModalBottomSheet(
@@ -763,7 +836,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget getPage(int index) {
     switch (index) {
       case 0:
-        return GenerateCoins();//HomePage(updateAmount: updateAmount);
+        return TrialAd();//HomePage(updateAmount: updateAmount);
       case 1:
         return const JobShow();
       case 2:

@@ -31,10 +31,12 @@ class _walletState extends State<wallet> {
   String minimum = "";
   String name = "";
   String mobile = "";
-  String earn = "";
+  String earn = "0.00";
 
   late String _upiId;
   late String _fcmToken;
+  late String totalRefund = '';
+
 
   @override
   void initState() {
@@ -48,8 +50,13 @@ class _walletState extends State<wallet> {
         mobile = prefs.getString(Constant.MOBILE).toString();
         earn = prefs.getString(Constant.EARN).toString();
         name=prefs.getString(Constant.NAME).toString();
+        double earnAmount = double.parse(earn);
+        totalRefund = 'Total Refund = Rs. ${(earnAmount / 2).toStringAsFixed(2)}';
+
       });
     });
+
+
   }
 
   @override
@@ -91,23 +98,31 @@ class _walletState extends State<wallet> {
                           Text(
                             name,
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(height: 8),
+                          SizedBox(height: 6),
                           Text(
                             mobile,
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 12,
                                 color: colors.black
                             ),
                           ),
-                          SizedBox(height: 8),
+                          SizedBox(height: 6),
                           Text(
                             'Total Earnings = Rs.'+earn,
                             style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 12,
+                                color: colors.black
+                            ),
+                          ),
+                          SizedBox(height: 6),
+                          Text(
+                            totalRefund,
+                              style: TextStyle(
+                                fontSize: 12,
                                 color: colors.black
                             ),
                           ),
@@ -433,12 +448,10 @@ class _walletState extends State<wallet> {
     prefs.setString(Constant.ID, user.id);
     prefs.setString(Constant.UPI, user.upi);
     prefs.setString(Constant.EARN, user.earn);
-    prefs.setString(Constant.COINS, user.coins);
     prefs.setString(Constant.BALANCE, user.balance);
     prefs.setString(Constant.REFERRED_BY, user.referredBy);
     prefs.setString(Constant.REFER_CODE, user.referCode);
     prefs.setString(Constant.WITHDRAWAL_STATUS, user.withdrawalStatus);
-    prefs.setString(Constant.CHALLENGE_STATUS, user.challengeStatus);
     prefs.setString(Constant.STATUS, user.status);
     prefs.setString(Constant.JOINED_DATE, user.joinedDate);
     prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);

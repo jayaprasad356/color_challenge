@@ -1,7 +1,8 @@
 class Constant {
   //static const String MainBaseUrl = "https://democc.graymatterworks.com/";
   static const String MainBaseUrl = "https://admin.colorjobs.site/";
- // static const String MainBaseUrl = "http://192.168.43.38/color_challenge_admin/";
+  //static const String MainBaseUrl = "http://192.168.15.38/color_challenge_admin/";
+  //static const String MainBaseUrl = "https://demo.colorjobs.site/";
   static const String BaseUrl = "${MainBaseUrl}api/";
   static const String LOGIN_URL = "${BaseUrl}login.php";
   static const String USER_DETAIL_URL = "${BaseUrl}user_details.php";
@@ -30,6 +31,8 @@ class Constant {
   static const String TASK_START = "${BaseUrl}task_start.php";
   static const String TASK_END = "${BaseUrl}task_end.php";
   static const String TASK_LIST = "${BaseUrl}task_list.php";
+  static const String TRIAL_ADS_LIST = "${BaseUrl}trial_ads.php";
+  static const String UPDATE_BANK_DETAILS = "${BaseUrl}update_bank_details.php";
 
   static const String SUCCESS = "success";
   static const String MESSAGE = "message";
@@ -39,7 +42,12 @@ class Constant {
   static const String PRIZE = "prize";
   static const String USER_ID = "user_id";
   static const String AMOUNT = "amount";
+  static const String HOLDER_NAME = "holder_name";
+  static const String BANK = "bank";
+  static const String ACCOUNT_NUM = "account_num";
+  static const String BRANCH = "branch";
   static const String TYPE = "type";
+  static const String IFSC = "ifsc";
   static const String RESULT = "result";
   static const String TIME = "time";
   static const String DEBIT = "debit";
@@ -68,6 +76,13 @@ class Constant {
   static const String DEVICE_ID = "device_id";
 
   static const String RESULT_ANNOUNCE_TIME = "result_announce_time";
+  static String handleNullableString(String input) {
+    if (input == null) {
+      return '';
+    } else {
+      return input;
+    }
+  }
 
 
 
