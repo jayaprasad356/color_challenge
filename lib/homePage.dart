@@ -100,6 +100,8 @@ class HomeState extends State<Home> {
     prefs.setString(Constant.BASIC_WALLET, user.basic_wallet);
     prefs.setString(Constant.PREMIUM_WALLET, user.premium_wallet);
     prefs.setString(Constant.TARGET_REFERS, user.target_refers);
+    prefs.setString(Constant.TODAY_ADS, user.today_ads);
+    prefs.setString(Constant.TOTAL_ADS, user.total_ads);
     setState(() {
       basic_wallet = prefs.getString(Constant.BASIC_WALLET)!;
       premium_wallet = prefs.getString(Constant.PREMIUM_WALLET)!;

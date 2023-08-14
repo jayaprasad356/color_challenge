@@ -159,12 +159,14 @@ class JobShowState extends State<JobShow> {
                         ),
                       ),
                     ),
+                    SizedBox(height: 10),
                     Image.network(
                       offer_image,
                       fit: BoxFit.contain,
                       height: 300, // Set the desired height
                       width: 400,  // Set the desired width
                     ),
+                    SizedBox(height: 10),
                     MaterialButton(
                       onPressed: () async {
                         launchUrl(
