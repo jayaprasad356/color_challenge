@@ -35,7 +35,16 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp(options: FirebaseOptions(
+  //   apiKey: "AIzaSyBnBf0EAqIe6QL7aeO9yC6dd-yHI5mI9hc",
+  //   appId: "1:766073031164:web:7ce16b7d99a4ed8c420a79",
+  //   messagingSenderId: "766073031164",
+  //   projectId: "color-challenge-524cd",
+  // ),);
   await Firebase.initializeApp();
+
+
+
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   await flutterLocalNotificationsPlugin

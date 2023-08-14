@@ -18,6 +18,11 @@ class Users {
   final String holder_name;
   final String bank;
   final String branch;
+  final String basic_wallet;
+  final String premium_wallet;
+  final String target_refers;
+  final String today_ads;
+  final String total_ads;
 
 
 
@@ -41,6 +46,11 @@ class Users {
     required this.holder_name,
     required this.bank,
     required this.branch,
+    required this.basic_wallet,
+    required this.premium_wallet,
+    required this.target_refers,
+    required this.today_ads,
+    required this.total_ads,
 
   });
 
@@ -65,6 +75,11 @@ class Users {
       holder_name: json['holder_name'],
       bank: json['bank'],
       branch: json['branch'],
+      basic_wallet: json['basic_wallet'],
+      premium_wallet: json['premium_wallet'],
+      target_refers: json['target_refers'],
+      today_ads: json['today_ads'],
+      total_ads: json['total_ads'],
     );
   }
   factory Users.fromJsonNew(Map<String, dynamic> json) {
@@ -88,6 +103,11 @@ class Users {
       holder_name: json['holder_name'],
       bank: json['bank'],
       branch: json['branch'],
+      basic_wallet: json['basic_wallet'],
+      premium_wallet: json['premium_wallet'],
+      target_refers: json['target_refers'],
+      today_ads: json['today_ads'],
+      total_ads: json['total_ads'],
     );
   }
 

@@ -5,6 +5,7 @@ import 'package:color_challenge/Helper/utils.dart';
 import 'package:color_challenge/user.dart';
 import 'package:flutter/material.dart';
 
+import 'Helper/Color.dart';
 import 'Helper/Constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class BankDetailsScreen extends StatelessWidget {
@@ -13,6 +14,15 @@ class BankDetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Bank Details'),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [colors.primary_color, colors.primary_color2], // Change these colors to your desired gradient colors
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+        ),
       ),
       body: BankDetailsForm(),
     );
@@ -62,78 +72,94 @@ class _BankDetailsFormState extends State<BankDetailsForm> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TextField(
-                controller: _holdernameController,
-                decoration: InputDecoration(labelText: 'Holder Name'),
+      child: Container(
+        width: MediaQuery.of(context).size.width, // Set width to the screen width
+        height: MediaQuery.of(context).size.height, // Set height to the screen height
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [colors.primary_color, colors.secondary_color],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                TextField(
+                  controller: _holdernameController,
+                  decoration: InputDecoration(labelText: 'Holder Name', labelStyle: TextStyle(color: Colors.white),hintStyle: TextStyle(color: Colors.white),),
+                  style: TextStyle(color: Colors.white),
 
-              ),
-              SizedBox(height: 16),
-              TextField(
-                controller: _accountNumberController,
-                decoration: InputDecoration(labelText: 'Account Number'),
-                keyboardType: TextInputType.number,
-              ),
-              SizedBox(height: 16),
-              TextField(
-                controller: _ifscCodeController,
-                decoration: InputDecoration(labelText: 'IFSC Code'),
-              ),
-              SizedBox(height: 16),
-              TextField(
-                controller: _bankNameController,
-                decoration: InputDecoration(labelText: 'Bank Name'),
-              ),
-              SizedBox(height: 16),
-              TextField(
-                controller: _branchNameController,
-                decoration: InputDecoration(labelText: 'Branch Name'), // New field for branch name
-              ),
-              SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    prefs = await SharedPreferences.getInstance();
+                ),
+                SizedBox(height: 16),
+                TextField(
+                  controller: _accountNumberController,
+                  style: TextStyle(color: Colors.white),
+                  decoration: InputDecoration(labelText: 'Account Number', labelStyle: TextStyle(color: Colors.white),hintStyle: TextStyle(color: Colors.white),),
+                  keyboardType: TextInputType.number,
+                ),
+                SizedBox(height: 16),
+                TextField(
+                  controller: _ifscCodeController,
+                  decoration: InputDecoration(labelText: 'IFSC Code', labelStyle: TextStyle(color: Colors.white),hintStyle: TextStyle(color: Colors.white),),
+                  style: TextStyle(color: Colors.white),
+                ),
+                SizedBox(height: 16),
+                TextField(
+                  controller: _bankNameController,
+                  decoration: InputDecoration(labelText: 'Bank Name', labelStyle: TextStyle(color: Colors.white),hintStyle: TextStyle(color: Colors.white),),
+                  style: TextStyle(color: Colors.white),
+                ),
+                SizedBox(height: 16),
+                TextField(
+                  controller: _branchNameController,
+                  decoration: InputDecoration(labelText: 'Branch Name', labelStyle: TextStyle(color: Colors.white),hintStyle: TextStyle(color: Colors.white),),
+                  style: TextStyle(color: Colors.white),
+                ),
+                SizedBox(height: 24),
+                ElevatedButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      prefs = await SharedPreferences.getInstance();
 
-                    String holderName = _holdernameController.text;
-                    String bankName = _bankNameController.text;
-                    String accountNumber = _accountNumberController.text;
-                    String ifscCode = _ifscCodeController.text;
-                    String branchName = _branchNameController.text;
+                      String holderName = _holdernameController.text;
+                      String bankName = _bankNameController.text;
+                      String accountNumber = _accountNumberController.text;
+                      String ifscCode = _ifscCodeController.text;
+                      String branchName = _branchNameController.text;
 
-                    var url = Constant.UPDATE_BANK_DETAILS;
-                    Map<String, dynamic> bodyObject = {
-                      Constant.USER_ID: prefs.getString(Constant.ID),
-                      Constant.HOLDER_NAME: holderName,
-                      Constant.BANK: bankName,
-                      Constant.ACCOUNT_NUM: accountNumber,
-                      Constant.BRANCH: branchName,
-                      Constant.IFSC: ifscCode,
-                    };
-                    String jsonString = await apiCall(url, bodyObject);
-                    final jsonResponse = jsonDecode(jsonString);
-                    final message = jsonResponse['message'];
-                    final status = jsonResponse['success'];
+                      var url = Constant.UPDATE_BANK_DETAILS;
+                      Map<String, dynamic> bodyObject = {
+                        Constant.USER_ID: prefs.getString(Constant.ID),
+                        Constant.HOLDER_NAME: holderName,
+                        Constant.BANK: bankName,
+                        Constant.ACCOUNT_NUM: accountNumber,
+                        Constant.BRANCH: branchName,
+                        Constant.IFSC: ifscCode,
+                      };
+                      String jsonString = await apiCall(url, bodyObject);
+                      final jsonResponse = jsonDecode(jsonString);
+                      final message = jsonResponse['message'];
+                      final status = jsonResponse['success'];
 
-                    if (status) {
-                      userDeatils();
+                      if (status) {
+                        userDeatils();
+                      }
+
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(message)),
+                      );
                     }
-
-
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(message)),
-                    );
-                  }
-                },
-                child: Text('Save Bank Details'),
-              ),
-            ],
+                  },
+                  child: Text('Save Bank Details'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -1,38 +1,25 @@
 class Constant {
-  //static const String MainBaseUrl = "https://democc.graymatterworks.com/";
   static const String MainBaseUrl = "https://admin.colorjobs.site/";
-  //static const String MainBaseUrl = "http://192.168.15.38/color_challenge_admin/";
+  //static const String MainBaseUrl = "http://192.168.114.38/color_challenge_admin/";
   //static const String MainBaseUrl = "https://demo.colorjobs.site/";
   static const String BaseUrl = "${MainBaseUrl}api/";
   static const String LOGIN_URL = "${BaseUrl}login.php";
   static const String USER_DETAIL_URL = "${BaseUrl}user_details.php";
-  static const String GENERATE_COINS_URL = "${BaseUrl}generate_coins.php";
-  static const String RESULT_TIME_URL = "${BaseUrl}result_time.php";
   static const String REGISTER_URL = "${BaseUrl}register.php";
   static const String WITHDRAWAL_URL = "${BaseUrl}withdrawals.php";
   static const String CHECK_MOBILE = "${BaseUrl}check_mobile.php";
-  static const String MY_CHALLENGES_URL = "${BaseUrl}my_challenges.php";
-  static const String FINDCOLORS_LIST_URL = "${BaseUrl}findcolors_list.php";
-  static const String CONTEST_RANK_URL = "${BaseUrl}contest_rank.php";
-  static const String MY_RESULTS_URL = "${BaseUrl}results.php";
   static const String MY_WITHDRAWALS_LIST_URL = "${BaseUrl}withdrawals_list.php";
-  static const String COLOR_LIST_URL = "${BaseUrl}color_list.php";
-  static const String COIN_LIST_URL = "${BaseUrl}coins_list.php";
-  static const String ADD_COINS_URL = "${BaseUrl}add_coins.php";
-  static const String COLOR_CHALLENGE_URL = "${BaseUrl}color_challenge.php";
-  static const String DAILY_BONUS_URL = "${BaseUrl}daily_bonus.php";
+  static const String TRANSACTIONS_LIST_URL = "${BaseUrl}transactions_list.php";
+
   static const String SETTINGS_URL = "${BaseUrl}settings.php";
-  static const String UPDATE_UPI_URL = "${BaseUrl}update_upi.php";
-  static const String SPEND_COINS_URL = "${BaseUrl}spend_coins.php";
-  static const String CREDIT_BALANCE_URL = "${BaseUrl}credit_balance.php";
-  static const String CREDIT_COINS_URL = "${BaseUrl}credit_coins.php";
+  static const String ADS_URL = "${BaseUrl}ads.php";
   static const String APPUPDATE_URL = "${BaseUrl}appupdate.php";
-  static const String DUMMY_CHALLENGES = "${BaseUrl}dummy_challengers.php";
-  static const String TASK_START = "${BaseUrl}task_start.php";
-  static const String TASK_END = "${BaseUrl}task_end.php";
-  static const String TASK_LIST = "${BaseUrl}task_list.php";
+
+
   static const String TRIAL_ADS_LIST = "${BaseUrl}trial_ads.php";
   static const String UPDATE_BANK_DETAILS = "${BaseUrl}update_bank_details.php";
+  static const String ADD_MAIN_BALANCE_URL= "${BaseUrl}add_main_balance.php";
+  static const String VIEW_AD_URL= "${BaseUrl}view_ad.php";
 
   static const String SUCCESS = "success";
   static const String MESSAGE = "message";
@@ -46,14 +33,20 @@ class Constant {
   static const String BANK = "bank";
   static const String ACCOUNT_NUM = "account_num";
   static const String BRANCH = "branch";
+  static const String BASIC_WALLET = "basic_wallet";
+  static const String PREMIUM_WALLET = "premium_wallet";
+  static const String TARGET_REFERS = "target_refers";
+  static const String TODAY_ADS = "today_ads";
+  static const String TOTAL_ADS = "total_ads";
+  static const String REFER_BONUS = "refer_bonus";
   static const String TYPE = "type";
+  static const String WALLET_TYPE = "wallet_type";
   static const String IFSC = "ifsc";
   static const String RESULT = "result";
   static const String TIME = "time";
-  static const String DEBIT = "debit";
-  static const String COLOR_ID = "color_id";
   static const String APP_VERSION = "app_version";
   static const String LINK = "link";
+  static const String ADS_LINK = "ads_link";
   static const String BET_STATUS = "bet_status";
   static const String FCM_ID = "fcm_id";
   static const String MY_DEVICE_ID = "my_device_id";
@@ -71,6 +64,7 @@ class Constant {
   static const String STATUS = "status";
   static const String JOINED_DATE = "joined_date";
   static const String LAST_UPDATED = "last_updated";
+  static const String AD_STARTED_TIME = "ad_started_time";
 
   static const String NAME = "name";
   static const String DEVICE_ID = "device_id";
@@ -91,11 +85,9 @@ class Constant {
 
   static const String CONTACT_US = "contact_us";
   static const String IMAGE = "image";
-  static const String REFER_COINS = "refer_coins";
-  static const String CHALLENGE_STATUS = "challenge_status";
+  static const String ADS_IMAGE = "ads_image";
+  static const String OFFER_IMAGE = "offer_image";
   static const String REGISTER_POINTS    = "register_points";
   static const String MIN_WITHDRAWAL    = "min_withdrawal";
-  static const String MIN_DP_COINS        = "min_dp_coins";
-  static const String MAX_DP_COINS      = "max_dp_coins";
-  static const String UPI_ID      = "upi_id";
+
 }

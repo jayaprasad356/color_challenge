@@ -1,11 +1,8 @@
 import 'dart:convert';
 
-import 'package:color_challenge/coinList.dart';
-import 'package:color_challenge/contest_ad.dart';
 import 'package:color_challenge/jobs_show.dart';
-import 'package:color_challenge/muChallenges.dart';
+
 import 'package:color_challenge/online_jobs.dart';
-import 'package:color_challenge/result.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,10 +13,8 @@ import '../Helper/Color.dart';
 import '../Helper/Constant.dart';
 import '../Helper/apiCall.dart';
 import '../Helper/utils.dart';
-import '../generate_coins.dart';
 import '../homePage.dart';
-import '../my_challenges.dart';
-import '../task_show.dart';
+import '../reports.dart';
 import '../trial_ad.dart';
 import '../upiPay.dart';
 import '../user.dart';
@@ -48,28 +43,17 @@ class _MainScreenState extends State<MainScreen> {
   late SharedPreferences prefs;
   String coins = "0";
   String balance = "";
-  String mailId = "";
   String text = 'Click here Send ScreenShoot';
   String link = 'http://t.me/Colorchallengeapp1';
   final googleSignIn = GoogleSignIn();
-  late String contact_us;
+  late String contact_us = "";
   late String _fcmToken;
 
 
   @override
   void initState() {
     super.initState();
-    SharedPreferences.getInstance().then((value) {
-      prefs = value;
-      setupSettings();
-      setState(() {
-
-        coins = prefs.getString(Constant.COINS)!;
-        balance = prefs.getString(Constant.BALANCE)!;
-        mailId = prefs.getString(Constant.EMAIL)!;
-        contact_us = prefs.getString(Constant.CONTACT_US).toString();
-      });
-    });
+    setupSettings();
     FirebaseMessaging.instance.getToken().then((token) {
       setState(() {
         _fcmToken = token!;
@@ -122,23 +106,23 @@ class _MainScreenState extends State<MainScreen> {
   void _onItemTapped(int index) {
     setState(() {
       _selctedIndex = index;
-      if (index == 2) {
-        title = "Wallet";
-        _actionsVisible = false;
-        _logoutVisible = true;
-        _leftArrowVisible = false;
-      } else if (index == 1) {
+      if (index == 1) {
         title = "Info";
         _actionsVisible = false;
         _logoutVisible = false;
         _leftArrowVisible = false;
+      } else if (index == 2) {
+        title = "Reports";
+        _actionsVisible = false;
+        _logoutVisible = false;
+        _leftArrowVisible = false;
       } else if (index == 3) {
-        title = "wallet";
+        title = "Wallet";
         _actionsVisible = false;
         _logoutVisible = true;
         _leftArrowVisible = false;
       } else {
-        title = "HOME";
+        title = "Home";
         _actionsVisible = true;
         _logoutVisible = false;
         _leftArrowVisible = false;
@@ -150,13 +134,21 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: colors.white,
           centerTitle: true,
           automaticallyImplyLeading: false,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [colors.primary_color, colors.primary_color2], // Change these colors to your desired gradient colors
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+          ),
           title: Text(
             title,
             style:
-                const TextStyle(fontFamily: 'Montserra', color: colors.black),
+                const TextStyle(fontFamily: 'Montserra', color: colors.white),
           ),
           leading: _leftArrowVisible
               ? const Icon(
@@ -167,46 +159,29 @@ class _MainScreenState extends State<MainScreen> {
           actions: _actionsVisible
               ? [
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: MaterialButton(
-                onPressed:() {
-                  String text =
-                      'Hello I need help in app';
+              padding: EdgeInsets.only(top: 10.0),
 
-                  // Encode the text for the URL
+              child: MaterialButton(
+                onPressed: () {
+                  String text = 'Hello I need help in app';
                   String encodedText = Uri.encodeFull(text);
-                  String uri =
-                      'https://wa.me/$contact_us?text=$encodedText';
+                  String uri = 'https://wa.me/'+prefs.getString(Constant.CONTACT_US).toString()+'?text=$encodedText';
                   launchUrl(
                     Uri.parse(uri),
                     mode: LaunchMode.externalApplication,
                   );
                 },
-                color:  colors.cc_green,
-
-                shape: const RoundedRectangleBorder(
-                  borderRadius:
-                  BorderRadius.all(Radius.circular(8.0)),
-                ),
-                child: Padding(
-                  padding:
-                  const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        'Help',
-                        style: TextStyle(
-                          color: colors.white,
-                          fontSize: 11.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Image.asset(
+                      'assets/images/help.png',  // Replace with the actual image path
+                    ),
+                  ],
                 ),
               ),
-            )
+            ),
+
                 ]
               : [
                   _logoutVisible
@@ -217,17 +192,23 @@ class _MainScreenState extends State<MainScreen> {
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(12.0),
-                            child: Image.asset(
-                              "assets/images/logout.png",
-                              height: 24,
-                              width: 30,
+                            child: ColorFiltered(
+                              colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                              child: Image.asset(
+                                "assets/images/logout.png",
+                                height: 24,
+                                width: 30,
+                              ),
                             ),
+
                           ),
                         )
-                      : const Text("")
+                      : const Text(""),
+
                 ],
         ),
         bottomNavigationBar: Container(
+
             margin: const EdgeInsets.only(bottom: 1),
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -240,46 +221,50 @@ class _MainScreenState extends State<MainScreen> {
               borderRadius: const BorderRadius.all(Radius.circular(1)),
               child: BottomNavigationBar(
                 type: BottomNavigationBarType.fixed,
+                backgroundColor: colors.primary_color,
                 items: <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
                     icon: ImageIcon(
                       const AssetImage(
                         "assets/images/home.png",
                       ),
-                      color: _selctedIndex == 0 ? colors.primary : colors.black,
+                      color: _selctedIndex == 0 ? colors.widget_color : colors.white,
                     ),
                     label: 'Home',
-                    backgroundColor: colors.white,
+                    backgroundColor: colors.primary_color,
                   ),
                   BottomNavigationBarItem(
                     icon: ImageIcon(
                       const AssetImage(
                         "assets/images/challenge.png",
                       ),
-                      color: _selctedIndex == 1 ? colors.primary : colors.black,
+                      color: _selctedIndex == 1 ? colors.widget_color : colors.white,
                     ),
                     label: 'Info',
-                    backgroundColor: colors.white,
+                    backgroundColor: colors.primary_color,
                   ),
-                  // BottomNavigationBarItem(
-                  //     icon: ImageIcon(
-                  //         const AssetImage("assets/images/result.png"),
-                  //         color: _selctedIndex == 2
-                  //             ? colors.primary
-                  //             : colors.black),
-                  //     label: 'Task',
-                  //     backgroundColor: colors.white),
+                  BottomNavigationBarItem(
+                    icon: ImageIcon(
+                      const AssetImage(
+                        "assets/images/result.png",
+                      ),
+                      color: _selctedIndex == 2 ? colors.widget_color : colors.white,
+                    ),
+                    label: 'Reports',
+                    backgroundColor: colors.primary_color,
+                  ),
                   BottomNavigationBarItem(
                       icon: ImageIcon(
                           const AssetImage("assets/images/Wallet.png"),
-                          color: _selctedIndex == 2
-                              ? colors.primary
-                              : colors.black),
+                          color: _selctedIndex == 3
+                              ? colors.widget_color
+                              : colors.white),
                       label: 'Wallet',
                       backgroundColor: colors.white),
                 ],
                 currentIndex: _selctedIndex,
-                selectedItemColor: colors.primary,
+                selectedItemColor: colors.widget_color,
+                unselectedItemColor: colors.white,
                 onTap: _onItemTapped,
               ),
             )),
@@ -473,357 +458,6 @@ class _MainScreenState extends State<MainScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  CoinList(),
-                  // todo below lines are commented for card view implementation
-                  // Padding(
-                  //   padding: const EdgeInsets.only(right: 30.0, left: 30.0),
-                  //   child: ClipRRect(
-                  //     borderRadius:
-                  //     const BorderRadius.all(Radius.circular(12.0)),
-                  //     child: TextField(
-                  //       keyboardType: TextInputType.number,
-                  //       controller: _addCoinController,
-                  //       decoration: const InputDecoration(
-                  //         filled: true,
-                  //         border: InputBorder.none,
-                  //         hintText: 'Enter Coins1',
-                  //       ),
-                  //       style: const TextStyle(
-                  //         backgroundColor: Colors.transparent,
-                  //       ),
-                  //       enabled:
-                  //       true, // set to false if you want the text field to be disabled
-                  //     ),
-                  //   ),
-                  // ),
-                  // const SizedBox(
-                  //   height: 20,
-                  // ),
-                  // Center(
-                  //   child: MaterialButton(
-                  //     onPressed: () {
-                  //       if (_addCoinController.text.isNotEmpty) {
-                  //         String messageText =
-                  //             "Please add ${_addCoinController.text} coins... \n$mailId";
-                  //         link = '$link&text=${Uri.encodeFull(messageText)}';
-                  //         launch(link);
-                  //         _addCoinController.text = "";
-                  //       } else {
-                  //         Utils().showToast("Please Enter Coins");
-                  //       }
-                  //     },
-                  //     color: colors.primary,
-                  //     shape: const RoundedRectangleBorder(
-                  //       borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                  //     ),
-                  //     child: Padding(
-                  //       padding: const EdgeInsets.only(
-                  //           top: 16.0, bottom: 16.0),
-                  //       child: Row(
-                  //         mainAxisSize: MainAxisSize.min,
-                  //         children: const <Widget>[
-                  //           Text(
-                  //             'Add Coins',
-                  //             style: TextStyle(
-                  //               color: Colors.white,
-                  //               fontSize: 16.0,
-                  //               fontWeight: FontWeight.bold,
-                  //             ),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  // const SizedBox(
-                  //   height: 20,
-                  // ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //   children: <Widget>[
-                  //     Expanded(
-                  //       child: Padding(
-                  //         padding: const EdgeInsets.all(0),
-                  //         child: Card(
-                  //           shape: RoundedRectangleBorder(
-                  //             borderRadius: BorderRadius.circular(12.0),
-                  //           ),
-                  //           child: Container(
-                  //             height: 160,
-                  //             width: double.infinity,
-                  //             padding: const EdgeInsets.all(0),
-                  //             margin: EdgeInsets.all(4),
-                  //             child: Column(
-                  //               crossAxisAlignment: CrossAxisAlignment.start,
-                  //               children: [
-                  //                 const SizedBox(height: 12.0),
-                  //
-                  //                 Center(
-                  //                   child: Image.asset(
-                  //                     "assets/images/multidoller.png",
-                  //                     height: 40,
-                  //                     width: 40,
-                  //                   ),
-                  //                 ),
-                  //                 const SizedBox(height: 15.0),
-                  //                 const Center(
-                  //                   child: Text(
-                  //                     '4500 ',
-                  //                     style: TextStyle(
-                  //                       fontSize: 16,
-                  //                       fontWeight: FontWeight.bold,
-                  //                     ),
-                  //                   ),
-                  //                 ),
-                  //                 const SizedBox(height: 12.0),
-                  //                 const Center(
-                  //                   child: Text(
-                  //                     '4500',
-                  //                     style: TextStyle(
-                  //                       fontSize: 16,
-                  //                       fontWeight: FontWeight.bold,
-                  //                       decoration: TextDecoration.lineThrough,
-                  //                       color: Colors.grey,
-                  //                     ),
-                  //                   ),
-                  //                 ),
-                  //                 const Spacer(), // Added Spacer to push '125' to the bottom
-                  //                 Container(
-                  //                   color: Colors.grey, // Change to desired background color
-                  //                   child: Center(
-                  //                     child: Padding(
-                  //                       padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  //                       child: Text(
-                  //                         '125',
-                  //                         style: TextStyle(
-                  //                           fontSize: 16,
-                  //                           fontWeight: FontWeight.bold,
-                  //                           color: Colors.white,
-                  //                         ),
-                  //                       ),
-                  //                     ),
-                  //                   ),
-                  //                 ),
-                  //               ],
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     Expanded(
-                  //       child: Padding(
-                  //         padding: const EdgeInsets.all(0),
-                  //         child: Card(
-                  //           shape: RoundedRectangleBorder(
-                  //             borderRadius: BorderRadius.circular(12.0),
-                  //           ),
-                  //           child: Container(
-                  //             height: 160,
-                  //             width: double.infinity,
-                  //             padding: const EdgeInsets.all(0),
-                  //             margin: EdgeInsets.all(4),
-                  //             child: Column(
-                  //               crossAxisAlignment: CrossAxisAlignment.start,
-                  //               children: [
-                  //                 const SizedBox(height: 12.0),
-                  //
-                  //                 Center(
-                  //                   child: Image.asset(
-                  //                     "assets/images/multidoller.png",
-                  //                     height: 40,
-                  //                     width: 40,
-                  //                   ),
-                  //                 ),
-                  //                 const SizedBox(height: 15.0),
-                  //                 const Center(
-                  //                   child: Text(
-                  //                     '4500 ',
-                  //                     style: TextStyle(
-                  //                       fontSize: 16,
-                  //                       fontWeight: FontWeight.bold,
-                  //                     ),
-                  //                   ),
-                  //                 ),
-                  //                 const SizedBox(height: 12.0),
-                  //                 const Center(
-                  //                   child: Text(
-                  //                     '4500',
-                  //                     style: TextStyle(
-                  //                       fontSize: 16,
-                  //                       fontWeight: FontWeight.bold,
-                  //                       decoration: TextDecoration.lineThrough,
-                  //                       color: Colors.grey,
-                  //                     ),
-                  //                   ),
-                  //                 ),
-                  //                 const Spacer(), // Added Spacer to push '125' to the bottom
-                  //                 Container(
-                  //                   color: Colors.grey, // Change to desired background color
-                  //                   child: Center(
-                  //                     child: Padding(
-                  //                       padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  //                       child: Text(
-                  //                         '125',
-                  //                         style: TextStyle(
-                  //                           fontSize: 16,
-                  //                           fontWeight: FontWeight.bold,
-                  //                           color: Colors.white,
-                  //                         ),
-                  //                       ),
-                  //                     ),
-                  //                   ),
-                  //                 ),
-                  //               ],
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //   children: <Widget>[
-                  //     Expanded(
-                  //       child: Padding(
-                  //         padding: const EdgeInsets.all(0),
-                  //         child: Card(
-                  //           shape: RoundedRectangleBorder(
-                  //             borderRadius: BorderRadius.circular(12.0),
-                  //           ),
-                  //           child: Container(
-                  //             height: 160,
-                  //             width: double.infinity,
-                  //             padding: const EdgeInsets.all(0),
-                  //             margin: EdgeInsets.all(4),
-                  //             child: Column(
-                  //               crossAxisAlignment: CrossAxisAlignment.start,
-                  //               children: [
-                  //                 const SizedBox(height: 12.0),
-                  //
-                  //                 Center(
-                  //                   child: Image.asset(
-                  //                     "assets/images/multidoller.png",
-                  //                     height: 40,
-                  //                     width: 40,
-                  //                   ),
-                  //                 ),
-                  //                 const SizedBox(height: 15.0),
-                  //                 const Center(
-                  //                   child: Text(
-                  //                     '4500 ',
-                  //                     style: TextStyle(
-                  //                       fontSize: 16,
-                  //                       fontWeight: FontWeight.bold,
-                  //                     ),
-                  //                   ),
-                  //                 ),
-                  //                 const SizedBox(height: 12.0),
-                  //                 const Center(
-                  //                   child: Text(
-                  //                     '4500',
-                  //                     style: TextStyle(
-                  //                       fontSize: 16,
-                  //                       fontWeight: FontWeight.bold,
-                  //                       decoration: TextDecoration.lineThrough,
-                  //                       color: Colors.grey,
-                  //                     ),
-                  //                   ),
-                  //                 ),
-                  //                 const Spacer(), // Added Spacer to push '125' to the bottom
-                  //                 Container(
-                  //                   color: Colors.grey, // Change to desired background color
-                  //                   child: Center(
-                  //                     child: Padding(
-                  //                       padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  //                       child: Text(
-                  //                         '125',
-                  //                         style: TextStyle(
-                  //                           fontSize: 16,
-                  //                           fontWeight: FontWeight.bold,
-                  //                           color: Colors.white,
-                  //                         ),
-                  //                       ),
-                  //                     ),
-                  //                   ),
-                  //                 ),
-                  //               ],
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     Expanded(
-                  //       child: Padding(
-                  //         padding: const EdgeInsets.all(0),
-                  //         child: Card(
-                  //           shape: RoundedRectangleBorder(
-                  //             borderRadius: BorderRadius.circular(12.0),
-                  //           ),
-                  //           child: Container(
-                  //             height: 160,
-                  //             width: double.infinity,
-                  //             padding: const EdgeInsets.all(0),
-                  //             margin: EdgeInsets.all(4),
-                  //             child: Column(
-                  //               crossAxisAlignment: CrossAxisAlignment.start,
-                  //               children: [
-                  //                 const SizedBox(height: 12.0),
-                  //
-                  //                 Center(
-                  //                   child: Image.asset(
-                  //                     "assets/images/multidoller.png",
-                  //                     height: 40,
-                  //                     width: 40,
-                  //                   ),
-                  //                 ),
-                  //                 const SizedBox(height: 15.0),
-                  //                 const Center(
-                  //                   child: Text(
-                  //                     '4500 ',
-                  //                     style: TextStyle(
-                  //                       fontSize: 16,
-                  //                       fontWeight: FontWeight.bold,
-                  //                     ),
-                  //                   ),
-                  //                 ),
-                  //                 const SizedBox(height: 12.0),
-                  //                 const Center(
-                  //                   child: Text(
-                  //                     '4500',
-                  //                     style: TextStyle(
-                  //                       fontSize: 16,
-                  //                       fontWeight: FontWeight.bold,
-                  //                       decoration: TextDecoration.lineThrough,
-                  //                       color: Colors.grey,
-                  //                     ),
-                  //                   ),
-                  //                 ),
-                  //                 const Spacer(), // Added Spacer to push '125' to the bottom
-                  //                 Container(
-                  //                   color: Colors.grey, // Change to desired background color
-                  //                   child: Center(
-                  //                     child: Padding(
-                  //                       padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  //                       child: Text(
-                  //                         '125',
-                  //                         style: TextStyle(
-                  //                           fontSize: 16,
-                  //                           fontWeight: FontWeight.bold,
-                  //                           color: Colors.white,
-                  //                         ),
-                  //                       ),
-                  //                     ),
-                  //                   ),
-                  //                 ),
-                  //               ],
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
                 ],
               ),
             ),
@@ -836,10 +470,12 @@ class _MainScreenState extends State<MainScreen> {
   Widget getPage(int index) {
     switch (index) {
       case 0:
-        return TrialAd();//HomePage(updateAmount: updateAmount);
+        return Home();//HomePage(updateAmount: updateAmount);
       case 1:
         return const JobShow();
       case 2:
+        return const report();
+      case 3:
         return const wallet();
       default:
         return const wallet();
@@ -857,24 +493,13 @@ class _MainScreenState extends State<MainScreen> {
     final dataList = jsonData['data'] as List;
 
     final datass = dataList.first;
-    setState(() {
-      upi_id=datass[Constant.UPI];
-      link=datass[Constant.CONTACT_US];
-    });
     prefs.setString(
         Constant.CONTACT_US, datass[Constant.CONTACT_US]);
-    prefs.setString(
-        Constant.IMAGE, datass[Constant.IMAGE]);
+    prefs.setString(Constant.IMAGE, datass[Constant.IMAGE]);
+    prefs.setString(Constant.OFFER_IMAGE, datass[Constant.OFFER_IMAGE]);
+    prefs.setString(Constant.REFER_BONUS, datass[Constant.REFER_BONUS]);
     prefs.setString(
         Constant.WITHDRAWAL_STATUS, datass[Constant.WITHDRAWAL_STATUS]);
-    // prefs.setString(
-    //     Constant.REFER_COINS, datass[Constant.REFER_COINS]);
-    prefs.setString(
-        Constant.CHALLENGE_STATUS, datass[Constant.CHALLENGE_STATUS]);
-   // prefs.setString(Constant.REGISTER_POINTS, datass[Constant.REGISTER_POINTS]);
-    //prefs.setString(Constant.MIN_WITHDRAWAL, datass[Constant.MIN_WITHDRAWAL]);
-    prefs.setString(Constant.MIN_DP_COINS, datass[Constant.MIN_DP_COINS]);
-    prefs.setString(Constant.MAX_DP_COINS, datass[Constant.MAX_DP_COINS]);
 
   }
 

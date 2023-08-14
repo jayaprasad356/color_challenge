@@ -47,6 +47,11 @@ extension colors on ColorScheme {
   static const Color cc_whatsapp = Color(0xFF128C7E);
   static const Color bg_white = Color(0xFFF5F5F5);
   static const Color cc_green = Color(0xFF32A852);
+  static const Color primary_color = Color(0xFF171D82);
+  static const Color secondary_color = Color(0xFF060839);
+  static const Color primary_color2 = Color(0xFF060839);
+  static const Color widget_color = Color(0xFFF59A09);
+  static const Color widget_color2 = Color(0xFF6D1A52);
   static const Color dkgreen = Color(0xFF004113);
   static const Color cc_skyblue = Color(0xFF22A7F0);
   static const Color cc_red = Color(0xFFCF000F);

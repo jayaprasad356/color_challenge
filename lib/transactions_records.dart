@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:color_challenge/transactionl_data.dart';
 import 'package:color_challenge/withdrawal_data.dart';
 import 'package:flutter/material.dart';
 
@@ -7,38 +8,38 @@ import 'Helper/Constant.dart';
 import 'Helper/apiCall.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class MyWithdrawals extends StatefulWidget {
-  const MyWithdrawals({Key? key}) : super(key: key);
+class Transactions extends StatefulWidget {
+  const Transactions({Key? key}) : super(key: key);
 
   @override
-  State<MyWithdrawals> createState() => _MyWithdrawalsState();
+  State<Transactions> createState() => _TransactionsState();
 }
 
-class _MyWithdrawalsState extends State<MyWithdrawals> {
-  late List<WithdrawalData> withdrawalsData = [];
+class _TransactionsState extends State<Transactions> {
+  late List<TransactionData> transactionData = [];
   late SharedPreferences prefs;
-  Future<List<WithdrawalData>> _getWithdrawalsData() async {
+  Future<List<TransactionData>> _getWithdrawalsData() async {
     prefs = await SharedPreferences.getInstance();
 
     Map<String, dynamic> bodyObject = {
       Constant.USER_ID: prefs.getString(Constant.ID)!,
     };
 
-    String response = await apiCall(Constant.MY_WITHDRAWALS_LIST_URL,bodyObject);
+    String response = await apiCall(Constant.TRANSACTIONS_LIST_URL,bodyObject);
 
     final jsonsData = jsonDecode(response);
-    withdrawalsData.clear();
+    transactionData.clear();
 
     for (var Data in jsonsData['data']) {
       final id = Data['id'];
       final amount = Data["amount"];
-      final status = Data['status'];
+      final type = Data['type'];
       final datetime = Data['datetime'];
 
-      WithdrawalData data = WithdrawalData(id, amount, status, datetime);
-      withdrawalsData.add(data);
+      TransactionData data = TransactionData(id, amount, type, datetime);
+      transactionData.add(data);
     }
-    return withdrawalsData;
+    return transactionData;
   }
 
   @override
@@ -46,7 +47,7 @@ class _MyWithdrawalsState extends State<MyWithdrawals> {
     return FutureBuilder(
       future: _getWithdrawalsData(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        if (withdrawalsData.isEmpty) {
+        if (transactionData.isEmpty) {
           return Center(
               child: Column(
                 children: const [
@@ -58,7 +59,7 @@ class _MyWithdrawalsState extends State<MyWithdrawals> {
             height: 300,
             child: ListView.builder(
               scrollDirection: Axis.vertical,
-              itemCount: withdrawalsData.length,
+              itemCount: transactionData.length,
               itemBuilder: (BuildContext context, int index) {
                 return SingleChildScrollView(
                   child: GestureDetector(
@@ -91,7 +92,7 @@ class _MyWithdrawalsState extends State<MyWithdrawals> {
                                         Padding(
                                           padding: const EdgeInsets.only(
                                               left: 15, bottom: 10),
-                                          child: Text("₹${withdrawalsData[index].amount}",
+                                          child: Text("₹${transactionData[index].amount}",
                                               style: const TextStyle(
                                                   color: colors.white,
                                                   fontFamily: 'Montserrat',
@@ -117,7 +118,7 @@ class _MyWithdrawalsState extends State<MyWithdrawals> {
                                         Padding(
                                           padding:
                                           const EdgeInsets.only(bottom: 10),
-                                          child: Text(withdrawalsData[index].datetime,
+                                          child: Text(transactionData[index].datetime,
                                               style: const TextStyle(
                                                   color: colors.white,
                                                   fontFamily: 'Montserrat',
@@ -136,7 +137,7 @@ class _MyWithdrawalsState extends State<MyWithdrawals> {
                                               right: 15.0,
                                               top: 10,
                                               bottom: 10),
-                                          child: Text("Status",
+                                          child: Text("Type",
                                               style: TextStyle(
                                                   color: colors.white,
                                                   fontFamily: 'Montserrat',
@@ -146,9 +147,9 @@ class _MyWithdrawalsState extends State<MyWithdrawals> {
                                           padding: const EdgeInsets.only(
                                               right: 15, bottom: 10),
                                           child: Text(
-                                            withdrawalsData[index].status=="0"? "Pending":"Completed",
+                                            transactionData[index].type,
                                             style: const TextStyle(
-                                                color: colors.cc_green,
+                                                color: colors.white,
                                                 fontWeight: FontWeight.bold,
                                                 fontFamily: 'Montserrat',
                                                 fontSize: 12),

@@ -1,21 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:math';
 
 import 'package:color_challenge/Helper/apiCall.dart';
 import 'package:color_challenge/Helper/utils.dart';
 import 'package:color_challenge/adScreen.dart';
-import 'package:color_challenge/muChallenges.dart';
-import 'package:color_challenge/spinnerPage.dart';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'Helper/Color.dart';
 import 'Helper/Constant.dart';
 import 'login/mainScreen.dart';
-import 'myResults.dart';
-import 'numchallenge.dart';
+
 
 class TrialAd extends StatefulWidget {
 
@@ -105,100 +102,46 @@ class TrialAdState extends State<TrialAd> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if(isTrial)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-
-                GestureDetector(
-                  onTap: () {
-                    showLevelAlert(context,"Free Trial");
-                  },
-                  child: Card(
-                    color: isTrial ? colors.cc_telegram_light : Colors.white,
-                    child: Padding(
-                      padding: EdgeInsets.all(16.0), // You can adjust the value as needed
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "200 Ads",
-                            style: TextStyle(fontSize: 12),
-                          ),
-                          Text(
-                            "Free Trial",
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            int.parse(history_days) >= 7 ? "expired":"7 days($history_days)",
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                    onTap: () {
-                      // Add your action here, e.g., navigate to a new screen or update some state.
-                      showLevelAlert(context,"Premium");
-                    },
-                    child:Card(
-                      color: colors.cc_velvet,
-                      child: Padding(
-                        padding: EdgeInsets.all(16.0), // You can adjust the value as needed
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "12000 Ads",
-                              style: TextStyle(fontSize: 12,color: Colors.white),
-                            ),
-                            Text(
-                              "Premium",
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: Colors.white),
-                            ),
-                            Text(
-                              "30 days",
-                              style: TextStyle(fontSize: 12,color: Colors.white),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )),
-              ],
-            ),
-            if(isPremium)
+      body: Container(
+        width: MediaQuery.of(context).size.width, // Set width to the screen width
+        height: MediaQuery.of(context).size.height, // Set height to the screen height
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [colors.primary_color, colors.secondary_color], // Change these colors to your desired gradient colors
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if(isTrial)
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
 
                   GestureDetector(
                     onTap: () {
-                      // Add your action here, e.g., navigate to a new screen or update some state.
-                      showPremiumLevelAlert(context,"1");
+                      showLevelAlert(context,"Free Trial");
                     },
                     child: Card(
-                      color: level == '1' ? colors.cc_telegram_light : Colors.white,
+                      color: isTrial ? colors.cc_telegram_light : Colors.white,
                       child: Padding(
                         padding: EdgeInsets.all(16.0), // You can adjust the value as needed
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "1 ad = 1 ad",
+                              "200 Ads",
                               style: TextStyle(fontSize: 12),
                             ),
                             Text(
-                              "Level 1",
+                              "Free Trial",
                               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              "No refers",
+                              int.parse(history_days) >= 7 ? "expired":"7 days($history_days)",
                               style: TextStyle(fontSize: 12),
                             ),
                           ],
@@ -209,156 +152,221 @@ class TrialAdState extends State<TrialAd> {
                   GestureDetector(
                       onTap: () {
                         // Add your action here, e.g., navigate to a new screen or update some state.
-                        showPremiumLevelAlert(context,"2");
+                        showLevelAlert(context,"Premium");
                       },
                       child:Card(
-                        color: level == '2' ? colors.cc_telegram_light : Colors.white,
+                        color: colors.cc_velvet,
                         child: Padding(
                           padding: EdgeInsets.all(16.0), // You can adjust the value as needed
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "1 ad = 2 ads",
-                                style: TextStyle(fontSize: 12),
+                                "12000 Ads",
+                                style: TextStyle(fontSize: 12,color: Colors.white),
                               ),
                               Text(
-                                "Level 2",
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                "Premium",
+                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: Colors.white),
                               ),
                               Text(
-                                "3 refers",
-                                style: TextStyle(fontSize: 12),
+                                "30 days",
+                                style: TextStyle(fontSize: 12,color: Colors.white),
                               ),
                             ],
                           ),
                         ),
                       )),
-                  GestureDetector(
+                ],
+              ),
+              if(isPremium)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+
+                    GestureDetector(
                       onTap: () {
                         // Add your action here, e.g., navigate to a new screen or update some state.
-                        showPremiumLevelAlert(context,"3");
-                      },child:Card(
-                    color: level == '3' ? colors.cc_telegram_light : Colors.white,
-                    child: Padding(
-                      padding: EdgeInsets.all(16.0), // You can adjust the value as needed
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "1 ad = 4ads",
-                            style: TextStyle(fontSize: 12),
+                        showPremiumLevelAlert(context,"1");
+                      },
+                      child: Card(
+                        color: level == '1' ? colors.cc_telegram_light : Colors.white,
+                        child: Padding(
+                          padding: EdgeInsets.all(16.0), // You can adjust the value as needed
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "1 ad = 1 ad",
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              Text(
+                                "Level 1",
+                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                "No refers",
+                                style: TextStyle(fontSize: 12),
+                              ),
+                            ],
                           ),
-                          Text(
-                            "Level 3",
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "5 refers",
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
-                  )),
-                ],
+                    GestureDetector(
+                        onTap: () {
+                          // Add your action here, e.g., navigate to a new screen or update some state.
+                          showPremiumLevelAlert(context,"2");
+                        },
+                        child:Card(
+                          color: level == '2' ? colors.cc_telegram_light : Colors.white,
+                          child: Padding(
+                            padding: EdgeInsets.all(16.0), // You can adjust the value as needed
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "1 ad = 2 ads",
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                                Text(
+                                  "Level 2",
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  "3 refers",
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )),
+                    GestureDetector(
+                        onTap: () {
+                          // Add your action here, e.g., navigate to a new screen or update some state.
+                          showPremiumLevelAlert(context,"3");
+                        },child:Card(
+                      color: level == '3' ? colors.cc_telegram_light : Colors.white,
+                      child: Padding(
+                        padding: EdgeInsets.all(16.0), // You can adjust the value as needed
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "1 ad = 4ads",
+                              style: TextStyle(fontSize: 12),
+                            ),
+                            Text(
+                              "Level 3",
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              "5 refers",
+                              style: TextStyle(fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )),
+                  ],
+                ),
+              Text(
+                status == '0' ? "Remaining Ads : $today_ads_remain":"Today Remaining Ads : $today_ads_remain",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                ),
               ),
-            Text(
-              status == '0' ? "Remaining Ads : $today_ads_remain":"Today Remaining Ads : $today_ads_remain",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.normal,
-              ),
-            ),
-            SizedBox(height: 10),
-            RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: "Balance: ",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                  TextSpan(
-                    text: "₹$balance",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.green,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            SizedBox(height: 20),
-            Image.network(
-              ads_image,
-              fit: BoxFit.contain,
-              height: 300, // Set the desired height
-              width: 400,  // Set the desired width
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) {
-                  _isLoading = false;
-
-
-                  return child;
-                } else if (_isLoading) {
-                  return CircularProgressIndicator(); // Show loading indicator
-                } else {
-                  return child;
-                }
-              },
-            ),
-            SizedBox(height: 20),
-
-          MaterialButton(
-            onPressed:() {
-              if(!_isLoading && !timerStarted){
-                serilarandom = generateSerialNumber().toString();
-                showSheet();
-
-              }
-
-
-
-
-            },
-            color: timerStarted && time_start == 1 ? Colors.grey : colors.primary,
-
-              shape: const RoundedRectangleBorder(
-                borderRadius:
-                BorderRadius.all(Radius.circular(8.0)),
-              ),
-              child: Padding(
-                padding:
-                const EdgeInsets.only(top: 16.0, bottom: 16.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Text(
-                      'Watch Ad',
+              SizedBox(height: 10),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: "Balance: ",
                       style: TextStyle(
-                        color: colors.white,
-                        fontSize: 16.0,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                    TextSpan(
+                      text: "₹$balance",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green,
                       ),
                     ),
                   ],
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            Text(
-              "Next ads in " +seconds.round().toString().padLeft(2, '0'),
+
+              SizedBox(height: 20),
+              Image.network(
+                ads_image,
+                fit: BoxFit.contain,
+                height: 300, // Set the desired height
+                width: 400,  // Set the desired width
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) {
+                    _isLoading = false;
 
 
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal,color: Colors.red),
-            ),
-          ],
+                    return child;
+                  } else if (_isLoading) {
+                    return CircularProgressIndicator(); // Show loading indicator
+                  } else {
+                    return child;
+                  }
+                },
+              ),
+              SizedBox(height: 20),
+
+            MaterialButton(
+              onPressed:() {
+                if(!_isLoading && !timerStarted){
+                  serilarandom = generateSerialNumber().toString();
+                  showSheet();
+
+                }
+
+
+
+
+              },
+              color: timerStarted && time_start == 1 ? Colors.grey : colors.primary,
+
+                shape: const RoundedRectangleBorder(
+                  borderRadius:
+                  BorderRadius.all(Radius.circular(8.0)),
+                ),
+                child: Padding(
+                  padding:
+                  const EdgeInsets.only(top: 16.0, bottom: 16.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        'Watch Ad',
+                        style: TextStyle(
+                          color: colors.white,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              Text(
+                "Next ads in " +seconds.round().toString().padLeft(2, '0'),
+
+
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal,color: Colors.red),
+              ),
+            ],
+          ),
         ),
       ),
 

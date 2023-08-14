@@ -7,6 +7,7 @@ import 'package:color_challenge/user.dart';
 import 'package:color_challenge/withdrawal_data.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/services.dart';
 
 import 'Helper/Color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -65,7 +66,15 @@ class _walletState extends State<wallet> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          color: colors.white,
+          width: MediaQuery.of(context).size.width, // Set width to the screen width
+          height: MediaQuery.of(context).size.height, // Set height to the screen height
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [colors.primary_color, colors.secondary_color],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
           child: Column(
             children: [
               Container(
@@ -74,84 +83,88 @@ class _walletState extends State<wallet> {
                     const SizedBox(
                       height: 10,
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    color: colors.light_greyss
-                  ),
-                  margin: EdgeInsets.only(right: 10,left: 10),
-                 // color: colors.greyss,
-                  padding: EdgeInsets.all(16),
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        backgroundImage: AssetImage("assets/images/profile.png"),
-                        radius: 30,
-                      ),
-                      SizedBox(width: 18),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            name,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
+                    Container(
+                      width: double.infinity,
+                      child: Card(
+                        color: Color(0xFF060A70),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: colors.widget_color, // Set the border color
+                                width: 2, // Set the border width
+                              ),
+                              borderRadius: BorderRadius.circular(50), // Set border radius
                             ),
-                          ),
-                          SizedBox(height: 6),
-                          Text(
-                            mobile,
-                            style: TextStyle(
-                              fontSize: 12,
-                                color: colors.black
-                            ),
-                          ),
-                          SizedBox(height: 6),
-                          Text(
-                            'Total Earnings = Rs.'+earn,
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: colors.black
-                            ),
-                          ),
-                          SizedBox(height: 6),
-                          Text(
-                            totalRefund,
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: colors.black
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 3.0, left: 5.0, right: 5.0, bottom: 3.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "$name",
+                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold,color: colors.white),
+                                  ),
+                                  SizedBox(height: 5,),
 
-                SizedBox(height: 10,),
-
-                    const Text(
-                      "My Balance",
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: colors.greyss,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "Montserrat"),
+                                  Text(
+                                    "$mobile",
+                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold,color: colors.white),
+                                  ),
+                                  SizedBox(height: 5,),
+                                  Text(
+                                    "Total Earnings - ₹$earn",
+                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold,color: colors.white),
+                                  ),
+                                  SizedBox(height: 5,),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                    const SizedBox(
-                      height: 4,
-                    ),
+                SizedBox(height: 5,),
                     Text(
-                      "₹$balance",
-                      style: const TextStyle(
-                          fontSize: 24,
-                          color: colors.primary,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "Montserra"),
+                      "Main Balance",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: colors.white),
+                    ),
+                    SizedBox(height: 5),
+
+                    Card(
+                      color: Color(0xFF060A70),
+                      child: Container(
+                        width: 200,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: colors.widget_color2, // Set the border color
+                            width: 2, // Set the border width
+                          ),
+                          borderRadius: BorderRadius.circular(35),
+                          color: Color(0xFF080A42),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 3.0, left: 20.0, right: 20.0, bottom: 3.0),
+
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/images/money.png',
+                                height: 30,
+                                width: 20,
+                              ),
+                              SizedBox(width: 5), // Adding some spacing between image and text
+                              Text(
+                                "₹ $balance",
+                                style: TextStyle(fontSize: 18, color: Colors.white),
+                              ),
+                            ],
+                          ),
+
+                        ),
+                      ),
                     ),
                     const SizedBox(
                       height: 20,
@@ -175,77 +188,8 @@ class _walletState extends State<wallet> {
                   fontSize: 14,
                   color: colors.white,
                   fontFamily: "Montserra")),
-            )
-            ,
-                    // Container(
-                    //     margin: const EdgeInsets.only(left: 20, right: 20),
-                    //     child: Column(
-                    //       children: <Widget>[
-                    //         Align(
-                    //           alignment: Alignment.centerLeft,
-                    //           child: Container(
-                    //             child: const Text(
-                    //               "UPI ID",
-                    //               style: TextStyle(
-                    //                   fontSize: 14,
-                    //                   color: colors.black,
-                    //                   fontFamily: "Montserra"),
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       ],
-                    //     )),
-                    // Stack(
-                    //   children: [
-                    //     Container(
-                    //       margin: const EdgeInsets.only(
-                    //           left: 20, right: 20, top: 10, bottom: 4),
-                    //       child: ClipRRect(
-                    //         borderRadius:
-                    //             const BorderRadius.all(Radius.circular(12.0)),
-                    //         child: IgnorePointer(
-                    //           ignoring: _isDisabled,
-                    //           child: TextField(
-                    //             keyboardType: TextInputType.number,
-                    //             controller: _upiIdController,
-                    //             decoration: const InputDecoration(
-                    //               filled: true,
-                    //               border: InputBorder.none,
-                    //             ),
-                    //             style: const TextStyle(
-                    //                 backgroundColor: Colors.transparent),
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     Positioned(
-                    //       right: 0,
-                    //       top: 0,
-                    //       bottom: 0,
-                    //       child: Padding(
-                    //         padding: const EdgeInsets.only(right: 15.0),
-                    //         child: IconButton(
-                    //           icon: Icon(
-                    //             _isDisabled ? Icons.edit : Icons.check,
-                    //             color: colors.primary,
-                    //           ),
-                    //           onPressed: () {
-                    //             showDialog(
-                    //               context: context,
-                    //               builder: (BuildContext context) =>
-                    //                   buildUpdateUpiDialog(context,
-                    //                       (String upiId) {
-                    //                 // update the UPI ID here using the upiId parameter
-                    //                 // ...
-                    //               }),
-                    //             );
-                    //           },
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
-                    const SizedBox(
+            ),
+                    SizedBox(
                       height: 30,
                     ),
                     Container(
@@ -259,32 +203,47 @@ class _walletState extends State<wallet> {
                                   "Withdrawal Amount",
                                   style: TextStyle(
                                       fontSize: 14,
-                                      color: colors.black,
+                                      color: colors.white,
                                       fontFamily: "Montserra"),
                                 ),
                               ),
                             ),
                           ],
                         )),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Container(
-                      margin: const EdgeInsets.only(
-                          left: 20, right: 20, top: 10, bottom: 4),
-                      child: ClipRRect(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(12.0)),
-                        child: TextField(
-                          keyboardType: TextInputType.number,
-                          controller: _withdrawalAmtController,
-                          decoration: const InputDecoration(
-                            filled: true,
-                            border: InputBorder.none,
-                            hintText: '₹ Please Input',
+                      margin: const EdgeInsets.only(left: 20, right: 20),
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        borderRadius: BorderRadius.circular(35), // Adjust the radius as needed
+                        border: Border.all(color: colors.widget_color), // Border color
+                      ),
+                      child: TextField(
+
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                        controller: _withdrawalAmtController,
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                          hintText: 'Enter Amount', // Hint text
+                          hintStyle: TextStyle(color: Colors.white),
+                          filled: true,
+                          fillColor: Colors.transparent, // Set to transparent to let the background show
+                          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.transparent), // Set your desired border color
                           ),
-                          style: const TextStyle(
-                              backgroundColor: Colors.transparent),
+
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.transparent), // Set your desired border color for focused state
+                          ),
                         ),
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
+                    SizedBox(height: 5,),
                     Container(
                       margin: const EdgeInsets.only(left: 20, right: 20),
                       child: Align(
@@ -293,7 +252,7 @@ class _walletState extends State<wallet> {
                           text: TextSpan(
                             text: "Minimum : ",
                             style: const TextStyle(
-                                color: colors.black,
+                                color: colors.white,
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: "Montserrat"),
@@ -301,7 +260,7 @@ class _walletState extends State<wallet> {
                               TextSpan(
                                 text: "₹$minimum",
                                 style: const TextStyle(
-                                    color: colors.primary,
+                                    color: colors.cc_green,
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                     fontFamily: "Montserrat"),
@@ -311,11 +270,18 @@ class _walletState extends State<wallet> {
                         ),
                       ),
                     ),
+                    Text(
+                      "Amount will be credit in 24 hrs.",
+                      style: TextStyle(
+                          fontSize: 10,
+                          color: colors.white,
+                          fontFamily: "Montserra"),
+                    ),
                     const SizedBox(
-                      height: 20,
+                      height: 5,
                     ),
                     MaterialButton(
-                      onPressed: () {
+                      onPressed: () async {
                         double withdrawalAmt =
                             double.tryParse(_withdrawalAmtController.text) ??
                                 0.0;
@@ -327,17 +293,18 @@ class _walletState extends State<wallet> {
                         } else {
                           doWithdrawal();
                         }
+
                       },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Container(
-                        height: 80,
-                        width: double.infinity,
                         margin: const EdgeInsets.only(left: 10),
+                        height: 50,
+                        width: 150,
                         decoration: const BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage("assets/images/Verify.png"),
+                            image: AssetImage("assets/images/btnbg.png"),
                             fit: BoxFit.fill,
                           ),
                         ),
@@ -345,10 +312,10 @@ class _walletState extends State<wallet> {
                           child: Text(
                             'Withdrawal',
                             style: TextStyle(
-                                fontSize: 14,
                                 color: colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Montserrat"),
+                                fontSize: 14,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
@@ -365,7 +332,7 @@ class _walletState extends State<wallet> {
                                   "Withdrawal Record",
                                   style: TextStyle(
                                       fontSize: 14,
-                                      color: colors.black,
+                                      color: colors.white,
                                       fontFamily: "Montserra"),
                                 ),
                               ),
@@ -389,7 +356,6 @@ class _walletState extends State<wallet> {
     Map<String, dynamic> bodyObject = {
       Constant.USER_ID: prefs.getString(Constant.ID),
       Constant.AMOUNT: _withdrawalAmtController.text,
-      Constant.TYPE: Constant.DEBIT,
     };
     String jsonString = await apiCall(url, bodyObject);
     final jsonResponse = jsonDecode(jsonString);
@@ -409,28 +375,6 @@ class _walletState extends State<wallet> {
       });
     }
     utils.showToast(message);
-  }
-
-  void updateUpi(String upi) async {
-    prefs = await SharedPreferences.getInstance();
-
-    var url = Constant.UPDATE_UPI_URL;
-    Map<String, dynamic> bodyObject = {
-      Constant.USER_ID: prefs.getString(Constant.ID),
-      Constant.UPI: upi
-    };
-    String jsonString = await apiCall(url, bodyObject);
-    final jsonData = jsonDecode(jsonString);
-    Utils().showToast(jsonData["message"]);
-    final dataList = jsonData['data'] as List;
-    if (jsonData["success"]) {
-      final datass = dataList.first;
-      setState(() {
-        String upi_id = datass[Constant.UPI];
-        prefs.setString(Constant.UPI, datass[Constant.UPI]);
-        _upiIdController.text = upi_id;
-      });
-    }
   }
 
   void userDeatils() async {
@@ -460,63 +404,4 @@ class _walletState extends State<wallet> {
     });
   }
 
-  Widget buildUpdateUpiDialog(
-      BuildContext context, void Function(String) upiIdCallback) {
-    final TextEditingController _enterupiController = TextEditingController();
-
-    return AlertDialog(
-      title: const Center(
-        child: Text(
-          'Enter UPI ID',
-          style: TextStyle(
-            fontFamily: 'Montserrat',
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-            child: TextField(
-              keyboardType: TextInputType.text,
-              controller: _enterupiController,
-              decoration: const InputDecoration(
-                filled: true,
-                border: InputBorder.none,
-                hintText: 'testupibankid@okaxis,com',
-              ),
-              style: const TextStyle(
-                backgroundColor: Colors.transparent,
-              ),
-              enabled:
-                  true, // set to false if you want the text field to be disabled
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          ElevatedButton(
-            onPressed: () {
-              String upi = _enterupiController.text;
-              updateUpi(upi);
-
-              Navigator.pop(context);
-            },
-            child: const Text(
-              'Update UPI',
-              style: TextStyle(
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            style: ElevatedButton.styleFrom(
-              primary: colors.primary, // set button background color here
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }

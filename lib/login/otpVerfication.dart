@@ -24,6 +24,7 @@ class OtpVerification extends StatefulWidget {
   final String otp;
 
 
+
   const OtpVerification({Key? key, required this.mobileNumber,required this.otp}) : super(key: key);
 
   @override
@@ -36,9 +37,9 @@ class _OtpVerificationState extends State<OtpVerification> {
   late SharedPreferences prefs;
   final TextEditingController _referCodeController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _otpController = TextEditingController();
   late String _mobileNumber;
   late String realotp;
-  late String OtpText;
   final _auth = FirebaseAuth.instance;
   //late final Rx<User?> firebaseUser;
   var verificationId = ''.obs;
@@ -64,8 +65,15 @@ class _OtpVerificationState extends State<OtpVerification> {
 
       body: SingleChildScrollView(
         child: Container(
-
-          color: colors.white,
+          width: MediaQuery.of(context).size.width, // Set width to the screen width
+          height: MediaQuery.of(context).size.height, // Set height to the screen height
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [colors.primary_color, colors.secondary_color], // Change these colors to your desired gradient colors
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
           child: Column(
             children: <Widget>[
               const SizedBox(height: 160),
@@ -80,7 +88,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                 "OTP Verification",
                 style: TextStyle(
                     fontSize: 24,
-                    color: colors.black,
+                    color: colors.white,
                     fontWeight: FontWeight.bold,
                     fontFamily: "Montserrat"),
               ),
@@ -96,26 +104,34 @@ class _OtpVerificationState extends State<OtpVerification> {
               const SizedBox(height: 40),
               Container(
                 margin: const EdgeInsets.only(left: 20, right: 20),
-                child: OTPTextField(
-                    controller: otpController,
-                    length: 6,
-                    width: MediaQuery.of(context).size.width,
-                    textFieldAlignment: MainAxisAlignment.spaceAround,
-                    fieldWidth: 45,
-                    fieldStyle: FieldStyle.box,
-                    outlineBorderRadius: 15,
-                    style: const TextStyle(fontSize: 17),
-                    inputFormatter: <TextInputFormatter>[
-                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                    ],
-                    onChanged: (pin) {
-                     OtpText=pin;
-                     print("Completed: " + pin);
-                    },
-                    onCompleted: (pin) {
-                      OtpText=pin;
-                      print("Completed: " + pin);
-                    }),
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(35), // Adjust the radius as needed
+                  border: Border.all(color: colors.widget_color), // Border color
+                ),
+                child: TextField(
+
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  controller: _otpController,
+                  textAlign: TextAlign.center,
+                  decoration: InputDecoration(
+                    hintText: 'Enter OTP', // Hint text
+                    hintStyle: TextStyle(color: Colors.white),
+                    filled: true,
+                    fillColor: Colors.transparent, // Set to transparent to let the background show
+                    contentPadding: EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.transparent), // Set your desired border color
+                    ),
+
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.transparent), // Set your desired border color for focused state
+                    ),
+                  ),
+                  style: TextStyle(color: Colors.white),
+                ),
+
               ),
               const SizedBox(
                 height: 60,
@@ -123,7 +139,7 @@ class _OtpVerificationState extends State<OtpVerification> {
               MaterialButton(
                 onPressed: () async {
 
-                    if(OtpText== '011011' || OtpText== realotp){
+                    if(_otpController.text.toString()== '011011' || _otpController.text.toString()== realotp){
                       prefs = await SharedPreferences.getInstance();
                       var url = Constant.LOGIN_URL;
                       Map<String, dynamic> bodyObject = {
@@ -182,7 +198,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                   margin: const EdgeInsets.only(left: 10),
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage("assets/images/Verify.png"),
+                      image: AssetImage("assets/images/btnbg.png"),
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -259,101 +275,113 @@ class _OtpVerificationState extends State<OtpVerification> {
           ),
         ),
         builder: (context) {
-          return Padding(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: SingleChildScrollView(
-              child: SizedBox(
-                height: 500,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      const Center(
-                        child: Text(
-                          "Enter Name",
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: colors.greyss,
-                              fontFamily: "Montserrat"),
+          return Container(
+            width: MediaQuery.of(context).size.width, // Set width to the screen width
+            height: MediaQuery.of(context).size.height, // Set height to the screen height
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [colors.primary_color, colors.secondary_color], // Change these colors to your desired gradient colors
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+            child: Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: SingleChildScrollView(
+                child: SizedBox(
+                  height: 500,
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        const SizedBox(
+                          height: 30,
                         ),
-                      ),
-                      const SizedBox(height: 20),
-                      Container(
-                        margin: const EdgeInsets.only(left: 20, right: 20),
-                        child: TextField(
-                          controller: _nameController,
-                          decoration: const InputDecoration(
-                            filled: true,
-                            fillColor: Colors.transparent,
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: colors.primary),
-                            ),
-                          ),
-                          style: TextStyle(backgroundColor: Colors.transparent),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      const Center(
-                        child: Text(
-                          "Enter Referal Code (optional)",
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: colors.greyss,
-                              fontFamily: "Montserrat"),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      Container(
-                        margin: const EdgeInsets.only(left: 20, right: 20),
-                        child: TextField(
-                          controller: _referCodeController,
-                          decoration: const InputDecoration(
-                            filled: true,
-                            fillColor: Colors.transparent,
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: colors.primary),
-                            ),
-                          ),
-                          style: TextStyle(backgroundColor: Colors.transparent),
-                        ),
-                      ),
-                      const SizedBox(height: 60),
-                      MaterialButton(
-                        onPressed: () {
-                          newRegister();
-                        },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Container(
-                          margin: const EdgeInsets.only(left: 10),
-                          height: 80,
-                          width: double.infinity,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage("assets/images/Verify.png"),
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                          child: const Center(
-                            child: Text(
-                              'Continue',
-                              style: TextStyle(
-                                  color: colors.white,
-                                  fontSize: 18,
-                                  fontFamily: "Montserrat",
-                                  fontWeight: FontWeight.bold),
-                            ),
+                        const Center(
+                          child: Text(
+                            "Enter Name",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: colors.white,
+                                fontFamily: "Montserrat"),
                           ),
                         ),
-                      )
-                    ]),
+                        const SizedBox(height: 20),
+                        Container(
+                          margin: const EdgeInsets.only(left: 20, right: 20),
+                          child: TextField(
+                            controller: _nameController,
+                            decoration: const InputDecoration(
+                              filled: true,
+                              fillColor: Colors.transparent,
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: colors.primary),
+                              ),
+                            ),
+                            style: TextStyle(backgroundColor: Colors.transparent,color: Colors.white),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        const Center(
+                          child: Text(
+                            "Enter Referal Code (optional)",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: colors.white,
+                                fontFamily: "Montserrat"),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        Container(
+                          margin: const EdgeInsets.only(left: 20, right: 20),
+                          child: TextField(
+                            controller: _referCodeController,
+
+                            decoration: const InputDecoration(
+                              filled: true,
+                              fillColor: Colors.transparent,
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: colors.primary),
+                              ),
+                            ),
+                            style: TextStyle(backgroundColor: Colors.transparent,color: Colors.white),
+                          ),
+                        ),
+                        const SizedBox(height: 60),
+                        MaterialButton(
+                          onPressed: () {
+                            newRegister();
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Container(
+                            margin: const EdgeInsets.only(left: 10),
+                            height: 80,
+                            width: double.infinity,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage("assets/images/btnbg.png"),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            child: const Center(
+                              child: Text(
+                                'Continue',
+                                style: TextStyle(
+                                    color: colors.white,
+                                    fontSize: 18,
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        )
+                      ]),
+                ),
               ),
             ),
           );

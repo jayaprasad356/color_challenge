@@ -1,280 +1,602 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
-import 'package:color_challenge/bettings.dart';
-import 'package:color_challenge/login/mainScreen.dart';
-import 'package:color_challenge/user.dart';
-import 'package:share_plus/share_plus.dart';
+import 'dart:math';
+
+import 'package:color_challenge/Helper/apiCall.dart';
 import 'package:color_challenge/Helper/utils.dart';
-import 'package:color_challenge/result.dart';
-import 'package:color_challenge/wallet.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:color_challenge/adScreen.dart';
+import 'package:color_challenge/user.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'Helper/Color.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:intl/intl.dart';
-
+import 'package:url_launcher/url_launcher.dart';
+import 'Helper/Color.dart';
 import 'Helper/Constant.dart';
-import 'Helper/apiCall.dart';
-import 'blinking_text.dart';
-import 'colorList.dart';
-import 'muChallenges.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'login/mainScreen.dart';
+import 'online_jobs.dart';
 
-class HomePage extends StatefulWidget {
-  final void Function(String coins) updateAmount;
+class Home extends StatefulWidget {
 
-  const HomePage({Key? key, required this.updateAmount}) : super(key: key);
+  const Home({Key? key}) : super(key: key);
+
+
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<Home> createState() => HomeState();
 }
 
-class _HomePageState extends State<HomePage> {
-  String referText = "GBD 21";
-  String referCoins = "";
-
-  Utils utils = Utils();
-  String resultTime = "";
-  String blinkText="";
-  int leftTime=0;
-  late String _fcmToken;
-  final googleSignIn = GoogleSignIn();
-
+class HomeState extends State<Home> {
   late SharedPreferences prefs;
+  double starttime = 0; // Set the progress value between 0.0 and 1.0 here
+  String today_ads_remain = "0";
+  String level = '0',status = '';
+  String history_days = '0';
+  String ads_image = 'https://admin.colorjobs.site/dist/img/logo.jpeg';
+  String ads_link = '';
+  int time_start = 0;
+  double seconds = 0.0;
+  String time_left = '0';
+  String max_coin = "0";
+  String refer_amount = "0";
+  String generate_coin = "0";
+  bool _isLoading = true;
+  String balance = "0";
+  bool timerStarted = false;
+  bool isTrial = true,isPremium = false;
+  Random random = Random();
+  late String contact_us;
+  final TextEditingController _serialController = TextEditingController();
+  String serilarandom = "",basic_wallet = "",premium_wallet = "",target_refers = "",today_ads = "0",total_ads = "0";
+  double progressbar = 0.0;
+
 
   @override
   void initState() {
     super.initState();
+
     SharedPreferences.getInstance().then((value) {
       prefs = value;
-      referCoins = prefs.getString(Constant.REFER_COINS)!;
-    });
-    FirebaseMessaging.instance.getToken().then((token) {
-      setState(() {
-        _fcmToken = token!;
-        userDeatils();
-      });
-      print('FCM Token: $_fcmToken');
+      userDeatils();
+      contact_us = prefs.getString(Constant.CONTACT_US).toString();
+      basic_wallet = prefs.getString(Constant.BASIC_WALLET)!;
+      premium_wallet = prefs.getString(Constant.PREMIUM_WALLET)!;
+      adsApi();
+      //ads_status("status");
     });
 
-    resultTiming();
+
+
+
+  }
+  void userDeatils() async {
+
+    var url = Constant.USER_DETAIL_URL;
+    Map<String, dynamic> bodyObject = {
+      Constant.USER_ID: prefs.getString(Constant.ID),
+    };
+    String jsonString = await apiCall(url, bodyObject);
+    final Map<String, dynamic> responseJson = jsonDecode(jsonString);
+    final dataList = responseJson['data'] as List;
+    final Users user = Users.fromJsonNew(dataList.first);
+
+    prefs.setString(Constant.LOGED_IN, "true");
+    prefs.setString(Constant.ID, user.id);
+    prefs.setString(Constant.MOBILE, user.mobile);
+    prefs.setString(Constant.NAME, user.name);
+    prefs.setString(Constant.EARN, user.earn);
+    prefs.setString(Constant.BALANCE, user.balance);
+    prefs.setString(Constant.REFERRED_BY, user.referredBy);
+    prefs.setString(Constant.REFER_CODE, user.referCode);
+    prefs.setString(Constant.WITHDRAWAL_STATUS, user.withdrawalStatus);
+    prefs.setString(Constant.STATUS, user.status);
+    prefs.setString(Constant.JOINED_DATE, user.joinedDate);
+    prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
+    prefs.setString(Constant.MIN_WITHDRAWAL, user.min_withdrawal);
+    prefs.setString(Constant.HOLDER_NAME, user.holder_name);
+    prefs.setString(Constant.ACCOUNT_NUM, user.account_num);
+    prefs.setString(Constant.IFSC, user.ifsc);
+    prefs.setString(Constant.BANK, user.bank);
+    prefs.setString(Constant.BRANCH, user.branch);
+    prefs.setString(Constant.BASIC_WALLET, user.basic_wallet);
+    prefs.setString(Constant.PREMIUM_WALLET, user.premium_wallet);
+    prefs.setString(Constant.TARGET_REFERS, user.target_refers);
+    setState(() {
+      basic_wallet = prefs.getString(Constant.BASIC_WALLET)!;
+      premium_wallet = prefs.getString(Constant.PREMIUM_WALLET)!;
+      target_refers = prefs.getString(Constant.TARGET_REFERS)!;
+      today_ads = prefs.getString(Constant.TODAY_ADS)!;
+      total_ads = prefs.getString(Constant.TOTAL_ADS)!;
+    });
+
   }
 
+  void startTimer() {
+    // Example: Countdown from 100 to 0 with a 1-second interval
+    const oneSec = const Duration(seconds: 1);
+    Timer.periodic(oneSec, (Timer timer) {
+
+      if (starttime >= 60) {
+        timer.cancel();
+
+        setState(() {
+          progressbar = 0.0;
+          timerStarted = false;
+
+        });
+
+      } else {
+        setState(() {
+          starttime++;
+          seconds = starttime % 60;
+          progressbar = starttime / 60;
+
+        });
+      }
+    });
+  }
+  String separateNumber(String number) {
+    if (number.length != 12) {
+      throw Exception("Number must be 12 digits long.");
+    }
+
+    List<String> groups = [];
+
+    for (int i = 0; i < 12; i += 4) {
+      groups.add(number.substring(i, i + 4));
+    }
+
+    return groups.join('-');
+  }
+
+
+  bool isMultipleOf5(int number) {
+    return number % 5 == 0;
+  }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
-            child: Column(children: <Widget>[
-          Container(
-            margin: const EdgeInsets.only(right: 20, left: 20, top: 0),
-            child: Card(
+            width: MediaQuery.of(context).size.width, // Set width to the screen width
+            height: MediaQuery.of(context).size.height, // Set height to the screen height
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [colors.primary_color, colors.secondary_color],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+            child: Center(
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.only(top: 10.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                     Text(
-                      "Refer  a friend get "+referCoins+" coins ,after first transaction then only coins credited.",
-                      style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.red,
-                          fontWeight: FontWeight.normal,
-                          fontFamily: "Montserrat"),
-                    ),
-                    const SizedBox(height: 16.0),
+                  children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        OutlinedButton(
-                          onPressed: () {
-                            utils.showToast("Copied !");
-                            Clipboard.setData(ClipboardData(text: referText));
-                          },
-                          style: OutlinedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6.0),
-                              side: const BorderSide(color: colors.red),
-                            ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(14),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Image.asset(
-                                  "assets/images/copy.png",
-                                  width: 24.0,
-                                  height: 24.0,
+                      children: [
+
+                        Card(
+                          color: Color(0xFF060A70),
+                          child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: colors.widget_color, // Set the border color
+                                  width: 2, // Set the border width
                                 ),
-                                const SizedBox(width: 8.0),
-                                Text(
-                                  referText,
-                                  style: TextStyle(
-                                    color: colors.primary,
-                                    fontSize: 12.0,
-                                    fontFamily: "Montserrat",
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                borderRadius: BorderRadius.circular(8), // Set border radius
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 3.0, left: 5.0, right: 5.0, bottom: 3.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "Basic Wallet",
+                                          style: GoogleFonts.poppins( // Use GoogleFonts.poppins() to access Poppins font
+                                            fontSize: 14,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(width: 5),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => OnlineJobs(),
+                                              ),
+                                            );
+                                          },
+                                          child: Image.asset(
+                                            'assets/images/info.png',
+                                            height: 30,
+                                            width: 20,
+                                          ),
+                                        )
+
+                                      ],
+                                    ),
+
+                                    Text(
+                                      "No Refers",
+                                      style: GoogleFonts.poppins( // Use GoogleFonts.poppins() to access Poppins font
+                                        fontSize: 12,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+
+                                    ),
+                                    SizedBox(height: 5,),
+                                    Card(
+                                      color: Color(0xFF060A70),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: colors.widget_color2, // Set the border color
+                                            width: 2, // Set the border width
+                                          ),
+                                          borderRadius: BorderRadius.circular(35),
+                                          color: Color(0xFF080A42),
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(top: 3.0, left: 20.0, right: 20.0, bottom: 3.0),
+
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Image.asset(
+                                                'assets/images/money.png',
+                                                height: 30,
+                                                width: 20,
+                                              ),
+                                              SizedBox(width: 5), // Adding some spacing between image and text
+                                              Text(
+                                                "₹ $basic_wallet",
+                                                style: TextStyle(fontSize: 18, color: Colors.white),
+                                              ),
+                                            ],
+                                          ),
+
+                                        ),
+                                      ),
+                                    ),
+                                    MaterialButton(
+                                      onPressed: () {
+                                       addTomainbalance('basic_wallet');
+                                      },
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          Image.asset(
+                                            'assets/images/main_balance_btn.png',
+                                            height: 50,
+                                            width: 120,// Replace with the actual image path
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
                         ),
-                        const SizedBox(width: 16.0),
-                        MaterialButton(
-                          onPressed: () {
-                            Share.share(referText + " Use my Refer Code and install this app https://play.google.com/store/apps/details?id=com.app.colorchallenge");
-                          },
-                          color: colors.primary,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8.0)),
-                          ),
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.only(top: 16.0, bottom: 16.0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: const <Widget>[
-                                Text(
-                                  'Refer Friends',
-                                  style: TextStyle(
-                                    color: colors.white,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                        Card(
+                          color: Color(0xFF060A70),
+                          child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: colors.widget_color, // Set the border color
+                                  width: 2, // Set the border width
                                 ),
-                              ],
+                                borderRadius: BorderRadius.circular(8), // Set border radius
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 3.0, left: 5.0, right: 5.0, bottom: 3.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "Premium Wallet",
+                                          style: GoogleFonts.poppins( // Use GoogleFonts.poppins() to access Poppins font
+                                            fontSize: 14,
+                                            color: colors.widget_color,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(width: 5),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => OnlineJobs(),
+                                              ),
+                                            );
+                                          },
+                                          child: Image.asset(
+                                            'assets/images/info.png',
+                                            height: 30,
+                                            width: 20,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+
+                                    Text(
+                                      "$target_refers Refers",
+                                      style: GoogleFonts.poppins( // Use GoogleFonts.poppins() to access Poppins font
+                                        fontSize: 12,
+                                        color: colors.widget_color,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+
+                                    ),
+                                    SizedBox(height: 5,),
+                                    Card(
+                                      color: Color(0xFF060A70),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: colors.widget_color2, // Set the border color
+                                            width: 2, // Set the border width
+                                          ),
+                                          borderRadius: BorderRadius.circular(35),
+                                          color: Color(0xFF080A42),
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.only(top: 3.0, left: 20.0, right: 20.0, bottom: 3.0),
+
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Image.asset(
+                                                'assets/images/money.png',
+                                                height: 30,
+                                                width: 20,
+                                              ),
+                                              SizedBox(width: 5), // Adding some spacing between image and text
+                                              Text(
+                                                "₹ $premium_wallet",
+                                                style: TextStyle(fontSize: 18, color: Colors.white),
+                                              ),
+                                            ],
+                                          ),
+
+                                        ),
+                                      ),
+                                    ),
+                                    MaterialButton(
+                                      onPressed: () {
+                                        addTomainbalance('premium_wallet');
+                                      },
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          Image.asset(
+                                            'assets/images/main_balance_btn.png',
+                                            height: 50,
+                                            width: 120,// Replace with the actual image path
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                          ),
                         ),
                       ],
+                    ),
+                    SizedBox(height: 20),
+                    Image.network(
+                      ads_image,
+                      fit: BoxFit.contain,
+                      height: 300, // Set the desired height
+                      width: 300,  // Set the desired width
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) {
+                          _isLoading = false;
+
+
+                          return child;
+                        } else if (_isLoading) {
+                          return CircularProgressIndicator(); // Show loading indicator
+                        } else {
+                          return child;
+                        }
+                      },
+                    ),
+                    SizedBox(height: 5),
+                    GestureDetector(
+                      onTap: () {
+
+                        launchUrl(
+                          Uri.parse(ads_link),
+                          mode: LaunchMode.externalApplication,
+                        );
+                      },
+                      child: Text(
+                        "click here to purchase",
+                        style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      timerStarted ? "$seconds seconds" :"",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.red,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+
+
+                    SizedBox(height: 5),
+                    MaterialButton(
+                      onPressed: () async {
+                        if(!timerStarted){
+
+                          watchad();
+
+                        }else{
+                          Utils().showToast("Please wait...");
+                        }
+
+
+                      },
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Container(
+                        height: 60,
+                        width: 140,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/btnbg.png"),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            'Watch Ad',
+                            style: TextStyle(
+                                color: colors.white,
+                                fontSize: 14,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    LinearProgressIndicator(
+                      value: progressbar,
+                      minHeight: 10, // Set the desired height of the progress bar
+                      backgroundColor: Colors.grey[300], // Background color of the progress bar
+                      valueColor: AlwaysStoppedAnimation<Color>(colors.widget_color), // Color of the progress indicator
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      'Today Viewed Ads: $today_ads',
+                      style: TextStyle(
+                          color: colors.white,
+                          fontSize: 14,
+                          fontFamily: "Montserrat",
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      'Total Viewed Ads: $total_ads',
+                      style: TextStyle(
+                          color: colors.white,
+                          fontSize: 14,
+                          fontFamily: "Montserrat",
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 5),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        'Register bonus ₹500 credit after achieving monthly target',
+                        style: TextStyle(
+                            color: colors.widget_color,
+                            fontSize: 16,
+                            fontFamily: "Montserrat",
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          BlinkingText(
-            text: blinkText,
-          ),
-          Text(
-            resultTime,
-            style: TextStyle(
-                fontSize: 16,
-                color: colors.cc_green,
-                fontWeight: FontWeight.bold,
-                fontFamily: "Montserrat"),
-          ),
-          ColorList(updateAmount: widget.updateAmount),
-          SizedBox(
-            height: 20,
-          ),
-          Bettings(),
-        ])),
+          )
       ),
-    );
-  }
 
-  showTopupBottomSheet() {
+    );
+
+  }
+  showSheet() {
     showModalBottomSheet(
         context: context,
-        isScrollControlled: true,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(40.0),
           ),
         ),
         builder: (context) {
-          return SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: Container(
-                height: 350,
+          return Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: SingleChildScrollView(
+              child: SizedBox(
+                height: 500,
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       const SizedBox(
-                        height: 30,
+                        height: 50,
                       ),
-                      Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Text(
-                              "Top up",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: colors.black,
-                                  fontFamily: "Montserrat",
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Center(
-                          child: Text(
-                        "Current Balance",
-                        style: TextStyle(fontFamily: "Montserrat"),
-                      )),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Center(
-                          child: Text(
-                        "500.00",
-                        style: TextStyle(
-                            fontSize: 22,
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          serilarandom,
+                          style: TextStyle(
+                            letterSpacing: 5.0,
                             fontWeight: FontWeight.bold,
+                            fontSize: 13,
+                            color: colors.black,
                             fontFamily: "Montserrat",
-                            color: colors.primary),
-                      )),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: Text("Enter Coins"),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 20, right: 20),
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: TextField(
-                            decoration: const InputDecoration(
-                                filled: true,
-                                border: InputBorder.none,
-                                hintText: '5 - 1000'),
-                            style: const TextStyle(
-                                backgroundColor: Colors.transparent),
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
+
+                      const SizedBox(
+                        height: 30,
                       ),
+                      Container(
+                        margin: const EdgeInsets.only(left: 20, right: 20),
+                        child: TextField(
+                          controller: _serialController,
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            filled: true,
+                            fillColor: Colors.transparent,
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: colors.primary),
+                            ),
+                            hintText: 'Enter PIN',
+                          ),
+                          style: TextStyle(backgroundColor: Colors.transparent),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
                       MaterialButton(
                         onPressed: () {
-                          showSuccesDialog();
+                          if(serilarandom != _serialController.text.toString()){
+                            Utils().showToast("Pin Wrong");
+                          }else{
+                            _serialController.text = '';
+                            Navigator.pop(context);
+
+                            //ads_status("watch_ad");
+
+                          }
+
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -291,7 +613,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           child: const Center(
                             child: Text(
-                              'Pay',
+                              'Verify',
                               style: TextStyle(
                                   color: colors.white,
                                   fontSize: 18,
@@ -300,87 +622,269 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                         ),
-                      )
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        'Today Viewed Ads: 26',
+                        style: TextStyle(
+                            color: colors.white,
+                            fontSize: 14,
+                            fontFamily: "Montserrat",
+                            fontWeight: FontWeight.bold),
+                      ),                      const SizedBox(height: 5),
+                      Text(
+                        'Today Viewed Ads: 26',
+                        style: TextStyle(
+                            color: colors.white,
+                            fontSize: 14,
+                            fontFamily: "Montserrat",
+                            fontWeight: FontWeight.bold),
+                      ),
                     ]),
               ),
             ),
           );
         });
+
+
   }
 
-  showSuccesDialog() {
-    showDialog<String>(
+
+  String generateSerialNumber() {
+    final random = Random();
+    final maxDigits = 4;
+    String randomNumber = '';
+
+    for (int i = 0; i < maxDigits; i++) {
+      randomNumber += random.nextInt(10).toString();
+    }
+
+    return randomNumber;
+  }
+  void  showLevelAlert(BuildContext context, String level) {
+    String levelcontent = "";
+    String leveltitle = "";
+    if(level == 'Free Trial'){
+      levelcontent = 'Total 200 Ads \n0.125 paise per Ad\n7 Days duration';
+      leveltitle = 'Free Trial';
+
+    }else{
+      levelcontent = 'Total 12,000 Ads \n0.25 paise per Ad\n30 Days duration';
+      leveltitle = 'Plan (₹1500 only)';
+
+    }
+    showDialog(
       context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: Center(
-            child: const Text(
-          'Successfully challenged',
-          style:
-              TextStyle(fontFamily: "Montserrat", fontWeight: FontWeight.bold),
-        )),
-        content: Image.asset(
-          "assets/images/success.png",
-          height: 80,
-          width: 80,
-        ),
-      ),
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(leveltitle),
+          content: Text(levelcontent),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                if(level == 'Free Trial'){
+                  Navigator.of(context).pop();
+
+                }else{
+                  String text = 'Hello, I want to purchase Plan';
+                  String encodedText = Uri.encodeFull(text);
+                  String uri =
+                      'https://wa.me/$contact_us?text=$encodedText';
+                  launchUrl(
+                    Uri.parse(uri),
+                    mode: LaunchMode.externalApplication,
+                  );
+
+                }
+
+              },
+              child: Text(level == 'Free Trial' ? 'Close' : 'Purchase Plan'),
+            ),
+          ],
+        );
+      },
     );
   }
+  void  showPremiumLevelAlert(BuildContext context, String level) {
+    String levelcontent = "";
+    String leveltitle = "";
+    if(level == '1'){
+      levelcontent = 'Watch 400 Ads per day\n1Ad = 1 Ad\nEarn ₹100 in 3 hrs 20 mins';
+      leveltitle = 'Level 1';
 
-  void userDeatils() async {
-    prefs = await SharedPreferences.getInstance();
-    var url = Constant.USER_DETAIL_URL;
+    }else if(level == '2'){
+      levelcontent = 'Watch 200 Ads per day\n1Ad = 2 Ads\nEarn ₹100 in 1 hrs 40 mins';
+      leveltitle = 'Level 2(3 refers)';
+
+    }else{
+      levelcontent = 'Watch 100 Ads per day\n1Ad = 4 Ads\nEarn ₹100 in 50 mins\nNext Month Free plan';
+      leveltitle = 'Level 3(5 refers)';
+
+    }
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(leveltitle),
+          content: Text(levelcontent),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                if(level == 'Free Trial'){
+                  Navigator.of(context).pop();
+
+                }else{
+                  String text = 'Hello, I need help to reach next level';
+                  String encodedText = Uri.encodeFull(text);
+                  String uri =
+                      'https://wa.me/$contact_us?text=$encodedText';
+                  launchUrl(
+                    Uri.parse(uri),
+                    mode: LaunchMode.externalApplication,
+                  );
+
+                }
+
+              },
+              child: Text(level == '1' ? 'Close' : 'Get Help'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+  // Method to get device info.
+  Future<void> ads_status(String type) async {
+
+    var url = Constant.TRIAL_ADS_LIST;
     Map<String, dynamic> bodyObject = {
       Constant.USER_ID: prefs.getString(Constant.ID),
-      Constant.FCM_ID:_fcmToken
+      Constant.DEVICE_ID:prefs.getString(Constant.MY_DEVICE_ID).toString(),
+      Constant.TYPE: type
     };
+
     String jsonString = await apiCall(url, bodyObject);
-    final Map<String, dynamic> responseJson = jsonDecode(jsonString);
-    final dataList = responseJson['data'] as List;
-    final Users user = Users.fromJsonNew(dataList.first);
+    final jsonResponse = jsonDecode(jsonString);
+    if(jsonResponse['success'] && type == 'status'){
+      setState(() {
+        today_ads_remain = jsonResponse['today_ads_remain'].toString();
+        time_left = jsonResponse['time_left'].toString();
+        time_start = jsonResponse['time_start'];
+        refer_amount = jsonResponse['refer_amount'].toString();
+        balance = jsonResponse['balance'].toString();
+        history_days = jsonResponse['history_days'].toString();
 
-    prefs.setString(Constant.LOGED_IN, "true");
-    prefs.setString(Constant.ID, user.id);
-    prefs.setString(Constant.MOBILE, user.mobile);
-    prefs.setString(Constant.NAME, user.name);
-    prefs.setString(Constant.UPI, user.upi);
-    prefs.setString(Constant.EARN, user.earn);
-    prefs.setString(Constant.BALANCE, user.balance);
-    prefs.setString(Constant.REFERRED_BY, user.referredBy);
-    prefs.setString(Constant.REFER_CODE, user.referCode);
-    prefs.setString(Constant.WITHDRAWAL_STATUS, user.withdrawalStatus);
-    prefs.setString(Constant.STATUS, user.status);
-    prefs.setString(Constant.JOINED_DATE, user.joinedDate);
-    prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
-    prefs.setString(Constant.MIN_WITHDRAWAL, user.min_withdrawal);
-    if(user.status=="0" || user.device_id=="0"){
-      logout();
-      SystemNavigator.pop();
+        status = jsonResponse['status'].toString();
+        level = jsonResponse['level'].toString();
+        starttime = double.parse(time_left);
+        if(status == '1'){
+          isTrial = false;
+          isPremium = true;
+        }
+        if(time_start == 1){
+          //startTimer();
+        }
+
+      });
+
+    }else if(jsonResponse['success'] && type == 'watch_ad'){
+
+      setState(() {
+        today_ads_remain = jsonResponse['today_ads_remain'].toString();
+        time_left = jsonResponse['time_left'].toString();
+        time_start = jsonResponse['time_start'];
+        refer_amount = jsonResponse['refer_amount'].toString();
+        balance = jsonResponse['balance'].toString();
+        level = jsonResponse['level'].toString();
+        status = jsonResponse['status'].toString();
+        history_days = jsonResponse['history_days'].toString();
+        ads_image = jsonResponse['ads_image'].toString();
+        starttime = double.parse(time_left);
+
+        if(status == '1'){
+          isTrial = false;
+          isPremium = true;
+        }
+        if(time_start == 1){
+          //startTimer();
+        }
+      });
+
     }
-    setState(() {
-      referText = prefs.getString(Constant.REFER_CODE)!;
-    });
+    else{
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(jsonResponse['message'])),
+      );
+    }
+
+
   }
 
-  void resultTiming() async {
+  Future<void> addTomainbalance(String wallet_type) async {
+    var url = Constant.ADD_MAIN_BALANCE_URL;
+    Map<String, dynamic> bodyObject = {
+      Constant.USER_ID: prefs.getString(Constant.ID),
+      Constant.WALLET_TYPE:wallet_type,
+    };
+
+    String jsonString = await apiCall(url, bodyObject);
+    final jsonResponse = jsonDecode(jsonString);
+    if(jsonResponse['success']){
+      Utils().showToast(jsonResponse['message']);
+
+    }else{
+      Utils().showToast(jsonResponse['message']);
+
+    }
+    userDeatils();
+
+  }
+
+  Future<void> watchad() async {
+    var url = Constant.VIEW_AD_URL;
+    Map<String, dynamic> bodyObject = {
+      Constant.USER_ID: prefs.getString(Constant.ID),
+    };
+
+    String jsonString = await apiCall(url, bodyObject);
+    final jsonResponse = jsonDecode(jsonString);
+
+    if(jsonResponse['success']){
+      Utils().showToast(jsonResponse['message']);
+      starttime = 0;
+      timerStarted = true;
+      adsApi();
+      startTimer();
+      userDeatils();
+
+
+    }else{
+      Utils().showToast(jsonResponse['message']);
+
+    }
+
+  }
+
+  Future<void> adsApi() async {
     prefs = await SharedPreferences.getInstance();
-    var url = Constant.RESULT_TIME_URL;
 
-    String jsonString = await dataCall(url);
-    final Map<String, dynamic> responseJson = jsonDecode(jsonString);
-    final dateTime =responseJson['result_announce_time'];
-    DateTime date = DateTime.parse(dateTime);
-    final formattedTime = DateFormat('h:mm a').format(date);
+    var response = await dataCall(Constant.ADS_URL);
+
+    String jsonDataString = response.toString();
+    final jsonData = jsonDecode(jsonDataString);
+
+    final dataList = jsonData['data'] as List;
+
+    final datass = dataList.first;
+
+    prefs.setString(Constant.ADS_LINK, datass[Constant.ADS_LINK]);
+    prefs.setString(Constant.ADS_IMAGE, datass[Constant.ADS_IMAGE]);
 
     setState(() {
-      resultTime ="Today $formattedTime";
-      leftTime = responseJson["time_diff"];
-      blinkText="Result Annouce in ${leftTime} Min";
+      ads_image =  prefs.getString(Constant.ADS_IMAGE)!;
+      ads_link =  prefs.getString(Constant.ADS_LINK)!;
     });
   }
-  void logout() async {
-    prefs.setString(Constant.LOGED_IN, "false");
-    // await googleSignIn.disconnect();
-    // FirebaseAuth.instance.signOut();
-  }
+
+
 }
