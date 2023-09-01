@@ -60,6 +60,8 @@ class HomeState extends State<Home> {
       contact_us = prefs.getString(Constant.CONTACT_US).toString();
       basic_wallet = prefs.getString(Constant.BASIC_WALLET)!;
       premium_wallet = prefs.getString(Constant.PREMIUM_WALLET)!;
+      status = prefs.getString(Constant.STATUS)!;
+
       adsApi();
       //ads_status("status");
     });
@@ -84,6 +86,10 @@ class HomeState extends State<Home> {
     prefs.setString(Constant.MOBILE, user.mobile);
     prefs.setString(Constant.NAME, user.name);
     prefs.setString(Constant.EARN, user.earn);
+    prefs.setString(Constant.CITY, user.city);
+    prefs.setString(Constant.AGE, user.age);
+    prefs.setString(Constant.GENDER, user.gender);
+    prefs.setString(Constant.SUPPORT_LAN, user.support_lan);
     prefs.setString(Constant.BALANCE, user.balance);
     prefs.setString(Constant.REFERRED_BY, user.referredBy);
     prefs.setString(Constant.REFER_CODE, user.referCode);
@@ -102,12 +108,14 @@ class HomeState extends State<Home> {
     prefs.setString(Constant.TARGET_REFERS, user.target_refers);
     prefs.setString(Constant.TODAY_ADS, user.today_ads);
     prefs.setString(Constant.TOTAL_ADS, user.total_ads);
+    prefs.setString(Constant.STATUS, user.status);
     setState(() {
       basic_wallet = prefs.getString(Constant.BASIC_WALLET)!;
       premium_wallet = prefs.getString(Constant.PREMIUM_WALLET)!;
       target_refers = prefs.getString(Constant.TARGET_REFERS)!;
       today_ads = prefs.getString(Constant.TODAY_ADS)!;
       total_ads = prefs.getString(Constant.TOTAL_ADS)!;
+      status = prefs.getString(Constant.STATUS)!;
     });
 
   }
@@ -171,12 +179,39 @@ class HomeState extends State<Home> {
             ),
             child: Center(
               child: Padding(
-                padding: EdgeInsets.only(top: 10.0),
+                padding: EdgeInsets.only(top: 2.0),
                 child: Column(
                   children: [
+                    if (status == '0')
+                    Container(
+                      width: double.infinity,
+                      margin: EdgeInsets.symmetric(horizontal: 16),
+                      child: TextButton(
+                        onPressed: () {
+                          String uri =
+                              'https://slveenterprises.org/slveenterprises.org/30115409/Online-Advertising-Course-30-Days';
+                          launchUrl(
+                            Uri.parse(uri),
+                            mode: LaunchMode.externalApplication,
+                          );
+                        },
+                        child: Text(
+                          'Purchase Premium Plan',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(Colors.pink),
+                          // You can customize other styles of the button here as well
+                        ),
+                      ),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
+
 
                         Card(
                           color: Color(0xFF060A70),
@@ -436,7 +471,7 @@ class HomeState extends State<Home> {
                       ),
 
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 5),
                     Text(
                       timerStarted ? "$seconds seconds" :"",
                       style: TextStyle(
@@ -464,7 +499,7 @@ class HomeState extends State<Home> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Container(
-                        height: 60,
+                        height: 40,
                         width: 140,
                         decoration: const BoxDecoration(
                           image: DecorationImage(
@@ -484,7 +519,7 @@ class HomeState extends State<Home> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 5),
                     LinearProgressIndicator(
                       value: progressbar,
                       minHeight: 10, // Set the desired height of the progress bar
@@ -492,31 +527,39 @@ class HomeState extends State<Home> {
                       valueColor: AlwaysStoppedAnimation<Color>(colors.widget_color), // Color of the progress indicator
                     ),
                     const SizedBox(height: 5),
-                    Text(
-                      'Today Viewed Ads: $today_ads',
-                      style: TextStyle(
-                          color: colors.white,
-                          fontSize: 14,
-                          fontFamily: "Montserrat",
-                          fontWeight: FontWeight.bold),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Text(
+                          'Today Viewed Ads: $today_ads',
+                          style: TextStyle(
+                              color: colors.white,
+                              fontSize: 12,
+                              fontFamily: "Montserrat",
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          'Total Viewed Ads: $total_ads',
+                          style: TextStyle(
+                              color: colors.white,
+                              fontSize: 12,
+                              fontFamily: "Montserrat",
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 5),
-                    Text(
-                      'Total Viewed Ads: $total_ads',
-                      style: TextStyle(
-                          color: colors.white,
-                          fontSize: 14,
-                          fontFamily: "Montserrat",
-                          fontWeight: FontWeight.bold),
-                    ),
+
+
                     const SizedBox(height: 5),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
-                        'Register bonus ₹500 credit after achieving monthly target',
+                        'Rs 500 Register Bonus Is Credited In Your Vault Balance. Complete Months Target To Withdraw.',
                         style: TextStyle(
                             color: colors.widget_color,
-                            fontSize: 16,
+                            fontSize: 12,
                             fontFamily: "Montserrat",
                             fontWeight: FontWeight.bold),
                       ),
@@ -663,98 +706,7 @@ class HomeState extends State<Home> {
 
     return randomNumber;
   }
-  void  showLevelAlert(BuildContext context, String level) {
-    String levelcontent = "";
-    String leveltitle = "";
-    if(level == 'Free Trial'){
-      levelcontent = 'Total 200 Ads \n0.125 paise per Ad\n7 Days duration';
-      leveltitle = 'Free Trial';
 
-    }else{
-      levelcontent = 'Total 12,000 Ads \n0.25 paise per Ad\n30 Days duration';
-      leveltitle = 'Plan (₹1500 only)';
-
-    }
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(leveltitle),
-          content: Text(levelcontent),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                if(level == 'Free Trial'){
-                  Navigator.of(context).pop();
-
-                }else{
-                  String text = 'Hello, I want to purchase Plan';
-                  String encodedText = Uri.encodeFull(text);
-                  String uri =
-                      'https://wa.me/$contact_us?text=$encodedText';
-                  launchUrl(
-                    Uri.parse(uri),
-                    mode: LaunchMode.externalApplication,
-                  );
-
-                }
-
-              },
-              child: Text(level == 'Free Trial' ? 'Close' : 'Purchase Plan'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-  void  showPremiumLevelAlert(BuildContext context, String level) {
-    String levelcontent = "";
-    String leveltitle = "";
-    if(level == '1'){
-      levelcontent = 'Watch 400 Ads per day\n1Ad = 1 Ad\nEarn ₹100 in 3 hrs 20 mins';
-      leveltitle = 'Level 1';
-
-    }else if(level == '2'){
-      levelcontent = 'Watch 200 Ads per day\n1Ad = 2 Ads\nEarn ₹100 in 1 hrs 40 mins';
-      leveltitle = 'Level 2(3 refers)';
-
-    }else{
-      levelcontent = 'Watch 100 Ads per day\n1Ad = 4 Ads\nEarn ₹100 in 50 mins\nNext Month Free plan';
-      leveltitle = 'Level 3(5 refers)';
-
-    }
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(leveltitle),
-          content: Text(levelcontent),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                if(level == 'Free Trial'){
-                  Navigator.of(context).pop();
-
-                }else{
-                  String text = 'Hello, I need help to reach next level';
-                  String encodedText = Uri.encodeFull(text);
-                  String uri =
-                      'https://wa.me/$contact_us?text=$encodedText';
-                  launchUrl(
-                    Uri.parse(uri),
-                    mode: LaunchMode.externalApplication,
-                  );
-
-                }
-
-              },
-              child: Text(level == '1' ? 'Close' : 'Get Help'),
-            ),
-          ],
-        );
-      },
-    );
-  }
   // Method to get device info.
   Future<void> ads_status(String type) async {
 

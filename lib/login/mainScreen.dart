@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:color_challenge/jobs_show.dart';
+import 'package:color_challenge/notifications_records.dart';
 
 import 'package:color_challenge/online_jobs.dart';
 import 'package:flutter/gestures.dart';
@@ -14,6 +15,7 @@ import '../Helper/Constant.dart';
 import '../Helper/apiCall.dart';
 import '../Helper/utils.dart';
 import '../homePage.dart';
+import '../notification_screen.dart';
 import '../reports.dart';
 import '../trial_ad.dart';
 import '../upiPay.dart';
@@ -39,6 +41,7 @@ class _MainScreenState extends State<MainScreen> {
   bool _actionsVisible = true;
   bool _logoutVisible = false;
   bool _leftArrowVisible = false;
+  bool _notificationVisible = false;
   late Users user;
   late SharedPreferences prefs;
   String coins = "0";
@@ -111,21 +114,25 @@ class _MainScreenState extends State<MainScreen> {
         _actionsVisible = false;
         _logoutVisible = false;
         _leftArrowVisible = false;
+        _notificationVisible = true;
       } else if (index == 2) {
         title = "Reports";
         _actionsVisible = false;
         _logoutVisible = false;
         _leftArrowVisible = false;
+        _notificationVisible = true;
       } else if (index == 3) {
         title = "Wallet";
         _actionsVisible = false;
         _logoutVisible = true;
         _leftArrowVisible = false;
+        _notificationVisible = false;
       } else {
         title = "Home";
         _actionsVisible = true;
         _logoutVisible = false;
         _leftArrowVisible = false;
+        _notificationVisible = false;
       }
     });
   }
@@ -158,6 +165,28 @@ class _MainScreenState extends State<MainScreen> {
               : (null),
           actions: _actionsVisible
               ? [
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NotifyScreen(),
+                  ),
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: ColorFiltered(
+                  colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                  child: Image.asset(
+                    "assets/images/notification.png",
+                    height: 24,
+                    width: 30,
+                  ),
+                ),
+
+              ),
+            ),
             Padding(
               padding: EdgeInsets.only(top: 10.0),
 
@@ -204,6 +233,30 @@ class _MainScreenState extends State<MainScreen> {
                           ),
                         )
                       : const Text(""),
+            _notificationVisible
+                ? GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NotifyScreen(),
+                  ),
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: ColorFiltered(
+                  colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                  child: Image.asset(
+                    "assets/images/notification.png",
+                    height: 24,
+                    width: 30,
+                  ),
+                ),
+
+              ),
+            )
+                : const Text(""),
 
                 ],
         ),

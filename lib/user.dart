@@ -23,6 +23,10 @@ class Users {
   final String target_refers;
   final String today_ads;
   final String total_ads;
+  final String city;
+  final String age;
+  final String gender;
+  final String support_lan;
 
 
 
@@ -51,6 +55,10 @@ class Users {
     required this.target_refers,
     required this.today_ads,
     required this.total_ads,
+    required this.city,
+    required this.age,
+    required this.gender,
+    required this.support_lan,
 
   });
 
@@ -80,6 +88,10 @@ class Users {
       target_refers: json['target_refers'],
       today_ads: json['today_ads'],
       total_ads: json['total_ads'],
+      city: json['city'],
+      age: json['age'],
+      gender: json['gender'],
+      support_lan: json['support_lan'],
     );
   }
   factory Users.fromJsonNew(Map<String, dynamic> json) {
@@ -108,6 +120,10 @@ class Users {
       target_refers: json['target_refers'],
       today_ads: json['today_ads'],
       total_ads: json['total_ads'],
+      city: json['city'],
+      age: json['age'],
+      gender: json['gender'],
+      support_lan: json['support_lan'],
     );
   }
 

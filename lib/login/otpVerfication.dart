@@ -17,7 +17,9 @@ import '../Helper/Constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Helper/apiCall.dart';
+import '../new_profile_screen.dart';
 import '../user.dart';
+
 
 class OtpVerification extends StatefulWidget {
   final String mobileNumber;
@@ -36,7 +38,9 @@ class _OtpVerificationState extends State<OtpVerification> {
   OtpFieldController otpController = OtpFieldController();
   late SharedPreferences prefs;
   final TextEditingController _referCodeController = TextEditingController();
+  final TextEditingController _ageController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
   final TextEditingController _otpController = TextEditingController();
   late String _mobileNumber;
   late String realotp;
@@ -167,7 +171,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                         prefs.setString(Constant.STATUS, Constant.handleNullableString(user.status));
                         prefs.setString(Constant.JOINED_DATE, Constant.handleNullableString(user.joinedDate));
                         prefs.setString(Constant.LAST_UPDATED, Constant.handleNullableString(user.lastUpdated));
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => MainScreen(),
@@ -175,7 +179,16 @@ class _OtpVerificationState extends State<OtpVerification> {
                         );
                       }
                       else if(success && !registered){
-                        showReferCodeSheet();
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+
+                              return NewProfileScreen_(mobileNumber: _mobileNumber); // Replace NextPage with the actual page you want to navigate to
+                            },
+                          ),
+                        );
+                        //showReferCodeSheet();
 
                       }
                       else {
@@ -267,6 +280,15 @@ class _OtpVerificationState extends State<OtpVerification> {
   }
 
   showReferCodeSheet() {
+    // Initial Selected Value
+    String gender = 'Male';
+
+    // List of items in our dropdown menu
+    var items = [
+      'Male',
+      'Female',
+      'Other',
+    ];
     showModalBottomSheet(
         context: context,
         shape: const RoundedRectangleBorder(
@@ -290,13 +312,13 @@ class _OtpVerificationState extends State<OtpVerification> {
                   bottom: MediaQuery.of(context).viewInsets.bottom),
               child: SingleChildScrollView(
                 child: SizedBox(
-                  height: 500,
+                  height: 700,
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         const SizedBox(
-                          height: 30,
+                          height: 5,
                         ),
                         const Center(
                           child: Text(
@@ -307,7 +329,8 @@ class _OtpVerificationState extends State<OtpVerification> {
                                 fontFamily: "Montserrat"),
                           ),
                         ),
-                        const SizedBox(height: 20),
+
+                        const SizedBox(height: 5),
                         Container(
                           margin: const EdgeInsets.only(left: 20, right: 20),
                           child: TextField(
@@ -322,8 +345,101 @@ class _OtpVerificationState extends State<OtpVerification> {
                             style: TextStyle(backgroundColor: Colors.transparent,color: Colors.white),
                           ),
                         ),
+                        const SizedBox(height: 5),
+                        const Center(
+                          child: Text(
+                            "Enter City",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: colors.white,
+                                fontFamily: "Montserrat"),
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                        Container(
+                          margin: const EdgeInsets.only(left: 20, right: 20),
+                          child: TextField(
+                            controller: _cityController,
+                            decoration: const InputDecoration(
+                              filled: true,
+                              fillColor: Colors.transparent,
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: colors.primary),
+                              ),
+                            ),
+                            style: TextStyle(backgroundColor: Colors.transparent,color: Colors.white),
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                        const Center(
+                          child: Text(
+                            "Enter Age",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: colors.white,
+                                fontFamily: "Montserrat"),
+                          ),
+                        ),
                         const SizedBox(
-                          height: 30,
+                          height: 5,
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(left: 20, right: 20),
+                          child: TextField(
+                            controller: _ageController,
+                            decoration: const InputDecoration(
+                              filled: true,
+                              fillColor: Colors.transparent,
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: colors.primary),
+                              ),
+                            ),
+                            style: TextStyle(backgroundColor: Colors.transparent,color: Colors.white),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        const Center(
+                          child: Text(
+                            "Select Gender",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: colors.white,
+                                fontFamily: "Montserrat"),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+
+                        Container(
+                          margin: const EdgeInsets.only(left: 20, right: 20),
+                          width: double.infinity, // Set the width to fill the available space
+                          child: DropdownButton(
+                            value: gender,
+                            icon: const Icon(Icons.keyboard_arrow_down),
+                            items: items.map((String item) {
+                              return DropdownMenuItem(
+                                value: item,
+                                child: Text(item),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                gender = newValue!;
+                              });
+                            },
+                            style: TextStyle(color: colors.white),
+                            dropdownColor: colors.primary_color,// Change the text color
+                            underline: Container(
+                              height: 2,
+                              color: colors.primary, // Change the line color here
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
                         ),
                         const Center(
                           child: Text(
@@ -334,7 +450,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                                 fontFamily: "Montserrat"),
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 5),
                         Container(
                           margin: const EdgeInsets.only(left: 20, right: 20),
                           child: TextField(
@@ -350,7 +466,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                             style: TextStyle(backgroundColor: Colors.transparent,color: Colors.white),
                           ),
                         ),
-                        const SizedBox(height: 60),
+                        const SizedBox(height: 20),
                         MaterialButton(
                           onPressed: () {
                             newRegister();

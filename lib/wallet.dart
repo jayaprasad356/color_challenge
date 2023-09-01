@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:color_challenge/Helper/utils.dart';
 import 'package:color_challenge/addupi.dart';
 import 'package:color_challenge/my_withdrawal_records.dart';
+import 'package:color_challenge/update_profile_screen.dart';
 import 'package:color_challenge/user.dart';
 import 'package:color_challenge/withdrawal_data.dart';
 import 'package:flutter/material.dart';
@@ -169,26 +170,53 @@ class _walletState extends State<wallet> {
                     const SizedBox(
                       height: 20,
                     ),
-            MaterialButton(
-              color: colors.primary,
-              onPressed: () {
-                // Navigate to the BankDetailsScreen when the button is clicked
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => BankDetailsScreen(),
-                  ),
-                );
-              },
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(6),
-              ),
-              child: Text('Add Bank Detail',
-                  style: TextStyle(
-                  fontSize: 14,
-                  color: colors.white,
-                  fontFamily: "Montserra")),
-            ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        MaterialButton(
+                          color: colors.primary,
+                          onPressed: () {
+                            // Navigate to the BankDetailsScreen when the button is clicked
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => BankDetailsScreen(),
+                              ),
+                            );
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Text('Update Bank Detail',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: colors.white,
+                                  fontFamily: "Montserra")),
+                        ),
+                        const SizedBox(height: 5),
+                        MaterialButton(
+                          color: colors.primary,
+                          onPressed: () {
+                            // Navigate to the BankDetailsScreen when the button is clicked
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => UpdateProfileScreen(),
+                              ),
+                            );
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Text('Update Profile',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: colors.white,
+                                  fontFamily: "Montserra")),
+                        ),
+                      ],
+                    ),
+
                     SizedBox(
                       height: 30,
                     ),

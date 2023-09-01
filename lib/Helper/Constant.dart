@@ -1,15 +1,17 @@
 class Constant {
   static const String MainBaseUrl = "https://admin.colorjobs.site/";
-  //static const String MainBaseUrl = "http://192.168.114.38/color_challenge_admin/";
+  //static const String MainBaseUrl = "http://192.168.35.38/color_challenge_admin/";
   //static const String MainBaseUrl = "https://demo.colorjobs.site/";
   static const String BaseUrl = "${MainBaseUrl}api/";
   static const String LOGIN_URL = "${BaseUrl}login.php";
   static const String USER_DETAIL_URL = "${BaseUrl}user_details.php";
   static const String REGISTER_URL = "${BaseUrl}register.php";
+  static const String UPDATE_PROFILE_URL = "${BaseUrl}update_profile.php";
   static const String WITHDRAWAL_URL = "${BaseUrl}withdrawals.php";
   static const String CHECK_MOBILE = "${BaseUrl}check_mobile.php";
   static const String MY_WITHDRAWALS_LIST_URL = "${BaseUrl}withdrawals_list.php";
   static const String TRANSACTIONS_LIST_URL = "${BaseUrl}transactions_list.php";
+  static const String NOTIFICATION_LIST_URL = "${BaseUrl}notification_lists.php";
 
   static const String SETTINGS_URL = "${BaseUrl}settings.php";
   static const String ADS_URL = "${BaseUrl}ads.php";
@@ -67,6 +69,10 @@ class Constant {
   static const String AD_STARTED_TIME = "ad_started_time";
 
   static const String NAME = "name";
+  static const String AGE = "age";
+  static const String GENDER = "gender";
+  static const String CITY = "city";
+  static const String SUPPORT_LAN = "support_lan";
   static const String DEVICE_ID = "device_id";
 
   static const String RESULT_ANNOUNCE_TIME = "result_announce_time";

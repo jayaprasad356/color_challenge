@@ -139,7 +139,7 @@ class _LoginMobileState extends State<LoginMobile> {
                   } else if (_mobileNumberController.text.length != 10) {
                     Utils().showToast("Please Enter Valid Mobile Number");
                   } else {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) {

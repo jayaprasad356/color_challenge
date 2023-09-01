@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Helper/Color.dart';
@@ -59,7 +60,7 @@ class OnlineJobsState extends State<OnlineJobs> {
                         onTap: () {
                           String text = 'Hi Sir/Madam, I want to Purchase Plan and am ready to join now';
                           String encodedText = Uri.encodeFull(text);
-                          String uri = 'https://wa.me/$contact_us?text=$encodedText';
+                          String uri = 'https://slveenterprises.org/slveenterprises.org/30115409/Online-Advertising-Course-30-Days';
                           launchUrl(
                             Uri.parse(uri),
                             mode: LaunchMode.externalApplication,
@@ -69,7 +70,15 @@ class OnlineJobsState extends State<OnlineJobs> {
                           Constant.MainBaseUrl + "poster.jpg",// Replace this with the path to your image asset
                           fit: BoxFit.cover,
                         ),
-                      )
+                      ),
+                      Text(
+                        "If Paid then Send Screen Shot to Help Support .",
+                        style: GoogleFonts.poppins( // Use GoogleFonts.poppins() to access Poppins font
+                          fontSize: 14,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
 
 
 
