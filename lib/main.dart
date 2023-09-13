@@ -1,29 +1,33 @@
 import 'dart:convert';
 
-import 'package:color_challenge/login/loginMobile.dart';
-import 'package:color_challenge/login/mainScreen.dart';
+// import 'package:color_challenge/test.dart';
+import 'package:color_challenge/test.dart';
+import 'package:color_challenge/view/screens/login/loginMobile.dart';
+import 'package:color_challenge/view/screens/login/mainScreen.dart';
+import 'package:color_challenge/view/screens/login/otpVerfication.dart';
+import 'package:color_challenge/view/screens/upi_screen/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'Helper/Constant.dart';
+import 'util/Constant.dart';
 import 'Helper/apiCall.dart';
-import 'Helper/utils.dart';
-import 'login/otpVerfication.dart';
+import 'controller/utils.dart';
 import 'package:package_info/package_info.dart';
 import 'package:get/get.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'updateApp.dart';
+import 'view/screens/updateApp/updateApp.dart';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    'high_importance_channel', // id
-    'High Importance Notifications', // title
-    description:
-        'This channel is used for important notifications.', // description
-    importance: Importance.high,
-    playSound: true);
+  'high_importance_channel', // id
+  'High Importance Notifications', // title
+  description:
+      'This channel is used for important notifications.', // description
+  importance: Importance.high,
+  playSound: true,
+);
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -43,8 +47,6 @@ Future<void> main() async {
   // ),);
   await Firebase.initializeApp();
 
-
-
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   await flutterLocalNotificationsPlugin
@@ -57,7 +59,8 @@ Future<void> main() async {
     badge: true,
     sound: true,
   );
-  runApp(MyApp());
+  // runApp(MyVideoApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -68,16 +71,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
   late SharedPreferences _prefs;
   late String _fcmToken;
   late String appVersion;
-   bool update=true;
-    String link="";
+  bool update = true;
+  String link = "";
 
   @override
   void initState() {
     super.initState();
     Utils().deviceInfo();
+
     SharedPreferences.getInstance().then((prefs) {
       setState(() {
         FirebaseAnalytics.instance.logEvent(name: "appStart");
@@ -141,34 +146,6 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: SharedPreferences.getInstance(),
-      builder:
-          (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
-        if (snapshot.hasData) {
-          final SharedPreferences prefs = snapshot.data!;
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'A1 Ads',
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-            ),
-            routes: {
-              '/otpVerification': (context) => OtpVerification(
-                    mobileNumber: '',otp: '',
-                  ),
-            },
-            home: screens(prefs, update,link),
-          );
-        } else {
-          return const CircularProgressIndicator();
-        }
-      },
-    );
-  }
-
   void getAppVersion() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     appVersion = packageInfo.version;
@@ -186,61 +163,86 @@ class _MyAppState extends State<MyApp> {
       link = datass[Constant.LINK];
       update = responseJson["success"];
     });
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: SharedPreferences.getInstance(),
+      builder:
+          (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
+        if (snapshot.hasData) {
+          final SharedPreferences prefs = snapshot.data!;
+          return GetMaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'A1 Ads',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            routes: {
+              '/otpVerification': (context) => const OtpVerification(
+                    mobileNumber: '',
+                    otp: '',
+                  ),
+            },
+            // home: wallet(),
+            home: screens(prefs, update, link),
+          );
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
+    );
   }
 }
 
-Widget screens(
-  SharedPreferences prefs,
-  bool update, String link
-) {
+Widget screens(SharedPreferences prefs, bool update, String link) {
   final String? isLoggedIn = prefs.getString(Constant.LOGED_IN);
   if (isLoggedIn != null && isLoggedIn == "true") {
     // showNotification();
     if (update) {
       return const MainScreen();
     } else {
-      return  UpdateDialog(link: link);
+      return UpdateDialog(link: link);
     }
   } else {
     if (update) {
       return const LoginMobile();
     } else {
-      return  UpdateDialog(link: link);
+      return UpdateDialog(link: link);
     }
   }
 }
 
-void showNotification() {
-  flutterLocalNotificationsPlugin.show(
-      0,
-      "Testing Notification",
-      "This notification comes all the time of opening app",
-      NotificationDetails(
-          android: AndroidNotificationDetails(channel.id,
-              channel.name,
-              channelDescription: channel.description,
-              importance: Importance.high,
-              color: Colors.blue,
-              priority: Priority.high,
-              playSound: true,
-              icon: '@mipmap/ic_launcher')));
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(),
-    );
-  }
-}
+// void showNotification() {
+//   flutterLocalNotificationsPlugin.show(
+//       0,
+//       "Testing Notification",
+//       "This notification comes all the time of opening app",
+//       NotificationDetails(
+//           android: AndroidNotificationDetails(channel.id, channel.name,
+//               channelDescription: channel.description,
+//               importance: Importance.high,
+//               color: Colors.blue,
+//               priority: Priority.high,
+//               playSound: true,
+//               icon: '@mipmap/ic_launcher')));
+// }
+//
+// class MyHomePage extends StatefulWidget {
+//   const MyHomePage({super.key, required this.title});
+//
+//   final String title;
+//
+//   @override
+//   State<MyHomePage> createState() => _MyHomePageState();
+// }
+//
+// class _MyHomePageState extends State<MyHomePage> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return const Scaffold(
+//       body: Center(),
+//     );
+//   }
+// }

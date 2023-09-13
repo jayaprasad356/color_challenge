@@ -64,7 +64,7 @@ android {
         release {
             keyAlias 'upload'
             keyPassword '123456'
-            storeFile file("D:\\Studio Projects\\color_challenge\\upload-keystore.jks")
+            storeFile file("D:\\Flutter_Project\\color_challenge\\upload-keystore.jks")
             storePassword '123456'
         }
     }
