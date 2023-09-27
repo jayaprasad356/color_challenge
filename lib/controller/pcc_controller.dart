@@ -1,13 +1,49 @@
+
+import 'package:color_challenge/data/api/api_client.dart';
+import 'package:color_challenge/data/repository/shorts_video_repo.dart';
+import 'package:color_challenge/model/video_list.dart';
+import 'package:color_challenge/util/Constant.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
-class PCC extends GetxController {
+class PCC extends GetxController implements GetxService {
+  final ShortsVideoRepo shortsVideoRepo;
+  PCC({required this.shortsVideoRepo});
   int _api = 0;
   List<VideoPlayerController?> videoPlayerControllers = [];
   List<int> initilizedIndexes = [];
   bool autoplay = true;
   int get api => _api;
   RxInt counter = 0.obs;
+  final RxList videoURL = [].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    shortsVideoData();
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+  }
+
+  Future<void> shortsVideoData() async {
+    try {
+      final value = await shortsVideoRepo.shortsVideoList();
+      var responseData = value.body;
+      VideoList shortVideoListData = VideoList.fromJson(responseData);
+      debugPrint("===> shortVideoListData: $shortVideoListData");
+
+      for (Data videoData in shortVideoListData.data!) {
+        print('Video ID: ${videoData.id}, User ID: ${videoData.userId}, URL: ${videoData.url}');
+        videoURL.add(videoData.url ?? '');
+      }
+    } catch (e) {
+      debugPrint("shortsVideoData errors: $e");
+    }
+  }
 
   void updateAPI(int i) {
     if (videoPlayerControllers[_api] != null) {
@@ -18,9 +54,9 @@ class PCC extends GetxController {
   }
 
   Future initializePlayer(int i) async {
-    print('initializing $i');
+    // print('initializing $i');
     late VideoPlayerController singleVideoController;
-    singleVideoController = VideoPlayerController.network(videoURLs[i]);
+    singleVideoController = VideoPlayerController.network(videoURL[i]);
     videoPlayerControllers.add(singleVideoController);
     initilizedIndexes.add(i);
     await videoPlayerControllers[i]!.initialize();
@@ -29,7 +65,7 @@ class PCC extends GetxController {
 
   Future initializeIndexedController(int index) async {
     late VideoPlayerController singleVideoController;
-    singleVideoController = VideoPlayerController.network(videoURLs[index]);
+    singleVideoController = VideoPlayerController.network(videoURL[index]);
     videoPlayerControllers[index] = singleVideoController;
     await videoPlayerControllers[index]!.initialize();
     update();

@@ -7,6 +7,7 @@ import 'package:color_challenge/reports.dart';
 import 'package:color_challenge/util/Color.dart';
 import 'package:color_challenge/util/Constant.dart';
 import 'package:color_challenge/controller/utils.dart';
+import 'package:color_challenge/view/screens/add_screen/ads_screen.dart';
 import 'package:color_challenge/view/screens/home_page/homePage.dart';
 import 'package:color_challenge/view/screens/notification_screen/notification_screen.dart';
 import 'package:color_challenge/view/screens/profile_screen/my_profile.dart';
@@ -135,7 +136,7 @@ class _MainScreenState extends State<MainScreen> {
         _logoutVisible = false;
         _leftArrowVisible = false;
         _notificationVisible = false;
-        _addPost = true;
+        _addPost = false;
         // } else if (index == 3) {
         //   title = "Reports";
         //   _actionsVisible = false;
@@ -598,7 +599,7 @@ class _MainScreenState extends State<MainScreen> {
       case 0:
         return const Home(); //HomePage(updateAmount: updateAmount);
       case 1:
-        return const Home(); //HomePage(updateAmount: updateAmount);
+        return const ADsScreen(); //HomePage(updateAmount: updateAmount);
         case 2:
         return const StorePage();
       // case 1:

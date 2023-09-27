@@ -2,10 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:color_challenge/Helper/apiCall.dart';
+import 'package:color_challenge/model/slider_data.dart';
 import 'package:color_challenge/model/user.dart';
 import 'package:color_challenge/controller/utils.dart';
+import 'package:color_challenge/view/screens/shorts_vid/shorts_upload.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -48,6 +52,7 @@ class HomeState extends State<Home> {
       today_ads = "0",
       total_ads = "0";
   double progressbar = 0.0;
+  int _currentIndex = 0;
 
   @override
   void initState() {
@@ -155,430 +160,171 @@ class HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SingleChildScrollView(
           child: Container(
-        width:
+            width:
             MediaQuery.of(context).size.width, // Set width to the screen width
-        height: MediaQuery.of(context)
-            .size
-            .height, // Set height to the screen height
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [colors.primary_color, colors.secondary_color],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 2.0),
-            child: Column(
-              children: [
-                if (status == '0')
-                  Container(
-                    width: double.infinity,
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                    child: TextButton(
-                      onPressed: () {
-                        String uri =
-                            'https://slveenterprises.org/slveenterprises.org/30115409/Online-Advertising-Course-30-Days';
-                        launchUrl(
-                          Uri.parse(uri),
-                          mode: LaunchMode.externalApplication,
-                        );
-                      },
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.pink),
-                        // You can customize other styles of the button here as well
-                      ),
-                      child: const Text(
-                        'Purchase Premium Plan',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Card(
-                      color: const Color(0xFF060A70),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: colors.widget_color, // Set the border color
-                            width: 2, // Set the border width
-                          ),
-                          borderRadius:
-                              BorderRadius.circular(8), // Set border radius
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 3.0, left: 5.0, right: 5.0, bottom: 3.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Basic Wallet",
-                                    style: GoogleFonts.poppins(
-                                      // Use GoogleFonts.poppins() to access Poppins font
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 5),
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const OnlineJobs(),
-                                        ),
-                                      );
-                                    },
-                                    child: Image.asset(
-                                      'assets/images/info.png',
-                                      height: 30,
-                                      width: 20,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Text(
-                                "No Refers",
-                                style: GoogleFonts.poppins(
-                                  // Use GoogleFonts.poppins() to access Poppins font
-                                  fontSize: 12,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Card(
-                                color: const Color(0xFF060A70),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: colors
-                                          .widget_color2, // Set the border color
-                                      width: 2, // Set the border width
-                                    ),
-                                    borderRadius: BorderRadius.circular(35),
-                                    color: const Color(0xFF080A42),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 3.0,
-                                        left: 20.0,
-                                        right: 20.0,
-                                        bottom: 3.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Image.asset(
-                                          'assets/images/money.png',
-                                          height: 30,
-                                          width: 20,
-                                        ),
-                                        const SizedBox(
-                                            width:
-                                                5), // Adding some spacing between image and text
-                                        Text(
-                                          "₹ $basic_wallet",
-                                          style: const TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.white),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              MaterialButton(
-                                onPressed: () {
-                                  addTomainbalance('basic_wallet');
-                                },
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    Image.asset(
-                                      'assets/images/main_balance_btn.png',
-                                      height: 50,
-                                      width:
-                                          120, // Replace with the actual image path
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Card(
-                      color: const Color(0xFF060A70),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: colors.widget_color, // Set the border color
-                            width: 2, // Set the border width
-                          ),
-                          borderRadius:
-                              BorderRadius.circular(8), // Set border radius
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 3.0, left: 5.0, right: 5.0, bottom: 3.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Premium Wallet",
-                                    style: GoogleFonts.poppins(
-                                      // Use GoogleFonts.poppins() to access Poppins font
-                                      fontSize: 14,
-                                      color: colors.widget_color,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 5),
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const OnlineJobs(),
-                                        ),
-                                      );
-                                    },
-                                    child: Image.asset(
-                                      'assets/images/info.png',
-                                      height: 30,
-                                      width: 20,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Text(
-                                "$target_refers Refers",
-                                style: GoogleFonts.poppins(
-                                  // Use GoogleFonts.poppins() to access Poppins font
-                                  fontSize: 12,
-                                  color: colors.widget_color,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Card(
-                                color: const Color(0xFF060A70),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: colors
-                                          .widget_color2, // Set the border color
-                                      width: 2, // Set the border width
-                                    ),
-                                    borderRadius: BorderRadius.circular(35),
-                                    color: const Color(0xFF080A42),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 3.0,
-                                        left: 20.0,
-                                        right: 20.0,
-                                        bottom: 3.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Image.asset(
-                                          'assets/images/money.png',
-                                          height: 30,
-                                          width: 20,
-                                        ),
-                                        const SizedBox(
-                                            width:
-                                                5), // Adding some spacing between image and text
-                                        Text(
-                                          "₹ $premium_wallet",
-                                          style: const TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.white),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              MaterialButton(
-                                onPressed: () {
-                                  addTomainbalance('premium_wallet');
-                                },
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    Image.asset(
-                                      'assets/images/main_balance_btn.png',
-                                      height: 50,
-                                      width:
-                                          120, // Replace with the actual image path
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Image.network(
-                  ads_image,
-                  fit: BoxFit.contain,
-                  height: 300, // Set the desired height
-                  width: 300, // Set the desired width
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) {
-                      _isLoading = false;
-
-                      return child;
-                    } else if (_isLoading) {
-                      return const CircularProgressIndicator(); // Show loading indicator
-                    } else {
-                      return child;
-                    }
-                  },
-                ),
-                const SizedBox(height: 5),
-                GestureDetector(
-                  onTap: () {
-                    launchUrl(
-                      Uri.parse(ads_link),
-                      mode: LaunchMode.externalApplication,
-                    );
-                  },
-                  child: Text(
-                    "click here to purchase",
-                    style: GoogleFonts.poppins(
-                      fontSize: 14,
-                      color: Colors.white,
-                      fontWeight: FontWeight.normal,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  timerStarted ? "$seconds seconds" : "",
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.red,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-                const SizedBox(height: 5),
-                MaterialButton(
-                  onPressed: () async {
-                    if (!timerStarted) {
-                      watchad();
-                    } else {
-                      Utils().showToast("Please wait...");
-                    }
-                  },
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Container(
-                    height: 40,
-                    width: 140,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/images/btnbg.png"),
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'Watch Ad',
-                        style: TextStyle(
-                            color: colors.white,
-                            fontSize: 14,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 5),
-                LinearProgressIndicator(
-                  value: progressbar,
-                  minHeight: 10, // Set the desired height of the progress bar
-                  backgroundColor:
-                      Colors.grey[300], // Background color of the progress bar
-                  valueColor: const AlwaysStoppedAnimation<Color>(
-                      colors.widget_color), // Color of the progress indicator
-                ),
-                const SizedBox(height: 5),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Text(
-                      'Today Viewed Ads: $today_ads',
-                      style: const TextStyle(
-                          color: colors.white,
-                          fontSize: 12,
-                          fontFamily: "Montserrat",
-                          fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      'Total Viewed Ads: $total_ads',
-                      style: const TextStyle(
-                          color: colors.white,
-                          fontSize: 12,
-                          fontFamily: "Montserrat",
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 5),
-                const SizedBox(height: 5),
-                const Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text(
-                    'Rs 500 Register Bonus Is Credited In Your Vault Balance. Complete Months Target To Withdraw.',
-                    style: TextStyle(
-                        color: colors.widget_color,
-                        fontSize: 12,
-                        fontFamily: "Montserrat",
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
+            height: MediaQuery.of(context)
+                .size
+                .height, // Set height to the screen height
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [colors.primary_color, colors.secondary_color],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
             ),
-          ),
-        ),
-      )),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 2.0),
+                child: Column(
+                  children: [
+                    CarouselSlider(
+                      options: CarouselOptions(
+                        enableInfiniteScroll: false,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _currentIndex = index;
+                          });
+                        },
+                      ),
+                      items: sliderData.map((e) => sliderItems(e)).toList(),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: sliderData.map((e) {
+                        int index = sliderData.indexOf(e);
+                        return Container(
+                          margin: const EdgeInsets.only(right: 10),
+                          height: 10,
+                          width: _currentIndex == index ? 15 : 5,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: _currentIndex == index ? Colors.white : Colors.grey ),
+                        );
+                      }).toList(),
+                    ),const SizedBox(
+                      height: 20,
+                    ),
+                    if (status == '0')
+                      Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        child: TextButton(
+                          onPressed: () {},
+                          style: ButtonStyle(
+                            backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.pink),
+                            // You can customize other styles of the button here as well
+                          ),
+                          child: const Text(
+                            'Purchase Premium Plan',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.symmetric(horizontal: 16),
+                      child: TextButton(
+                        onPressed: () {
+                          Get.to(const ShortsUpload());
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                          side: MaterialStateProperty.all<BorderSide>(
+                            const BorderSide(
+                              color: Colors.pink,
+                              width: 2.0,
+                            ),
+                          ),
+                        ),
+                        child: const Text(
+                          'Post video earn Money',
+                          style: TextStyle(
+                            color: Colors.pink,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        MaterialButton(
+                          onPressed: ()  {},
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Container(
+                            height: 40,
+                            // width: 140,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage("assets/images/btnbg.png"),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            padding: EdgeInsets.symmetric(horizontal: size.width * 0.1),
+                            alignment: Alignment.center,
+                            child: const Center(
+                              child: Text(
+                                'Job Details',
+                                style: TextStyle(
+                                    color: colors.white,
+                                    fontSize: 14,
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ),
+                        MaterialButton(
+                          onPressed: ()  {},
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Container(
+                            height: 40,
+                            // width: 140,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage("assets/images/btnbg.png"),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            padding: EdgeInsets.symmetric(horizontal: size.width * 0.1),
+                            alignment: Alignment.center,
+                            child: const Center(
+                              child: Text(
+                                'Demo Video',
+                                style: TextStyle(
+                                    color: colors.white,
+                                    fontSize: 14,
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          )),
     );
   }
 
@@ -829,4 +575,42 @@ class HomeState extends State<Home> {
       ads_link = prefs.getString(Constant.ADS_LINK)!;
     });
   }
+
+  Widget sliderItems(SliderData sliderData) {
+    Size size = MediaQuery.of(context).size;
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(
+          10,
+        ),
+        color: Colors.blue,
+      ),
+      margin: const EdgeInsets.symmetric(horizontal: 5),
+      child: Stack(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.asset(
+              sliderData.img,
+              height: size.height * 0.26,
+              fit: BoxFit.fitHeight,
+            ),
+          ),
+          Padding(
+              padding: EdgeInsets.only(
+                  top: size.height * 0.2, left: size.width * 0.04),
+              child: Text(
+                sliderData.title,
+                style: const TextStyle(
+                  fontFamily: 'MontserratBold',
+                  fontSize: 16,
+                  color: Colors.black87,
+                  // fontWeight: FontWeight.bold
+                ),
+              )),
+        ],
+      ),
+    );
+  }
 }
+

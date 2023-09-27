@@ -24,7 +24,11 @@ class ApiClient extends GetxService {
   Future<void> updateHeader() async {
     String? tokenValue = await storageLocal.read(key: "tokenValue");
     _mainHeaders = {
-      'Content-Type': 'application/json; charset=utf-8',
+      // 'User-Agent' : 'PostmanRuntime/7.32.3',
+      // 'Accept' : '*/*',
+      // 'Accept-Encoding' : 'gzip, deflate, br',
+      // 'Connection' : 'keep-alive'
+      // 'Content-Type': 'application/json; charset=utf-8',
       // 'Authorization': 'Bearer $tokenValue',
     };
   }
@@ -48,7 +52,7 @@ class ApiClient extends GetxService {
 
     try {
       debugPrint('====> API Call: $url\nHeader: $_mainHeaders');
-      Http.Response response = await Http.get(url,
+      Http.Response response = await Http.post(url,
           headers: headers ?? _mainHeaders);
       debugPrint("response : $response");
       return await handleResponse(response);
@@ -57,6 +61,7 @@ class ApiClient extends GetxService {
       return const Response(statusCode: 1, statusText: noInternetMessage);
     }
   }
+
 
   Future<Response> postData(
       String uri, dynamic body, {Map<String, String>? headers}) async {

@@ -1,3 +1,8 @@
+
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+const FlutterSecureStorage storeLocal = FlutterSecureStorage();
+
 class Constant {
   static const String MainBaseUrl = "https://admin.colorjobs.site/";
   //static const String MainBaseUrl = "http://192.168.35.38/color_challenge_admin/";
@@ -23,6 +28,7 @@ class Constant {
   static const String UPDATE_BANK_DETAILS = "${BaseUrl}update_bank_details.php";
   static const String ADD_MAIN_BALANCE_URL = "${BaseUrl}add_main_balance.php";
   static const String VIEW_AD_URL = "${BaseUrl}view_ad.php";
+  static const String SHORTS_URL = "api/video_list.php";
 
   static const String SUCCESS = "success";
   static const String MESSAGE = "message";

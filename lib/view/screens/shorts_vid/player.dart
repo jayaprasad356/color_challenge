@@ -46,7 +46,7 @@ class Player extends StatelessWidget {
               c.videoPlayerControllers[c.api]!.play();
             }
           }
-          print('AutoPlaying ${c.api}');
+          // print('AutoPlaying ${c.api}');
         }
         return Stack(
           children: [
@@ -55,11 +55,11 @@ class Player extends StatelessWidget {
                 ? GestureDetector(
                     onTap: () {
                       if (c.videoPlayerControllers[c.api]!.value.isPlaying) {
-                        print("paused");
+                        // print("paused");
                         c.videoPlayerControllers[c.api]!.pause();
                       } else {
                         c.videoPlayerControllers[c.api]!.play();
-                        print("playing");
+                        // print("playing");
                       }
                     },
                     child: VideoPlayer(c.videoPlayerControllers[c.api]!),

@@ -1,12 +1,16 @@
 import 'dart:convert';
 
 // import 'package:color_challenge/test.dart';
+import 'package:color_challenge/controller/pcc_controller.dart';
+import 'package:color_challenge/data/api/api_client.dart';
+import 'package:color_challenge/data/repository/shorts_video_repo.dart';
 import 'package:color_challenge/test.dart';
 import 'package:color_challenge/view/screens/login/loginMobile.dart';
 import 'package:color_challenge/view/screens/login/mainScreen.dart';
 import 'package:color_challenge/view/screens/login/otpVerfication.dart';
 import 'package:color_challenge/view/screens/upi_screen/wallet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -59,6 +63,9 @@ Future<void> main() async {
     badge: true,
     sound: true,
   );
+
+  Get.put(const FlutterSecureStorage());
+
   // runApp(MyVideoApp());
   runApp(const MyApp());
 }
@@ -185,6 +192,13 @@ class _MyAppState extends State<MyApp> {
                     otp: '',
                   ),
             },
+            initialBinding: BindingsBuilder(() {
+              Get.put(
+                PCC(
+                  shortsVideoRepo: ShortsVideoRepo(apiClient: ApiClient(appBaseUrl: Constant.MainBaseUrl, storageLocal: storeLocal), storageLocal: storeLocal),
+                ),
+              );
+            }),
             // home: wallet(),
             home: screens(prefs, update, link),
           );
