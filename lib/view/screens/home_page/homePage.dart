@@ -4,6 +4,8 @@ import 'dart:math';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:color_challenge/Helper/apiCall.dart';
+import 'package:color_challenge/controller/home_controller.dart';
+import 'package:color_challenge/controller/pcc_controller.dart';
 import 'package:color_challenge/model/slider_data.dart';
 import 'package:color_challenge/model/user.dart';
 import 'package:color_challenge/controller/utils.dart';
@@ -25,6 +27,7 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
+  final HomeController homeController = Get.find<HomeController>();
   late SharedPreferences prefs;
   double starttime = 0; // Set the progress value between 0.0 and 1.0 here
   String today_ads_remain = "0";
@@ -57,6 +60,8 @@ class HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+
+    homeController.allSettingsData();
 
     SharedPreferences.getInstance().then((value) {
       prefs = value;
@@ -162,169 +167,193 @@ class HomeState extends State<Home> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: colors.secondary_color,
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
           child: Container(
-            width:
-            MediaQuery.of(context).size.width, // Set width to the screen width
-            height: MediaQuery.of(context)
-                .size
-                .height, // Set height to the screen height
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [colors.primary_color, colors.secondary_color],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-            ),
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 2.0),
-                child: Column(
-                  children: [
-                    CarouselSlider(
-                      options: CarouselOptions(
-                        enableInfiniteScroll: false,
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            _currentIndex = index;
-                          });
-                        },
-                      ),
-                      items: sliderData.map((e) => sliderItems(e)).toList(),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: sliderData.map((e) {
-                        int index = sliderData.indexOf(e);
-                        return Container(
-                          margin: const EdgeInsets.only(right: 10),
-                          height: 10,
-                          width: _currentIndex == index ? 15 : 5,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: _currentIndex == index ? Colors.white : Colors.grey ),
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [colors.primary_color, colors.secondary_color],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 2.0),
+            child: Column(
+              children: [
+                CarouselSlider(
+                  options: CarouselOptions(
+                    autoPlay: true,
+                    enableInfiniteScroll: false,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        _currentIndex = index;
+                      });
+                    },
+                  ),
+                  items: sliderData.map((e) => sliderItems(e)).toList(),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: sliderData.map((e) {
+                    int index = sliderData.indexOf(e);
+                    return Container(
+                      margin: const EdgeInsets.only(right: 10),
+                      height: 10,
+                      width: _currentIndex == index ? 15 : 5,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: _currentIndex == index
+                              ? Colors.white
+                              : Colors.grey),
+                    );
+                  }).toList(),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                if (status == '0')
+                  Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    child: TextButton(
+                      onPressed: () {
+                        String? uri = prefs.getString(Constant.CONTACT_US);
+                        launchUrl(
+                          Uri.parse(uri!),
+                          mode: LaunchMode.externalApplication,
                         );
-                      }).toList(),
-                    ),const SizedBox(
-                      height: 20,
-                    ),
-                    if (status == '0')
-                      Container(
-                        width: double.infinity,
-                        margin: const EdgeInsets.symmetric(horizontal: 16),
-                        child: TextButton(
-                          onPressed: () {},
-                          style: ButtonStyle(
-                            backgroundColor:
+                      },
+                      style: ButtonStyle(
+                        backgroundColor:
                             MaterialStateProperty.all<Color>(Colors.pink),
-                            // You can customize other styles of the button here as well
+                        // You can customize other styles of the button here as well
+                      ),
+                      child: const Text(
+                        'Purchase Premium Plan',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  child: TextButton(
+                    onPressed: () {
+                      Get.to(const ShortsUpload());
+                    },
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.transparent),
+                      side: MaterialStateProperty.all<BorderSide>(
+                        const BorderSide(
+                          color: Colors.pink,
+                          width: 2.0,
+                        ),
+                      ),
+                    ),
+                    child: const Text(
+                      'Post video earn Money',
+                      style: TextStyle(
+                        color: Colors.pink,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    MaterialButton(
+                      onPressed: () {
+                        String? uri = prefs.getString(Constant.JOB_DETAILS);
+                        launchUrl(
+                          Uri.parse(uri!),
+                          mode: LaunchMode.externalApplication,
+                        );
+                      },
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Container(
+                        height: 40,
+                        // width: 140,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/btnbg.png"),
+                            fit: BoxFit.fill,
                           ),
-                          child: const Text(
-                            'Purchase Premium Plan',
+                        ),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: size.width * 0.1),
+                        alignment: Alignment.center,
+                        child: const Center(
+                          child: Text(
+                            'Job Details',
                             style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    Container(
-                      width: double.infinity,
-                      margin: const EdgeInsets.symmetric(horizontal: 16),
-                      child: TextButton(
-                        onPressed: () {
-                          Get.to(const ShortsUpload());
-                        },
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                          side: MaterialStateProperty.all<BorderSide>(
-                            const BorderSide(
-                              color: Colors.pink,
-                              width: 2.0,
-                            ),
-                          ),
-                        ),
-                        child: const Text(
-                          'Post video earn Money',
-                          style: TextStyle(
-                            color: Colors.pink,
-                            fontWeight: FontWeight.bold,
+                                color: colors.white,
+                                fontSize: 14,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        MaterialButton(
-                          onPressed: ()  {},
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Container(
-                            height: 40,
-                            // width: 140,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/images/btnbg.png"),
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                            padding: EdgeInsets.symmetric(horizontal: size.width * 0.1),
-                            alignment: Alignment.center,
-                            child: const Center(
-                              child: Text(
-                                'Job Details',
-                                style: TextStyle(
-                                    color: colors.white,
-                                    fontSize: 14,
-                                    fontFamily: "Montserrat",
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
+                    MaterialButton(
+                      onPressed: () {
+                        String? uri = prefs.getString(Constant.JOB_VIDEO);
+                        launchUrl(
+                          Uri.parse(uri!),
+                          mode: LaunchMode.externalApplication,
+                        );
+                      },
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Container(
+                        height: 40,
+                        // width: 140,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/btnbg.png"),
+                            fit: BoxFit.fill,
                           ),
                         ),
-                        MaterialButton(
-                          onPressed: ()  {},
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Container(
-                            height: 40,
-                            // width: 140,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/images/btnbg.png"),
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                            padding: EdgeInsets.symmetric(horizontal: size.width * 0.1),
-                            alignment: Alignment.center,
-                            child: const Center(
-                              child: Text(
-                                'Demo Video',
-                                style: TextStyle(
-                                    color: colors.white,
-                                    fontSize: 14,
-                                    fontFamily: "Montserrat",
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: size.width * 0.1),
+                        alignment: Alignment.center,
+                        child: const Center(
+                          child: Text(
+                            'Demo Video',
+                            style: TextStyle(
+                                color: colors.white,
+                                fontSize: 14,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
-              ),
+              ],
             ),
-          )),
+          ),
+        ),
+      )),
     );
   }
 
@@ -613,4 +642,3 @@ class HomeState extends State<Home> {
     );
   }
 }
-

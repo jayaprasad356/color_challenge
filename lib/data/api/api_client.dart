@@ -65,7 +65,7 @@ class ApiClient extends GetxService {
 
   Future<Response> postData(
       String uri, dynamic body, {Map<String, String>? headers}) async {
-    final url = Uri.parse(appBaseUrl+uri);
+    final url = Uri.parse(uri);
 
     try {
       debugPrint('====> API Call: $url\nHeader: $headers, $_mainHeaders, $body');

@@ -8,8 +8,10 @@ import 'package:color_challenge/model/slider_data.dart';
 import 'package:color_challenge/model/user.dart';
 import 'package:color_challenge/controller/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../util/Color.dart';
@@ -51,6 +53,10 @@ class ADsScreenState extends State<ADsScreen> {
       today_ads = "0",
       total_ads = "0";
   double progressbar = 0.0;
+  late String
+      image = "",referText = "",offer_image = "",refer_bonus = "";
+
+
 
   @override
   void initState() {
@@ -66,6 +72,16 @@ class ADsScreenState extends State<ADsScreen> {
 
       adsApi();
       //ads_status("status");
+    });
+    SharedPreferences.getInstance().then((value) {
+      prefs = value;
+      setState(() {
+        contact_us = prefs.getString(Constant.CONTACT_US).toString();
+        image = prefs.getString(Constant.IMAGE).toString();
+        offer_image = prefs.getString(Constant.OFFER_IMAGE).toString();
+        referText = prefs.getString(Constant.REFER_CODE)!;
+        refer_bonus = prefs.getString(Constant.REFER_BONUS)!;
+      });
     });
   }
 
@@ -160,429 +176,501 @@ class ADsScreenState extends State<ADsScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: SingleChildScrollView(
-          child: Container(
-            width:
-            MediaQuery.of(context).size.width, // Set width to the screen width
-            height: MediaQuery.of(context)
-                .size
-                .height, // Set height to the screen height
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [colors.primary_color, colors.secondary_color],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-            ),
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 2.0),
-                child: Column(
-                  children: [
-                    if (status == '0')
-                      Container(
-                        width: double.infinity,
-                        margin: const EdgeInsets.symmetric(horizontal: 16),
-                        child: TextButton(
-                          onPressed: () {
-                            String uri =
-                                'https://slveenterprises.org/slveenterprises.org/30115409/Online-Advertising-Course-30-Days';
-                            launchUrl(
-                              Uri.parse(uri),
-                              mode: LaunchMode.externalApplication,
-                            );
-                          },
-                          style: ButtonStyle(
-                            backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.pink),
-                            // You can customize other styles of the button here as well
-                          ),
-                          child: const Text(
-                            'Purchase Premium Plan',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Card(
-                          color: const Color(0xFF060A70),
+      body: Container(
+        width:
+        MediaQuery.of(context).size.width, // Set width to the screen width
+        height: MediaQuery.of(context)
+            .size
+            .height, // Set height to the screen height
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [colors.primary_color, colors.secondary_color],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 2.0),
+              child: Column(
+                children: [
+                  Container(
+                    color: colors.cc_velvet,
+                    margin: const EdgeInsets.only(right: 10, left: 10, top: 10),
+                    child: Card(
+                      child: Container(
+                        color: colors.cc_velvet,
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
                           child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: colors.widget_color, // Set the border color
-                                width: 2, // Set the border width
-                              ),
-                              borderRadius:
-                              BorderRadius.circular(8), // Set border radius
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 3.0, left: 5.0, right: 5.0, bottom: 3.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "Basic Wallet",
-                                        style: GoogleFonts.poppins(
-                                          // Use GoogleFonts.poppins() to access Poppins font
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 5),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                              const OnlineJobs(),
-                                            ),
-                                          );
-                                        },
-                                        child: Image.asset(
-                                          'assets/images/info.png',
-                                          height: 30,
-                                          width: 20,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Text(
-                                    "No Refers",
-                                    style: GoogleFonts.poppins(
-                                      // Use GoogleFonts.poppins() to access Poppins font
-                                      fontSize: 12,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  "Refer friend and earn ₹$refer_bonus",
+                                  style: const TextStyle(
+                                      fontSize: 14,
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Card(
-                                    color: const Color(0xFF060A70),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: colors
-                                              .widget_color2, // Set the border color
-                                          width: 2, // Set the border width
+                                      fontFamily: "Montserrat"),
+                                ),
+                                const SizedBox(height: 10.0),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    OutlinedButton(
+                                      onPressed: () {
+                                        Utils().showToast("Copied !");
+                                        Clipboard.setData(ClipboardData(text: referText));
+                                      },
+                                      style: OutlinedButton.styleFrom(
+                                        backgroundColor: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(6.0),
+                                          side: const BorderSide(color: colors.red),
                                         ),
-                                        borderRadius: BorderRadius.circular(35),
-                                        color: const Color(0xFF080A42),
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 3.0,
-                                            left: 20.0,
-                                            right: 20.0,
-                                            bottom: 3.0),
+                                        padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 11),
                                         child: Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                          children: [
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
                                             Image.asset(
-                                              'assets/images/money.png',
-                                              height: 30,
-                                              width: 20,
+                                              "assets/images/copy.png",
+                                              width: 24.0,
+                                              height: 24.0,
                                             ),
-                                            const SizedBox(
-                                                width:
-                                                5), // Adding some spacing between image and text
+                                            const SizedBox(width: 8.0),
                                             Text(
-                                              "₹ $basic_wallet",
+                                              referText,
                                               style: const TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.white),
+                                                color: colors.primary,
+                                                fontSize: 12.0,
+                                                fontFamily: "Montserrat",
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
                                           ],
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  MaterialButton(
-                                    onPressed: () {
-                                      addTomainbalance('basic_wallet');
-                                    },
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        Image.asset(
-                                          'assets/images/main_balance_btn.png',
-                                          height: 50,
-                                          width:
-                                          120, // Replace with the actual image path
+                                    const SizedBox(width: 12.0),
+                                    MaterialButton(
+                                      onPressed: () {
+                                        Share.share(referText + "\n Use my Refer Code and install this app https://play.google.com/store/apps/details?id=com.app.colorchallenge");
+                                      },
+                                      color: colors.primary_color,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius:
+                                        BorderRadius.all(Radius.circular(8.0)),
+                                      ),
+                                      child: const Padding(
+                                        padding:
+                                        EdgeInsets.symmetric(vertical: 14.0, horizontal: 16.0),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            Text(
+                                              'Refer Friends',
+                                              style: TextStyle(
+                                                color: colors.white,
+                                                fontSize: 16.0,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                        Card(
-                          color: const Color(0xFF060A70),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: colors.widget_color, // Set the border color
-                                width: 2, // Set the border width
-                              ),
-                              borderRadius:
-                              BorderRadius.circular(8), // Set border radius
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 5,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Card(
+                        color: const Color(0xFF060A70),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: colors.widget_color, // Set the border color
+                              width: 2, // Set the border width
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 3.0, left: 5.0, right: 5.0, bottom: 3.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "Premium Wallet",
-                                        style: GoogleFonts.poppins(
-                                          // Use GoogleFonts.poppins() to access Poppins font
-                                          fontSize: 14,
-                                          color: colors.widget_color,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                            borderRadius:
+                            BorderRadius.circular(8), // Set border radius
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 3.0, left: 5.0, right: 5.0, bottom: 3.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Basic Wallet",
+                                      style: GoogleFonts.poppins(
+                                        // Use GoogleFonts.poppins() to access Poppins font
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                      const SizedBox(width: 5),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                              const OnlineJobs(),
-                                            ),
-                                          );
-                                        },
-                                        child: Image.asset(
-                                          'assets/images/info.png',
-                                          height: 30,
-                                          width: 20,
-                                        ),
-                                      )
+                                    ),
+                                    const SizedBox(width: 5),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                            const OnlineJobs(),
+                                          ),
+                                        );
+                                      },
+                                      child: Image.asset(
+                                        'assets/images/info.png',
+                                        height: 30,
+                                        width: 20,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                Text(
+                                  "No Refers",
+                                  style: GoogleFonts.poppins(
+                                    // Use GoogleFonts.poppins() to access Poppins font
+                                    fontSize: 12,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Card(
+                                  color: const Color(0xFF060A70),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: colors
+                                            .widget_color2, // Set the border color
+                                        width: 2, // Set the border width
+                                      ),
+                                      borderRadius: BorderRadius.circular(35),
+                                      color: const Color(0xFF080A42),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 3.0,
+                                          left: 20.0,
+                                          right: 20.0,
+                                          bottom: 3.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                            'assets/images/money.png',
+                                            height: 30,
+                                            width: 20,
+                                          ),
+                                          const SizedBox(
+                                              width:
+                                              5), // Adding some spacing between image and text
+                                          Text(
+                                            "₹ $basic_wallet",
+                                            style: const TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                MaterialButton(
+                                  onPressed: () {
+                                    addTomainbalance('basic_wallet');
+                                  },
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      Image.asset(
+                                        'assets/images/main_balance_btn.png',
+                                        height: 50,
+                                        width:
+                                        120, // Replace with the actual image path
+                                      ),
                                     ],
                                   ),
-                                  Text(
-                                    "$target_refers Refers",
-                                    style: GoogleFonts.poppins(
-                                      // Use GoogleFonts.poppins() to access Poppins font
-                                      fontSize: 12,
-                                      color: colors.widget_color,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Card(
-                                    color: const Color(0xFF060A70),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: colors
-                                              .widget_color2, // Set the border color
-                                          width: 2, // Set the border width
-                                        ),
-                                        borderRadius: BorderRadius.circular(35),
-                                        color: const Color(0xFF080A42),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 3.0,
-                                            left: 20.0,
-                                            right: 20.0,
-                                            bottom: 3.0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                          children: [
-                                            Image.asset(
-                                              'assets/images/money.png',
-                                              height: 30,
-                                              width: 20,
-                                            ),
-                                            const SizedBox(
-                                                width:
-                                                5), // Adding some spacing between image and text
-                                            Text(
-                                              "₹ $premium_wallet",
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.white),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  MaterialButton(
-                                    onPressed: () {
-                                      addTomainbalance('premium_wallet');
-                                    },
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        Image.asset(
-                                          'assets/images/main_balance_btn.png',
-                                          height: 50,
-                                          width:
-                                          120, // Replace with the actual image path
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    Image.network(
-                      ads_image,
-                      fit: BoxFit.contain,
-                      height: 300, // Set the desired height
-                      width: 300, // Set the desired width
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) {
-                          _isLoading = false;
+                      ),
+                      Card(
+                        color: const Color(0xFF060A70),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: colors.widget_color, // Set the border color
+                              width: 2, // Set the border width
+                            ),
+                            borderRadius:
+                            BorderRadius.circular(8), // Set border radius
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 3.0, left: 5.0, right: 5.0, bottom: 3.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Premium Wallet",
+                                      style: GoogleFonts.poppins(
+                                        // Use GoogleFonts.poppins() to access Poppins font
+                                        fontSize: 14,
+                                        color: colors.widget_color,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 5),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                            const OnlineJobs(),
+                                          ),
+                                        );
+                                      },
+                                      child: Image.asset(
+                                        'assets/images/info.png',
+                                        height: 30,
+                                        width: 20,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                Text(
+                                  "$target_refers Refers",
+                                  style: GoogleFonts.poppins(
+                                    // Use GoogleFonts.poppins() to access Poppins font
+                                    fontSize: 12,
+                                    color: colors.widget_color,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Card(
+                                  color: const Color(0xFF060A70),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: colors
+                                            .widget_color2, // Set the border color
+                                        width: 2, // Set the border width
+                                      ),
+                                      borderRadius: BorderRadius.circular(35),
+                                      color: const Color(0xFF080A42),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 3.0,
+                                          left: 20.0,
+                                          right: 20.0,
+                                          bottom: 3.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                            'assets/images/money.png',
+                                            height: 30,
+                                            width: 20,
+                                          ),
+                                          const SizedBox(
+                                              width:
+                                              5), // Adding some spacing between image and text
+                                          Text(
+                                            "₹ $premium_wallet",
+                                            style: const TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                MaterialButton(
+                                  onPressed: () {
+                                    addTomainbalance('premium_wallet');
+                                  },
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      Image.asset(
+                                        'assets/images/main_balance_btn.png',
+                                        height: 50,
+                                        width:
+                                        120, // Replace with the actual image path
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Image.network(
+                    ads_image,
+                    fit: BoxFit.contain,
+                    height: 300, // Set the desired height
+                    width: 300, // Set the desired width
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) {
+                        _isLoading = false;
 
-                          return child;
-                        } else if (_isLoading) {
-                          return const CircularProgressIndicator(); // Show loading indicator
-                        } else {
-                          return child;
-                        }
-                      },
-                    ),
-                    const SizedBox(height: 5),
-                    GestureDetector(
-                      onTap: () {
-                        launchUrl(
-                          Uri.parse(ads_link),
-                          mode: LaunchMode.externalApplication,
-                        );
-                      },
-                      child: Text(
-                        "click here to purchase",
-                        style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: FontWeight.normal,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      timerStarted ? "$seconds seconds" : "",
-                      style: const TextStyle(
+                        return child;
+                      } else if (_isLoading) {
+                        return const CircularProgressIndicator(); // Show loading indicator
+                      } else {
+                        return child;
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 5),
+                  GestureDetector(
+                    onTap: () {
+                      launchUrl(
+                        Uri.parse(ads_link),
+                        mode: LaunchMode.externalApplication,
+                      );
+                    },
+                    child: Text(
+                      "click here to purchase",
+                      style: GoogleFonts.poppins(
                         fontSize: 14,
-                        color: Colors.red,
+                        color: Colors.white,
                         fontWeight: FontWeight.normal,
+                        decoration: TextDecoration.underline,
                       ),
                     ),
-                    const SizedBox(height: 5),
-                    MaterialButton(
-                      onPressed: () async {
-                        if (!timerStarted) {
-                          watchad();
-                        } else {
-                          Utils().showToast("Please wait...");
-                        }
-                      },
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Container(
-                        height: 40,
-                        width: 140,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage("assets/images/btnbg.png"),
-                            fit: BoxFit.fill,
-                          ),
+                  ),
+                  Text(
+                    timerStarted ? "$seconds seconds" : "",
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.red,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  MaterialButton(
+                    onPressed: () async {
+                      if (!timerStarted) {
+                        watchad();
+                      } else {
+                        Utils().showToast("Please wait...");
+                      }
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Container(
+                      height: 40,
+                      width: 140,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/images/btnbg.png"),
+                          fit: BoxFit.fill,
                         ),
-                        child: const Center(
-                          child: Text(
-                            'Watch Ad',
-                            style: TextStyle(
-                                color: colors.white,
-                                fontSize: 14,
-                                fontFamily: "Montserrat",
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
                       ),
-                    ),
-                    const SizedBox(height: 5),
-                    LinearProgressIndicator(
-                      value: progressbar,
-                      minHeight: 10, // Set the desired height of the progress bar
-                      backgroundColor:
-                      Colors.grey[300], // Background color of the progress bar
-                      valueColor: const AlwaysStoppedAnimation<Color>(
-                          colors.widget_color), // Color of the progress indicator
-                    ),
-                    const SizedBox(height: 5),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Text(
-                          'Today Viewed Ads: $today_ads',
-                          style: const TextStyle(
+                      child: const Center(
+                        child: Text(
+                          'Watch Ad',
+                          style: TextStyle(
                               color: colors.white,
-                              fontSize: 12,
+                              fontSize: 14,
                               fontFamily: "Montserrat",
                               fontWeight: FontWeight.bold),
                         ),
-                        const SizedBox(height: 5),
-                        Text(
-                          'Total Viewed Ads: $total_ads',
-                          style: const TextStyle(
-                              color: colors.white,
-                              fontSize: 12,
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                      ),
                     ),
-                    const SizedBox(height: 5),
-                    const SizedBox(height: 5),
-                    const Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Text(
-                        'Rs 500 Register Bonus Is Credited In Your Vault Balance. Complete Months Target To Withdraw.',
-                        style: TextStyle(
-                            color: colors.widget_color,
+                  ),
+                  const SizedBox(height: 5),
+                  LinearProgressIndicator(
+                    value: progressbar,
+                    minHeight: 10, // Set the desired height of the progress bar
+                    backgroundColor:
+                    Colors.grey[300], // Background color of the progress bar
+                    valueColor: const AlwaysStoppedAnimation<Color>(
+                        colors.widget_color), // Color of the progress indicator
+                  ),
+                  const SizedBox(height: 5),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Text(
+                        'Today Viewed Ads: $today_ads',
+                        style: const TextStyle(
+                            color: colors.white,
                             fontSize: 12,
                             fontFamily: "Montserrat",
                             fontWeight: FontWeight.bold),
                       ),
-                    ),
-                  ],
-                ),
+                      const SizedBox(height: 5),
+                      Text(
+                        'Total Viewed Ads: $total_ads',
+                        style: const TextStyle(
+                            color: colors.white,
+                            fontSize: 12,
+                            fontFamily: "Montserrat",
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  // const SizedBox(height: 5),
+                  // const SizedBox(height: 5),
+                  // const Padding(
+                  //   padding: EdgeInsets.all(10.0),
+                  //   child: Text(
+                  //     'Rs 500 Register Bonus Is Credited In Your Vault Balance. Complete Months Target To Withdraw.',
+                  //     style: TextStyle(
+                  //         color: colors.widget_color,
+                  //         fontSize: 12,
+                  //         fontFamily: "Montserrat",
+                  //         fontWeight: FontWeight.bold),
+                  //   ),
+                  // ),
+                ],
               ),
             ),
-          )),
+          ),
+        ),
+      ),
     );
   }
 

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:color_challenge/Helper/apiCall.dart';
+import 'package:color_challenge/controller/pcc_controller.dart';
 import 'package:color_challenge/model/jobs_show.dart';
 import 'package:color_challenge/model/user.dart';
 import 'package:color_challenge/reports.dart';
@@ -19,6 +20,7 @@ import 'package:color_challenge/view/screens/upi_screen/wallet.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -121,17 +123,17 @@ class _MainScreenState extends State<MainScreen> {
         _actionsVisible = false;
         _logoutVisible = false;
         _leftArrowVisible = false;
-        _notificationVisible = true;
+        _notificationVisible = false;
         _addPost = false;
       } else if (index == 2) {
-        title = "Store";
+        title = "Notifications";
         _actionsVisible = false;
         _logoutVisible = false;
         _leftArrowVisible = false;
         _notificationVisible = false;
-        _addPost = true;
+        _addPost = false;
       } else if (index == 3) {
-        title = "Shorts";
+        title = "Post";
         _actionsVisible = false;
         _logoutVisible = false;
         _leftArrowVisible = false;
@@ -193,28 +195,28 @@ class _MainScreenState extends State<MainScreen> {
               : (null),
           actions: _actionsVisible
               ? [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => NotifyScreen(),
-                        ),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: ColorFiltered(
-                        colorFilter: const ColorFilter.mode(
-                            Colors.white, BlendMode.srcIn),
-                        child: Image.asset(
-                          "assets/images/notification.png",
-                          height: 24,
-                          width: 30,
-                        ),
-                      ),
-                    ),
-                  ),
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //         builder: (context) => NotifyScreen(),
+                  //       ),
+                  //     );
+                  //   },
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.all(12.0),
+                  //     child: ColorFiltered(
+                  //       colorFilter: const ColorFilter.mode(
+                  //           Colors.white, BlendMode.srcIn),
+                  //       child: Image.asset(
+                  //         "assets/images/notification.png",
+                  //         height: 24,
+                  //         width: 30,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0),
                     child: MaterialButton(
@@ -266,7 +268,7 @@ class _MainScreenState extends State<MainScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => NotifyScreen(),
+                                builder: (context) => const NotifyScreen(),
                               ),
                             );
                           },
@@ -350,15 +352,27 @@ class _MainScreenState extends State<MainScreen> {
                     backgroundColor: colors.primary_color,
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.storefront,
+                    icon: ImageIcon(
+                      const AssetImage(
+                        "assets/images/notification.png",
+                      ),
                       color: _selctedIndex == 2
                           ? colors.widget_color
                           : colors.white,
                     ),
-                    label: 'Store',
+                    label: 'Notification',
                     backgroundColor: colors.primary_color,
                   ),
+                  // BottomNavigationBarItem(
+                  //   icon: Icon(
+                  //     Icons.storefront,
+                  //     color: _selctedIndex == 2
+                  //         ? colors.widget_color
+                  //         : colors.white,
+                  //   ),
+                  //   label: 'Store',
+                  //   backgroundColor: colors.primary_color,
+                  // ),
                   BottomNavigationBarItem(
                     icon: Icon(
                       Icons.video_collection_outlined,
@@ -366,7 +380,7 @@ class _MainScreenState extends State<MainScreen> {
                           ? colors.widget_color
                           : colors.white,
                     ),
-                    label: 'Shorts',
+                    label: 'Post',
                     backgroundColor: colors.primary_color,
                   ),
                   // BottomNavigationBarItem(
@@ -601,7 +615,7 @@ class _MainScreenState extends State<MainScreen> {
       case 1:
         return const ADsScreen(); //HomePage(updateAmount: updateAmount);
         case 2:
-        return const StorePage();
+        return const NotifyScreen();
       // case 1:
       //   return const JobShow();
       case 3:
@@ -632,6 +646,10 @@ class _MainScreenState extends State<MainScreen> {
     prefs.setString(Constant.REFER_BONUS, datass[Constant.REFER_BONUS]);
     prefs.setString(
         Constant.WITHDRAWAL_STATUS, datass[Constant.WITHDRAWAL_STATUS]);
+    prefs.setString(
+        Constant.JOB_VIDEO, datass[Constant.JOB_VIDEO]);
+    prefs.setString(
+        Constant.JOB_DETAILS, datass[Constant.JOB_DETAILS]);
   }
 
   ontop() {

@@ -18,4 +18,14 @@ class ShortsVideoRepo {
       },
     );
   }
+
+  Future<Response> imageListData() async {
+    return await apiClient.postData(
+      Constant.IMAGE_LIST,{
+      // 'Accept' : '*/*',
+      // 'Accept-Encoding' : 'gzip, deflate, br',
+      // 'Connection' : 'keep-alive'
+    },
+    );
+  }
 }

@@ -28,7 +28,9 @@ class Constant {
   static const String UPDATE_BANK_DETAILS = "${BaseUrl}update_bank_details.php";
   static const String ADD_MAIN_BALANCE_URL = "${BaseUrl}add_main_balance.php";
   static const String VIEW_AD_URL = "${BaseUrl}view_ad.php";
+  static const String IMAGE_LIST = "${BaseUrl}image_list.php";
   static const String SHORTS_URL = "api/video_list.php";
+  static const String SETTINGS_URL_ALL = "api/settings.php";
 
   static const String SUCCESS = "success";
   static const String MESSAGE = "message";
@@ -98,4 +100,6 @@ class Constant {
   static const String OFFER_IMAGE = "offer_image";
   static const String REGISTER_POINTS = "register_points";
   static const String MIN_WITHDRAWAL = "min_withdrawal";
+  static const String JOB_VIDEO = "job_video";
+  static const String JOB_DETAILS = "job_details";
 }

@@ -64,6 +64,9 @@ dependencies:
   card_swiper: ^3.0.1
   youtube_player_flutter: ^8.1.2
   carousel_slider: ^4.2.1
+  webview_flutter: ^4.2.4
+  flutter_inappwebview: ^5.7.2+3
+  like_button: ^2.0.5
 
 dev_dependencies:
   flutter_test:

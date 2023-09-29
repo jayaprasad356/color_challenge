@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 // import 'package:color_challenge/test.dart';
+import 'package:color_challenge/controller/home_controller.dart';
 import 'package:color_challenge/controller/pcc_controller.dart';
 import 'package:color_challenge/data/api/api_client.dart';
+import 'package:color_challenge/data/repository/home_repo.dart';
 import 'package:color_challenge/data/repository/shorts_video_repo.dart';
 import 'package:color_challenge/test.dart';
 import 'package:color_challenge/view/screens/login/loginMobile.dart';
@@ -78,7 +80,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   late SharedPreferences _prefs;
   late String _fcmToken;
   late String appVersion;
@@ -195,7 +196,20 @@ class _MyAppState extends State<MyApp> {
             initialBinding: BindingsBuilder(() {
               Get.put(
                 PCC(
-                  shortsVideoRepo: ShortsVideoRepo(apiClient: ApiClient(appBaseUrl: Constant.MainBaseUrl, storageLocal: storeLocal), storageLocal: storeLocal),
+                  shortsVideoRepo: ShortsVideoRepo(
+                      apiClient: ApiClient(
+                          appBaseUrl: Constant.MainBaseUrl,
+                          storageLocal: storeLocal),
+                      storageLocal: storeLocal),
+                ),
+              );
+              Get.put(
+                HomeController(
+                  homeRepo: HomeRepo(
+                      apiClient: ApiClient(
+                          appBaseUrl: Constant.MainBaseUrl,
+                          storageLocal: storeLocal),
+                      storageLocal: storeLocal),
                 ),
               );
             }),

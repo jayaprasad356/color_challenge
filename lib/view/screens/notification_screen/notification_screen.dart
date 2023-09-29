@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 import 'package:color_challenge/model/user.dart';
 import 'package:color_challenge/controller/utils.dart';
 import 'package:flutter/material.dart';
@@ -14,55 +13,52 @@ import '../../../Helper/apiCall.dart';
 import '../upi_screen/bank_detail_screen.dart';
 import 'notifications_records.dart';
 
-
 class NotifyScreen extends StatelessWidget {
+  const NotifyScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Notifications'),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [colors.primary_color, colors.primary_color2], // Change these colors to your desired gradient colors
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
-        ),
-      ),
+    return const Scaffold(
+      // appBar: AppBar(
+      //   title: const Text('Notifications'),
+      //   flexibleSpace: Container(
+      //     decoration: const BoxDecoration(
+      //       gradient: LinearGradient(
+      //         colors: [
+      //           colors.primary_color,
+      //           colors.primary_color2
+      //         ], // Change these colors to your desired gradient colors
+      //         begin: Alignment.topCenter,
+      //         end: Alignment.bottomCenter,
+      //       ),
+      //     ),
+      //   ),
+      // ),
       body: notification_screen(),
     );
   }
 }
+
 class notification_screen extends StatefulWidget {
+  const notification_screen({super.key});
+
   @override
   _notify_State createState() => _notify_State();
 }
 
-
 class _notify_State extends State<notification_screen> {
-
   Utils utils = Utils();
   late SharedPreferences prefs;
 
   late String totalRefund = '';
-
 
   @override
   void initState() {
     // TODO: implement initState
     SharedPreferences.getInstance().then((value) {
       prefs = value;
-      setState(() {
-
-
-
-
-      });
+      setState(() {});
     });
-
-
   }
 
   @override
@@ -70,17 +66,21 @@ class _notify_State extends State<notification_screen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-            width: MediaQuery.of(context).size.width, // Set width to the screen width
-            height: MediaQuery.of(context).size.height, // Set height to the screen height
-            decoration: BoxDecoration(
+            width: MediaQuery.of(context)
+                .size
+                .width, // Set width to the screen width
+            height: MediaQuery.of(context)
+                .size
+                .height, // Set height to the screen height
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [colors.primary_color, colors.secondary_color],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
             ),
-            child: Notifications()),
-        ),
+            child: const Notifications()),
+      ),
     );
   }
 
@@ -105,9 +105,6 @@ class _notify_State extends State<notification_screen> {
     prefs.setString(Constant.STATUS, user.status);
     prefs.setString(Constant.JOINED_DATE, user.joinedDate);
     prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
-    setState(() {
-
-    });
+    setState(() {});
   }
-
 }
