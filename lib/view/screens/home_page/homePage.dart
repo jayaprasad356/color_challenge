@@ -9,7 +9,7 @@ import 'package:color_challenge/controller/pcc_controller.dart';
 import 'package:color_challenge/model/slider_data.dart';
 import 'package:color_challenge/model/user.dart';
 import 'package:color_challenge/controller/utils.dart';
-import 'package:color_challenge/view/screens/shorts_vid/shorts_upload.dart';
+import 'package:color_challenge/view/screens/shorts_vid/post_upload.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -250,7 +250,7 @@ class HomeState extends State<Home> {
                   margin: const EdgeInsets.symmetric(horizontal: 16),
                   child: TextButton(
                     onPressed: () {
-                      Get.to(const ShortsUpload());
+                      Get.to(const PostUpload());
                     },
                     style: ButtonStyle(
                       backgroundColor:

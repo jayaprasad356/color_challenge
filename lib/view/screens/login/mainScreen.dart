@@ -13,7 +13,7 @@ import 'package:color_challenge/view/screens/home_page/homePage.dart';
 import 'package:color_challenge/view/screens/notification_screen/notification_screen.dart';
 import 'package:color_challenge/view/screens/profile_screen/my_profile.dart';
 import 'package:color_challenge/view/screens/shorts_vid/preload_page.dart';
-import 'package:color_challenge/view/screens/shorts_vid/shorts_upload.dart';
+import 'package:color_challenge/view/screens/shorts_vid/post_upload.dart';
 import 'package:color_challenge/view/screens/store/store_page.dart';
 import 'package:color_challenge/view/screens/upi_screen/upiPay.dart';
 import 'package:color_challenge/view/screens/upi_screen/wallet.dart';
@@ -292,7 +292,7 @@ class _MainScreenState extends State<MainScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const ShortsUpload(),
+                                builder: (context) => const PostUpload(),
                               ),
                             );
                           },

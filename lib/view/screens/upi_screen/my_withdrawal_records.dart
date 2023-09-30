@@ -42,6 +42,13 @@ class _MyWithdrawalsState extends State<MyWithdrawals> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    debugPrint("withdrawalsData: $withdrawalsData");
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: _getWithdrawalsData(),
@@ -146,7 +153,7 @@ class _MyWithdrawalsState extends State<MyWithdrawals> {
                                           padding: const EdgeInsets.only(
                                               right: 15, bottom: 10),
                                           child: Text(
-                                            withdrawalsData[index].status=="0"? "Pending":"Completed",
+                                            withdrawalsData[index].status=="0"? "Pending": withdrawalsData[index].status=="1" ? "Completed" : "Concluded",
                                             style: const TextStyle(
                                                 color: colors.cc_green,
                                                 fontWeight: FontWeight.bold,

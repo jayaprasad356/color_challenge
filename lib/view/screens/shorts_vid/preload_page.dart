@@ -4,7 +4,7 @@ import 'package:color_challenge/model/slider_data.dart';
 import 'package:color_challenge/util/Color.dart';
 import 'package:color_challenge/util/index_path.dart';
 import 'package:color_challenge/view/screens/shorts_vid/player.dart';
-import 'package:color_challenge/view/screens/shorts_vid/shorts_upload.dart';
+import 'package:color_challenge/view/screens/shorts_vid/post_upload.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:preload_page_view/preload_page_view.dart';
@@ -24,6 +24,7 @@ class PreloadPage extends StatefulWidget {
 class _PreloadPageState extends State<PreloadPage> {
   final PCC c = Get.find<PCC>();
   int _currentIndex = 0;
+  bool isLiked = false;
 
   @override
   void initState() {
@@ -76,7 +77,7 @@ class _PreloadPageState extends State<PreloadPage> {
                   ),
                   child: MaterialButton(
                     onPressed: () async {
-                      Get.to(const ShortsUpload());
+                      Get.to(const PostUpload());
                     },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -92,7 +93,7 @@ class _PreloadPageState extends State<PreloadPage> {
                       ),
                       child: const Center(
                         child: Text(
-                          'Post video earn Money',
+                          'post image earn money',
                           style: TextStyle(
                               color: colors.white,
                               fontSize: 14,
@@ -106,9 +107,10 @@ class _PreloadPageState extends State<PreloadPage> {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(
-                        left: 20,
-                        right: 20,),
-                        // bottom: size.width * 0.07),
+                      left: 20,
+                      right: 20,
+                    ),
+                    // bottom: size.width * 0.07),
                     child: Stack(
                       alignment: Alignment.topLeft,
                       children: [
@@ -133,7 +135,10 @@ class _PreloadPageState extends State<PreloadPage> {
                                   name: c.name[index],
                                   ID: c.ID[index],
                                   description: c.description[index],
-                                  likeWidget:
+                                  likeWidget: CustomLikeButton(
+                                    isLiked: isLiked,
+                                    onTap: (){},
+                                  )
                                       // LikeButton(
                                       //   size: 24,
                                       //   circleColor:
@@ -166,26 +171,26 @@ class _PreloadPageState extends State<PreloadPage> {
                                       //     return result;
                                       //   }
                                       // ),
-                                      Column(
-                                    children: [
-                                      IconButton(
-                                        onPressed: () {
-                                          c.toggleLike();
-                                          // c.incrementCounter();
-                                          // c.shortsVideoData();
-                                        },
-                                        icon: Obx(
-                                          () => Icon(
-                                            c.isLiked.value
-                                                ? Icons.favorite
-                                                : Icons.favorite_border,
-                                            size: 35,
-                                            color: Colors.red,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                  //     Column(
+                                  //   children: [
+                                  //     IconButton(
+                                  //       onPressed: () {
+                                  //         c.toggleLike();
+                                  //         // c.incrementCounter();
+                                  //         // c.shortsVideoData();
+                                  //       },
+                                  //       icon: Obx(
+                                  //         () => Icon(
+                                  //           c.isLiked.value
+                                  //               ? Icons.favorite
+                                  //               : Icons.favorite_border,
+                                  //           size: 35,
+                                  //           color: Colors.red,
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // ),
                                 );
                               }),
                         ),
@@ -464,3 +469,21 @@ class _PostsState extends State<Posts> {
     );
   }
 }
+
+class CustomLikeButton extends StatelessWidget {
+  final bool isLiked;
+  void Function()? onTap;
+  CustomLikeButton({super.key, required this.isLiked, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Icon(
+        isLiked ? Icons.favorite : Icons.favorite_border,
+        color: isLiked ? Colors.red : Colors.grey,
+      ),
+    );
+  }
+}
+
