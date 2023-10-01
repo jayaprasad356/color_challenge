@@ -128,17 +128,22 @@ class _PreloadPageState extends State<PreloadPage> {
                               physics: const BouncingScrollPhysics(),
                               itemBuilder: (context, int index) {
                                 return Posts(
-                                  imageURL: c.imageURS[index],
-                                  name: c.name[index],
-                                  ID: c.ID[index],
-                                  description: c.description[index],
-                                  likeWidget: CustomLikeButton(
+                                    imageURL: c.imageURS[index],
+                                    name: c.name[index],
+                                    ID: c.ID[index],
+                                    caption: c.caption[index],
                                     isLiked: isLiked,
-                                    onTap: (){
-                                      Utils().showToast("hi");
-                                    },
-                                  )
-                                );
+                                    likes: c.likes[index],
+                                    onTapLike: () async {
+                                      String? userId = await c.getUserId();
+                                      String? postID = c.ID[index];
+                                      debugPrint("userId : $userId");
+                                      if (userId != null) {
+                                        await c.likeAPI(userId, postID!);
+                                      } else {
+                                        debugPrint('User ID not available.');
+                                      }
+                                    });
                               }),
                         ),
                       ],
@@ -167,7 +172,6 @@ class ShortsPlayer extends StatefulWidget {
 class _ShortsPlayerState extends State<ShortsPlayer> {
   late YoutubePlayerController _controller;
   bool isLiked = false;
-
 
   @override
   void initState() {
@@ -247,18 +251,24 @@ class _YoutubePlayerPageState extends State<YoutubePlayerPage> {
 class Posts extends StatefulWidget {
   final String imageURL;
   final String name;
-  final String description;
+  final String likes;
+  final String caption;
   final String ID;
   // final Function likeOnPress;
-  final Widget likeWidget;
+  // final Widget likeWidget;
+  final bool isLiked;
+  final VoidCallback onTapLike;
   const Posts({
     super.key,
     required this.imageURL,
     // required this.likeOnPress,
-    required this.likeWidget,
+    // required this.likeWidget,
     required this.name,
-    required this.description,
+    required this.likes,
+    required this.caption,
     required this.ID,
+    required this.isLiked,
+    required this.onTapLike,
   });
 
   @override
@@ -266,7 +276,7 @@ class Posts extends StatefulWidget {
 }
 
 class _PostsState extends State<Posts> {
-  bool isLiked = false;
+  // bool isLiked = false;
   @override
   void setState(VoidCallback fn) {
     // TODO: implement setState
@@ -343,10 +353,10 @@ class _PostsState extends State<Posts> {
         ),
         Row(
           children: [
- // Add some spacing between the icon and text
+            // Add some spacing between the icon and text
             Flexible(
               child: Text(
-                widget.description,
+                widget.caption,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 12,
@@ -355,27 +365,24 @@ class _PostsState extends State<Posts> {
                 ),
               ),
             ),
-            SizedBox(width: 8),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  if(isLiked){
-                    isLiked = false;
-
-                  }else{
-                    isLiked = true;
-                  }
-
-                });
-              },
-              child: Icon(
-                Icons.favorite,
-                color: isLiked ? Colors.red:Colors.white,
-                size: 48.0,
-              ),
-            )
+            const SizedBox(width: 8),
+            // widget.likeWidget,
+            Column(
+              children: [
+                LikeButton(id: widget.ID, isLiked: widget.isLiked,),
+                Text(
+                  widget.likes,
+                  style: const TextStyle(
+                      color: colors.white,
+                      fontSize: 10,
+                      fontFamily: "Montserrat",
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
           ],
-        ),SizedBox(
+        ),
+        const SizedBox(
           height: 20,
         ),
       ],
@@ -383,20 +390,43 @@ class _PostsState extends State<Posts> {
   }
 }
 
-class CustomLikeButton extends StatelessWidget {
-  bool isLiked = false;
-  void Function()? onTap;
-  CustomLikeButton({super.key, required this.isLiked, required this.onTap});
+class LikeButton extends StatefulWidget {
+  final String id;
+
+  bool isLiked; // ID to associate with the like button
+
+  LikeButton({required this.id, required this.isLiked});
+
+  @override
+  State<LikeButton> createState() => _LikeButtonState();
+}
+
+class _LikeButtonState extends State<LikeButton> {
+  // late bool isLiked;
+  final PCC c = Get.find<PCC>();
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Icon(
-        isLiked ? Icons.favorite : Icons.favorite_border,
-        color: isLiked ? Colors.red : Colors.grey,
-      ),
+
+    return IconButton(
+      padding: const EdgeInsets.only(right: 3),
+      icon: Icon(Icons.favorite,color: widget.isLiked ? Colors.red : Colors.white,size: 35.0,),
+      onPressed: () async{
+        print('Like button pressed for item with ID: ${widget.id}');
+        String? userId = await c.getUserId();
+        debugPrint("userId : $userId");
+        String? postID = widget.id;
+        if (userId != null) {
+          await c.likeAPI(userId, postID!);
+        } else {
+          debugPrint('User ID not available.');
+        }
+        setState(() {
+          widget.isLiked = !widget.isLiked;
+        });
+        print("isLiked : ${widget.isLiked}");
+        print('Like button pressed for item with ID: ${widget.id}');
+      },
     );
   }
 }
-

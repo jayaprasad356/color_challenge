@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:color_challenge/data/api/api_client.dart';
 import 'package:color_challenge/data/repository/shorts_video_repo.dart';
+import 'package:color_challenge/model/like_data.dart';
 import 'package:color_challenge/model/post_list.dart';
 import 'package:color_challenge/model/upload_image.dart';
 import 'package:color_challenge/model/video_list.dart';
@@ -27,26 +28,22 @@ class PCC extends GetxController implements GetxService {
   final RxList videoURL = [].obs;
   final RxList imageURS = [].obs;
   final RxList name = [].obs;
-  final RxList description = [].obs;
+  final RxList caption = [].obs;
   final RxList ID = [].obs;
   final RxList likes = [].obs;
   var photo = Rxn<XFile>();
-  RxBool isLiked = false.obs;
+  RxList<RxBool> isLikedList = <RxBool>[].obs;
 
-  void toggleLike() {
-    isLiked.toggle();
-    debugPrint("isLiked: $isLiked");
-
-    // Check the value of isLiked
-    if (isLiked.value) {
-      // Do something if isLiked is true
-      debugPrint('Post is liked');
-    } else {
-      // Do something if isLiked is false
-      debugPrint('Post is not liked');
+  PCC1(int length) {
+    for (var i = 0; i < length; i++) {
+      isLikedList.add(false.obs);
     }
+  }
 
-    update();
+  void toggleLike(int index) {
+    if (index >= 0 && index < isLikedList.length) {
+      isLikedList[index].value = !isLikedList[index].value;
+    }
   }
 
   @override
@@ -89,7 +86,7 @@ class PCC extends GetxController implements GetxService {
         print('User ID: ${imageData.id},  image: ${imageData.image}');
         imageURS.add(imageData.image ?? '');
         name.add(imageData.name ?? '');
-        description.add(imageData.description ?? '');
+        caption.add(imageData.caption ?? '');
         ID.add(imageData.id ?? '');
         likes.add(imageData.likes ?? '');
       }
@@ -103,6 +100,20 @@ class PCC extends GetxController implements GetxService {
     return prefs.getString(Constant.ID);
   }
 
+  Future<void> likeAPI(String userId, String postId) async {
+    try {
+
+      final value = await shortsVideoRepo.likeAPI(userId, postId);
+      var responseData = value.body;
+      LikeData likeData = LikeData.fromJson(responseData);
+      debugPrint("===> likeData: $likeData");
+      debugPrint("===> likeData message: ${likeData.message}");
+    } catch (e) {
+      debugPrint("shortsVideoData errors: $e");
+    }
+  }
+
+
   Future<void> postMyPost(String userId, XFile image) async {
     try {
       File imageFile = File(image.path);
@@ -110,9 +121,14 @@ class PCC extends GetxController implements GetxService {
       debugPrint("===> value: $value");
       var responseData = value.body;
 
-      // Check if responseData is null or not a Map
       if (responseData == null || responseData is! Map<String, dynamic>) {
-        Get.snackbar("Oops", "Invalid server response");
+        Get.snackbar(
+          "Oops",
+          "Invalid server response",
+          duration: const Duration(seconds: 3),
+          colorText: Colors.white,
+        );
+        // Get.snackbar("Oops", "Invalid server response");
         debugPrint("Invalid server response: $responseData");
         return;
       }
@@ -121,9 +137,21 @@ class PCC extends GetxController implements GetxService {
       UploadImage uploadImage = UploadImage.fromJson(responseData);
       debugPrint("===> uploadImage: $uploadImage");
 
-      Get.snackbar("${uploadImage.success}", "${uploadImage.message}");
+      Get.snackbar(
+        "Success",
+        "${uploadImage.message}",
+        duration: const Duration(seconds: 3),
+        colorText: Colors.white,
+      );
+      // Get.snackbar("Success", "${uploadImage.message}");
     } catch (e) {
-      Get.snackbar("Oops", "Your image is not uploaded");
+      Get.snackbar(
+        "Oops",
+        "Your image is not uploaded",
+        duration: const Duration(seconds: 3),
+        colorText: Colors.white,
+      );
+      // Get.snackbar("Oops", "Your image is not uploaded");
       debugPrint("shortsVideoData errors: $e");
     }
   }

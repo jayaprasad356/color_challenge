@@ -100,11 +100,11 @@ class ApiClient extends GetxService {
     final url = Uri.parse(appBaseUrl+uri);
 
     try {
-      debugPrint('====> API Call: $url\nHeader: $_mainHeaders');
+      debugPrint('====> Get API Call: $url\nHeader: $_mainHeaders');
       Http.Response response = await Http.post(url,
           headers: headers ?? _mainHeaders);
       debugPrint("response : $response");
-      return await handleResponse(response,uri);
+      return handleResponse(response,uri);
     } catch (e) {
       debugPrint('====> getData error: $e');
       return const Response(statusCode: 1, statusText: noInternetMessage);
@@ -117,11 +117,11 @@ class ApiClient extends GetxService {
     final url = Uri.parse(uri);
 
     try {
-      debugPrint('====> API Call: $url\nHeader: $headers, $_mainHeaders, $body');
+      debugPrint('====> Post API Call: $url\nHeader: $headers, $_mainHeaders, $body');
       Http.Response response = await Http.post(url,
           headers: headers ?? _mainHeaders, body: jsonEncode(body));
       debugPrint("response : $response");
-      return await handleResponse(response, uri);
+      return handleResponse(response, uri);
     } catch (e) {
       debugPrint('====> postData error: $e');
       return const Response(statusCode: 1, statusText: noInternetMessage);
@@ -133,11 +133,11 @@ class ApiClient extends GetxService {
     final url = Uri.parse(appBaseUrl+uri);
 
     try {
-      debugPrint('====> API Call: $uri\nHeader: $_mainHeaders');
+      debugPrint('====> Put API Call: $uri\nHeader: $_mainHeaders');
       Http.Response response = await Http.put(url,
           headers: headers ?? _mainHeaders, body: jsonEncode(body));
       debugPrint("response : $response");
-      return await handleResponse(response, uri);
+      return handleResponse(response, uri);
     } catch (e) {
       debugPrint('====> putData error: $e');
       return const Response(statusCode: 1, statusText: noInternetMessage);
@@ -148,116 +148,45 @@ class ApiClient extends GetxService {
     final url = Uri.parse(appBaseUrl+uri);
 
     try {
-      debugPrint('====> API Call: $uri\nHeader: $_mainHeaders');
+      debugPrint('====> Delete API Call: $uri\nHeader: $_mainHeaders');
       Http.Response response = await Http.delete(url,
           headers: headers ?? _mainHeaders);
       debugPrint("response : $response");
-      return await handleResponse(response, uri);
+      return handleResponse(response, uri);
     } catch (e) {
       debugPrint('====> deleteData error: $e');
       return const Response(statusCode: 1, statusText: noInternetMessage);
     }
   }
 
-  Future<Response> postMultipartData(
-      String uri, Map<String, String> body, List<MultipartBody> multipartBody,
-      {required Map<String, String> headers}) async {
+  Future<Response> postMultipartData(String uri,dynamic body,List<MultipartBody> multipartBody) async {
     try {
-      debugPrint('====> API Call: $uri\nHeader: $_mainHeaders');
-      debugPrint('====> API Body: $body with ${multipartBody.length} files');
-      Http.MultipartRequest request =
-          Http.MultipartRequest('POST', Uri.parse(appBaseUrl + uri));
-      request.headers.addAll(headers ?? _mainHeaders);
+      debugPrint('====> Post Multipart API Call: $uri\nbody: $body\nmultipartBody: $multipartBody');
+      var request = Http.MultipartRequest('POST', Uri.parse(uri));
+      request.headers.addAll({
+        'Content-Type': 'multipart/form-data',
+      });
+
       for (MultipartBody multipart in multipartBody) {
-        if (Foundation.kIsWeb) {
-          Uint8List list = await multipart.file.readAsBytes();
-          Http.MultipartFile part = Http.MultipartFile(
+        Http.MultipartFile part = Http.MultipartFile(
             multipart.key,
             multipart.file.readAsBytes().asStream(),
-            list.length,
-            filename: path.basename(multipart.file.path),
-            contentType: MediaType('image', 'jpg'),
-          );
-          request.files.add(part);
-        } else {
-          File file = File(multipart.file.path);
-          request.files.add(Http.MultipartFile(
-            multipart.key,
-            file.readAsBytes().asStream(),
-            file.lengthSync(),
-            filename: file.path.split('/').last,
-          ));
-        }
-            }
-      request.fields.addAll(body);
-      Http.Response response =
-          await Http.Response.fromStream(await request.send());
+            multipart.file.lengthSync(),
+            filename: '${multipart.key}.jpg'
+        );
+        request.files.add(part);
+      }
+
+      for (var entry in body.entries) {
+        request.fields[entry.key] = entry.value;
+      }
+
+      var response = await Http.Response.fromStream(await request.send());
       return handleResponse(response, uri);
     } catch (e) {
-      return const Response(statusCode: 1, statusText: noInternetMessage);
+      return Response(statusCode: 1, statusText: 'Error: $e');
     }
   }
-
-  // Future<Response> postMultipartData(
-  //     String uri,
-  //     Map<String, String> body,
-  //     List<MultipartBody> multipartBody,
-  //     {required Map<String, String> headers}) async {
-  //   try {
-  //     debugPrint('====> API Call: $uri\nHeader: $_mainHeaders');
-  //     debugPrint('====> API Body: $body with ${multipartBody.length} files');
-  //
-  //     Http.MultipartRequest request =
-  //     Http.MultipartRequest('POST', Uri.parse(appBaseUrl + uri));
-  //     request.headers.addAll(headers ?? _mainHeaders);
-  //
-  //     for (MultipartBody multipart in multipartBody) {
-  //       if (multipart.file != null) {
-  //         if (Foundation.kIsWeb) {
-  //           Uint8List list = await multipart.file.readAsBytes();
-  //           Http.MultipartFile part = Http.MultipartFile(
-  //             multipart.key,
-  //             multipart.file.readAsBytes().asStream(),
-  //             list.length,
-  //             filename: path.basename(multipart.file.path),
-  //             contentType: MediaType('image', 'jpg'),
-  //           );
-  //           request.files.add(part);
-  //         } else {
-  //           File file = File(multipart.file.path);
-  //           request.files.add(Http.MultipartFile(
-  //             multipart.key,
-  //             file.readAsBytes().asStream(),
-  //             file.lengthSync(),
-  //             filename: file.path.split('/').last,
-  //           ));
-  //         }
-  //       }
-  //     }
-  //
-  //     request.fields.addAll(body);
-  //
-  //     final response = await request.send();
-  //     if (response.statusCode == 200) {
-  //       final responseStream = await response.stream.bytesToString();
-  //       return handleResponse(Response(
-  //         statusCode: response.statusCode,
-  //         body: responseStream,
-  //       ) as Http.Response, uri);
-  //     } else {
-  //       debugPrint('HTTP request failed with status ${response.statusCode}');
-  //       return Response(
-  //         statusCode: response.statusCode,
-  //         statusText: 'HTTP request failed',
-  //       );
-  //     }
-  //   } catch (e) {
-  //     debugPrint('Exception during API call: $e');
-  //     return Response(statusCode: 1, statusText: noInternetMessage);
-  //   }
-  // }
-
-
 }
 
 class MultipartBody {

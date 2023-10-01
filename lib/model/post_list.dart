@@ -18,8 +18,8 @@ class PostList {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    data['message'] = this.message;
+    data['success'] = success;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -30,27 +30,27 @@ class PostList {
 class Data {
   String? id;
   String? name;
-  String? description;
+  String? caption;
   String? image;
   String? likes;
 
-  Data({this.id, this.name, this.description, this.image, this.likes});
+  Data({this.id, this.name, this.caption, this.image, this.likes});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    description = json['description'];
+    caption = json['caption'];
     image = json['image'];
     likes = json['likes'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['description'] = this.description;
-    data['image'] = this.image;
-    data['likes'] = this.likes;
+    data['id'] = id;
+    data['name'] = name;
+    data['description'] = caption;
+    data['image'] = image;
+    data['likes'] = likes;
     return data;
   }
 }
