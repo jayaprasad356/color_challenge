@@ -1,13 +1,18 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:color_challenge/data/respons/error_response.dart';
+import 'package:color_challenge/util/index_path.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as Http;
 import 'package:flutter/foundation.dart' as Foundation;
+import 'package:path/path.dart' as path;
+import 'package:http_parser/http_parser.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 
 class ApiClient extends GetxService {
   late final String appBaseUrl;
@@ -33,19 +38,63 @@ class ApiClient extends GetxService {
     };
   }
 
-  dynamic handleResponse(http.Response response)  {
-    dynamic body ;
-    Response responses;
-    if (response.statusCode == 200) {
-       body = jsonDecode(response.body);
-      debugPrint('====> body: $body');
-       responses = Response(body:body ,statusCode:response.statusCode,);
-       return responses;
-    } else if (response.statusCode == 401)  {
-     Get.snackbar("Oops!", "message");
+  // dynamic handleResponse(http.Response response, [String? uri])  {
+  //   dynamic body ;
+  //   Response responses;
+  //   if (response.statusCode == 200) {
+  //      body = jsonDecode(response.body);
+  //     debugPrint('====> body: $body');
+  //      responses = Response(body:body ,statusCode:response.statusCode,);
+  //      return responses;
+  //   } else if (response.statusCode == 401)  {
+  //    Get.snackbar("Oops!", "message");
+  //   }
+  //   return null;
+  // }
+
+    Response handleResponse(Http.Response response, String uri) {
+    dynamic body;
+    try {
+      body = jsonDecode(response.body);
+    } catch (e) {
+      // Handle JSON decoding error, if any
     }
-    return null;
+
+    if (response.statusCode == 200) {
+      // Successful response
+      return Response(
+        body: body ?? response.body,
+        bodyString: response.body.toString(),
+        headers: response.headers,
+        statusCode: response.statusCode,
+        statusText: response.reasonPhrase,
+      );
+    } else {
+      // Error response
+      if (body != null && body is! String) {
+        if (body.toString().startsWith('{errors: [{code:')) {
+          ErrorResponse errorResponse = ErrorResponse.fromJson(body);
+          return Response(
+            statusCode: response.statusCode,
+            body: body,
+            statusText: errorResponse.errors[0].message,
+          );
+        } else if (body.toString().startsWith('{message')) {
+          return Response(
+            statusCode: response.statusCode,
+            body: body,
+            statusText: body['message'],
+          );
+        }
+      }
+      return Response(
+        statusCode: response.statusCode,
+        body: body ?? response.body,
+        statusText: response.reasonPhrase,
+      );
+    }
   }
+
 
   Future<dynamic> getData(String uri, Map<String, String>? headers) async {
     final url = Uri.parse(appBaseUrl+uri);
@@ -55,7 +104,7 @@ class ApiClient extends GetxService {
       Http.Response response = await Http.post(url,
           headers: headers ?? _mainHeaders);
       debugPrint("response : $response");
-      return await handleResponse(response);
+      return await handleResponse(response,uri);
     } catch (e) {
       debugPrint('====> getData error: $e');
       return const Response(statusCode: 1, statusText: noInternetMessage);
@@ -72,7 +121,7 @@ class ApiClient extends GetxService {
       Http.Response response = await Http.post(url,
           headers: headers ?? _mainHeaders, body: jsonEncode(body));
       debugPrint("response : $response");
-      return await handleResponse(response);
+      return await handleResponse(response, uri);
     } catch (e) {
       debugPrint('====> postData error: $e');
       return const Response(statusCode: 1, statusText: noInternetMessage);
@@ -88,7 +137,7 @@ class ApiClient extends GetxService {
       Http.Response response = await Http.put(url,
           headers: headers ?? _mainHeaders, body: jsonEncode(body));
       debugPrint("response : $response");
-      return await handleResponse(response);
+      return await handleResponse(response, uri);
     } catch (e) {
       debugPrint('====> putData error: $e');
       return const Response(statusCode: 1, statusText: noInternetMessage);
@@ -103,12 +152,119 @@ class ApiClient extends GetxService {
       Http.Response response = await Http.delete(url,
           headers: headers ?? _mainHeaders);
       debugPrint("response : $response");
-      return await handleResponse(response);
+      return await handleResponse(response, uri);
     } catch (e) {
       debugPrint('====> deleteData error: $e');
       return const Response(statusCode: 1, statusText: noInternetMessage);
     }
   }
+
+  Future<Response> postMultipartData(
+      String uri, Map<String, String> body, List<MultipartBody> multipartBody,
+      {required Map<String, String> headers}) async {
+    try {
+      debugPrint('====> API Call: $uri\nHeader: $_mainHeaders');
+      debugPrint('====> API Body: $body with ${multipartBody.length} files');
+      Http.MultipartRequest request =
+          Http.MultipartRequest('POST', Uri.parse(appBaseUrl + uri));
+      request.headers.addAll(headers ?? _mainHeaders);
+      for (MultipartBody multipart in multipartBody) {
+        if (Foundation.kIsWeb) {
+          Uint8List list = await multipart.file.readAsBytes();
+          Http.MultipartFile part = Http.MultipartFile(
+            multipart.key,
+            multipart.file.readAsBytes().asStream(),
+            list.length,
+            filename: path.basename(multipart.file.path),
+            contentType: MediaType('image', 'jpg'),
+          );
+          request.files.add(part);
+        } else {
+          File file = File(multipart.file.path);
+          request.files.add(Http.MultipartFile(
+            multipart.key,
+            file.readAsBytes().asStream(),
+            file.lengthSync(),
+            filename: file.path.split('/').last,
+          ));
+        }
+            }
+      request.fields.addAll(body);
+      Http.Response response =
+          await Http.Response.fromStream(await request.send());
+      return handleResponse(response, uri);
+    } catch (e) {
+      return const Response(statusCode: 1, statusText: noInternetMessage);
+    }
+  }
+
+  // Future<Response> postMultipartData(
+  //     String uri,
+  //     Map<String, String> body,
+  //     List<MultipartBody> multipartBody,
+  //     {required Map<String, String> headers}) async {
+  //   try {
+  //     debugPrint('====> API Call: $uri\nHeader: $_mainHeaders');
+  //     debugPrint('====> API Body: $body with ${multipartBody.length} files');
+  //
+  //     Http.MultipartRequest request =
+  //     Http.MultipartRequest('POST', Uri.parse(appBaseUrl + uri));
+  //     request.headers.addAll(headers ?? _mainHeaders);
+  //
+  //     for (MultipartBody multipart in multipartBody) {
+  //       if (multipart.file != null) {
+  //         if (Foundation.kIsWeb) {
+  //           Uint8List list = await multipart.file.readAsBytes();
+  //           Http.MultipartFile part = Http.MultipartFile(
+  //             multipart.key,
+  //             multipart.file.readAsBytes().asStream(),
+  //             list.length,
+  //             filename: path.basename(multipart.file.path),
+  //             contentType: MediaType('image', 'jpg'),
+  //           );
+  //           request.files.add(part);
+  //         } else {
+  //           File file = File(multipart.file.path);
+  //           request.files.add(Http.MultipartFile(
+  //             multipart.key,
+  //             file.readAsBytes().asStream(),
+  //             file.lengthSync(),
+  //             filename: file.path.split('/').last,
+  //           ));
+  //         }
+  //       }
+  //     }
+  //
+  //     request.fields.addAll(body);
+  //
+  //     final response = await request.send();
+  //     if (response.statusCode == 200) {
+  //       final responseStream = await response.stream.bytesToString();
+  //       return handleResponse(Response(
+  //         statusCode: response.statusCode,
+  //         body: responseStream,
+  //       ) as Http.Response, uri);
+  //     } else {
+  //       debugPrint('HTTP request failed with status ${response.statusCode}');
+  //       return Response(
+  //         statusCode: response.statusCode,
+  //         statusText: 'HTTP request failed',
+  //       );
+  //     }
+  //   } catch (e) {
+  //     debugPrint('Exception during API call: $e');
+  //     return Response(statusCode: 1, statusText: noInternetMessage);
+  //   }
+  // }
+
+
+}
+
+class MultipartBody {
+  final String key;
+  final File file;
+
+  MultipartBody({required this.key, required this.file});
 }
 
 // class ApiClient extends GetxService {

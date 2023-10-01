@@ -68,6 +68,8 @@ dependencies:
   flutter_inappwebview: ^5.7.2+3
   like_button: ^2.0.5
   image_picker: ^1.0.4
+  path: ^1.8.3
+  http_parser: ^4.0.2
 
 dev_dependencies:
   flutter_test:

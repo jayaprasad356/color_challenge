@@ -199,7 +199,7 @@ class _MyAppState extends State<MyApp> {
                   shortsVideoRepo: ShortsVideoRepo(
                       apiClient: ApiClient(
                           appBaseUrl: Constant.MainBaseUrl,
-                          storageLocal: storeLocal),
+                          storageLocal: storeLocal,),
                       storageLocal: storeLocal),
                 ),
               );

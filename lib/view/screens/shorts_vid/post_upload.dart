@@ -338,7 +338,15 @@ class _PostUploadState extends State<PostUpload> {
               Align(
                 alignment: Alignment.center,
                 child: MaterialButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    String? userId = await c.getUserId();
+                    debugPrint("userId : $userId");
+                    if (userId != null) {
+                      await c.postMyPost(userId, c.photo.value as XFile);
+                    } else {
+                      debugPrint('User ID not available.');
+                    }
+                  },
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),

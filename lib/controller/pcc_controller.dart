@@ -5,12 +5,14 @@ import 'dart:io';
 import 'package:color_challenge/data/api/api_client.dart';
 import 'package:color_challenge/data/repository/shorts_video_repo.dart';
 import 'package:color_challenge/model/post_list.dart';
+import 'package:color_challenge/model/upload_image.dart';
 import 'package:color_challenge/model/video_list.dart';
 import 'package:color_challenge/util/Constant.dart';
 import 'package:color_challenge/view/screens/shorts_vid/post_upload.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 
 class PCC extends GetxController implements GetxService {
@@ -28,10 +30,8 @@ class PCC extends GetxController implements GetxService {
   final RxList description = [].obs;
   final RxList ID = [].obs;
   final RxList likes = [].obs;
-  XFile? post_photos;
   var photo = Rxn<XFile>();
   RxBool isLiked = false.obs;
-  XFile? _pickedImage;
 
   void toggleLike() {
     isLiked.toggle();
@@ -54,6 +54,7 @@ class PCC extends GetxController implements GetxService {
     super.onInit();
     // shortsVideoData();
     imageListData();
+    getUserId();
   }
 
   @override
@@ -97,16 +98,37 @@ class PCC extends GetxController implements GetxService {
     }
   }
 
-  // Future<void> gallery(BuildContext context) async {
-  //   ImagePicker imagePicker = ImagePicker();
-  //   XFile? getPic = await imagePicker.pickImage(source: ImageSource.gallery);
-  //
-  //   if (getPic != null) {
-  //     print("get pic ${getPic.path}, ${getPic.name}");
-  //     post_photos = getPic;
-  //   }
-  //   update();
-  // }
+  Future<String?> getUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(Constant.ID);
+  }
+
+  Future<void> postMyPost(String userId, XFile image) async {
+    try {
+      File imageFile = File(image.path);
+      final value = await shortsVideoRepo.postMyPost(userId, imageFile);
+      debugPrint("===> value: $value");
+      var responseData = value.body;
+
+      // Check if responseData is null or not a Map
+      if (responseData == null || responseData is! Map<String, dynamic>) {
+        Get.snackbar("Oops", "Invalid server response");
+        debugPrint("Invalid server response: $responseData");
+        return;
+      }
+
+      // Process the response
+      UploadImage uploadImage = UploadImage.fromJson(responseData);
+      debugPrint("===> uploadImage: $uploadImage");
+
+      Get.snackbar("${uploadImage.success}", "${uploadImage.message}");
+    } catch (e) {
+      Get.snackbar("Oops", "Your image is not uploaded");
+      debugPrint("shortsVideoData errors: $e");
+    }
+  }
+
+
 
   Future<void> gallery() async {
     ImagePicker picker = ImagePicker();
@@ -120,28 +142,6 @@ class PCC extends GetxController implements GetxService {
     update();
   }
 
-  Future<void> pickImageFromGallery() async {
-    ImagePicker imagePicker = ImagePicker();
-
-    try {
-      XFile? pickedImage = await imagePicker.pickImage(source: ImageSource.gallery);
-
-      if (pickedImage != null) {
-          _pickedImage = XFile(pickedImage.path);
-        update();
-      } else {
-        print('No image selected.');
-      }
-    } catch (e) {
-      print('Error picking image: $e');
-    }
-  }
-
-  // Widget buildPickedImage() {
-  //   return  photo != null
-  //       ? Image.file(File(photo!.path))
-  //       : Text('No photo selected');
-  // }
 
 
   void updateAPI(int i) {

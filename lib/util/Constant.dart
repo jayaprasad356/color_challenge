@@ -29,6 +29,7 @@ class Constant {
   static const String ADD_MAIN_BALANCE_URL = "${BaseUrl}add_main_balance.php";
   static const String VIEW_AD_URL = "${BaseUrl}view_ad.php";
   static const String IMAGE_LIST = "${BaseUrl}image_list.php";
+  static const String POST_MY_POST = "${BaseUrl}post.php";
   static const String SHORTS_URL = "api/video_list.php";
   static const String SETTINGS_URL_ALL = "api/settings.php";
 
