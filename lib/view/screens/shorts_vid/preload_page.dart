@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:color_challenge/controller/pcc_controller.dart';
+import 'package:color_challenge/controller/utils.dart';
 import 'package:color_challenge/model/slider_data.dart';
 import 'package:color_challenge/util/Color.dart';
 import 'package:color_challenge/util/index_path.dart';
@@ -61,10 +62,6 @@ class _PreloadPageState extends State<PreloadPage> {
                 end: Alignment.bottomCenter,
               ),
             ),
-            // padding: EdgeInsets.only(
-            //     left: size.height * 0.04,
-            //     right: size.height * 0.04,
-            //     bottom: size.width * 0.07),
             child: Column(
               children: [
                 const SizedBox(
@@ -137,101 +134,13 @@ class _PreloadPageState extends State<PreloadPage> {
                                   description: c.description[index],
                                   likeWidget: CustomLikeButton(
                                     isLiked: isLiked,
-                                    onTap: (){},
+                                    onTap: (){
+                                      Utils().showToast("hi");
+                                    },
                                   )
-                                      // LikeButton(
-                                      //   size: 24,
-                                      //   circleColor:
-                                      //   CircleColor(start: Color(0xff00ddff), end: Color(0xff0099cc)),
-                                      //   bubblesColor: BubblesColor(
-                                      //     dotPrimaryColor: Color(0xff33b5e5),
-                                      //     dotSecondaryColor: Color(0xff0099cc),
-                                      //   ),
-                                      //   likeBuilder: (bool isLiked) {
-                                      //     return Icon(
-                                      //       Icons.home,
-                                      //       color: isLiked ? Colors.deepPurpleAccent : Colors.grey,
-                                      //       size: 24,
-                                      //     );
-                                      //   },
-                                      //   likeCount: 665,
-                                      //   countBuilder: (int count, bool isLiked, String text)? {
-                                      //     var color = isLiked ? Colors.deepPurpleAccent : Colors.grey;
-                                      //     Widget result;
-                                      //     if (count == 0) {
-                                      //       result = Text(
-                                      //         "love",
-                                      //         style: TextStyle(color: color),
-                                      //       );
-                                      //     } else
-                                      //     {result = Text(
-                                      //     text,
-                                      //     style: TextStyle(color: color),
-                                      //     );}
-                                      //     return result;
-                                      //   }
-                                      // ),
-                                  //     Column(
-                                  //   children: [
-                                  //     IconButton(
-                                  //       onPressed: () {
-                                  //         c.toggleLike();
-                                  //         // c.incrementCounter();
-                                  //         // c.shortsVideoData();
-                                  //       },
-                                  //       icon: Obx(
-                                  //         () => Icon(
-                                  //           c.isLiked.value
-                                  //               ? Icons.favorite
-                                  //               : Icons.favorite_border,
-                                  //           size: 35,
-                                  //           color: Colors.red,
-                                  //         ),
-                                  //       ),
-                                  //     ),
-                                  //   ],
-                                  // ),
                                 );
                               }),
                         ),
-                        // Container(
-                        //   alignment: Alignment.bottomRight,
-                        //   margin: EdgeInsets.only(
-                        //     right: size.width * 0.02,
-                        //     bottom: size.height * 0.02,
-                        //   ),
-                        //   child: Row(
-                        //     children: [
-                        //       Expanded(child: Container()),
-                        //       Column(
-                        //         // crossAxisAlignment: CrossAxisAlignment.end,
-                        //         children: [
-                        //           Expanded(child: Container()),
-                        //           IconButton(
-                        //             onPressed: () {
-                        //               c.incrementCounter();
-                        //               // c.shortsVideoData();
-                        //             },
-                        //             icon: const Icon(
-                        //               Icons.favorite,
-                        //               size: 35,
-                        //               color: Colors.white,
-                        //             ),
-                        //           ),
-                        //           Obx(
-                        //             () => Text(
-                        //               "${c.counter}",
-                        //               style: const TextStyle(
-                        //                 color: Colors.white,
-                        //                 fontSize: 15,
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),
@@ -257,6 +166,8 @@ class ShortsPlayer extends StatefulWidget {
 
 class _ShortsPlayerState extends State<ShortsPlayer> {
   late YoutubePlayerController _controller;
+  bool isLiked = false;
+
 
   @override
   void initState() {
@@ -355,6 +266,7 @@ class Posts extends StatefulWidget {
 }
 
 class _PostsState extends State<Posts> {
+  bool isLiked = false;
   @override
   void setState(VoidCallback fn) {
     // TODO: implement setState
@@ -423,46 +335,47 @@ class _PostsState extends State<Posts> {
               ClipRRect(
                   borderRadius: BorderRadius.circular(16),
                   child: Image.network(widget.imageURL)),
-              widget.likeWidget,
-              const Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    // child: IconButton(
-                    //   onPressed: () {
-                    //     widget.likeOnPress();
-                    //     // c.incrementCounter();
-                    //     // c.shortsVideoData();
-                    //   },
-                    //   icon: const Icon(
-                    //     isLiked ? Icons.favorite : Icons.favorite_border,
-                    //     size: 35,
-                    //     color: Colors.white,
-                    //   ),
-                    // ),
-                  ),
-                ],
-              ),
             ],
           ),
         ),
         const SizedBox(
           height: 10,
         ),
-        Align(
-          alignment: Alignment.topLeft,
-          child: Text(
-            widget.description,
-            style: const TextStyle(
-                color: colors.white,
-                fontSize: 14,
-                fontFamily: "Montserrat",
-                fontWeight: FontWeight.bold),
-          ),
-        ),
-        const SizedBox(
+        Row(
+          children: [
+ // Add some spacing between the icon and text
+            Flexible(
+              child: Text(
+                widget.description,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontFamily: "Montserrat",
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            SizedBox(width: 8),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  if(isLiked){
+                    isLiked = false;
+
+                  }else{
+                    isLiked = true;
+                  }
+
+                });
+              },
+              child: Icon(
+                Icons.favorite,
+                color: isLiked ? Colors.red:Colors.white,
+                size: 48.0,
+              ),
+            )
+          ],
+        ),SizedBox(
           height: 20,
         ),
       ],
@@ -471,7 +384,7 @@ class _PostsState extends State<Posts> {
 }
 
 class CustomLikeButton extends StatelessWidget {
-  final bool isLiked;
+  bool isLiked = false;
   void Function()? onTap;
   CustomLikeButton({super.key, required this.isLiked, required this.onTap});
 
