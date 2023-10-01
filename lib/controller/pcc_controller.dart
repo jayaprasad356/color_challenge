@@ -27,7 +27,7 @@ class PCC extends GetxController implements GetxService {
   final RxList videoURL = [].obs;
   final RxList imageURS = [].obs;
   final RxList name = [].obs;
-  final RxList description = [].obs;
+  final RxList caption = [].obs;
   final RxList ID = [].obs;
   final RxList likes = [].obs;
   var photo = Rxn<XFile>();
@@ -89,7 +89,7 @@ class PCC extends GetxController implements GetxService {
         print('User ID: ${imageData.id},  image: ${imageData.image}');
         imageURS.add(imageData.image ?? '');
         name.add(imageData.name ?? '');
-        description.add(imageData.description ?? '');
+        caption.add(imageData.caption ?? '');
         ID.add(imageData.id ?? '');
         likes.add(imageData.likes ?? '');
       }

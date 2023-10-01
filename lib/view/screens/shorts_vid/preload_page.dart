@@ -131,7 +131,7 @@ class _PreloadPageState extends State<PreloadPage> {
                                   imageURL: c.imageURS[index],
                                   name: c.name[index],
                                   ID: c.ID[index],
-                                  description: c.description[index],
+                                    caption: c.caption[index],
                                   likeWidget: CustomLikeButton(
                                     isLiked: isLiked,
                                     onTap: (){
@@ -247,7 +247,7 @@ class _YoutubePlayerPageState extends State<YoutubePlayerPage> {
 class Posts extends StatefulWidget {
   final String imageURL;
   final String name;
-  final String description;
+  final String caption;
   final String ID;
   // final Function likeOnPress;
   final Widget likeWidget;
@@ -257,7 +257,7 @@ class Posts extends StatefulWidget {
     // required this.likeOnPress,
     required this.likeWidget,
     required this.name,
-    required this.description,
+    required this.caption,
     required this.ID,
   });
 
@@ -346,7 +346,7 @@ class _PostsState extends State<Posts> {
  // Add some spacing between the icon and text
             Flexible(
               child: Text(
-                widget.description,
+                widget.caption,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 12,

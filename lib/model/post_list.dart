@@ -30,16 +30,16 @@ class PostList {
 class Data {
   String? id;
   String? name;
-  String? description;
+  String? caption;
   String? image;
   String? likes;
 
-  Data({this.id, this.name, this.description, this.image, this.likes});
+  Data({this.id, this.name, this.caption, this.image, this.likes});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    description = json['description'];
+    caption = json['caption'];
     image = json['image'];
     likes = json['likes'];
   }
@@ -48,7 +48,7 @@ class Data {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
-    data['description'] = this.description;
+    data['caption'] = this.caption;
     data['image'] = this.image;
     data['likes'] = this.likes;
     return data;
