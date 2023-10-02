@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -28,6 +29,7 @@ class _PreloadPageState extends State<PreloadPage> {
   final PCC c = Get.find<PCC>();
   int _currentIndex = 0;
   bool isLiked = false;
+  late SharedPreferences prefs;
 
   @override
   void initState() {
@@ -35,7 +37,8 @@ class _PreloadPageState extends State<PreloadPage> {
     super.initState();
     c.imageListData();
     _handleRefresh();
-    Timer.periodic(const Duration(seconds: 5), (Timer timer) {c.likes;});
+    Timer.periodic(const Duration(seconds: 5), (Timer timer) {
+    });
     // c.shortsVideoData();
   }
 
@@ -123,7 +126,7 @@ class _PreloadPageState extends State<PreloadPage> {
                         //     },
                         //   ),
                         // ),
-                        RefreshIndicator(
+                        Obx(() => RefreshIndicator(
                           onRefresh: _handleRefresh,
                           child: ListView.builder(
                               itemCount: c.imageURS.length,
@@ -145,9 +148,18 @@ class _PreloadPageState extends State<PreloadPage> {
                                       } else {
                                         debugPrint('User ID not available.');
                                       }
-                                    });
+                                    },
+                                  shareOnPress: (){
+                                    String? uri = c.shareLink[index];
+                                    launchUrl(
+                                      Uri.parse(uri!),
+                                      mode: LaunchMode.externalApplication,
+                                    );
+                                    debugPrint("is shareOnPress worked ");
+                                  },
+                                    );
                               }),
-                        ),
+                        ),)
                       ],
                     ),
                   ),
@@ -253,9 +265,10 @@ class _YoutubePlayerPageState extends State<YoutubePlayerPage> {
 class Posts extends StatefulWidget {
   final String imageURL;
   final String name;
-  final String likes;
+  final int likes;
   final String caption;
   final String ID;
+  final Function shareOnPress;
   // final Function likeOnPress;
   // final Widget likeWidget;
   final bool isLiked;
@@ -263,6 +276,7 @@ class Posts extends StatefulWidget {
   const Posts({
     super.key,
     required this.imageURL,
+    required this.shareOnPress,
     // required this.likeOnPress,
     // required this.likeWidget,
     required this.name,
@@ -340,48 +354,44 @@ class _PostsState extends State<Posts> {
         Container(
           width: size.width,
           decoration: BoxDecoration(
-              color: Colors.grey, borderRadius: BorderRadius.circular(16)),
-          child: Stack(
-            alignment: Alignment.bottomRight,
-            children: [
-              ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: Image.network(widget.imageURL)),
-            ],
-          ),
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(16)),
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Image.network(
+                widget.imageURL,
+                fit: BoxFit.fill,
+              )),
         ),
         const SizedBox(
           height: 10,
         ),
         Row(
           children: [
-            // Add some spacing between the icon and text
-            Flexible(
-              child: Text(
-                widget.caption,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontFamily: "Montserrat",
-                  fontWeight: FontWeight.bold,
-                ),
+            Text(
+              // "widget.caption                                                                                                             w",
+              widget.caption,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontFamily: "Montserrat",
+                fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(width: 8),
-            // widget.likeWidget,
-            Column(
-              children: [
-                LikeButton(id: widget.ID, isLiked: widget.isLiked,),
-                Text(
-                  widget.likes,
-                  style: const TextStyle(
-                      color: colors.white,
-                      fontSize: 10,
-                      fontFamily: "Montserrat",
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
+            Expanded(child: Container()),
+            LikeButton(
+              id: widget.ID,
+              isLiked: widget.isLiked,
             ),
+            IconButton(
+              padding: const EdgeInsets.only(right: 3),
+              icon: const Icon(
+                Icons.share,
+                color: Colors.white,
+                size: 35.0,
+              ),
+              onPressed: () => widget.shareOnPress(),
+            )
           ],
         ),
         const SizedBox(
@@ -418,11 +428,14 @@ class _LikeButtonState extends State<LikeButton> {
 
   @override
   Widget build(BuildContext context) {
-
     return IconButton(
       padding: const EdgeInsets.only(right: 3),
-      icon: Icon(Icons.favorite,color: widget.isLiked ? Colors.red : Colors.white,size: 35.0,),
-      onPressed: () async{
+      icon: Icon(
+        Icons.favorite,
+        color: widget.isLiked ? Colors.red : Colors.white,
+        size: 35.0,
+      ),
+      onPressed: () async {
         print('Like button pressed for item with ID: ${widget.id}');
         prefs = await SharedPreferences.getInstance();
         String? user_Id = prefs.getString(Constant.ID);

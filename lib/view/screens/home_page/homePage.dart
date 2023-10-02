@@ -56,6 +56,8 @@ class HomeState extends State<Home> {
       total_ads = "0";
   double progressbar = 0.0;
   int _currentIndex = 0;
+  PageController _pageController = PageController();
+  int _currentPage = 0;
 
   @override
   void initState() {
@@ -81,8 +83,10 @@ class HomeState extends State<Home> {
     prefs = await SharedPreferences.getInstance();
       homeController.slideList(prefs.getString(Constant.ID));
 
-      setState(() {
-      });
+    setState(() {
+      debugPrint(homeController.sliderImageURL.string);
+      debugPrint(homeController.sliderName.string);
+    });
   }
 
   void userDeatils() async {
@@ -196,24 +200,6 @@ class HomeState extends State<Home> {
             padding: const EdgeInsets.only(top: 2.0),
             child: Column(
               children: [
-                // photoSlider(),
-                // Obx(() => Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: homeController.sliderImageURL.map((imageUrl) {
-                //     int index = homeController.sliderImageURL.indexOf(imageUrl);
-                //     return Container(
-                //       margin: const EdgeInsets.only(right: 10),
-                //       height: 10,
-                //       width: homeController.currentIndex.value == index ? 15 : 5,
-                //       decoration: BoxDecoration(
-                //         shape: BoxShape.circle,
-                //         color: homeController.currentIndex.value == index
-                //             ? Colors.white
-                //             : Colors.grey,
-                //       ),
-                //     );
-                //   }).toList(),
-                // )),
                 CarouselSlider(
                   options: CarouselOptions(
                     autoPlay: true,
@@ -224,27 +210,55 @@ class HomeState extends State<Home> {
                       });
                     },
                   ),
-                  items: sliderData.map((e) => sliderItems(e)).toList(),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: sliderData.map((e) {
-                    int index =sliderData.indexOf(e);
-                    return Container(
-                      margin: const EdgeInsets.only(right: 10),
-                      height: 10,
-                      width: _currentIndex == index ? 15 : 5,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: _currentIndex == index
-                              ? Colors.white
-                              : Colors.grey),
+                  items: homeController.sliderImageURL.asMap().entries.map((entry) {
+                    int index = entry.key;
+                    String imageUrl = entry.value;
+                    String imageName = homeController.sliderName[index];
+
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Container(
+                          width: size.width,
+                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child: Image.network(
+                                  imageUrl,
+                                  fit: BoxFit.cover, // Ensure the image covers the background space
+                                  width: double.infinity,
+                                  height: double.infinity,
+                                ),
+                              ),
+                              Positioned(
+                                bottom: 10.0,
+                                left: 10.0,
+                                child: Text(
+                                  imageName,
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
                     );
                   }).toList(),
                 ),
+
+                const SizedBox(
+                  height: 20,
+                ),
+                buildIndicator(),
                 const SizedBox(
                   height: 20,
                 ),
@@ -634,106 +648,26 @@ class HomeState extends State<Home> {
     });
   }
 
-  // Widget photoSlider(){
-  //  return Obx(() => CarouselSlider(
-  //     options: CarouselOptions(
-  //       autoPlay: true,
-  //       aspectRatio: 2.0,
-  //       enlargeCenterPage: true,
-  //       onPageChanged: (index, reason) {
-  //         homeController.currentIndex.value = index;
-  //       },
-  //     ),
-  //     items: homeController.sliderImageURL.map((imageUrl) {
-  //       return Builder(
-  //         builder: (BuildContext context) {
-  //           return Container(
-  //             width: MediaQuery.of(context).size.width,
-  //             margin: const EdgeInsets.symmetric(horizontal: 5.0),
-  //             decoration: const BoxDecoration(
-  //               color: Colors.grey,
-  //             ),
-  //             child: Image.network(
-  //               imageUrl,
-  //               fit: BoxFit.cover,
-  //             ),
-  //           );
-  //         },
-  //       );
-  //     }).toList(),
-  //   ));
-  // }
-
-  Widget photoSlider() {
-    return Obx(() {
-      return CarouselSlider(
-        options: CarouselOptions(
-          autoPlay: true,
-          aspectRatio: 2.0,
-          enlargeCenterPage: true,
-          onPageChanged: (index, reason) {
-            homeController.currentIndex.value = index;
-          },
-        ),
-        items: homeController.sliderImageURL.map((imageUrl) {
-          return Builder(
-            builder: (BuildContext context) {
-              return Container(
-                width: MediaQuery.of(context).size.width,
-                margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                decoration: const BoxDecoration(
-                  color: Colors.grey,
-                ),
-                child: Image.network(
-                  "https://www.freepik.com/premium-photo/image-colorful-galaxy-sky-generative-ai_37741252.htm",
-                  // imageUrl.toString(),
-                  fit: BoxFit.cover,
-                ),
-              );
-            },
-          );
-        }).toList(),
-      );
-    });
-  }
 
 
-  Widget sliderItems(SliderData sliderData) {
-    Size size = MediaQuery.of(context).size;
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(
-          10,
-        ),
-        color: Colors.blue,
-      ),
-      margin: const EdgeInsets.symmetric(horizontal: 5),
-      child: Stack(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.network(
-              homeController.sliderImageURL.toString(),
-              height: size.height * 0.26,
-              fit: BoxFit.fitHeight,
-            ),
+  Widget buildIndicator() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: homeController.sliderImageURL.map((url) {
+        int index = homeController.sliderImageURL.indexOf(url);
+        return Container(
+          width: _currentIndex == index ? 10 : 8.0,
+          height: _currentIndex == index ? 10 : 8.0,
+          margin: const EdgeInsets.symmetric(horizontal: 4.0),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: _currentIndex == index ? Colors.white : Colors.grey,
           ),
-          Padding(
-              padding: EdgeInsets.only(
-                  top: size.height * 0.2, left: size.width * 0.04),
-              child: Text(
-                homeController.sliderName.toString(),
-                style: const TextStyle(
-                  fontFamily: 'MontserratBold',
-                  fontSize: 16,
-                  color: Colors.black87,
-                  // fontWeight: FontWeight.bold
-                ),
-              )),
-        ],
-      ),
+        );
+      }).toList(),
     );
   }
+
 }
 
 

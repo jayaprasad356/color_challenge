@@ -11,13 +11,13 @@ class PostList {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['success'] = success;
     data['message'] = message;
     if (this.data != null) {
@@ -29,28 +29,37 @@ class PostList {
 
 class Data {
   String? id;
-  String? name;
   String? caption;
+  String? name;
   String? image;
-  String? likes;
+  int? likes;
+  String? shareLink;
 
-  Data({this.id, this.name, this.caption, this.image, this.likes});
+  Data(
+      {this.id,
+        this.caption,
+        this.name,
+        this.image,
+        this.likes,
+        this.shareLink});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    name = json['name'];
     caption = json['caption'];
+    name = json['name'];
     image = json['image'];
     likes = json['likes'];
+    shareLink = json['share_link'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
+    data['caption'] = caption;
     data['name'] = name;
-    data['description'] = caption;
     data['image'] = image;
     data['likes'] = likes;
+    data['share_link'] = shareLink;
     return data;
   }
 }

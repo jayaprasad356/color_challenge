@@ -19,14 +19,19 @@ class SliderItem {
 
 class HomeController extends GetxController implements GetxService {
   final HomeRepo homeRepo;
-
   HomeController({required this.homeRepo});
-
   final RxList sliderImageURL = [].obs;
   final RxList sliderName = [].obs;
   final RxList sliderItems = [].obs;
   final RxInt currentIndex = 0.obs;
   late SharedPreferences prefs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    // shortsVideoData();
+    // getUserId();
+  }
 
   // @override
   // void onInit() async {
@@ -38,10 +43,6 @@ class HomeController extends GetxController implements GetxService {
   //   // slideList(userId);
   // }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   Future<String?> getUserId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -69,6 +70,10 @@ class HomeController extends GetxController implements GetxService {
       SliderDataItem sliderData = SliderDataItem.fromJson(responseData);
       debugPrint("===> sliderData: $sliderData");
       debugPrint("===> sliderData message: ${sliderData.message}");
+
+      // Clear the existing data before adding new data
+      sliderImageURL.clear();
+      sliderName.clear();
 
       for (var slideData in sliderData.data!) {
         print('User ID: ${slideData.id},  image: ${slideData.image}');

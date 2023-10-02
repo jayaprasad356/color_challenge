@@ -32,6 +32,7 @@ class PCC extends GetxController implements GetxService {
   final RxList caption = [].obs;
   final RxList ID = [].obs;
   final RxList likes = [].obs;
+  final RxList shareLink = [].obs;
   var photo = Rxn<XFile>();
   RxList<RxBool> isLikedList = <RxBool>[].obs;
 
@@ -81,7 +82,7 @@ class PCC extends GetxController implements GetxService {
       final value = await shortsVideoRepo.imageListData();
       var responseData = value.body;
       PostList imageList = PostList.fromJson(responseData);
-      debugPrint("===> shortVideoListData: $imageList");
+      debugPrint("===> imageListData: $imageList");
 
       for (var imageData in imageList.data!) {
         print('User ID: ${imageData.id},  image: ${imageData.image}');
@@ -90,11 +91,12 @@ class PCC extends GetxController implements GetxService {
         caption.add(imageData.caption ?? '');
         ID.add(imageData.id ?? '');
         likes.add(imageData.likes ?? '');
+        shareLink.add(imageData.shareLink ?? '');
         update();
       }
       update();
     } catch (e) {
-      debugPrint("shortsVideoData errors: $e");
+      debugPrint("imageListData errors: $e");
     }
   }
 

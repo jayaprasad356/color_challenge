@@ -66,6 +66,14 @@ Future<void> main() async {
     sound: true,
   );
 
+  Get.put(HomeController(
+    homeRepo: HomeRepo(
+        apiClient: ApiClient(
+            appBaseUrl: Constant.MainBaseUrl,
+            storageLocal: storeLocal),
+        storageLocal: storeLocal),
+  ),);
+
   Get.put(const FlutterSecureStorage());
 
   // runApp(MyVideoApp());
