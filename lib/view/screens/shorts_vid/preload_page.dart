@@ -3,12 +3,14 @@ import 'package:color_challenge/controller/pcc_controller.dart';
 import 'package:color_challenge/controller/utils.dart';
 import 'package:color_challenge/model/slider_data.dart';
 import 'package:color_challenge/util/Color.dart';
+import 'package:color_challenge/util/Constant.dart';
 import 'package:color_challenge/util/index_path.dart';
 import 'package:color_challenge/view/screens/shorts_vid/player.dart';
 import 'package:color_challenge/view/screens/shorts_vid/post_upload.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:preload_page_view/preload_page_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -33,7 +35,7 @@ class _PreloadPageState extends State<PreloadPage> {
     super.initState();
     c.imageListData();
     _handleRefresh();
-    Timer.periodic(const Duration(seconds: 5), (Timer timer) {});
+    Timer.periodic(const Duration(seconds: 5), (Timer timer) {c.likes;});
     // c.shortsVideoData();
   }
 
@@ -404,6 +406,15 @@ class LikeButton extends StatefulWidget {
 class _LikeButtonState extends State<LikeButton> {
   // late bool isLiked;
   final PCC c = Get.find<PCC>();
+  late SharedPreferences prefs;
+
+  // void handleAsyncInit() async {
+  //   prefs = await SharedPreferences.getInstance();
+  //   c.likeAPI(prefs.getString(Constant.ID));
+  //
+  //   setState(() {
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -413,11 +424,12 @@ class _LikeButtonState extends State<LikeButton> {
       icon: Icon(Icons.favorite,color: widget.isLiked ? Colors.red : Colors.white,size: 35.0,),
       onPressed: () async{
         print('Like button pressed for item with ID: ${widget.id}');
-        String? userId = await c.getUserId();
-        debugPrint("userId : $userId");
+        prefs = await SharedPreferences.getInstance();
+        String? user_Id = prefs.getString(Constant.ID);
+        debugPrint("userId : $user_Id");
         String? postID = widget.id;
-        if (userId != null) {
-          await c.likeAPI(userId, postID!);
+        if (user_Id != null) {
+          await c.likeAPI(user_Id, postID!);
         } else {
           debugPrint('User ID not available.');
         }

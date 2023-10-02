@@ -314,9 +314,37 @@ class ADsScreenState extends State<ADsScreen> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
+                                // Row(
+                                //   mainAxisAlignment: MainAxisAlignment.center,
+                                //   children: [
+                                //     Text(
+                                //       "Basic Wallet",
+                                //       style: GoogleFonts.poppins(
+                                //         // Use GoogleFonts.poppins() to access Poppins font
+                                //         fontSize: 14,
+                                //         color: Colors.white,
+                                //         fontWeight: FontWeight.bold,
+                                //       ),
+                                //     ),
+                                //     const SizedBox(width: 5),
+                                //     GestureDetector(
+                                //       onTap: () {
+                                //         Navigator.push(
+                                //           context,
+                                //           MaterialPageRoute(
+                                //             builder: (context) =>
+                                //             const OnlineJobs(),
+                                //           ),
+                                //         );
+                                //       },
+                                //       child: Image.asset(
+                                //         'assets/images/info.png',
+                                //         height: 30,
+                                //         width: 20,
+                                //       ),
+                                //     )
+                                //   ],
+                                // ),
                                     Text(
                                       "Basic Wallet",
                                       style: GoogleFonts.poppins(
@@ -326,25 +354,6 @@ class ADsScreenState extends State<ADsScreen> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    const SizedBox(width: 5),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                            const OnlineJobs(),
-                                          ),
-                                        );
-                                      },
-                                      child: Image.asset(
-                                        'assets/images/info.png',
-                                        height: 30,
-                                        width: 20,
-                                      ),
-                                    )
-                                  ],
-                                ),
                                 Text(
                                   "No Refers",
                                   style: GoogleFonts.poppins(
@@ -436,9 +445,37 @@ class ADsScreenState extends State<ADsScreen> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
+                                // Row(
+                                //   mainAxisAlignment: MainAxisAlignment.center,
+                                //   children: [
+                                //     Text(
+                                //       "Premium Wallet",
+                                //       style: GoogleFonts.poppins(
+                                //         // Use GoogleFonts.poppins() to access Poppins font
+                                //         fontSize: 14,
+                                //         color: colors.widget_color,
+                                //         fontWeight: FontWeight.bold,
+                                //       ),
+                                //     ),
+                                //     const SizedBox(width: 5),
+                                //     GestureDetector(
+                                //       onTap: () {
+                                //         Navigator.push(
+                                //           context,
+                                //           MaterialPageRoute(
+                                //             builder: (context) =>
+                                //             const OnlineJobs(),
+                                //           ),
+                                //         );
+                                //       },
+                                //       child: Image.asset(
+                                //         'assets/images/info.png',
+                                //         height: 30,
+                                //         width: 20,
+                                //       ),
+                                //     )
+                                //   ],
+                                // ),
                                     Text(
                                       "Premium Wallet",
                                       style: GoogleFonts.poppins(
@@ -448,25 +485,6 @@ class ADsScreenState extends State<ADsScreen> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    const SizedBox(width: 5),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                            const OnlineJobs(),
-                                          ),
-                                        );
-                                      },
-                                      child: Image.asset(
-                                        'assets/images/info.png',
-                                        height: 30,
-                                        width: 20,
-                                      ),
-                                    )
-                                  ],
-                                ),
                                 Text(
                                   "$target_refers Refers",
                                   style: GoogleFonts.poppins(

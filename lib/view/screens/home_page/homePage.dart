@@ -61,8 +61,9 @@ class HomeState extends State<Home> {
   void initState() {
     super.initState();
 
-    homeController.allSettingsData();
+    // homeController.allSettingsData();
 
+    handleAsyncInit();
     SharedPreferences.getInstance().then((value) {
       prefs = value;
       userDeatils();
@@ -74,6 +75,14 @@ class HomeState extends State<Home> {
       adsApi();
       //ads_status("status");
     });
+  }
+
+  void handleAsyncInit() async {
+    prefs = await SharedPreferences.getInstance();
+      homeController.slideList(prefs.getString(Constant.ID));
+
+      setState(() {
+      });
   }
 
   void userDeatils() async {
@@ -114,6 +123,8 @@ class HomeState extends State<Home> {
     prefs.setString(Constant.TODAY_ADS, user.today_ads);
     prefs.setString(Constant.TOTAL_ADS, user.total_ads);
     prefs.setString(Constant.STATUS, user.status);
+    prefs.setString(Constant.MEDIA_WALLET, user.media_wallet);
+    prefs.setString(Constant.POST_LEFT, user.post_left);
     setState(() {
       basic_wallet = prefs.getString(Constant.BASIC_WALLET)!;
       premium_wallet = prefs.getString(Constant.PREMIUM_WALLET)!;
@@ -185,6 +196,24 @@ class HomeState extends State<Home> {
             padding: const EdgeInsets.only(top: 2.0),
             child: Column(
               children: [
+                // photoSlider(),
+                // Obx(() => Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: homeController.sliderImageURL.map((imageUrl) {
+                //     int index = homeController.sliderImageURL.indexOf(imageUrl);
+                //     return Container(
+                //       margin: const EdgeInsets.only(right: 10),
+                //       height: 10,
+                //       width: homeController.currentIndex.value == index ? 15 : 5,
+                //       decoration: BoxDecoration(
+                //         shape: BoxShape.circle,
+                //         color: homeController.currentIndex.value == index
+                //             ? Colors.white
+                //             : Colors.grey,
+                //       ),
+                //     );
+                //   }).toList(),
+                // )),
                 CarouselSlider(
                   options: CarouselOptions(
                     autoPlay: true,
@@ -203,7 +232,7 @@ class HomeState extends State<Home> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: sliderData.map((e) {
-                    int index = sliderData.indexOf(e);
+                    int index =sliderData.indexOf(e);
                     return Container(
                       margin: const EdgeInsets.only(right: 10),
                       height: 10,
@@ -605,6 +634,70 @@ class HomeState extends State<Home> {
     });
   }
 
+  // Widget photoSlider(){
+  //  return Obx(() => CarouselSlider(
+  //     options: CarouselOptions(
+  //       autoPlay: true,
+  //       aspectRatio: 2.0,
+  //       enlargeCenterPage: true,
+  //       onPageChanged: (index, reason) {
+  //         homeController.currentIndex.value = index;
+  //       },
+  //     ),
+  //     items: homeController.sliderImageURL.map((imageUrl) {
+  //       return Builder(
+  //         builder: (BuildContext context) {
+  //           return Container(
+  //             width: MediaQuery.of(context).size.width,
+  //             margin: const EdgeInsets.symmetric(horizontal: 5.0),
+  //             decoration: const BoxDecoration(
+  //               color: Colors.grey,
+  //             ),
+  //             child: Image.network(
+  //               imageUrl,
+  //               fit: BoxFit.cover,
+  //             ),
+  //           );
+  //         },
+  //       );
+  //     }).toList(),
+  //   ));
+  // }
+
+  Widget photoSlider() {
+    return Obx(() {
+      return CarouselSlider(
+        options: CarouselOptions(
+          autoPlay: true,
+          aspectRatio: 2.0,
+          enlargeCenterPage: true,
+          onPageChanged: (index, reason) {
+            homeController.currentIndex.value = index;
+          },
+        ),
+        items: homeController.sliderImageURL.map((imageUrl) {
+          return Builder(
+            builder: (BuildContext context) {
+              return Container(
+                width: MediaQuery.of(context).size.width,
+                margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                decoration: const BoxDecoration(
+                  color: Colors.grey,
+                ),
+                child: Image.network(
+                  "https://www.freepik.com/premium-photo/image-colorful-galaxy-sky-generative-ai_37741252.htm",
+                  // imageUrl.toString(),
+                  fit: BoxFit.cover,
+                ),
+              );
+            },
+          );
+        }).toList(),
+      );
+    });
+  }
+
+
   Widget sliderItems(SliderData sliderData) {
     Size size = MediaQuery.of(context).size;
     return Container(
@@ -619,8 +712,8 @@ class HomeState extends State<Home> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.asset(
-              sliderData.img,
+            child: Image.network(
+              homeController.sliderImageURL.toString(),
               height: size.height * 0.26,
               fit: BoxFit.fitHeight,
             ),
@@ -629,7 +722,7 @@ class HomeState extends State<Home> {
               padding: EdgeInsets.only(
                   top: size.height * 0.2, left: size.width * 0.04),
               child: Text(
-                sliderData.title,
+                homeController.sliderName.toString(),
                 style: const TextStyle(
                   fontFamily: 'MontserratBold',
                   fontSize: 16,
@@ -642,3 +735,5 @@ class HomeState extends State<Home> {
     );
   }
 }
+
+

@@ -111,15 +111,17 @@ class ApiClient extends GetxService {
     }
   }
 
-
   Future<Response> postData(
-      String uri, dynamic body, {Map<String, String>? headers}) async {
+      String uri,  Map<String, dynamic> body, Map<String, String>? headers) async {
     final url = Uri.parse(uri);
 
     try {
       debugPrint('====> Post API Call: $url\nHeader: $headers, $_mainHeaders, $body');
-      Http.Response response = await Http.post(url,
-          headers: headers ?? _mainHeaders, body: jsonEncode(body));
+      Http.Response response = await Http.post(
+        url,
+        headers: headers ?? _mainHeaders,
+        body: body,
+      );
       debugPrint("response : $response");
       return handleResponse(response, uri);
     } catch (e) {
@@ -128,6 +130,23 @@ class ApiClient extends GetxService {
     }
   }
 
+
+  // Future<Response> postData(
+  //     String uri, dynamic body, Map<String, String>? headers) async {
+  //   final url = Uri.parse(uri);
+  //
+  //   try {
+  //     debugPrint('====> Post API Call: $url\nHeader: $headers, $_mainHeaders, $body');
+  //     Http.Response response = await Http.post(url,
+  //         headers: headers ?? _mainHeaders, body: jsonDecode(body));
+  //     debugPrint("response : $response");
+  //     return handleResponse(response, uri);
+  //   } catch (e) {
+  //     debugPrint('====> postData error: $e');
+  //     return const Response(statusCode: 1, statusText: noInternetMessage);
+  //   }
+  // }
+
   Future<dynamic> putData(
       String uri, dynamic body, Map<String, String>? headers) async {
     final url = Uri.parse(appBaseUrl+uri);
@@ -135,7 +154,7 @@ class ApiClient extends GetxService {
     try {
       debugPrint('====> Put API Call: $uri\nHeader: $_mainHeaders');
       Http.Response response = await Http.put(url,
-          headers: headers ?? _mainHeaders, body: jsonEncode(body));
+          headers: headers ?? _mainHeaders, body: body);
       debugPrint("response : $response");
       return handleResponse(response, uri);
     } catch (e) {

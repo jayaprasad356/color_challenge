@@ -26,6 +26,8 @@ class _PostUploadState extends State<PostUpload> {
   late SharedPreferences prefs;
   List<XFile> photo = [];
   String basic_wallet = "";
+  String media_wallet = "",
+      post_left = "";
 
   @override
   void initState() {
@@ -35,6 +37,8 @@ class _PostUploadState extends State<PostUpload> {
       prefs = value;
       userDeatils();
       basic_wallet = prefs.getString(Constant.BASIC_WALLET)!;
+      media_wallet = prefs.getString(Constant.MEDIA_WALLET)!;
+      post_left = prefs.getString(Constant.POST_LEFT)!;
     });
   }
 
@@ -137,7 +141,7 @@ class _PostUploadState extends State<PostUpload> {
                               ),
                             ),
                             Text(
-                              "20 Posts",
+                              "${post_left} Posts",
                               style: GoogleFonts.poppins(
                                 // Use GoogleFonts.poppins() to access Poppins font
                                 fontSize: 12,
@@ -179,7 +183,7 @@ class _PostUploadState extends State<PostUpload> {
                                           width:
                                               5), // Adding some spacing between image and text
                                       Text(
-                                        "₹ $basic_wallet",
+                                        "₹ $media_wallet",
                                         style: const TextStyle(
                                             fontSize: 18, color: Colors.white),
                                       ),
@@ -190,7 +194,7 @@ class _PostUploadState extends State<PostUpload> {
                             ),
                             MaterialButton(
                               onPressed: () {
-                                addTomainbalance('basic_wallet');
+                                addTomainbalance('media_wallet');
                               },
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
@@ -228,9 +232,6 @@ class _PostUploadState extends State<PostUpload> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            SizedBox(
-                              height: size.height * 0.01,
-                            ),
                             const Text(
                               "Purchase Post\n₹20",
                               textAlign: TextAlign.center,
@@ -247,7 +248,12 @@ class _PostUploadState extends State<PostUpload> {
                               height: 10,
                             ),
                             MaterialButton(
-                              onPressed: () {},
+                              onPressed: () async{
+                                prefs = await SharedPreferences.getInstance();
+                                String? userId = prefs.getString(Constant.ID);
+                                debugPrint("userId : $userId");
+                                c.purchaseAPI(userId!);
+                              },
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -380,11 +386,11 @@ class _PostUploadState extends State<PostUpload> {
     );
   }
 
-  Future<void> addTomainbalance(String wallet_type) async {
+  Future<void> addTomainbalance(String walletType) async {
     var url = Constant.ADD_MAIN_BALANCE_URL;
     Map<String, dynamic> bodyObject = {
       Constant.USER_ID: prefs.getString(Constant.ID),
-      Constant.WALLET_TYPE: wallet_type,
+      Constant.WALLET_TYPE: walletType,
     };
 
     String jsonString = await apiCall(url, bodyObject);

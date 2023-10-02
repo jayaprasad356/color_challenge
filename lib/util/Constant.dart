@@ -31,6 +31,8 @@ class Constant {
   static const String POSTS_LIST = "${BaseUrl}posts_list.php";
   static const String Like_API = "${BaseUrl}likes.php";
   static const String POST_MY_POST = "${BaseUrl}post.php";
+  static const String SLIDE_API = "${BaseUrl}slide_list.php";
+  static const String PURCHASE_POST = "${BaseUrl}purchase_post.php";
   static const String SHORTS_URL = "api/video_list.php";
   static const String SETTINGS_URL_ALL = "api/settings.php";
 
@@ -76,6 +78,8 @@ class Constant {
   static const String JOINED_DATE = "joined_date";
   static const String LAST_UPDATED = "last_updated";
   static const String AD_STARTED_TIME = "ad_started_time";
+  static const String MEDIA_WALLET = "media_wallet";
+  static const String POST_LEFT = "post_left";
 
   static const String NAME = "name";
   static const String AGE = "age";

@@ -6,6 +6,7 @@ import 'package:color_challenge/data/api/api_client.dart';
 import 'package:color_challenge/data/repository/shorts_video_repo.dart';
 import 'package:color_challenge/model/like_data.dart';
 import 'package:color_challenge/model/post_list.dart';
+import 'package:color_challenge/model/purchase_data.dart';
 import 'package:color_challenge/model/upload_image.dart';
 import 'package:color_challenge/model/video_list.dart';
 import 'package:color_challenge/util/Constant.dart';
@@ -89,7 +90,9 @@ class PCC extends GetxController implements GetxService {
         caption.add(imageData.caption ?? '');
         ID.add(imageData.id ?? '');
         likes.add(imageData.likes ?? '');
+        update();
       }
+      update();
     } catch (e) {
       debugPrint("shortsVideoData errors: $e");
     }
@@ -108,6 +111,17 @@ class PCC extends GetxController implements GetxService {
       LikeData likeData = LikeData.fromJson(responseData);
       debugPrint("===> likeData: $likeData");
       debugPrint("===> likeData message: ${likeData.message}");
+    } catch (e) {
+      debugPrint("shortsVideoData errors: $e");
+    }
+  }
+
+  Future<void> purchaseAPI(String userId) async {
+    try {
+      final value = await shortsVideoRepo.purchaseAPI(userId);
+      var responseData = value.body;
+      PurchaseData purchaseData = PurchaseData.fromJson(responseData);
+      debugPrint("===> likeData message: ${purchaseData.message}");
     } catch (e) {
       debugPrint("shortsVideoData errors: $e");
     }

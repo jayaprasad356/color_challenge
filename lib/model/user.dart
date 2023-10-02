@@ -27,6 +27,8 @@ class Users {
   final String age;
   final String gender;
   final String support_lan;
+  final String media_wallet;
+  final String post_left;
 
 
 
@@ -59,6 +61,8 @@ class Users {
     required this.age,
     required this.gender,
     required this.support_lan,
+    required this.media_wallet,
+    required this.post_left,
 
   });
 
@@ -92,6 +96,8 @@ class Users {
       age: json['age'],
       gender: json['gender'],
       support_lan: json['support_lan'],
+      media_wallet: json['media_wallet'],
+      post_left: json['post_left'],
     );
   }
   factory Users.fromJsonNew(Map<String, dynamic> json) {
@@ -124,6 +130,8 @@ class Users {
       age: json['age'],
       gender: json['gender'],
       support_lan: json['support_lan'],
+      media_wallet: json['media_wallet'],
+      post_left: json['post_left'],
     );
   }
 

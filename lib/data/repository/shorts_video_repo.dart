@@ -31,7 +31,7 @@ class ShortsVideoRepo {
       // 'Accept' : '*/*',
       // 'Accept-Encoding' : 'gzip, deflate, br',
       // 'Connection' : 'keep-alive'
-    },
+    },{}
     );
   }
 
@@ -41,7 +41,16 @@ class ShortsVideoRepo {
       'post_id': postId,
     };
     return await apiClient.postData(
-      Constant.Like_API,body
+      Constant.Like_API,body,{}
+    );
+  }
+
+  Future<Response> purchaseAPI(String userId) async {
+    Map<String, String> body = {
+      'user_id': userId,
+    };
+    return await apiClient.postData(
+      Constant.PURCHASE_POST,body,{}
     );
   }
 

@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:color_challenge/model/jobs_show.dart';
 import 'package:color_challenge/reports.dart';
 import 'package:color_challenge/util/Color.dart';
+import 'package:color_challenge/util/Constant.dart';
 import 'package:color_challenge/view/screens/upi_screen/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyProfile extends StatefulWidget {
   const MyProfile({super.key});
@@ -13,6 +17,24 @@ class MyProfile extends StatefulWidget {
 }
 
 class _MyProfileState extends State<MyProfile> {
+
+
+  late SharedPreferences prefs;
+  String name = "";
+  String mobile_number = "";
+
+  @override
+  void initState() {
+    super.initState();
+    SharedPreferences.getInstance().then((value) {
+      prefs = value;
+      setState(() {
+        name = prefs.getString(Constant.NAME)!;
+        mobile_number = prefs.getString(Constant.MOBILE)!;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -61,30 +83,31 @@ class _MyProfileState extends State<MyProfile> {
                   const SizedBox(
                     width: 15,
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: 55,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "ID_no_one",
+                         Text(
+                          name.toString(),
                           textAlign: TextAlign.start,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 20,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Text(
-                          "abc123",
+                          mobile_number.toString(),
                           textAlign: TextAlign.start,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 16,
                           ),
                         ),
+
                       ],
                     ),
                   ),
@@ -155,34 +178,34 @@ class _MyProfileState extends State<MyProfile> {
               const SizedBox(
                 height: 15,
               ),
-              InkWell(
-                onTap: () => Get.to(const JobShow()),
-                child: const Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(right: 10, left: 10),
-                      child: ImageIcon(
-                            AssetImage(
-                              "assets/images/challenge.png",
-                            ),
-                            color: colors.white,
-                          ),
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Text(
-                      "Info",
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              // InkWell(
+              //   onTap: () => Get.to(const JobShow()),
+              //   child: const Row(
+              //     crossAxisAlignment: CrossAxisAlignment.center,
+              //     children: [
+              //       Padding(
+              //         padding: EdgeInsets.only(right: 10, left: 10),
+              //         child: ImageIcon(
+              //               AssetImage(
+              //                 "assets/images/challenge.png",
+              //               ),
+              //               color: colors.white,
+              //             ),
+              //       ),
+              //       SizedBox(
+              //         width: 15,
+              //       ),
+              //       Text(
+              //         "Info",
+              //         textAlign: TextAlign.start,
+              //         style: TextStyle(
+              //           color: Colors.white,
+              //           fontSize: 20,
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ),

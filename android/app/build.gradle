@@ -53,7 +53,7 @@ android {
         applicationId "com.app.colorchallenge"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -63,8 +63,8 @@ android {
         release {
             keyAlias 'upload'
             keyPassword '123456'
-            //storeFile file("D:\\Flutter_Project\\color_challenge\\upload-keystore.jks")
-            storeFile file("D:\\Studio Projects\\color_challenge\\upload-keystore.jks")
+            storeFile file("D:\\Flutter_Project\\color_challenge\\upload-keystore.jks")
+//            storeFile file("D:\\Studio Projects\\color_challenge\\upload-keystore.jks")
             storePassword '123456'
         }
     }
