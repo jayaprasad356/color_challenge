@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 // import 'package:color_challenge/test.dart';
+import 'package:color_challenge/controller/full_time_page_con.dart';
 import 'package:color_challenge/controller/home_controller.dart';
 import 'package:color_challenge/controller/pcc_controller.dart';
 import 'package:color_challenge/data/api/api_client.dart';
+import 'package:color_challenge/data/repository/full_time_repo.dart';
 import 'package:color_challenge/data/repository/home_repo.dart';
 import 'package:color_challenge/data/repository/shorts_video_repo.dart';
 import 'package:color_challenge/test.dart';
@@ -214,6 +216,15 @@ class _MyAppState extends State<MyApp> {
               Get.put(
                 HomeController(
                   homeRepo: HomeRepo(
+                      apiClient: ApiClient(
+                          appBaseUrl: Constant.MainBaseUrl,
+                          storageLocal: storeLocal),
+                      storageLocal: storeLocal),
+                ),
+              );
+              Get.put(
+                FullTimePageCont(
+                  fullTimeRepo: FullTimeRepo(
                       apiClient: ApiClient(
                           appBaseUrl: Constant.MainBaseUrl,
                           storageLocal: storeLocal),

@@ -25,13 +25,12 @@ class ShortsVideoRepo {
     );
   }
 
-  Future<Response> imageListData() async {
+  Future<Response> imageListData(String userId) async {
+    Map<String, String> body = {
+      'user_id': userId,
+    };
     return await apiClient.postData(
-      Constant.POSTS_LIST,{
-      // 'Accept' : '*/*',
-      // 'Accept-Encoding' : 'gzip, deflate, br',
-      // 'Connection' : 'keep-alive'
-    },{}
+      Constant.POSTS_LIST,body,{}
     );
   }
 

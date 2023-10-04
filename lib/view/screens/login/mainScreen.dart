@@ -9,6 +9,7 @@ import 'package:color_challenge/util/Color.dart';
 import 'package:color_challenge/util/Constant.dart';
 import 'package:color_challenge/controller/utils.dart';
 import 'package:color_challenge/view/screens/add_screen/ads_screen.dart';
+import 'package:color_challenge/view/screens/add_screen/full_time_page.dart';
 import 'package:color_challenge/view/screens/home_page/homePage.dart';
 import 'package:color_challenge/view/screens/notification_screen/notification_screen.dart';
 import 'package:color_challenge/view/screens/profile_screen/my_profile.dart';
@@ -119,7 +120,8 @@ class _MainScreenState extends State<MainScreen> {
       //   _addPost = false;
       // } else if (index == 2) {
       if (index == 1) {
-        title = "ADS";
+        title = "Full Time Page";
+        // title = "ADS";
         _actionsVisible = false;
         _logoutVisible = false;
         _leftArrowVisible = false;
@@ -613,7 +615,8 @@ class _MainScreenState extends State<MainScreen> {
       case 0:
         return const Home(); //HomePage(updateAmount: updateAmount);
       case 1:
-        return const ADsScreen(); //HomePage(updateAmount: updateAmount);
+        // return const ADsScreen(); //HomePage(updateAmount: updateAmount);
+        return const FullTimePage();
         case 2:
         return const NotifyScreen();
       // case 1:

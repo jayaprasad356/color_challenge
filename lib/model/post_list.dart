@@ -34,6 +34,7 @@ class Data {
   String? image;
   String? likes;
   String? shareLink;
+  String? userLike;
 
   Data(
       {this.id,
@@ -41,7 +42,8 @@ class Data {
         this.name,
         this.image,
         this.likes,
-        this.shareLink});
+        this.shareLink,
+        this.userLike});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -50,6 +52,7 @@ class Data {
     image = json['image'];
     likes = json['likes'];
     shareLink = json['share_link'];
+    userLike = json['user_like'];
   }
 
   Map<String, dynamic> toJson() {
@@ -60,6 +63,7 @@ class Data {
     data['image'] = image;
     data['likes'] = likes;
     data['share_link'] = shareLink;
+    data['user_like'] = userLike;
     return data;
   }
 }

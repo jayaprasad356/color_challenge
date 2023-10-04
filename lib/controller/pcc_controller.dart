@@ -33,26 +33,27 @@ class PCC extends GetxController implements GetxService {
   final RxList ID = [].obs;
   final RxList likes = [].obs;
   final RxList shareLink = [].obs;
+  final RxList userLike = [].obs;
   var photo = Rxn<XFile>();
-  RxList<RxBool> isLikedList = <RxBool>[].obs;
-
-  PCC1(int length) {
-    for (var i = 0; i < length; i++) {
-      isLikedList.add(false.obs);
-    }
-  }
-
-  void toggleLike(int index) {
-    if (index >= 0 && index < isLikedList.length) {
-      isLikedList[index].value = !isLikedList[index].value;
-    }
-  }
+  // RxList<RxBool> isLikedList = <RxBool>[].obs;
+  //
+  // PCC1(int length) {
+  //   for (var i = 0; i < length; i++) {
+  //     isLikedList.add(false.obs);
+  //   }
+  // }
+  //
+  // void toggleLike(int index) {
+  //   if (index >= 0 && index < isLikedList.length) {
+  //     isLikedList[index].value = !isLikedList[index].value;
+  //   }
+  // }
 
   @override
   void onInit() {
     super.onInit();
     // shortsVideoData();
-    imageListData();
+    // imageListData();
     getUserId();
   }
 
@@ -77,17 +78,20 @@ class PCC extends GetxController implements GetxService {
     }
   }
 
-  Future<void> imageListData() async {
+  Future<void> imageListData(String userId) async {
     try {
-      final value = await shortsVideoRepo.imageListData();
+      final value = await shortsVideoRepo.imageListData(userId);
       var responseData = value.body;
       PostList imageList = PostList.fromJson(responseData);
       debugPrint("===> imageListData: $imageList");
+
       name.clear();
       caption.clear();
       ID.clear();
       likes.clear();
       shareLink.clear();
+      imageURS.clear();
+      userLike.clear();
 
       for (var imageData in imageList.data!) {
         print('User ID: ${imageData.id},  image: ${imageData.image}');
@@ -97,6 +101,7 @@ class PCC extends GetxController implements GetxService {
         ID.add(imageData.id ?? '');
         likes.add(imageData.likes ?? '');
         shareLink.add(imageData.shareLink ?? '');
+        userLike.add(imageData.userLike ?? '');
         update();
       }
       update();

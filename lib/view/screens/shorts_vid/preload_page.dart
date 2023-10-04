@@ -36,16 +36,25 @@ class _PreloadPageState extends State<PreloadPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    c.imageListData();
+    _initializeData();
+    // c.imageListData();
     _handleRefresh();
     Timer.periodic(const Duration(seconds: 5), (Timer timer) {
     });
     // c.shortsVideoData();
   }
 
+  Future<void> _initializeData() async {
+    prefs = await SharedPreferences.getInstance();
+    String? userId = prefs.getString(Constant.ID);
+    debugPrint("userId : $userId");
+    c.imageListData(userId!);
+  }
+
   Future<void> _handleRefresh() async {
     await Future.delayed(const Duration(seconds: 2));
     print("object");
+    print("c.userLike: ${c.userLike}");
 
     setState(() {});
   }
@@ -153,6 +162,7 @@ class _PreloadPageState extends State<PreloadPage> {
                                   shareOnPress: (){
                                     shareTextOnWhatsApp(c.shareLink[index].toString());
                                   },
+                                  apiValue: c.userLike[index],
                                     );
                               }),
                         ),)
@@ -275,6 +285,7 @@ class Posts extends StatefulWidget {
   final String likes;
   final String caption;
   final String ID;
+  final String apiValue;
   final Function shareOnPress;
   // final Function likeOnPress;
   // final Widget likeWidget;
@@ -291,7 +302,7 @@ class Posts extends StatefulWidget {
     required this.caption,
     required this.ID,
     required this.isLiked,
-    required this.onTapLike,
+    required this.onTapLike, required this.apiValue,
   });
 
   @override
@@ -389,6 +400,7 @@ class _PostsState extends State<Posts> {
             LikeButton(
               id: widget.ID,
               isLiked: widget.isLiked,
+              apiValue: widget.apiValue,
             ),
             IconButton(
               padding: const EdgeInsets.only(right: 3),
@@ -411,10 +423,11 @@ class _PostsState extends State<Posts> {
 
 class LikeButton extends StatefulWidget {
   final String id;
+  final String apiValue;
 
   bool isLiked; // ID to associate with the like button
 
-  LikeButton({required this.id, required this.isLiked});
+  LikeButton({required this.id, required this.isLiked, required this.apiValue});
 
   @override
   State<LikeButton> createState() => _LikeButtonState();
@@ -439,7 +452,7 @@ class _LikeButtonState extends State<LikeButton> {
       padding: const EdgeInsets.only(right: 3),
       icon: Icon(
         Icons.favorite,
-        color: widget.isLiked ? Colors.red : Colors.white,
+        color: widget.apiValue == "0" ? Colors.white : Colors.red,
         size: 35.0,
       ),
       onPressed: () async {
