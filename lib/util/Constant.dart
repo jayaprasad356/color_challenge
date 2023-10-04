@@ -65,6 +65,7 @@ class Constant {
   static const String BET_STATUS = "bet_status";
   static const String FCM_ID = "fcm_id";
   static const String MY_DEVICE_ID = "my_device_id";
+  static const String USER_LIKE = "user_like";
 
   static const String ID = "id";
   static const String LOGED_IN = "loged_in";
@@ -99,6 +100,7 @@ class Constant {
 
   //settings
   static const String WITHDRAWAL_STATUS = "withdrawal_status";
+  static const String WHATSPP_GROUP_LINK = "whatspp_group_link";
 
   static const String CONTACT_US = "contact_us";
   static const String IMAGE = "image";

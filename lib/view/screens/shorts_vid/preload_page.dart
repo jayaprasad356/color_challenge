@@ -8,6 +8,7 @@ import 'package:color_challenge/util/index_path.dart';
 import 'package:color_challenge/view/screens/shorts_vid/player.dart';
 import 'package:color_challenge/view/screens/shorts_vid/post_upload.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_share/flutter_share.dart';
 import 'package:get/get.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -150,12 +151,7 @@ class _PreloadPageState extends State<PreloadPage> {
                                       }
                                     },
                                   shareOnPress: (){
-                                    String? uri = c.shareLink[index];
-                                    launchUrl(
-                                      Uri.parse(uri!),
-                                      mode: LaunchMode.externalApplication,
-                                    );
-                                    debugPrint("is shareOnPress worked ");
+                                    shareTextOnWhatsApp(c.shareLink[index].toString());
                                   },
                                     );
                               }),
@@ -173,6 +169,17 @@ class _PreloadPageState extends State<PreloadPage> {
   }
 
   handleLikePost() {}
+}
+void shareTextOnWhatsApp(String sharelink) async {
+  try {
+    await FlutterShare.share(
+      title: 'Share via WhatsApp',
+      text: sharelink + '\nGive a like to my post so i can earn money.',
+      chooserTitle: 'Share via',
+    );
+  } catch (e) {
+    print('Error sharing text on WhatsApp: $e');
+  }
 }
 
 class ShortsPlayer extends StatefulWidget {
@@ -265,7 +272,7 @@ class _YoutubePlayerPageState extends State<YoutubePlayerPage> {
 class Posts extends StatefulWidget {
   final String imageURL;
   final String name;
-  final int likes;
+  final String likes;
   final String caption;
   final String ID;
   final Function shareOnPress;
@@ -309,7 +316,7 @@ class _PostsState extends State<Posts> {
           children: [
             Container(
               decoration: const BoxDecoration(
-                  color: Colors.grey,
+                  color: Colors.white,
                   // borderRadius: BorderRadius.circular(10000)
                   shape: BoxShape.circle),
               padding: const EdgeInsets.all(5),

@@ -83,6 +83,11 @@ class PCC extends GetxController implements GetxService {
       var responseData = value.body;
       PostList imageList = PostList.fromJson(responseData);
       debugPrint("===> imageListData: $imageList");
+      name.clear();
+      caption.clear();
+      ID.clear();
+      likes.clear();
+      shareLink.clear();
 
       for (var imageData in imageList.data!) {
         print('User ID: ${imageData.id},  image: ${imageData.image}');

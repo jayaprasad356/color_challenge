@@ -32,7 +32,7 @@ class Data {
   String? caption;
   String? name;
   String? image;
-  int? likes;
+  String? likes;
   String? shareLink;
 
   Data(

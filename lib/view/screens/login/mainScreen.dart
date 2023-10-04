@@ -640,16 +640,19 @@ class _MainScreenState extends State<MainScreen> {
     final dataList = jsonData['data'] as List;
 
     final datass = dataList.first;
+
     prefs.setString(Constant.CONTACT_US, datass[Constant.CONTACT_US]);
     prefs.setString(Constant.IMAGE, datass[Constant.IMAGE]);
     prefs.setString(Constant.OFFER_IMAGE, datass[Constant.OFFER_IMAGE]);
     prefs.setString(Constant.REFER_BONUS, datass[Constant.REFER_BONUS]);
     prefs.setString(
         Constant.WITHDRAWAL_STATUS, datass[Constant.WITHDRAWAL_STATUS]);
+    prefs.setString(Constant.WHATSPP_GROUP_LINK, datass[Constant.WHATSPP_GROUP_LINK]);
     prefs.setString(
         Constant.JOB_VIDEO, datass[Constant.JOB_VIDEO]);
     prefs.setString(
         Constant.JOB_DETAILS, datass[Constant.JOB_DETAILS]);
+
   }
 
   ontop() {

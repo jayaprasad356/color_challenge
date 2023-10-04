@@ -31,7 +31,7 @@ class HomeState extends State<Home> {
   late SharedPreferences prefs;
   double starttime = 0; // Set the progress value between 0.0 and 1.0 here
   String today_ads_remain = "0";
-  String level = '0', status = '';
+  String level = '0', status = '',group_link = '';
   String history_days = '0';
   String ads_image = 'https://admin.colorjobs.site/dist/img/logo.jpeg';
   String ads_link = '';
@@ -73,6 +73,7 @@ class HomeState extends State<Home> {
       basic_wallet = prefs.getString(Constant.BASIC_WALLET)!;
       premium_wallet = prefs.getString(Constant.PREMIUM_WALLET)!;
       status = prefs.getString(Constant.STATUS)!;
+      group_link = prefs.getString(Constant.WHATSPP_GROUP_LINK)!;
 
       adsApi();
       //ads_status("status");
@@ -235,18 +236,6 @@ class HomeState extends State<Home> {
                                   height: double.infinity,
                                 ),
                               ),
-                              Positioned(
-                                bottom: 10.0,
-                                left: 10.0,
-                                child: Text(
-                                  imageName,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ),
                             ],
                           ),
                         );
@@ -288,32 +277,6 @@ class HomeState extends State<Home> {
                       ),
                     ),
                   ),
-                Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  child: TextButton(
-                    onPressed: () {
-                      Get.to(const PostUpload());
-                    },
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.transparent),
-                      side: MaterialStateProperty.all<BorderSide>(
-                        const BorderSide(
-                          color: Colors.pink,
-                          width: 2.0,
-                        ),
-                      ),
-                    ),
-                    child: const Text(
-                      'Post video earn Money',
-                      style: TextStyle(
-                        color: Colors.pink,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
                 const SizedBox(
                   height: 5,
                 ),
@@ -391,6 +354,33 @@ class HomeState extends State<Home> {
                       ),
                     ),
                   ],
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  width: double.infinity,
+                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: TextButton(
+                    onPressed: () {
+                      String uri = group_link ;
+                      launchUrl(
+                        Uri.parse(uri),
+                        mode: LaunchMode.externalApplication,
+                      );
+                    },
+                    child: Text(
+                      'Join our Whatsapp Group',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+                      // You can customize other styles of the button here as well
+                    ),
+                  ),
                 ),
               ],
             ),
