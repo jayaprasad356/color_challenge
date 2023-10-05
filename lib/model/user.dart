@@ -29,6 +29,8 @@ class Users {
   final String support_lan;
   final String media_wallet;
   final String post_left;
+  final String ads_cost;
+  final String ads_time;
 
 
 
@@ -63,6 +65,8 @@ class Users {
     required this.support_lan,
     required this.media_wallet,
     required this.post_left,
+    required this.ads_cost,
+    required this.ads_time,
 
   });
 
@@ -98,6 +102,8 @@ class Users {
       support_lan: json['support_lan'],
       media_wallet: json['media_wallet'],
       post_left: json['post_left'],
+      ads_cost: json['ads_cost'],
+      ads_time: json['ads_time'],
     );
   }
   factory Users.fromJsonNew(Map<String, dynamic> json) {
@@ -132,6 +138,8 @@ class Users {
       support_lan: json['support_lan'],
       media_wallet: json['media_wallet'],
       post_left: json['post_left'],
+      ads_cost: json['ads_cost'],
+      ads_time: json['ads_time'],
     );
   }
 

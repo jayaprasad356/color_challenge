@@ -58,13 +58,15 @@ class FullTimePageState extends State<FullTimePage> {
       premium_wallet = "",
       target_refers = "",
       today_ads = "0",
-      total_ads = "0";
+      total_ads = "0",
+      ads_time = "0";
   double progressbar = 0.0;
   late String image = "", referText = "", offer_image = "", refer_bonus = "";
   int timerCount = 0;
   double progressPercentage = 0.0;
   late bool isButtonDisabled;
   late String generatedOtp;
+  int syncUniqueId = 1;
   // FocusNode otpFocus1 = FocusNode();
   // FocusNode otpFocus2 = FocusNode();
   // FocusNode otpFocus3 = FocusNode();
@@ -89,6 +91,7 @@ class FullTimePageState extends State<FullTimePage> {
       basic_wallet = prefs.getString(Constant.BASIC_WALLET)!;
       premium_wallet = prefs.getString(Constant.PREMIUM_WALLET)!;
       status = prefs.getString(Constant.STATUS)!;
+      status = prefs.getString(Constant.ADS_TIME)!;
 
       adsApi();
       //ads_status("status");
@@ -104,6 +107,7 @@ class FullTimePageState extends State<FullTimePage> {
       });
     });
     loadTimerCount();
+    debugPrint("ads_time: $ads_time");
   }
 
   // @override
@@ -123,6 +127,7 @@ class FullTimePageState extends State<FullTimePage> {
     // TODO: implement setState
     super.setState(fn);
     debugPrint("timerCount: $timerCount");
+    debugPrint("ads_time: $ads_time");
     if (timerCount < 100) {
       isButtonDisabled = true; // Disable the button
     } else if (timerCount >= 100) {
@@ -168,6 +173,8 @@ class FullTimePageState extends State<FullTimePage> {
     prefs.setString(Constant.TODAY_ADS, user.today_ads);
     prefs.setString(Constant.TOTAL_ADS, user.total_ads);
     prefs.setString(Constant.STATUS, user.status);
+    prefs.setString(Constant.ADS_COST, user.ads_cost);
+    prefs.setString(Constant.ADS_TIME, user.ads_time);
     setState(() {
       basic_wallet = prefs.getString(Constant.BASIC_WALLET)!;
       premium_wallet = prefs.getString(Constant.PREMIUM_WALLET)!;
@@ -175,10 +182,11 @@ class FullTimePageState extends State<FullTimePage> {
       today_ads = prefs.getString(Constant.TODAY_ADS)!;
       total_ads = prefs.getString(Constant.TOTAL_ADS)!;
       status = prefs.getString(Constant.STATUS)!;
+      ads_time = prefs.getString(Constant.ADS_TIME)!;
     });
   }
 
-  void isButtonDisabledINIT(){
+  void isButtonDisabledINIT() {
     setState(() {
       debugPrint("timerCount: $timerCount");
       if (timerCount < 100) {
@@ -192,13 +200,15 @@ class FullTimePageState extends State<FullTimePage> {
   void startTimer() {
     // Example: Countdown from 100 to 0 with a 1-second interval
     const oneSec = Duration(seconds: 1);
+    int adsTimeInSeconds = int.parse(ads_time);
     Timer.periodic(oneSec, (Timer timer) {
-      if (starttime >= 30) {
+      if (starttime >= adsTimeInSeconds) {
         timer.cancel();
 
         setState(() {
           progressbar = 0.0;
           timerStarted = false;
+          progressPercentage;
         });
         timerCount++;
         print('timerCount called $timerCount times.');
@@ -206,18 +216,21 @@ class FullTimePageState extends State<FullTimePage> {
           progressPercentage = (timerCount / 100).clamp(0.0, 1.0);
           debugPrint("timerCount: $timerCount");
           saveTimerCount(timerCount);
-          // if (timerCount < 100) {
-          //   isButtonDisabled = true;
-          // } else {
-          //   isButtonDisabled = false;
-          // }
+          if (timerCount < 100) {
+            isButtonDisabled = true; // Disable the button
+          } else if (timerCount >= 100) {
+            syncUniqueId = fullTimePageCont.generateRandomSixDigitNumber();
+            isButtonDisabled = false; // Enable the button
+            // timerCount = 1;
+          }
         });
-        if (timerCount < 100) {
-          isButtonDisabled = true; // Disable the button
-        } else if (timerCount >= 100) {
-          isButtonDisabled = false; // Enable the button
-          // timerCount = 1;
-        }
+        // if (timerCount < 100) {
+        //   isButtonDisabled = true; // Disable the button
+        // } else if (timerCount >= 100) {
+        //   syncUniqueId = fullTimePageCont.generateRandomSixDigitNumber();
+        //   isButtonDisabled = false; // Enable the button
+        //   // timerCount = 1;
+        // }
       } else {
         setState(() {
           starttime++;
@@ -411,11 +424,25 @@ class FullTimePageState extends State<FullTimePage> {
                           footer: IgnorePointer(
                             ignoring: isButtonDisabled,
                             child: InkWell(
-                              onTap: () async{
+                              onTap: () async {
                                 debugPrint("it is worked");
                                 prefs = await SharedPreferences.getInstance();
                                 // var syncUniqueId = 1;
-                                fullTimePageCont.syncData(prefs.getString(Constant.ID), timerCount.toString(), 1.toString());
+                                setState(() {
+                                  syncUniqueId;
+                                });
+                                debugPrint("syncUniqueId: $syncUniqueId");
+                                fullTimePageCont.syncData(
+                                    prefs.getString(Constant.ID),
+                                    timerCount.toString(),
+                                    syncUniqueId.toString());
+                                String? syncAble = await storeLocal.read(
+                                    key: Constant.SYNC_ABLE);
+                                if (syncAble == "true") {
+                                  setState(() {
+                                    timerCount = 0;
+                                  });
+                                }
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -487,7 +514,7 @@ class FullTimePageState extends State<FullTimePage> {
                             const SizedBox(
                               height: 10,
                             ),
-                             Row(
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 const Column(
@@ -520,23 +547,24 @@ class FullTimePageState extends State<FullTimePage> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      "0 + ${timerCount.toString()}",
-                                      style: const TextStyle(
-                                          fontFamily: 'MontserratBold',
-                                          color: Colors.white,
-                                          fontSize: 15.0),
+                                    Obx(() => Text(
+                                        "${fullTimePageCont.todayAds} + ${timerCount.toString()}",
+                                        style: const TextStyle(
+                                            fontFamily: 'MontserratBold',
+                                            color: Colors.white,
+                                            fontSize: 15.0),
+                                      ),
                                     ),
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                     Text(
-                                       "0 + ${timerCount.toString()}",
+                                    Obx(() => Text(
+                                      "${fullTimePageCont.totalAds}  + ${timerCount.toString()}",
                                       style: const TextStyle(
                                           fontFamily: 'MontserratBold',
                                           color: Colors.white,
                                           fontSize: 15.0),
-                                    ),
+                                    ),),
                                   ],
                                 ),
                               ],
@@ -594,10 +622,10 @@ class FullTimePageState extends State<FullTimePage> {
                   MaterialButton(
                     onPressed: () async {
                       if (!timerStarted) {
-                      generatedOtp = fullTimePageCont
-                          .generateRandomFourDigitNumber()
-                          .toString();
-                      showAlertDialog(context, generatedOtp);
+                        generatedOtp = fullTimePageCont
+                            .generateRandomFourDigitNumber()
+                            .toString();
+                        showAlertDialog(context, generatedOtp);
                       } else {
                         Utils().showToast("Please wait...");
                       }
@@ -644,28 +672,28 @@ class FullTimePageState extends State<FullTimePage> {
                         colors.widget_color), // Color of the progress indicator
                   ),
                   const SizedBox(height: 5),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Text(
-                        'Today Viewed Ads: $today_ads',
-                        style: const TextStyle(
-                            color: colors.white,
-                            fontSize: 12,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        'Total Viewed Ads: $total_ads',
-                        style: const TextStyle(
-                            color: colors.white,
-                            fontSize: 12,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //   children: <Widget>[
+                  //     Text(
+                  //       'Today Viewed Ads: $today_ads',
+                  //       style: const TextStyle(
+                  //           color: colors.white,
+                  //           fontSize: 12,
+                  //           fontFamily: "Montserrat",
+                  //           fontWeight: FontWeight.bold),
+                  //     ),
+                  //     const SizedBox(height: 5),
+                  //     Text(
+                  //       'Total Viewed Ads: $total_ads',
+                  //       style: const TextStyle(
+                  //           color: colors.white,
+                  //           fontSize: 12,
+                  //           fontFamily: "Montserrat",
+                  //           fontWeight: FontWeight.bold),
+                  //     ),
+                  //   ],
+                  // ),
                   // const SizedBox(height: 5),
                   // const SizedBox(height: 5),
                   // const Padding(
@@ -947,9 +975,17 @@ class FullTimePageState extends State<FullTimePage> {
     final jsonData = jsonDecode(jsonDataString);
 
     if (jsonData['success']) {
-      Utils().showToast(jsonData['message']);
+      // Utils().showToast(jsonData['message']);
+      final dataList = jsonData['data'] as List;
+      final datass = dataList.first;
+      prefs.setString(Constant.ADS_LINK, datass[Constant.ADS_LINK]);
+      prefs.setString(Constant.ADS_IMAGE, datass[Constant.ADS_IMAGE]);
+      setState(() {
+        ads_image = prefs.getString(Constant.ADS_IMAGE)!;
+        ads_link = prefs.getString(Constant.ADS_LINK)!;
+      });
       starttime = 0;
-      timerStarted = true;
+      // timerStarted = true;
       startTimer();
       userDeatils();
     } else {
