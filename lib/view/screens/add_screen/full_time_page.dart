@@ -69,22 +69,18 @@ class FullTimePageState extends State<FullTimePage> {
   // FocusNode otpFocus2 = FocusNode();
   // FocusNode otpFocus3 = FocusNode();
   // FocusNode otpFocus4 = FocusNode();
-  late List<FocusNode> focusNodes;
-  late List<TextEditingController> controllers;
+  // late List<FocusNode> focusNodes;
+  // late List<TextEditingController> controllers;
 
   @override
   void initState() {
     super.initState();
 
-    if (timerCount < 100) {
-      isButtonDisabled = true; // Disable the button
-    } else {
-      isButtonDisabled = false; // Enable the button
-    }
+    isButtonDisabled = true;
 
-    // Initialize focus nodes and controllers
-    focusNodes = List.generate(4, (index) => FocusNode());
-    controllers = List.generate(4, (index) => TextEditingController());
+    // // Initialize focus nodes and controllers
+    // focusNodes = List.generate(4, (index) => FocusNode());
+    // controllers = List.generate(4, (index) => TextEditingController());
 
     SharedPreferences.getInstance().then((value) {
       prefs = value;
@@ -109,24 +105,30 @@ class FullTimePageState extends State<FullTimePage> {
     });
     loadTimerCount();
   }
-  @override
-  void dispose() {
-    // Dispose focus nodes and controllers
-    for (var node in focusNodes) {
-      node.dispose();
-    }
-    for (var controller in controllers) {
-      controller.dispose();
-    }
-    super.dispose();
-  }
-  //
+
   // @override
-  // void setState(VoidCallback fn) {
-  //   // TODO: implement setState
-  //   super.setState(fn);
-  //   debugPrint("timerCount: $timerCount");
+  // void dispose() {
+  //   // Dispose focus nodes and controllers
+  //   for (var node in focusNodes) {
+  //     node.dispose();
+  //   }
+  //   for (var controller in controllers) {
+  //     controller.dispose();
+  //   }
+  //   super.dispose();
   // }
+
+  @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    super.setState(fn);
+    debugPrint("timerCount: $timerCount");
+    if (timerCount < 100) {
+      isButtonDisabled = true; // Disable the button
+    } else if (timerCount >= 100) {
+      isButtonDisabled = false; // Enable the button
+    }
+  }
 
   void userDeatils() async {
     var url = Constant.USER_DETAIL_URL;
@@ -176,6 +178,17 @@ class FullTimePageState extends State<FullTimePage> {
     });
   }
 
+  void isButtonDisabledINIT(){
+    setState(() {
+      debugPrint("timerCount: $timerCount");
+      if (timerCount < 100) {
+        isButtonDisabled = true; // Disable the button
+      } else if (timerCount >= 100) {
+        isButtonDisabled = false; // Enable the button
+      }
+    });
+  }
+
   void startTimer() {
     // Example: Countdown from 100 to 0 with a 1-second interval
     const oneSec = Duration(seconds: 1);
@@ -188,7 +201,7 @@ class FullTimePageState extends State<FullTimePage> {
           timerStarted = false;
         });
         timerCount++;
-        print('startTimer() called $timerCount times.');
+        print('timerCount called $timerCount times.');
         setState(() {
           progressPercentage = (timerCount / 100).clamp(0.0, 1.0);
           debugPrint("timerCount: $timerCount");
@@ -201,9 +214,9 @@ class FullTimePageState extends State<FullTimePage> {
         });
         if (timerCount < 100) {
           isButtonDisabled = true; // Disable the button
-        } else if (timerCount == 100) {
+        } else if (timerCount >= 100) {
           isButtonDisabled = false; // Enable the button
-          timerCount = 1;
+          // timerCount = 1;
         }
       } else {
         setState(() {
@@ -389,7 +402,7 @@ class FullTimePageState extends State<FullTimePage> {
                           animation: true,
                           percent: progressPercentage,
                           center: Text(
-                              (progressPercentage * 100).toInt().toString(),
+                            (progressPercentage * 100).toInt().toString(),
                             style: const TextStyle(
                                 fontFamily: 'MontserratBold',
                                 fontSize: 16.0,
@@ -398,22 +411,30 @@ class FullTimePageState extends State<FullTimePage> {
                           footer: IgnorePointer(
                             ignoring: isButtonDisabled,
                             child: InkWell(
-                              onTap: (){
+                              onTap: () async{
                                 debugPrint("it is worked");
+                                prefs = await SharedPreferences.getInstance();
+                                // var syncUniqueId = 1;
+                                fullTimePageCont.syncData(prefs.getString(Constant.ID), timerCount.toString(), 1.toString());
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                    color: isButtonDisabled == false ? Colors.deepOrangeAccent : Colors.grey,
+                                    color: isButtonDisabled == false
+                                        ? Colors.deepOrangeAccent
+                                        : Colors.grey,
                                     borderRadius: BorderRadius.circular(10)),
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 15, vertical: 10),
-                                margin: const EdgeInsets.symmetric(vertical: 10),
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 10),
                                 child: Text(
                                   "Sync Now",
                                   style: TextStyle(
-                                      fontFamily: 'MontserratBold',
-                                      fontSize: 12.0,
-                                    color: isButtonDisabled == false ? Colors.white : Colors.black,
+                                    fontFamily: 'MontserratBold',
+                                    fontSize: 12.0,
+                                    color: isButtonDisabled == false
+                                        ? Colors.white
+                                        : Colors.black,
                                   ),
                                 ),
                               ),
@@ -466,10 +487,10 @@ class FullTimePageState extends State<FullTimePage> {
                             const SizedBox(
                               height: 10,
                             ),
-                            const Row(
+                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Column(
+                                const Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
@@ -493,25 +514,25 @@ class FullTimePageState extends State<FullTimePage> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "0",
-                                      style: TextStyle(
+                                      "0 + ${timerCount.toString()}",
+                                      style: const TextStyle(
                                           fontFamily: 'MontserratBold',
                                           color: Colors.white,
                                           fontSize: 15.0),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
-                                    Text(
-                                      "0",
-                                      style: TextStyle(
+                                     Text(
+                                       "0 + ${timerCount.toString()}",
+                                      style: const TextStyle(
                                           fontFamily: 'MontserratBold',
                                           color: Colors.white,
                                           fontSize: 15.0),
@@ -572,8 +593,14 @@ class FullTimePageState extends State<FullTimePage> {
                   const SizedBox(height: 5),
                   MaterialButton(
                     onPressed: () async {
-                      generatedOtp = fullTimePageCont.generateRandomFourDigitNumber().toString();
-                      showAlertDialog(context,generatedOtp);
+                      if (!timerStarted) {
+                      generatedOtp = fullTimePageCont
+                          .generateRandomFourDigitNumber()
+                          .toString();
+                      showAlertDialog(context, generatedOtp);
+                      } else {
+                        Utils().showToast("Please wait...");
+                      }
                       // if (!timerStarted) {
                       //   // watchad();
                       //   starttime = 0;
@@ -867,11 +894,13 @@ class FullTimePageState extends State<FullTimePage> {
     userDeatils();
   }
 
-  Future<void> watchad() async {
+  Future<void> watchAdLimit() async {
     var url = Constant.VIEW_AD_URL;
     Map<String, dynamic> bodyObject = {
       Constant.USER_ID: prefs.getString(Constant.ID),
     };
+
+    debugPrint("bodyObject: $bodyObject");
 
     String jsonString = await apiCall(url, bodyObject);
     final jsonResponse = jsonDecode(jsonString);
@@ -909,40 +938,30 @@ class FullTimePageState extends State<FullTimePage> {
     });
   }
 
-  showAlertDialog(
-      BuildContext context,
-      String generatedOtp,
-      ) {
-    Size size = MediaQuery.of(context).size;
-    Widget chatButton = MaterialButton(
-      onPressed: () {
+  Future<void> watchAds() async {
+    prefs = await SharedPreferences.getInstance();
 
-      },
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Container(
-        margin: const EdgeInsets.only(left: 10),
-        height: 50,
-        width: 150,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/btnbg.png"),
-            fit: BoxFit.fill,
-          ),
-        ),
-        child: const Center(
-          child: Text(
-            'Withdrawal',
-            style: TextStyle(
-                color: colors.white,
-                fontSize: 14,
-                fontFamily: "Montserrat",
-                fontWeight: FontWeight.bold),
-          ),
-        ),
-      ),
-    );
+    var response = await dataCall(Constant.ADS_URL);
+
+    String jsonDataString = response.toString();
+    final jsonData = jsonDecode(jsonDataString);
+
+    if (jsonData['success']) {
+      Utils().showToast(jsonData['message']);
+      starttime = 0;
+      timerStarted = true;
+      startTimer();
+      userDeatils();
+    } else {
+      Utils().showToast(jsonData['message']);
+    }
+  }
+
+  showAlertDialog(
+    BuildContext context,
+    String generatedOtp,
+  ) {
+    Size size = MediaQuery.of(context).size;
 
     AlertDialog alert = AlertDialog(
       shape: const RoundedRectangleBorder(
@@ -969,7 +988,7 @@ class FullTimePageState extends State<FullTimePage> {
                   ),
                 ),
                 InkWell(
-                  onTap: () =>  Navigator.of(context).pop(),
+                  onTap: () => Navigator.of(context).pop(),
                   child: Transform.rotate(
                     angle: 45 * (3.1415926535 / 180),
                     child: const Icon(
@@ -982,7 +1001,23 @@ class FullTimePageState extends State<FullTimePage> {
                 )
               ],
             ),
-            OtpInputField(generatedOtp),
+            OtpInputField(
+              generatedOtp: generatedOtp,
+              onPress: (enteredOtp) {
+                if (enteredOtp == generatedOtp) {
+                  print('OTP Matched');
+                  watchAds();
+                  // watchAdLimit();
+                  // starttime = 0;
+                  // timerStarted = true;
+                  // startTimer();
+                  Navigator.of(context).pop();
+                } else {
+                  print('OTP Mismatch');
+                }
+                print('Entered OTP: $enteredOtp');
+              },
+            ),
           ],
         ),
       ),
@@ -995,44 +1030,144 @@ class FullTimePageState extends State<FullTimePage> {
       },
     );
   }
-  Widget OtpInputField(
-      String generatedOtp
-      ) {
+  // Widget OtpInputField(
+  //     String generatedOtp
+  //     ) {
+  //   return Column(
+  //     children: [
+  //       Row(
+  //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //         children: [
+  //           buildOtpTextField(context, controllers[0], focusNodes[1]),
+  //           buildOtpTextField(context, controllers[1], focusNodes[2]),
+  //           buildOtpTextField(context, controllers[2], focusNodes[3]),
+  //           buildOtpTextField(context, controllers[3], null),
+  //         ],
+  //       ),
+  //       const SizedBox(height: 20.0),
+  //       ElevatedButton(
+  //         style: ButtonStyle(
+  //           backgroundColor:  MaterialStateProperty.all<Color>(Colors.orange),
+  //         ),
+  //         onPressed: () {
+  //           String enteredOtp = controllers.fold<String>(
+  //               "", (previousValue, controller) => previousValue + controller.text);
+  //
+  //           if (enteredOtp == generatedOtp) {
+  //             print('OTP Matched');
+  //             if (!timerStarted) {
+  //               // watchad();
+  //               starttime = 0;
+  //               timerStarted = true;
+  //               startTimer();
+  //               Navigator.of(context).pop();
+  //             } else {
+  //               Utils().showToast("Please wait...");
+  //             }
+  //           } else {
+  //             print('OTP Mismatch');
+  //           }
+  //           print('Entered OTP: $enteredOtp');
+  //         },
+  //         child: const Text('Submit'),
+  //       ),
+  //     ],
+  //   );
+  // }
+  //
+  // Widget buildOtpTextField(
+  //     BuildContext context, TextEditingController controller, FocusNode? nextFocus) {
+  //   return Container(
+  //     width: 50.0,
+  //     height: 50.0,
+  //     alignment: Alignment.center,
+  //     decoration: BoxDecoration(
+  //       border: Border.all(color: Colors.orange, width: 2.0),
+  //       borderRadius: BorderRadius.circular(10.0),
+  //     ),
+  //     margin: const EdgeInsets.symmetric(horizontal: 3),
+  //     child: TextField(
+  //       controller: controller,
+  //       maxLength: 1,
+  //       keyboardType: TextInputType.number,
+  //       textAlign: TextAlign.center,
+  //       style: const TextStyle(fontSize: 24.0),
+  //       decoration: const InputDecoration(
+  //         counterText: '',
+  //         enabledBorder: InputBorder.none,
+  //         focusedBorder: InputBorder.none,
+  //       ),
+  //       textInputAction: nextFocus == null ? TextInputAction.done : TextInputAction.next,
+  //       onEditingComplete: () {
+  //         // If there's a next focus, move to it, otherwise, unfocus
+  //         if (nextFocus != null) {
+  //           FocusScope.of(context).requestFocus(nextFocus);
+  //         } else {
+  //           FocusScope.of(context).unfocus();
+  //         }
+  //       },
+  //       onChanged: (value) {
+  //         // Move focus to the next text field when a digit is entered
+  //         if (value.isNotEmpty && nextFocus != null) {
+  //           FocusScope.of(context).requestFocus(nextFocus);
+  //         }
+  //       },
+  //     ),
+  //   );
+  // }
+}
+
+class OtpInputField extends StatefulWidget {
+  final String generatedOtp;
+  final Function onPress;
+  const OtpInputField(
+      {super.key, required this.generatedOtp, required this.onPress});
+
+  @override
+  _OtpInputFieldState createState() => _OtpInputFieldState();
+}
+
+class _OtpInputFieldState extends State<OtpInputField> {
+  TextEditingController otpController1 = TextEditingController();
+  TextEditingController otpController2 = TextEditingController();
+  TextEditingController otpController3 = TextEditingController();
+  TextEditingController otpController4 = TextEditingController();
+
+  @override
+  void dispose() {
+    otpController1.dispose();
+    otpController2.dispose();
+    otpController3.dispose();
+    otpController4.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            buildOtpTextField(context, controllers[0], focusNodes[1]),
-            buildOtpTextField(context, controllers[1], focusNodes[2]),
-            buildOtpTextField(context, controllers[2], focusNodes[3]),
-            buildOtpTextField(context, controllers[3], null),
+            buildOtpTextField(otpController1),
+            buildOtpTextField(otpController2),
+            buildOtpTextField(otpController3),
+            buildOtpTextField(otpController4),
           ],
         ),
         const SizedBox(height: 20.0),
         ElevatedButton(
-          style: ButtonStyle(
-            backgroundColor:  MaterialStateProperty.all<Color>(Colors.orange),
-          ),
           onPressed: () {
-            String enteredOtp = controllers.fold<String>(
-                "", (previousValue, controller) => previousValue + controller.text);
-
-            if (enteredOtp == generatedOtp) {
-              print('OTP Matched');
-              if (!timerStarted) {
-                // watchad();
-                starttime = 0;
-                timerStarted = true;
-                startTimer();
-                Navigator.of(context).pop();
-              } else {
-                Utils().showToast("Please wait...");
-              }
-            } else {
-              print('OTP Mismatch');
-            }
-            print('Entered OTP: $enteredOtp');
+            String enteredOtp =
+                "${otpController1.text}${otpController2.text}${otpController3.text}${otpController4.text}";
+            widget.onPress(enteredOtp);
+            //
+            // if (enteredOtp == widget.generatedOtp) {
+            //   print('OTP Matched');
+            // } else {
+            //   print('OTP Mismatch');
+            // }
+            // print('Entered OTP: ${otpController1.text}${otpController2.text}${otpController3.text}${otpController4.text}');
           },
           child: const Text('Submit'),
         ),
@@ -1040,14 +1175,13 @@ class FullTimePageState extends State<FullTimePage> {
     );
   }
 
-  Widget buildOtpTextField(
-      BuildContext context, TextEditingController controller, FocusNode? nextFocus) {
+  Widget buildOtpTextField(TextEditingController controller) {
     return Container(
       width: 50.0,
       height: 50.0,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.orange, width: 2.0),
+        border: Border.all(color: Colors.blue, width: 2.0),
         borderRadius: BorderRadius.circular(10.0),
       ),
       margin: const EdgeInsets.symmetric(horizontal: 3),
@@ -1062,111 +1196,10 @@ class FullTimePageState extends State<FullTimePage> {
           enabledBorder: InputBorder.none,
           focusedBorder: InputBorder.none,
         ),
-        textInputAction: nextFocus == null ? TextInputAction.done : TextInputAction.next,
-        onEditingComplete: () {
-          // If there's a next focus, move to it, otherwise, unfocus
-          if (nextFocus != null) {
-            FocusScope.of(context).requestFocus(nextFocus);
-          } else {
-            FocusScope.of(context).unfocus();
-          }
-        },
         onChanged: (value) {
-          // Move focus to the next text field when a digit is entered
-          if (value.isNotEmpty && nextFocus != null) {
-            FocusScope.of(context).requestFocus(nextFocus);
-          }
+          FocusScope.of(context).nextFocus();
         },
       ),
     );
   }
-
-
-
 }
-
-
-// class OtpInputField extends StatefulWidget {
-//   final String generatedOtp;
-//   const OtpInputField({super.key, required this.generatedOtp});
-//
-//   @override
-//   _OtpInputFieldState createState() => _OtpInputFieldState();
-// }
-//
-// class _OtpInputFieldState extends State<OtpInputField> {
-//   TextEditingController otpController1 = TextEditingController();
-//   TextEditingController otpController2 = TextEditingController();
-//   TextEditingController otpController3 = TextEditingController();
-//   TextEditingController otpController4 = TextEditingController();
-//
-//   @override
-//   void dispose() {
-//     otpController1.dispose();
-//     otpController2.dispose();
-//     otpController3.dispose();
-//     otpController4.dispose();
-//     super.dispose();
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         Row(
-//           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//           children: [
-//             buildOtpTextField(otpController1),
-//             buildOtpTextField(otpController2),
-//             buildOtpTextField(otpController3),
-//             buildOtpTextField(otpController4),
-//           ],
-//         ),
-//         const SizedBox(height: 20.0),
-//         ElevatedButton(
-//           onPressed: () {
-//             String enteredOtp = "${otpController1.text}${otpController2.text}${otpController3.text}${otpController4.text}";
-//
-//             if (enteredOtp == widget.generatedOtp) {
-//               print('OTP Matched');
-//             } else {
-//               print('OTP Mismatch');
-//             }
-//             print('Entered OTP: ${otpController1.text}${otpController2.text}${otpController3.text}${otpController4.text}');
-//           },
-//           child: const Text('Submit'),
-//         ),
-//       ],
-//     );
-//   }
-//
-//   Widget buildOtpTextField(TextEditingController controller) {
-//     return Container(
-//       width: 50.0,
-//       height: 50.0,
-//       alignment: Alignment.center,
-//       decoration: BoxDecoration(
-//         border: Border.all(color: Colors.blue, width: 2.0),
-//         borderRadius: BorderRadius.circular(10.0),
-//       ),
-//       margin: const EdgeInsets.symmetric(horizontal: 3),
-//       child: TextField(
-//         controller: controller,
-//         maxLength: 1,
-//         keyboardType: TextInputType.number,
-//         textAlign: TextAlign.center,
-//         style: const TextStyle(fontSize: 24.0),
-//         decoration: const InputDecoration(
-//           counterText: '',
-//           enabledBorder: InputBorder.none,
-//           focusedBorder: InputBorder.none,
-//         ),
-//         onChanged: (value) {
-//           // Move focus to the next text field when a digit is entered
-//           FocusScope.of(context).nextFocus();
-//         },
-//       ),
-//     );
-//   }
-//
-// }

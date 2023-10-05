@@ -32,6 +32,7 @@ class Constant {
   static const String Like_API = "${BaseUrl}likes.php";
   static const String POST_MY_POST = "${BaseUrl}post.php";
   static const String SLIDE_API = "${BaseUrl}slide_list.php";
+  static const String WALLET = "${BaseUrl}wallet.php";
   static const String PURCHASE_POST = "${BaseUrl}purchase_post.php";
   static const String SHORTS_URL = "api/video_list.php";
   static const String SETTINGS_URL_ALL = "api/settings.php";
