@@ -90,15 +90,17 @@ class FullTimePageState extends State<FullTimePage> {
 
     SharedPreferences.getInstance().then((value) {
       prefs = value;
-      userDeatils();
-      contact_us = prefs.getString(Constant.CONTACT_US).toString();
-      basic_wallet = prefs.getString(Constant.BASIC_WALLET)!;
-      premium_wallet = prefs.getString(Constant.PREMIUM_WALLET)!;
-      status = prefs.getString(Constant.STATUS)!;
-      status = prefs.getString(Constant.ADS_TIME)!;
-      ads_cost = prefs.getString(Constant.ADS_COST)!;
+      setState(() {
+        userDeatils();
+        contact_us = prefs.getString(Constant.CONTACT_US).toString();
+        basic_wallet = prefs.getString(Constant.BASIC_WALLET)!;
+        premium_wallet = prefs.getString(Constant.PREMIUM_WALLET)!;
+        status = prefs.getString(Constant.STATUS)!;
+        status = prefs.getString(Constant.ADS_TIME)!;
+        ads_cost = prefs.getString(Constant.ADS_COST)!;
 
-      adsApi();
+        adsApi();
+      });
       //ads_status("status");
     });
     SharedPreferences.getInstance().then((value) {
@@ -129,17 +131,25 @@ class FullTimePageState extends State<FullTimePage> {
   // }
 
   @override
-  void setState(VoidCallback fn) {
+  void setState(VoidCallback fn) async{
     // TODO: implement setState
     super.setState(fn);
     // multiplyCostValue;
     debugPrint("timerCount: $timerCount");
     debugPrint("ads_time: $ads_time");
+    userDeatils();
     multiplyCostValue = multiplyCost(timerCount, ads_cost)!;
     if (timerCount < 100) {
       isButtonDisabled = true; // Disable the button
     } else if (timerCount >= 100) {
       isButtonDisabled = false; // Enable the button
+      // String? syncAble = await storeLocal.read(
+      //     key: Constant.SYNC_ABLE);
+      // if (syncAble == "true") {
+      //   setState(() {
+      //     isButtonDisabled = false;
+      //   });
+      // }
     }
   }
 
@@ -329,96 +339,94 @@ class FullTimePageState extends State<FullTimePage> {
                         color: colors.cc_velvet,
                         child: Padding(
                           padding: const EdgeInsets.all(5.0),
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  "Refer friend and earn ₹$refer_bonus",
-                                  style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: "Montserrat"),
-                                ),
-                                const SizedBox(height: 10.0),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                    OutlinedButton(
-                                      onPressed: () {
-                                        Utils().showToast("Copied !");
-                                        Clipboard.setData(
-                                            ClipboardData(text: referText));
-                                      },
-                                      style: OutlinedButton.styleFrom(
-                                        backgroundColor: Colors.white,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(6.0),
-                                          side: const BorderSide(
-                                              color: colors.red),
-                                        ),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 16, vertical: 11),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            Image.asset(
-                                              "assets/images/copy.png",
-                                              width: 24.0,
-                                              height: 24.0,
-                                            ),
-                                            const SizedBox(width: 8.0),
-                                            Text(
-                                              referText,
-                                              style: const TextStyle(
-                                                color: colors.primary,
-                                                fontSize: 12.0,
-                                                fontFamily: "Montserrat",
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                "Refer friend and earn ₹$refer_bonus",
+                                style: const TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: "Montserrat"),
+                              ),
+                              const SizedBox(height: 10.0),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  OutlinedButton(
+                                    onPressed: () {
+                                      Utils().showToast("Copied !");
+                                      Clipboard.setData(
+                                          ClipboardData(text: referText));
+                                    },
+                                    style: OutlinedButton.styleFrom(
+                                      backgroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(6.0),
+                                        side: const BorderSide(
+                                            color: colors.red),
                                       ),
                                     ),
-                                    const SizedBox(width: 12.0),
-                                    MaterialButton(
-                                      onPressed: () {
-                                        Share.share(referText +
-                                            "\n Use my Refer Code and install this app https://play.google.com/store/apps/details?id=com.app.colorchallenge");
-                                      },
-                                      color: colors.primary_color,
-                                      shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(8.0)),
-                                      ),
-                                      child: const Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 14.0, horizontal: 16.0),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            Text(
-                                              'Refer Friends',
-                                              style: TextStyle(
-                                                color: colors.white,
-                                                fontSize: 16.0,
-                                                fontWeight: FontWeight.bold,
-                                              ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 11),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          Image.asset(
+                                            "assets/images/copy.png",
+                                            width: 24.0,
+                                            height: 24.0,
+                                          ),
+                                          const SizedBox(width: 8.0),
+                                          Text(
+                                            referText,
+                                            style: const TextStyle(
+                                              color: colors.primary,
+                                              fontSize: 12.0,
+                                              fontFamily: "Montserrat",
+                                              fontWeight: FontWeight.bold,
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                  ),
+                                  const SizedBox(width: 12.0),
+                                  MaterialButton(
+                                    onPressed: () {
+                                      Share.share(referText +
+                                          "\n Use my Refer Code and install this app https://play.google.com/store/apps/details?id=com.app.colorchallenge");
+                                    },
+                                    color: colors.primary_color,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(8.0)),
+                                    ),
+                                    child: const Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 14.0, horizontal: 16.0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          Text(
+                                            'Refer Friends',
+                                            style: TextStyle(
+                                              color: colors.white,
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -458,13 +466,17 @@ class FullTimePageState extends State<FullTimePage> {
                                 fullTimePageCont.syncData(
                                     prefs.getString(Constant.ID),
                                     timerCount.toString(),
-                                    syncUniqueId.toString());
+                                    syncUniqueId.toString(),
+                                );
                                 String? syncAble = await storeLocal.read(
                                     key: Constant.SYNC_ABLE);
                                 if (syncAble == "true") {
                                   setState(() {
                                     timerCount = 0;
+                                    isButtonDisabled = true;
                                   });
+                                } else {
+                                  setState(() { });
                                 }
                               },
                               child: Container(
