@@ -48,6 +48,7 @@ class FullTimePageState extends State<FullTimePage> {
   String generate_coin = "0";
   bool _isLoading = true;
   String balance = "0";
+  String ads_cost = "0";
   bool timerStarted = false;
   bool isTrial = true, isPremium = false;
   Random random = Random();
@@ -67,6 +68,7 @@ class FullTimePageState extends State<FullTimePage> {
   late bool isButtonDisabled;
   late String generatedOtp;
   int syncUniqueId = 1;
+  double multiplyCostValue = 0;
   // FocusNode otpFocus1 = FocusNode();
   // FocusNode otpFocus2 = FocusNode();
   // FocusNode otpFocus3 = FocusNode();
@@ -80,6 +82,8 @@ class FullTimePageState extends State<FullTimePage> {
 
     isButtonDisabled = true;
 
+
+
     // // Initialize focus nodes and controllers
     // focusNodes = List.generate(4, (index) => FocusNode());
     // controllers = List.generate(4, (index) => TextEditingController());
@@ -92,6 +96,7 @@ class FullTimePageState extends State<FullTimePage> {
       premium_wallet = prefs.getString(Constant.PREMIUM_WALLET)!;
       status = prefs.getString(Constant.STATUS)!;
       status = prefs.getString(Constant.ADS_TIME)!;
+      ads_cost = prefs.getString(Constant.ADS_COST)!;
 
       adsApi();
       //ads_status("status");
@@ -107,7 +112,8 @@ class FullTimePageState extends State<FullTimePage> {
       });
     });
     loadTimerCount();
-    debugPrint("ads_time: $ads_time");
+    debugPrint("ads_cost: $ads_cost");
+    multiplyCostValue = multiplyCost(timerCount, ads_cost)!;
   }
 
   // @override
@@ -126,8 +132,10 @@ class FullTimePageState extends State<FullTimePage> {
   void setState(VoidCallback fn) {
     // TODO: implement setState
     super.setState(fn);
+    // multiplyCostValue;
     debugPrint("timerCount: $timerCount");
     debugPrint("ads_time: $ads_time");
+    multiplyCostValue = multiplyCost(timerCount, ads_cost)!;
     if (timerCount < 100) {
       isButtonDisabled = true; // Disable the button
     } else if (timerCount >= 100) {
@@ -183,6 +191,8 @@ class FullTimePageState extends State<FullTimePage> {
       total_ads = prefs.getString(Constant.TOTAL_ADS)!;
       status = prefs.getString(Constant.STATUS)!;
       ads_time = prefs.getString(Constant.ADS_TIME)!;
+      ads_cost = prefs.getString(Constant.ADS_COST)!;
+      balance = prefs.getString(Constant.BALANCE)!;
     });
   }
 
@@ -273,6 +283,19 @@ class FullTimePageState extends State<FullTimePage> {
   bool isMultipleOf5(int number) {
     return number % 5 == 0;
   }
+
+  double? multiplyCost(int timerCount, String str2) {
+    try {
+      print('str2: $str2');
+      double num2 = double.parse(str2);
+      print('num2: $num2');
+      return timerCount * num2;
+    } catch (e) {
+      print('Error: Unable to parse the input string as a number.');
+      return null;
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -488,9 +511,9 @@ class FullTimePageState extends State<FullTimePage> {
                                 horizontal: 15,
                                 vertical: 10,
                               ),
-                              child: const Column(
+                              child: Column(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "Main Balance",
                                     style: TextStyle(
                                         fontFamily: 'MontserratLight',
@@ -498,12 +521,12 @@ class FullTimePageState extends State<FullTimePage> {
                                         color: Colors.white,
                                         fontSize: 15.0),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 5,
                                   ),
                                   Text(
-                                    "0.00",
-                                    style: TextStyle(
+                                    "$balance + $multiplyCostValue",
+                                    style: const TextStyle(
                                         fontFamily: 'MontserratBold',
                                         color: Colors.white,
                                         fontSize: 15.0),
@@ -547,24 +570,23 @@ class FullTimePageState extends State<FullTimePage> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Obx(() => Text(
-                                        "${fullTimePageCont.todayAds} + ${timerCount.toString()}",
+                                    Text(
+                                        "$today_ads + ${timerCount.toString()}",
                                         style: const TextStyle(
                                             fontFamily: 'MontserratBold',
                                             color: Colors.white,
                                             fontSize: 15.0),
                                       ),
-                                    ),
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                    Obx(() => Text(
-                                      "${fullTimePageCont.totalAds}  + ${timerCount.toString()}",
+                                    Text(
+                                      "$total_ads  + ${timerCount.toString()}",
                                       style: const TextStyle(
                                           fontFamily: 'MontserratBold',
                                           color: Colors.white,
                                           fontSize: 15.0),
-                                    ),),
+                                    ),
                                   ],
                                 ),
                               ],
@@ -610,14 +632,14 @@ class FullTimePageState extends State<FullTimePage> {
                       ),
                     ),
                   ),
-                  Text(
-                    timerStarted ? "$seconds seconds" : "",
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.red,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
+                  // Text(
+                  //   timerStarted ? "$seconds seconds" : "",
+                  //   style: const TextStyle(
+                  //     fontSize: 14,
+                  //     color: Colors.red,
+                  //     fontWeight: FontWeight.normal,
+                  //   ),
+                  // ),
                   const SizedBox(height: 5),
                   MaterialButton(
                     onPressed: () async {
@@ -905,11 +927,11 @@ class FullTimePageState extends State<FullTimePage> {
     }
   }
 
-  Future<void> addTomainbalance(String wallet_type) async {
+  Future<void> addTomainbalance(String walletType) async {
     var url = Constant.ADD_MAIN_BALANCE_URL;
     Map<String, dynamic> bodyObject = {
       Constant.USER_ID: prefs.getString(Constant.ID),
-      Constant.WALLET_TYPE: wallet_type,
+      Constant.WALLET_TYPE: walletType,
     };
 
     String jsonString = await apiCall(url, bodyObject);
@@ -985,7 +1007,7 @@ class FullTimePageState extends State<FullTimePage> {
         ads_link = prefs.getString(Constant.ADS_LINK)!;
       });
       starttime = 0;
-      // timerStarted = true;
+      timerStarted = true;
       startTimer();
       userDeatils();
     } else {

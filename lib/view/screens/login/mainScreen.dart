@@ -52,6 +52,9 @@ class _MainScreenState extends State<MainScreen> {
   late SharedPreferences prefs;
   String coins = "0";
   String balance = "";
+  String status = "";
+  String old_plan = "";
+  String plan = "";
   String text = 'Click here Send ScreenShoot';
   String link = 'http://t.me/Colorchallengeapp1';
   final googleSignIn = GoogleSignIn();
@@ -69,6 +72,18 @@ class _MainScreenState extends State<MainScreen> {
       });
       print('FCM Token: $_fcmToken');
     });
+    debugPrint("status: $status");
+    debugPrint("old_plan: $old_plan");
+    debugPrint("plan: $plan");
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    super.setState(fn);
+    debugPrint("status: $status");
+    debugPrint("old_plan: $old_plan");
+    debugPrint("plan: $plan");
   }
 
   void userDeatils() async {
@@ -102,6 +117,14 @@ class _MainScreenState extends State<MainScreen> {
     prefs.setString(Constant.IFSC, user.ifsc);
     prefs.setString(Constant.BANK, user.bank);
     prefs.setString(Constant.BRANCH, user.branch);
+    prefs.setString(Constant.OLD_PLAN, user.old_plan);
+    prefs.setString(Constant.PLAN, user.plan);
+    setState(() {
+      status = prefs.getString(Constant.STATUS)!;
+      old_plan = prefs.getString(Constant.OLD_PLAN)!;
+      plan = prefs.getString(Constant.PLAN)!;
+      balance = prefs.getString(Constant.BALANCE)!;
+    });
     if (user.status == "2" || user.device_id == "0") {
       logout();
       SystemNavigator.pop();
@@ -120,7 +143,11 @@ class _MainScreenState extends State<MainScreen> {
       //   _addPost = false;
       // } else if (index == 2) {
       if (index == 1) {
-        title = "Full Time Page";
+        if(old_plan == "0" && plan == "A1" && status == "1" ) {
+          title = "Full Time Page";
+        } else {
+          title = "ADS";
+        };
         // title = "ADS";
         _actionsVisible = false;
         _logoutVisible = false;
@@ -616,7 +643,13 @@ class _MainScreenState extends State<MainScreen> {
         return const Home(); //HomePage(updateAmount: updateAmount);
       case 1:
         // return const ADsScreen(); //HomePage(updateAmount: updateAmount);
-        return const FullTimePage();
+        // return const FullTimePage();
+        if(status == "1" && old_plan == "0" && plan == "A1") {
+          return const FullTimePage();
+        } else {
+          return const ADsScreen();
+        };
+break;
         case 2:
         return const NotifyScreen();
       // case 1:

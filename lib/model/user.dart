@@ -31,6 +31,8 @@ class Users {
   final String post_left;
   final String ads_cost;
   final String ads_time;
+  final String old_plan;
+  final String plan;
 
 
 
@@ -67,6 +69,8 @@ class Users {
     required this.post_left,
     required this.ads_cost,
     required this.ads_time,
+    required this.old_plan,
+    required this.plan,
 
   });
 
@@ -104,6 +108,8 @@ class Users {
       post_left: json['post_left'],
       ads_cost: json['ads_cost'],
       ads_time: json['ads_time'],
+      old_plan: json['old_plan'],
+      plan: json['plan'],
     );
   }
   factory Users.fromJsonNew(Map<String, dynamic> json) {
@@ -140,6 +146,8 @@ class Users {
       post_left: json['post_left'],
       ads_cost: json['ads_cost'],
       ads_time: json['ads_time'],
+      old_plan: json['old_plan'],
+      plan: json['plan'],
     );
   }
 

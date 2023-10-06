@@ -9,8 +9,10 @@ import 'package:get/get.dart';
 class FullTimePageCont extends GetxController implements GetxService {
   final FullTimeRepo fullTimeRepo;
   FullTimePageCont({required this.fullTimeRepo});
-  RxString todayAds = "0".obs;
-  RxString totalAds = "0".obs;
+  // RxString todayAds = "0".obs;
+  // RxString totalAds = "0".obs;
+  // RxString balance = "0.00".obs;
+  // RxString ads_cost = "0.00".obs;
 
   int generateRandomFourDigitNumber() {
     // Generate a random number between 1000 and 9999
@@ -32,10 +34,12 @@ class FullTimePageCont extends GetxController implements GetxService {
       debugPrint("===> SyncDataList: $syncDataList");
       debugPrint("===> SyncDataList message: ${syncDataList.message}");
 
-      if (syncDataList.data != null && syncDataList.data!.isNotEmpty) {
-        todayAds.value = syncDataList.data![0].todayAds!;
-        totalAds.value = syncDataList.data![0].totalAds!;
-      }
+      // if (syncDataList.data != null && syncDataList.data!.isNotEmpty) {
+      //   todayAds.value = syncDataList.data![0].todayAds!;
+      //   totalAds.value = syncDataList.data![0].totalAds!;
+      //   balance.value = syncDataList.data![0].balance!;
+      //   ads_cost.value = syncDataList.data![0].adsCost!;
+      // }
 
       Get.snackbar(
         syncDataList.success.toString(),
