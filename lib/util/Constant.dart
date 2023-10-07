@@ -34,6 +34,7 @@ class Constant {
   static const String SLIDE_API = "${BaseUrl}slide_list.php";
   static const String WALLET = "${BaseUrl}wallet.php";
   static const String PURCHASE_POST = "${BaseUrl}purchase_post.php";
+  static const String OFFER_LIST = "${BaseUrl}offer_list.php";
   static const String SHORTS_URL = "api/video_list.php";
   static const String SETTINGS_URL_ALL = "api/settings.php";
 
@@ -90,6 +91,7 @@ class Constant {
   static const String NAME = "name";
   static const String AGE = "age";
   static const String GENDER = "gender";
+  static const String DEAF = "deaf";
   static const String CITY = "city";
   static const String SUPPORT_LAN = "support_lan";
   static const String DEVICE_ID = "device_id";

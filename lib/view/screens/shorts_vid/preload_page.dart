@@ -387,7 +387,7 @@ class _PostsState extends State<Posts> {
         Row(
           children: [
             Text(
-              // "widget.caption                                                                                                             w",
+              // "widget.caption
               widget.caption,
               style: const TextStyle(
                 color: Colors.white,

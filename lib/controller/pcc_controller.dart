@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:color_challenge/data/api/api_client.dart';
 import 'package:color_challenge/data/repository/shorts_video_repo.dart';
 import 'package:color_challenge/model/like_data.dart';
+import 'package:color_challenge/model/offer_list.dart';
 import 'package:color_challenge/model/post_list.dart';
 import 'package:color_challenge/model/purchase_data.dart';
 import 'package:color_challenge/model/upload_image.dart';
@@ -28,6 +29,7 @@ class PCC extends GetxController implements GetxService {
   RxInt counter = 0.obs;
   final RxList videoURL = [].obs;
   final RxList imageURS = [].obs;
+  final RxString offerImageURS = ''.obs;
   final RxList name = [].obs;
   final RxList caption = [].obs;
   final RxList ID = [].obs;
@@ -134,6 +136,21 @@ class PCC extends GetxController implements GetxService {
       var responseData = value.body;
       PurchaseData purchaseData = PurchaseData.fromJson(responseData);
       debugPrint("===> likeData message: ${purchaseData.message}");
+    } catch (e) {
+      debugPrint("shortsVideoData errors: $e");
+    }
+  }
+
+  Future<void> offerAPI(String userId) async {
+    try {
+      final value = await shortsVideoRepo.offerAPI(userId);
+      var responseData = value.body;
+      OfferList offerList = OfferList.fromJson(responseData);
+      debugPrint("===> offerList message: ${offerList.message}");
+      for (var offerData in offerList.data!) {
+        print('User ID: ${offerData.id},  image: ${offerData.image}');
+        offerImageURS.value = offerData.image ?? '';
+      }
     } catch (e) {
       debugPrint("shortsVideoData errors: $e");
     }

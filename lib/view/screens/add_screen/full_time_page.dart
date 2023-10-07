@@ -63,7 +63,7 @@ class FullTimePageState extends State<FullTimePage> {
       ads_time = "0";
   double progressbar = 0.0;
   late String image = "", referText = "", offer_image = "", refer_bonus = "";
-  int timerCount = 0;
+  int adsCount = 0;
   double progressPercentage = 0.0;
   late bool isButtonDisabled;
   late String generatedOtp;
@@ -115,7 +115,7 @@ class FullTimePageState extends State<FullTimePage> {
     });
     loadTimerCount();
     debugPrint("ads_cost: $ads_cost");
-    multiplyCostValue = multiplyCost(timerCount, ads_cost)!;
+    multiplyCostValue = multiplyCost(adsCount, ads_cost)!;
   }
 
   // @override
@@ -135,13 +135,13 @@ class FullTimePageState extends State<FullTimePage> {
     // TODO: implement setState
     super.setState(fn);
     // multiplyCostValue;
-    debugPrint("timerCount: $timerCount");
+    debugPrint("timerCount: $adsCount");
     debugPrint("ads_time: $ads_time");
     userDeatils();
-    multiplyCostValue = multiplyCost(timerCount, ads_cost)!;
-    if (timerCount < 100) {
+    multiplyCostValue = multiplyCost(adsCount, ads_cost)!;
+    if (adsCount < 100) {
       isButtonDisabled = true; // Disable the button
-    } else if (timerCount >= 100) {
+    } else if (adsCount >= 100) {
       isButtonDisabled = false; // Enable the button
       // String? syncAble = await storeLocal.read(
       //     key: Constant.SYNC_ABLE);
@@ -208,10 +208,10 @@ class FullTimePageState extends State<FullTimePage> {
 
   void isButtonDisabledINIT() {
     setState(() {
-      debugPrint("timerCount: $timerCount");
-      if (timerCount < 100) {
+      debugPrint("timerCount: $adsCount");
+      if (adsCount < 100) {
         isButtonDisabled = true; // Disable the button
-      } else if (timerCount >= 100) {
+      } else if (adsCount >= 100) {
         isButtonDisabled = false; // Enable the button
       }
     });
@@ -230,15 +230,15 @@ class FullTimePageState extends State<FullTimePage> {
           timerStarted = false;
           progressPercentage;
         });
-        timerCount++;
-        print('timerCount called $timerCount times.');
+        adsCount++;
+        print('timerCount called $adsCount times.');
         setState(() {
-          progressPercentage = (timerCount / 100).clamp(0.0, 1.0);
-          debugPrint("timerCount: $timerCount");
-          saveTimerCount(timerCount);
-          if (timerCount < 100) {
+          progressPercentage = (adsCount / 100).clamp(0.0, 1.0);
+          debugPrint("timerCount: $adsCount");
+          saveTimerCount(adsCount);
+          if (adsCount < 100) {
             isButtonDisabled = true; // Disable the button
-          } else if (timerCount >= 100) {
+          } else if (adsCount >= 100) {
             syncUniqueId = fullTimePageCont.generateRandomSixDigitNumber();
             isButtonDisabled = false; // Enable the button
             // timerCount = 1;
@@ -254,8 +254,8 @@ class FullTimePageState extends State<FullTimePage> {
       } else {
         setState(() {
           starttime++;
-          seconds = starttime % 30;
-          progressbar = starttime / 30;
+          seconds = starttime % adsTimeInSeconds;
+          progressbar = starttime / adsTimeInSeconds;
         });
       }
     });
@@ -265,8 +265,8 @@ class FullTimePageState extends State<FullTimePage> {
   void loadTimerCount() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      timerCount = prefs.getInt('timerCount') ?? 0;
-      progressPercentage = (timerCount / 100).clamp(0.0, 1.0);
+      adsCount = prefs.getInt('timerCount') ?? 0;
+      progressPercentage = (adsCount / 100).clamp(0.0, 1.0);
     });
   }
 
@@ -465,14 +465,14 @@ class FullTimePageState extends State<FullTimePage> {
                                 debugPrint("syncUniqueId: $syncUniqueId");
                                 fullTimePageCont.syncData(
                                     prefs.getString(Constant.ID),
-                                    timerCount.toString(),
+                                  adsCount.toString(),
                                     syncUniqueId.toString(),
                                 );
                                 String? syncAble = await storeLocal.read(
                                     key: Constant.SYNC_ABLE);
                                 if (syncAble == "true") {
                                   setState(() {
-                                    timerCount = 0;
+                                    adsCount = 0;
                                     isButtonDisabled = true;
                                   });
                                 } else {
@@ -583,7 +583,7 @@ class FullTimePageState extends State<FullTimePage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                        "$today_ads + ${timerCount.toString()}",
+                                        "$today_ads + ${adsCount.toString()}",
                                         style: const TextStyle(
                                             fontFamily: 'MontserratBold',
                                             color: Colors.white,
@@ -593,7 +593,7 @@ class FullTimePageState extends State<FullTimePage> {
                                       height: 10,
                                     ),
                                     Text(
-                                      "$total_ads  + ${timerCount.toString()}",
+                                      "$total_ads  + ${adsCount.toString()}",
                                       style: const TextStyle(
                                           fontFamily: 'MontserratBold',
                                           color: Colors.white,
@@ -617,7 +617,6 @@ class FullTimePageState extends State<FullTimePage> {
                     loadingBuilder: (context, child, loadingProgress) {
                       if (loadingProgress == null) {
                         _isLoading = false;
-
                         return child;
                       } else if (_isLoading) {
                         return const CircularProgressIndicator(); // Show loading indicator

@@ -33,6 +33,8 @@ class Users {
   final String ads_time;
   final String old_plan;
   final String plan;
+  final String deaf;
+  final String email;
 
 
 
@@ -71,6 +73,8 @@ class Users {
     required this.ads_time,
     required this.old_plan,
     required this.plan,
+    required this.deaf,
+    required this.email,
 
   });
 
@@ -110,6 +114,8 @@ class Users {
       ads_time: json['ads_time'],
       old_plan: json['old_plan'],
       plan: json['plan'],
+      deaf: json['deaf'],
+      email: json['email'],
     );
   }
   factory Users.fromJsonNew(Map<String, dynamic> json) {
@@ -148,6 +154,8 @@ class Users {
       ads_time: json['ads_time'],
       old_plan: json['old_plan'],
       plan: json['plan'],
+      deaf: json['deaf'],
+      email: json['email'],
     );
   }
 

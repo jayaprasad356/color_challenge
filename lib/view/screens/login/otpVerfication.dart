@@ -145,9 +145,10 @@ class _OtpVerificationState extends State<OtpVerification> {
                     if(_otpController.text.toString()== '011011' || _otpController.text.toString()== realotp){
                       prefs = await SharedPreferences.getInstance();
                       var url = Constant.LOGIN_URL;
+                      var device_id = prefs.getString(Constant.MY_DEVICE_ID).toString();
                       Map<String, dynamic> bodyObject = {
                         Constant.MOBILE: _mobileNumber,
-                        Constant.DEVICE_ID: prefs.getString(Constant.MY_DEVICE_ID).toString(),
+                        Constant.DEVICE_ID: device_id,
                       };
                       String jsonString = await apiCall(url, bodyObject);
                       dynamic json = jsonDecode(jsonString);
@@ -183,7 +184,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                           MaterialPageRoute(
                             builder: (context) {
 
-                              return NewProfileScreen_(mobileNumber: _mobileNumber); // Replace NextPage with the actual page you want to navigate to
+                              return NewProfileScreen(mobileNumber: _mobileNumber); // Replace NextPage with the actual page you want to navigate to
                             },
                           ),
                         );

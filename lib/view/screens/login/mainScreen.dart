@@ -13,6 +13,7 @@ import 'package:color_challenge/view/screens/add_screen/full_time_page.dart';
 import 'package:color_challenge/view/screens/home_page/homePage.dart';
 import 'package:color_challenge/view/screens/notification_screen/notification_screen.dart';
 import 'package:color_challenge/view/screens/profile_screen/my_profile.dart';
+import 'package:color_challenge/view/screens/shorts_vid/my_offer.dart';
 import 'package:color_challenge/view/screens/shorts_vid/preload_page.dart';
 import 'package:color_challenge/view/screens/shorts_vid/post_upload.dart';
 import 'package:color_challenge/view/screens/store/store_page.dart';
@@ -155,19 +156,26 @@ class _MainScreenState extends State<MainScreen> {
         _notificationVisible = false;
         _addPost = false;
       } else if (index == 2) {
-        title = "Notifications";
+        title = "My Offer";
         _actionsVisible = false;
         _logoutVisible = false;
         _leftArrowVisible = false;
         _notificationVisible = false;
         _addPost = false;
       } else if (index == 3) {
-        title = "Post";
+        title = "Notifications";
         _actionsVisible = false;
         _logoutVisible = false;
         _leftArrowVisible = false;
         _notificationVisible = false;
         _addPost = false;
+      // } else if (index == 3) {
+      //   title = "Post";
+      //   _actionsVisible = false;
+      //   _logoutVisible = false;
+      //   _leftArrowVisible = false;
+      //   _notificationVisible = false;
+      //   _addPost = false;
         // } else if (index == 3) {
         //   title = "Reports";
         //   _actionsVisible = false;
@@ -381,11 +389,21 @@ class _MainScreenState extends State<MainScreen> {
                     backgroundColor: colors.primary_color,
                   ),
                   BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.local_offer_outlined,
+                      color: _selctedIndex == 2
+                          ? colors.widget_color
+                          : colors.white,
+                    ),
+                    label: 'My Offer',
+                    backgroundColor: colors.primary_color,
+                  ),
+                  BottomNavigationBarItem(
                     icon: ImageIcon(
                       const AssetImage(
                         "assets/images/notification.png",
                       ),
-                      color: _selctedIndex == 2
+                      color: _selctedIndex == 3
                           ? colors.widget_color
                           : colors.white,
                     ),
@@ -402,16 +420,6 @@ class _MainScreenState extends State<MainScreen> {
                   //   label: 'Store',
                   //   backgroundColor: colors.primary_color,
                   // ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.video_collection_outlined,
-                      color: _selctedIndex == 3
-                          ? colors.widget_color
-                          : colors.white,
-                    ),
-                    label: 'Post',
-                    backgroundColor: colors.primary_color,
-                  ),
                   // BottomNavigationBarItem(
                   //   icon: ImageIcon(
                   //     const AssetImage(
@@ -651,11 +659,12 @@ class _MainScreenState extends State<MainScreen> {
         };
 break;
         case 2:
-        return const NotifyScreen();
+          return const MyOffer();
       // case 1:
       //   return const JobShow();
       case 3:
-        return const PreloadPage();
+        return const NotifyScreen();
+        // return const PreloadPage();
       // case 3:
       //   return const report();
       case 4:

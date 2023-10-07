@@ -130,6 +130,8 @@ class HomeState extends State<Home> {
     prefs.setString(Constant.STATUS, user.status);
     prefs.setString(Constant.MEDIA_WALLET, user.media_wallet);
     prefs.setString(Constant.POST_LEFT, user.post_left);
+    prefs.setString(Constant.DEAF, user.deaf);
+    prefs.setString(Constant.EMAIL, user.email);
     setState(() {
       basic_wallet = prefs.getString(Constant.BASIC_WALLET)!;
       premium_wallet = prefs.getString(Constant.PREMIUM_WALLET)!;

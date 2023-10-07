@@ -649,6 +649,7 @@ class _walletState extends State<wallet> {
     prefs.setString(Constant.STATUS, user.status);
     prefs.setString(Constant.JOINED_DATE, user.joinedDate);
     prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
+    prefs.setString(Constant.DEAF, user.deaf);
     setState(() {
       balance = user.balance!;
     });

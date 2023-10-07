@@ -53,6 +53,15 @@ class ShortsVideoRepo {
     );
   }
 
+  Future<Response> offerAPI(String userId) async {
+    Map<String, String> body = {
+      'user_id': userId,
+    };
+    return await apiClient.postData(
+      Constant.OFFER_LIST,body,{}
+    );
+  }
+
   Future<Response> postMyPost(String userId, File image) async {
       try {
         List<MultipartBody> multipartBodies = [

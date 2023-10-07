@@ -26,6 +26,7 @@ import 'controller/utils.dart';
 import 'package:package_info/package_info.dart';
 import 'package:get/get.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'view/screens/profile_screen/new_profile_screen.dart';
 import 'view/screens/updateApp/updateApp.dart';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
@@ -233,6 +234,7 @@ class _MyAppState extends State<MyApp> {
               );
             }),
             // home: wallet(),
+            // home: NewProfileScreen(mobileNumber: "7010565083"),
             home: screens(prefs, update, link),
           );
         } else {
