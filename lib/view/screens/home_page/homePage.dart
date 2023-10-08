@@ -31,7 +31,7 @@ class HomeState extends State<Home> {
   late SharedPreferences prefs;
   double starttime = 0; // Set the progress value between 0.0 and 1.0 here
   String today_ads_remain = "0";
-  String level = '0', status = '',group_link = '';
+  String level = '0', status = '', group_link = '';
   String history_days = '0';
   String ads_image = 'https://admin.colorjobs.site/dist/img/logo.jpeg';
   String ads_link = '';
@@ -66,6 +66,8 @@ class HomeState extends State<Home> {
     // homeController.allSettingsData();
 
     handleAsyncInit();
+    settingsApi();
+    // homeController.allSettingsData();
     SharedPreferences.getInstance().then((value) {
       prefs = value;
       userDeatils();
@@ -82,11 +84,20 @@ class HomeState extends State<Home> {
 
   void handleAsyncInit() async {
     prefs = await SharedPreferences.getInstance();
-      homeController.slideList(prefs.getString(Constant.ID));
+    homeController.slideList(prefs.getString(Constant.ID));
 
     setState(() {
       debugPrint(homeController.sliderImageURL.string);
       debugPrint(homeController.sliderName.string);
+    });
+  }
+
+  void settingsApi() async {
+    homeController.allSettingsData();
+
+    setState(() {
+      debugPrint("homeController.a1JobVideoURS.string: ${homeController.a1JobVideoURS.string}");
+      debugPrint(homeController.a1JobDetailsURS.string);
     });
   }
 
@@ -187,208 +198,353 @@ class HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: colors.secondary_color,
       body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [colors.primary_color, colors.secondary_color],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 2.0),
-            child: Column(
-              children: [
-                CarouselSlider(
-                  options: CarouselOptions(
-                    autoPlay: true,
-                    enableInfiniteScroll: false,
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        _currentIndex = index;
-                      });
-                    },
-                  ),
-                  items: homeController.sliderImageURL.asMap().entries.map((entry) {
-                    int index = entry.key;
-                    String imageUrl = entry.value;
-                    String imageName = homeController.sliderName[index];
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [colors.primary_color, colors.secondary_color],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 2.0),
+                child: Column(
+                  children: [
+                    CarouselSlider(
+                      options: CarouselOptions(
+                        autoPlay: true,
+                        enableInfiniteScroll: false,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _currentIndex = index;
+                          });
+                        },
+                      ),
+                      items: homeController.sliderImageURL
+                          .asMap()
+                          .entries
+                          .map((entry) {
+                        int index = entry.key;
+                        String imageUrl = entry.value;
+                        String imageName = homeController.sliderName[index];
 
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return Container(
-                          width: size.width,
-                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                          decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Stack(
-                            children: [
-                              ClipRRect(
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return Container(
+                              width: size.width,
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 5.0),
+                              decoration: BoxDecoration(
+                                color: Colors.blue,
                                 borderRadius: BorderRadius.circular(16),
-                                child: Image.network(
-                                  imageUrl,
-                                  fit: BoxFit.cover, // Ensure the image covers the background space
-                                  width: double.infinity,
-                                  height: double.infinity,
+                              ),
+                              child: Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(16),
+                                    child: Image.network(
+                                      imageUrl,
+                                      fit: BoxFit
+                                          .cover, // Ensure the image covers the background space
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    buildIndicator(),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Text(
+                      'A1 Plan',
+                      style: TextStyle(
+                        fontFamily: 'MontserratBold',
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.symmetric(horizontal: 16),
+                      child: TextButton(
+                        onPressed: () {
+                          String? uri = homeController.a1PurchaseURS.toString();
+                          debugPrint("uri: $uri");
+                          launchUrl(
+                            Uri.parse(uri!),
+                            mode: LaunchMode.externalApplication,
+                          );
+                        },
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(Colors.pink),
+                          // You can customize other styles of the button here as well
+                        ),
+                        child: const Text(
+                          'Purchase Premium Plan',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        MaterialButton(
+                            onPressed: () {
+                              String? uri =
+                                  homeController.a1JobDetailsURS.toString();
+                              debugPrint("uri: $uri");
+                              launchUrl(
+                                Uri.parse(uri!),
+                                mode: LaunchMode.externalApplication,
+                              );
+                            },
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Container(
+                              height: 40,
+                              // width: 140,
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage("assets/images/btnbg.png"),
+                                  fit: BoxFit.fill,
                                 ),
                               ),
-                            ],
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: size.width * 0.1),
+                              alignment: Alignment.center,
+                              child: const Center(
+                                child: Text(
+                                  'Job Details',
+                                  style: TextStyle(
+                                      color: colors.white,
+                                      fontSize: 14,
+                                      fontFamily: "Montserrat",
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
                           ),
-                        );
-                      },
-                    );
-                  }).toList(),
-                ),
-
-                const SizedBox(
-                  height: 20,
-                ),
-                buildIndicator(),
-                const SizedBox(
-                  height: 20,
-                ),
-                if (status == '0')
-                  Container(
-                    width: double.infinity,
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                    child: TextButton(
-                      onPressed: () {
-                        String? uri = prefs.getString(Constant.CONTACT_US);
-                        launchUrl(
-                          Uri.parse(uri!),
-                          mode: LaunchMode.externalApplication,
-                        );
-                      },
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.pink),
-                        // You can customize other styles of the button here as well
+                        MaterialButton(
+                          onPressed: () {
+                            String? uri =
+                                homeController.a1JobVideoURS.toString();
+                            debugPrint("uri: $uri");
+                            launchUrl(
+                              Uri.parse(uri!),
+                              mode: LaunchMode.externalApplication,
+                            );
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Container(
+                            height: 40,
+                            // width: 140,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage("assets/images/btnbg.png"),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: size.width * 0.1),
+                            alignment: Alignment.center,
+                            child: const Center(
+                              child: Text(
+                                'Demo Video',
+                                style: TextStyle(
+                                    color: colors.white,
+                                    fontSize: 14,
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    const Text(
+                      'A2 Plan',
+                      style: TextStyle(
+                        fontFamily: 'MontserratBold',
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
                       ),
-                      child: const Text(
-                        'Purchase Premium Plan',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.symmetric(horizontal: 16),
+                      child: TextButton(
+                        onPressed: () {
+                          String? uri = homeController.a2PurchaseURS.toString();
+                          debugPrint("uri: $uri");
+                          launchUrl(
+                            Uri.parse(uri!),
+                            mode: LaunchMode.externalApplication,
+                          );
+                        },
+                        style: ButtonStyle(
+                          backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.pink),
+                          // You can customize other styles of the button here as well
+                        ),
+                        child: const Text(
+                          'Purchase Premium Plan',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    MaterialButton(
-                      onPressed: () {
-                        String? uri = prefs.getString(Constant.JOB_DETAILS);
-                        launchUrl(
-                          Uri.parse(uri!),
-                          mode: LaunchMode.externalApplication,
-                        );
-                      },
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Container(
-                        height: 40,
-                        // width: 140,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage("assets/images/btnbg.png"),
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: size.width * 0.1),
-                        alignment: Alignment.center,
-                        child: const Center(
-                          child: Text(
-                            'Job Details',
-                            style: TextStyle(
-                                color: colors.white,
-                                fontSize: 14,
-                                fontFamily: "Montserrat",
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
+                    const SizedBox(
+                      height: 5,
                     ),
-                    MaterialButton(
-                      onPressed: () {
-                        String? uri = prefs.getString(Constant.JOB_VIDEO);
-                        launchUrl(
-                          Uri.parse(uri!),
-                          mode: LaunchMode.externalApplication,
-                        );
-                      },
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Container(
-                        height: 40,
-                        // width: 140,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage("assets/images/btnbg.png"),
-                            fit: BoxFit.fill,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        MaterialButton(
+                          onPressed: () {
+                            String? uri =
+                            homeController.a2JobDetailsURS.toString();
+                            debugPrint("uri: $uri");
+                            launchUrl(
+                              Uri.parse(uri!),
+                              mode: LaunchMode.externalApplication,
+                            );
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Container(
+                            height: 40,
+                            // width: 140,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage("assets/images/btnbg.png"),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: size.width * 0.1),
+                            alignment: Alignment.center,
+                            child: const Center(
+                              child: Text(
+                                'Job Details',
+                                style: TextStyle(
+                                    color: colors.white,
+                                    fontSize: 14,
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
                           ),
                         ),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: size.width * 0.1),
-                        alignment: Alignment.center,
-                        child: const Center(
-                          child: Text(
-                            'Demo Video',
-                            style: TextStyle(
-                                color: colors.white,
-                                fontSize: 14,
-                                fontFamily: "Montserrat",
-                                fontWeight: FontWeight.bold),
+                        MaterialButton(
+                          onPressed: () {
+                            String? uri =
+                            homeController.a2JobVideoURS.toString();
+                            debugPrint("uri: $uri");
+                            launchUrl(
+                              Uri.parse(uri!),
+                              mode: LaunchMode.externalApplication,
+                            );
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Container(
+                            height: 40,
+                            // width: 140,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage("assets/images/btnbg.png"),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: size.width * 0.1),
+                            alignment: Alignment.center,
+                            child: const Center(
+                              child: Text(
+                                'Demo Video',
+                                style: TextStyle(
+                                    color: colors.white,
+                                    fontSize: 14,
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      child: TextButton(
+                        onPressed: () {
+                          String uri = group_link;
+                          launchUrl(
+                            Uri.parse(uri),
+                            mode: LaunchMode.externalApplication,
+                          );
+                        },
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(Colors.green),
+                          // You can customize other styles of the button here as well
+                        ),
+                        child: const Text(
+                          'Join our Whatsapp Group',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: TextButton(
-                    onPressed: () {
-                      String uri = group_link ;
-                      launchUrl(
-                        Uri.parse(uri),
-                        mode: LaunchMode.externalApplication,
-                      );
-                    },
-                    child: Text(
-                      'Join our Whatsapp Group',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
-                      // You can customize other styles of the button here as well
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
-      )),
+          )),
     );
   }
 
@@ -640,8 +796,6 @@ class HomeState extends State<Home> {
     });
   }
 
-
-
   Widget buildIndicator() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -659,7 +813,4 @@ class HomeState extends State<Home> {
       }).toList(),
     );
   }
-
 }
-
-

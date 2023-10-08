@@ -9,11 +9,11 @@ class HomeRepo {
 
   HomeRepo({required this.apiClient, required this.storageLocal});
 
-  // Future<Response> allSettingsList() async {
-  //   return await apiClient.postData(
-  //     Constant.SETTINGS_URL,{},
-  //   );
-  // }
+  Future<Response> allSettingsList() async {
+    return await apiClient.postData(
+      Constant.SETTINGS_URL,{},{}
+    );
+  }
 
   Future<Response> sliderList(String userId,) async {
     Map<String, dynamic> body = {

@@ -374,16 +374,15 @@ class _walletState extends State<wallet> {
                     MaterialButton(
                       onPressed: () async {
                         // showAlertDialog(context);
-                        showAlertDialog(context);
-                        // double withdrawalAmt =
-                        //     double.tryParse(_withdrawalAmtController.text) ??
-                        //         0.0;
-                        // double minimumAmt = double.tryParse(minimum) ?? 0.0;
-                        // if (withdrawalAmt < minimumAmt) {
-                        //   utils.showToast("please enter minimum $minimum");
-                        // } else {
-                        //   doWithdrawal();
-                        // }
+                        double withdrawalAmt =
+                            double.tryParse(_withdrawalAmtController.text) ??
+                                0.0;
+                        double minimumAmt = double.tryParse(minimum) ?? 0.0;
+                        if (withdrawalAmt < minimumAmt) {
+                          utils.showToast("please enter minimum $minimum");
+                        } else {
+                          doWithdrawal();
+                        }
                       },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -439,73 +438,6 @@ class _walletState extends State<wallet> {
       ),
     );
   }
-
-  // Future<void> showAlertDialog(BuildContext context) async {
-  //   Size size = MediaQuery.of(context).size;
-  //   return showDialog<void>(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           crossAxisAlignment: CrossAxisAlignment.start,
-  //           children: [
-  //             Align(
-  //                 alignment: Alignment.topCenter,
-  //                 child: SizedBox(
-  //                     width: size.width * 0.5,
-  //                     child: const Text('Would you like to purchase post ?'))),
-  //             RotatedBox(
-  //                 quarterTurns: 2,
-  //                 child: IconButton(
-  //                     onPressed: () {
-  //                       Navigator.of(context).pop();
-  //                     },
-  //                     icon: const Icon(Icons.add)))
-  //           ],
-  //         ),
-  //         actions: <Widget>[
-  //           MaterialButton(
-  //             onPressed: () async {
-  //               double withdrawalAmt =
-  //                   double.tryParse(_withdrawalAmtController.text) ?? 0.0;
-  //               double minimumAmt = double.tryParse(minimum) ?? 0.0;
-  //               if (withdrawalAmt < minimumAmt) {
-  //                 utils.showToast("please enter minimum $minimum");
-  //               } else {
-  //                 doWithdrawal();
-  //               }
-  //             },
-  //             shape: RoundedRectangleBorder(
-  //               borderRadius: BorderRadius.circular(10),
-  //             ),
-  //             child: Container(
-  //               margin: const EdgeInsets.only(left: 10),
-  //               height: 50,
-  //               width: 150,
-  //               decoration: const BoxDecoration(
-  //                 image: DecorationImage(
-  //                   image: AssetImage("assets/images/btnbg.png"),
-  //                   fit: BoxFit.fill,
-  //                 ),
-  //               ),
-  //               child: const Center(
-  //                 child: Text(
-  //                   'Withdrawal',
-  //                   style: TextStyle(
-  //                       color: colors.white,
-  //                       fontSize: 14,
-  //                       fontFamily: "Montserrat",
-  //                       fontWeight: FontWeight.bold),
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
 
   showAlertDialog(
     BuildContext context,

@@ -11,7 +11,7 @@ class SettingData {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(Data.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
   }
@@ -35,11 +35,15 @@ class Data {
   String? image;
   String? offerImage;
   String? referBonus;
-  String? whatsappChannelLink;
-  String? jobVideo;
+  String? whatsppGroupLink;
+  String? a1JobVideo;
   String? postVideoUrl;
   String? postVideoDetails;
-  String? jobDetails;
+  String? a1JobDetails;
+  String? a2JobDetails;
+  String? a2JobVideo;
+  String? a1PurchaseLink;
+  String? a2PurchaseLink;
 
   Data(
       {this.id,
@@ -49,11 +53,15 @@ class Data {
         this.image,
         this.offerImage,
         this.referBonus,
-        this.whatsappChannelLink,
-        this.jobVideo,
+        this.whatsppGroupLink,
+        this.a1JobVideo,
         this.postVideoUrl,
         this.postVideoDetails,
-        this.jobDetails});
+        this.a1JobDetails,
+        this.a2JobDetails,
+        this.a2JobVideo,
+        this.a1PurchaseLink,
+        this.a2PurchaseLink});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -63,11 +71,15 @@ class Data {
     image = json['image'];
     offerImage = json['offer_image'];
     referBonus = json['refer_bonus'];
-    whatsappChannelLink = json['whatsapp_channel_link'];
-    jobVideo = json['job_video'];
+    whatsppGroupLink = json['whatspp_group_link'];
+    a1JobVideo = json['a1_job_video'];
     postVideoUrl = json['post_video_url'];
     postVideoDetails = json['post_video_details'];
-    jobDetails = json['job_details'];
+    a1JobDetails = json['a1_job_details'];
+    a2JobDetails = json['a2_job_details'];
+    a2JobVideo = json['a2_job_video'];
+    a1PurchaseLink = json['a1_purchase_link'];
+    a2PurchaseLink = json['a2_purchase_link'];
   }
 
   Map<String, dynamic> toJson() {
@@ -79,11 +91,15 @@ class Data {
     data['image'] = image;
     data['offer_image'] = offerImage;
     data['refer_bonus'] = referBonus;
-    data['whatsapp_channel_link'] = whatsappChannelLink;
-    data['job_video'] = jobVideo;
+    data['whatspp_group_link'] = whatsppGroupLink;
+    data['a1_job_video'] = a1JobVideo;
     data['post_video_url'] = postVideoUrl;
     data['post_video_details'] = postVideoDetails;
-    data['job_details'] = jobDetails;
+    data['a1_job_details'] = a1JobDetails;
+    data['a2_job_details'] = a2JobDetails;
+    data['a2_job_video'] = a2JobVideo;
+    data['a1_purchase_link'] = a1PurchaseLink;
+    data['a2_purchase_link'] = a2PurchaseLink;
     return data;
   }
 }
