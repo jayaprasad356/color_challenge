@@ -383,7 +383,7 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
       Constant.AGE: _ageController.text,
       Constant.SUPPORT_LAN: language,
       Constant.GENDER: gender,
-      'deaf': int.parse(deafDumb),
+      Constant.DEAF: deafDumb,
       Constant.CITY: _cityController.text,
     };
 
@@ -412,8 +412,8 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
       prefs.setString(Constant.STATUS, user.status);
       prefs.setString(Constant.JOINED_DATE, user.joinedDate);
       prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
-      // prefs.setString(Constant.DEAF, user.deaf);
-      // prefs.setString(Constant.EMAIL, user.email);
+      prefs.setString(Constant.DEAF, user.deaf);
+      prefs.setString(Constant.EMAIL, user.email);
 
       Navigator.pushReplacement(
         context,

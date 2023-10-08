@@ -28,27 +28,27 @@ class MyOffer extends StatefulWidget {
 
 class _MyOfferState extends State<MyOffer> {
   late SharedPreferences prefs;
-  String offer_image = '';
+  // String offer_image = '';
+  final PCC c = Get.find<PCC>();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _initializeData();
+    initializeData();
   }
 
-  Future<void> _initializeData() async {
-    SharedPreferences.getInstance().then((value) {
-      prefs = value;
-      //userDeatils();
-      //String? userId = prefs.getString(Constant.ID);
-      offer_image = prefs.getString(Constant.OFFER_IMAGE)!;
-      //ads_status("status");
-    });
-    //prefs = await SharedPreferences.getInstance();
-
-    //debugPrint("userId_offer : $userId");
-    //c.offerAPI(userId!);
+  void initializeData() async {
+    // SharedPreferences.getInstance().then((value) {
+    //   prefs = value;
+    //   //userDeatils();
+    //   //String? userId = prefs.getString(Constant.ID);
+    //   offer_image = prefs.getString(Constant.OFFER_IMAGE)!;
+    //   //ads_status("status");
+    // });
+    prefs = await SharedPreferences.getInstance();
+    c.offerAPI(prefs.getString(Constant.ID)!);
+    setState(() {});
   }
 
   @override
@@ -68,20 +68,46 @@ class _MyOfferState extends State<MyOffer> {
           ),
           padding: const EdgeInsets.all(20),
           child: SafeArea(
-            child: Container(
-              width: size.width,
-              decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(16)),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: Image.network(
-                  offer_image,
-                  fit: BoxFit.fill,
-                ),
-              ),
+            child: Obx(
+              () => c.offerImageURS.isNotEmpty
+                  ? Container(
+                      width: size.width,
+                      decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(16)),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.network(
+                          c.offerImageURS.toString(),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    )
+                  : const Center(
+                      child: SizedBox(
+                        height: 50.0,
+                        width: 50.0,
+                        child: CircularProgressIndicator(
+                          value: null,
+                          strokeWidth: 7.0,
+                        ),
+                      ),
+                    ),
             ),
-              ),
+          ),
+          // child: Container(
+          //   width: size.width,
+          //   decoration: BoxDecoration(
+          //       color: Colors.transparent,
+          //       borderRadius: BorderRadius.circular(16)),
+          //   child: ClipRRect(
+          //     borderRadius: BorderRadius.circular(16),
+          //     child: Image.network(
+          //       offer_image,
+          //       fit: BoxFit.fill,
+          //     ),
+          //   ),
+          // ),
         ),
       ),
     );

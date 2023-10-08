@@ -21,6 +21,7 @@ import 'package:video_player/video_player.dart';
 class PCC extends GetxController implements GetxService {
   final ShortsVideoRepo shortsVideoRepo;
   PCC({required this.shortsVideoRepo});
+  late SharedPreferences prefs;
   int _api = 0;
   List<VideoPlayerController?> videoPlayerControllers = [];
   List<int> initilizedIndexes = [];
@@ -57,7 +58,15 @@ class PCC extends GetxController implements GetxService {
     // shortsVideoData();
     // imageListData();
     getUserId();
+    // initializeData();
   }
+
+  // Future<void> initializeData() async {
+  //   prefs = await SharedPreferences.getInstance();
+  //   String? userId = prefs.getString(Constant.ID);
+  //   debugPrint("userId : $userId");
+  //   offerAPI(userId!);
+  // }
 
   @override
   void onClose() {

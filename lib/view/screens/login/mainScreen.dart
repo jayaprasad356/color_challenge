@@ -42,9 +42,9 @@ class _MainScreenState extends State<MainScreen> {
   final TextEditingController _addCoinController = TextEditingController();
 
   int _selctedIndex = 0;
-  String title = "HOME";
+  String title = "My Offer";
   String upi_id = "";
-  bool _actionsVisible = true;
+  bool _actionsVisible = false;
   bool _logoutVisible = false;
   bool _leftArrowVisible = false;
   bool _notificationVisible = false;
@@ -73,7 +73,7 @@ class _MainScreenState extends State<MainScreen> {
       });
       print('FCM Token: $_fcmToken');
     });
-    offerImage();
+    // offerImage();
     if(status == '0'){
       _selctedIndex = 0;
 

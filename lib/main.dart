@@ -77,6 +77,16 @@ Future<void> main() async {
         storageLocal: storeLocal),
   ),);
 
+  Get.put(
+    PCC(
+      shortsVideoRepo: ShortsVideoRepo(
+          apiClient: ApiClient(
+            appBaseUrl: Constant.MainBaseUrl,
+            storageLocal: storeLocal,),
+          storageLocal: storeLocal),
+    ),
+  );
+
   Get.put(const FlutterSecureStorage());
 
   // runApp(MyVideoApp());

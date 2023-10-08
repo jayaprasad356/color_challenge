@@ -100,14 +100,14 @@ class _ProfileFormState extends State<ProfileForm> {
         city = prefs.getString(Constant.CITY)!;
         age = prefs.getString(Constant.AGE)!;
         gender = prefs.getString(Constant.GENDER)!;
-        deafDumb = prefs.getString(Constant.DEAF)!;
+        // deafDumb = prefs.getString(Constant.DEAF)!;
         language = prefs.getString(Constant.SUPPORT_LAN)!;
-        email = prefs.getString(Constant.EMAIL)!;
+        // email = prefs.getString(Constant.EMAIL)!;
 
         _nameController.text = name;
         _cityController.text = city;
         _ageController.text = age;
-        _emailController.text = email;
+        // _emailController.text = email;
       });
     });
   }
