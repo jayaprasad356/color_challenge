@@ -4,7 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 const FlutterSecureStorage storeLocal = FlutterSecureStorage();
 
 class Constant {
-  static const String MainBaseUrl = "https://admin.colorjobs.site/";
+  static const String MainBaseUrl = "https://demo.colorjobs.site/";
   //static const String MainBaseUrl = "http://192.168.35.38/color_challenge_admin/";
   //static const String MainBaseUrl = "https://demo.colorjobs.site/";
   static const String BaseUrl = "${MainBaseUrl}api/";

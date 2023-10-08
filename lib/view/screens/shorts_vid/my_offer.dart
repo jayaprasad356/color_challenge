@@ -27,8 +27,8 @@ class MyOffer extends StatefulWidget {
 }
 
 class _MyOfferState extends State<MyOffer> {
-  final PCC c = Get.find<PCC>();
   late SharedPreferences prefs;
+  String offer_image = '';
 
   @override
   void initState() {
@@ -38,10 +38,17 @@ class _MyOfferState extends State<MyOffer> {
   }
 
   Future<void> _initializeData() async {
-    prefs = await SharedPreferences.getInstance();
-    String? userId = prefs.getString(Constant.ID);
-    debugPrint("userId : $userId");
-    c.offerAPI(userId!);
+    SharedPreferences.getInstance().then((value) {
+      prefs = value;
+      //userDeatils();
+      //String? userId = prefs.getString(Constant.ID);
+      offer_image = prefs.getString(Constant.OFFER_IMAGE)!;
+      //ads_status("status");
+    });
+    //prefs = await SharedPreferences.getInstance();
+
+    //debugPrint("userId_offer : $userId");
+    //c.offerAPI(userId!);
   }
 
   @override
@@ -61,8 +68,7 @@ class _MyOfferState extends State<MyOffer> {
           ),
           padding: const EdgeInsets.all(20),
           child: SafeArea(
-              child: Obx(
-            () => Container(
+            child: Container(
               width: size.width,
               decoration: BoxDecoration(
                   color: Colors.transparent,
@@ -70,12 +76,12 @@ class _MyOfferState extends State<MyOffer> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(16),
                 child: Image.network(
-                  c.offerImageURS.toString(),
+                  offer_image,
                   fit: BoxFit.fill,
                 ),
               ),
             ),
-          )),
+              ),
         ),
       ),
     );

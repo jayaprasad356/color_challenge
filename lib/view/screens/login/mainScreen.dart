@@ -73,9 +73,14 @@ class _MainScreenState extends State<MainScreen> {
       });
       print('FCM Token: $_fcmToken');
     });
-    debugPrint("status: $status");
-    debugPrint("old_plan: $old_plan");
-    debugPrint("plan: $plan");
+    offerImage();
+    if(status == '0'){
+      _selctedIndex = 0;
+
+    }else{
+      _selctedIndex = 2;
+    }
+
   }
 
   @override
@@ -145,9 +150,9 @@ class _MainScreenState extends State<MainScreen> {
       // } else if (index == 2) {
       if (index == 1) {
         if(old_plan == "0" && plan == "A1" && status == "1" ) {
-          title = "Full Time Page";
+          title = "A1 Plan";
         } else {
-          title = "ADS";
+          title = "A2 Plan";
         };
         // title = "ADS";
         _actionsVisible = false;
@@ -283,7 +288,7 @@ class _MainScreenState extends State<MainScreen> {
                       ? GestureDetector(
                           onTap: () {
                             prefs.setString(Constant.LOGED_IN, "false");
-                            Utils().logout();
+                            logout();
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(12.0),
@@ -688,7 +693,6 @@ break;
 
     prefs.setString(Constant.CONTACT_US, datass[Constant.CONTACT_US]);
     prefs.setString(Constant.IMAGE, datass[Constant.IMAGE]);
-    prefs.setString(Constant.OFFER_IMAGE, datass[Constant.OFFER_IMAGE]);
     prefs.setString(Constant.REFER_BONUS, datass[Constant.REFER_BONUS]);
     prefs.setString(
         Constant.WITHDRAWAL_STATUS, datass[Constant.WITHDRAWAL_STATUS]);
@@ -699,6 +703,21 @@ break;
         Constant.JOB_DETAILS, datass[Constant.JOB_DETAILS]);
 
   }
+  void offerImage() async {
+    prefs = await SharedPreferences.getInstance();
+
+    var response = await dataCall(Constant.OFFER_LIST);
+
+    String jsonDataString = response.toString();
+    final jsonData = jsonDecode(jsonDataString);
+
+    final dataList = jsonData['data'] as List;
+
+    final datass = dataList.first;
+    prefs.setString(Constant.OFFER_IMAGE, datass[Constant.IMAGE]);
+
+
+  }
 
   ontop() {
     Clipboard.setData(ClipboardData(text: link));
@@ -707,9 +726,14 @@ break;
     );
     Utils().showToast("Copied!");
   }
+  Future<void> clearSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+  }
 
   void logout() async {
-    await googleSignIn.disconnect();
+    clearSharedPreferences();
+    SystemNavigator.pop();
     FirebaseAuth.instance.signOut();
   }
 }

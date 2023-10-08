@@ -69,6 +69,9 @@ class FullTimePageState extends State<FullTimePage> {
   late String generatedOtp;
   int syncUniqueId = 1;
   double multiplyCostValue = 0;
+  double maximumValue = 120.0;
+  double currentValue = 60.0;
+  double progressPercentage1 = 0.00;
   // FocusNode otpFocus1 = FocusNode();
   // FocusNode otpFocus2 = FocusNode();
   // FocusNode otpFocus3 = FocusNode();
@@ -79,6 +82,7 @@ class FullTimePageState extends State<FullTimePage> {
   @override
   void initState() {
     super.initState();
+    progressPercentage1 = currentValue / maximumValue;
 
     isButtonDisabled = true;
 
@@ -139,9 +143,9 @@ class FullTimePageState extends State<FullTimePage> {
     debugPrint("ads_time: $ads_time");
     userDeatils();
     multiplyCostValue = multiplyCost(adsCount, ads_cost)!;
-    if (adsCount < 100) {
+    if (adsCount < 120) {
       isButtonDisabled = true; // Disable the button
-    } else if (adsCount >= 100) {
+    } else if (adsCount >= 120) {
       isButtonDisabled = false; // Enable the button
       // String? syncAble = await storeLocal.read(
       //     key: Constant.SYNC_ABLE);
@@ -209,9 +213,9 @@ class FullTimePageState extends State<FullTimePage> {
   void isButtonDisabledINIT() {
     setState(() {
       debugPrint("timerCount: $adsCount");
-      if (adsCount < 100) {
+      if (adsCount < 120) {
         isButtonDisabled = true; // Disable the button
-      } else if (adsCount >= 100) {
+      } else if (adsCount >= 120) {
         isButtonDisabled = false; // Enable the button
       }
     });
@@ -233,12 +237,12 @@ class FullTimePageState extends State<FullTimePage> {
         adsCount++;
         print('timerCount called $adsCount times.');
         setState(() {
-          progressPercentage = (adsCount / 100).clamp(0.0, 1.0);
+          progressPercentage = (adsCount / maximumValue);
           debugPrint("timerCount: $adsCount");
           saveTimerCount(adsCount);
-          if (adsCount < 100) {
+          if (adsCount < 120) {
             isButtonDisabled = true; // Disable the button
-          } else if (adsCount >= 100) {
+          } else if (adsCount >= 120) {
             syncUniqueId = fullTimePageCont.generateRandomSixDigitNumber();
             isButtonDisabled = false; // Enable the button
             // timerCount = 1;
@@ -266,7 +270,7 @@ class FullTimePageState extends State<FullTimePage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       adsCount = prefs.getInt('timerCount') ?? 0;
-      progressPercentage = (adsCount / 100).clamp(0.0, 1.0);
+      progressPercentage = (adsCount / maximumValue);
     });
   }
 
@@ -446,7 +450,7 @@ class FullTimePageState extends State<FullTimePage> {
                           animation: true,
                           percent: progressPercentage,
                           center: Text(
-                            (progressPercentage * 100).toInt().toString(),
+                            (progressPercentage * maximumValue).toInt().toString(),
                             style: const TextStyle(
                                 fontFamily: 'MontserratBold',
                                 fontSize: 16.0,
