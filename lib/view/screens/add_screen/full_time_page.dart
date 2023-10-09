@@ -84,16 +84,23 @@ class FullTimePageState extends State<FullTimePage> {
 
     SharedPreferences.getInstance().then((value) {
       prefs = value;
-      setState(() {
-        ads_time = prefs.getString(Constant.ADS_TIME)!;
-        balance = prefs.getString(Constant.BALANCE)!;
-        today_ads = prefs.getString(Constant.TOTAL_ADS)!;
-        total_ads = prefs.getString(Constant.TOTAL_ADS)!;
-        ads_cost = prefs.getString(Constant.ADS_COST)!;
-        referText = prefs.getString(Constant.REFER_CODE)!;
-        refer_bonus = prefs.getString(Constant.REFER_BONUS)!;
-        // adsApi();
-      });
+      ads_time = prefs.getString(Constant.ADS_TIME)!;
+      balance = prefs.getString(Constant.BALANCE)!;
+      today_ads = prefs.getString(Constant.TOTAL_ADS)!;
+      total_ads = prefs.getString(Constant.TOTAL_ADS)!;
+      ads_cost = prefs.getString(Constant.ADS_COST)!;
+      referText = prefs.getString(Constant.REFER_CODE)!;
+      refer_bonus = prefs.getString(Constant.REFER_BONUS)!;
+      // setState(() {
+      //   ads_time = prefs.getString(Constant.ADS_TIME)!;
+      //   balance = prefs.getString(Constant.BALANCE)!;
+      //   today_ads = prefs.getString(Constant.TOTAL_ADS)!;
+      //   total_ads = prefs.getString(Constant.TOTAL_ADS)!;
+      //   ads_cost = prefs.getString(Constant.ADS_COST)!;
+      //   referText = prefs.getString(Constant.REFER_CODE)!;
+      //   refer_bonus = prefs.getString(Constant.REFER_BONUS)!;
+      //   // adsApi();
+      // });
       //ads_status("status");
     });
 
@@ -112,78 +119,78 @@ class FullTimePageState extends State<FullTimePage> {
   //   super.dispose();
   // }
 
-  @override
-  void setState(VoidCallback fn) async {
-    // TODO: implement setState
-    super.setState(fn);
+  // @override
+  // void setState(VoidCallback fn) async {
+  //   // TODO: implement setState
+  //   super.setState(fn);
+  //
+  //   balance;
+  //   total_ads;
+  //   today_ads;
+  //   // multiplyCostValue = multiplyCost(adsCount, ads_cost)!;
+  //   if (adsCount < 120) {
+  //     isButtonDisabled = true; // Disable the button
+  //   } else if (adsCount >= 120) {
+  //     isButtonDisabled = false; // Enable the button
+  //   } else if (adsCount > 120) {
+  //     progressPercentage = 0.0;
+  //     isButtonDisabled = false; // Enable the button
+  //     adsCount = 0;
+  //   }
+  // }
 
-    balance;
-    total_ads;
-    today_ads;
-    // multiplyCostValue = multiplyCost(adsCount, ads_cost)!;
-    if (adsCount < 120) {
-      isButtonDisabled = true; // Disable the button
-    } else if (adsCount >= 120) {
-      isButtonDisabled = false; // Enable the button
-    } else if (adsCount > 120) {
-      progressPercentage = 0.0;
-      isButtonDisabled = false; // Enable the button
-      adsCount = 0;
-    }
-  }
-
-  void userDeatils() async {
-    var url = Constant.USER_DETAIL_URL;
-    Map<String, dynamic> bodyObject = {
-      Constant.USER_ID: prefs.getString(Constant.ID),
-    };
-    String jsonString = await apiCall(url, bodyObject);
-    final Map<String, dynamic> responseJson = jsonDecode(jsonString);
-    final dataList = responseJson['data'] as List;
-    final Users user = Users.fromJsonNew(dataList.first);
-
-    prefs.setString(Constant.LOGED_IN, "true");
-    prefs.setString(Constant.ID, user.id);
-    prefs.setString(Constant.MOBILE, user.mobile);
-    prefs.setString(Constant.NAME, user.name);
-    prefs.setString(Constant.EARN, user.earn);
-    prefs.setString(Constant.CITY, user.city);
-    prefs.setString(Constant.AGE, user.age);
-    prefs.setString(Constant.GENDER, user.gender);
-    prefs.setString(Constant.SUPPORT_LAN, user.support_lan);
-    prefs.setString(Constant.BALANCE, user.balance);
-    prefs.setString(Constant.REFERRED_BY, user.referredBy);
-    prefs.setString(Constant.REFER_CODE, user.referCode);
-    prefs.setString(Constant.WITHDRAWAL_STATUS, user.withdrawalStatus);
-    prefs.setString(Constant.STATUS, user.status);
-    prefs.setString(Constant.JOINED_DATE, user.joinedDate);
-    prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
-    prefs.setString(Constant.MIN_WITHDRAWAL, user.min_withdrawal);
-    prefs.setString(Constant.HOLDER_NAME, user.holder_name);
-    prefs.setString(Constant.ACCOUNT_NUM, user.account_num);
-    prefs.setString(Constant.IFSC, user.ifsc);
-    prefs.setString(Constant.BANK, user.bank);
-    prefs.setString(Constant.BRANCH, user.branch);
-    prefs.setString(Constant.BASIC_WALLET, user.basic_wallet);
-    // prefs.setString(Constant.PREMIUM_WALLET, user.premium_wallet);
-    prefs.setString(Constant.TARGET_REFERS, user.target_refers);
-    prefs.setString(Constant.TODAY_ADS, user.today_ads);
-    prefs.setString(Constant.TOTAL_ADS, user.total_ads);
-    prefs.setString(Constant.STATUS, user.status);
-    prefs.setString(Constant.ADS_COST, user.ads_cost);
-    prefs.setString(Constant.ADS_TIME, user.ads_time);
-    setState(() {
-      // basic_wallet = prefs.getString(Constant.BASIC_WALLET)!;
-      // premium_wallet = prefs.getString(Constant.PREMIUM_WALLET)!;
-      target_refers = prefs.getString(Constant.TARGET_REFERS)!;
-      today_ads = prefs.getString(Constant.TODAY_ADS)!;
-      total_ads = prefs.getString(Constant.TOTAL_ADS)!;
-      // status = prefs.getString(Constant.STATUS)!;
-      ads_time = prefs.getString(Constant.ADS_TIME)!;
-      ads_cost = prefs.getString(Constant.ADS_COST)!;
-      balance = prefs.getString(Constant.BALANCE)!;
-    });
-  }
+  // void userDeatils() async {
+  //   var url = Constant.USER_DETAIL_URL;
+  //   Map<String, dynamic> bodyObject = {
+  //     Constant.USER_ID: prefs.getString(Constant.ID),
+  //   };
+  //   String jsonString = await apiCall(url, bodyObject);
+  //   final Map<String, dynamic> responseJson = jsonDecode(jsonString);
+  //   final dataList = responseJson['data'] as List;
+  //   final Users user = Users.fromJsonNew(dataList.first);
+  //
+  //   prefs.setString(Constant.LOGED_IN, "true");
+  //   prefs.setString(Constant.ID, user.id);
+  //   prefs.setString(Constant.MOBILE, user.mobile);
+  //   prefs.setString(Constant.NAME, user.name);
+  //   prefs.setString(Constant.EARN, user.earn);
+  //   prefs.setString(Constant.CITY, user.city);
+  //   prefs.setString(Constant.AGE, user.age);
+  //   prefs.setString(Constant.GENDER, user.gender);
+  //   prefs.setString(Constant.SUPPORT_LAN, user.support_lan);
+  //   prefs.setString(Constant.BALANCE, user.balance);
+  //   prefs.setString(Constant.REFERRED_BY, user.referredBy);
+  //   prefs.setString(Constant.REFER_CODE, user.referCode);
+  //   prefs.setString(Constant.WITHDRAWAL_STATUS, user.withdrawalStatus);
+  //   prefs.setString(Constant.STATUS, user.status);
+  //   prefs.setString(Constant.JOINED_DATE, user.joinedDate);
+  //   prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
+  //   prefs.setString(Constant.MIN_WITHDRAWAL, user.min_withdrawal);
+  //   prefs.setString(Constant.HOLDER_NAME, user.holder_name);
+  //   prefs.setString(Constant.ACCOUNT_NUM, user.account_num);
+  //   prefs.setString(Constant.IFSC, user.ifsc);
+  //   prefs.setString(Constant.BANK, user.bank);
+  //   prefs.setString(Constant.BRANCH, user.branch);
+  //   prefs.setString(Constant.BASIC_WALLET, user.basic_wallet);
+  //   // prefs.setString(Constant.PREMIUM_WALLET, user.premium_wallet);
+  //   prefs.setString(Constant.TARGET_REFERS, user.target_refers);
+  //   prefs.setString(Constant.TODAY_ADS, user.today_ads);
+  //   prefs.setString(Constant.TOTAL_ADS, user.total_ads);
+  //   prefs.setString(Constant.STATUS, user.status);
+  //   prefs.setString(Constant.ADS_COST, user.ads_cost);
+  //   prefs.setString(Constant.ADS_TIME, user.ads_time);
+  //   setState(() {
+  //     // basic_wallet = prefs.getString(Constant.BASIC_WALLET)!;
+  //     // premium_wallet = prefs.getString(Constant.PREMIUM_WALLET)!;
+  //     target_refers = prefs.getString(Constant.TARGET_REFERS)!;
+  //     today_ads = prefs.getString(Constant.TODAY_ADS)!;
+  //     total_ads = prefs.getString(Constant.TOTAL_ADS)!;
+  //     // status = prefs.getString(Constant.STATUS)!;
+  //     ads_time = prefs.getString(Constant.ADS_TIME)!;
+  //     ads_cost = prefs.getString(Constant.ADS_COST)!;
+  //     balance = prefs.getString(Constant.BALANCE)!;
+  //   });
+  // }
 
   void isButtonDisabledINIT() {
     setState(() {

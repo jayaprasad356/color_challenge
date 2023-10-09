@@ -117,7 +117,7 @@ class _MainScreenState extends State<MainScreen> {
     prefs.setString(Constant.EARN, user.earn);
     prefs.setString(Constant.BALANCE, user.balance);
     prefs.setString(Constant.TODAY_ADS, user.today_ads);
-    prefs.setString(Constant.TOTAL_ADS, user.today_ads);
+    prefs.setString(Constant.TOTAL_ADS, user.total_ads);
     prefs.setString(Constant.REFERRED_BY, user.referredBy);
     prefs.setString(Constant.REFER_CODE, user.referCode);
     prefs.setString(Constant.WITHDRAWAL_STATUS, user.withdrawalStatus);
