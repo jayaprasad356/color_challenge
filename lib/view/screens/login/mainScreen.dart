@@ -79,6 +79,7 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {
       homeController.allSettingsData();
       c.offerImageURS();
+      // debugPrint("balance: $balance");
     });
     // offerImage();
     if(status == '0'){
@@ -93,11 +94,7 @@ class _MainScreenState extends State<MainScreen> {
   void setState(VoidCallback fn) {
     // TODO: implement setState
     super.setState(fn);
-    debugPrint("status: $status");
-    debugPrint("old_plan: $old_plan");
-    debugPrint("plan: $plan");
-    // homeController.allSettingsData();
-    // c.offerImageURS();
+    userDeatils();
   }
 
   void userDeatils() async {
@@ -119,6 +116,8 @@ class _MainScreenState extends State<MainScreen> {
     prefs.setString(Constant.UPI, user.upi);
     prefs.setString(Constant.EARN, user.earn);
     prefs.setString(Constant.BALANCE, user.balance);
+    prefs.setString(Constant.TODAY_ADS, user.today_ads);
+    prefs.setString(Constant.TOTAL_ADS, user.today_ads);
     prefs.setString(Constant.REFERRED_BY, user.referredBy);
     prefs.setString(Constant.REFER_CODE, user.referCode);
     prefs.setString(Constant.WITHDRAWAL_STATUS, user.withdrawalStatus);

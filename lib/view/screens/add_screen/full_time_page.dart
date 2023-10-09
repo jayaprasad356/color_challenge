@@ -86,6 +86,9 @@ class FullTimePageState extends State<FullTimePage> {
       prefs = value;
       setState(() {
         ads_time = prefs.getString(Constant.ADS_TIME)!;
+        balance = prefs.getString(Constant.BALANCE)!;
+        today_ads = prefs.getString(Constant.TOTAL_ADS)!;
+        total_ads = prefs.getString(Constant.TOTAL_ADS)!;
         ads_cost = prefs.getString(Constant.ADS_COST)!;
         referText = prefs.getString(Constant.REFER_CODE)!;
         refer_bonus = prefs.getString(Constant.REFER_BONUS)!;
@@ -114,6 +117,9 @@ class FullTimePageState extends State<FullTimePage> {
     // TODO: implement setState
     super.setState(fn);
 
+    balance;
+    total_ads;
+    today_ads;
     // multiplyCostValue = multiplyCost(adsCount, ads_cost)!;
     if (adsCount < 120) {
       isButtonDisabled = true; // Disable the button
@@ -575,13 +581,21 @@ class FullTimePageState extends State<FullTimePage> {
                                   const SizedBox(
                                     height: 5,
                                   ),
-                                  Obx(() => Text(
-                                    "${fullTimePageCont.balance} + $multiplyCostValue",
+                                  Text(
+                                    "$balance + $multiplyCostValue",
                                     style: const TextStyle(
                                         fontFamily: 'MontserratBold',
                                         color: Colors.white,
                                         fontSize: 15.0),
-                                  ),),
+                                  ),
+                                  // Obx(() => Text(
+                                  //   "$balance + $multiplyCostValue",
+                                  //   // "${fullTimePageCont.balance} + $multiplyCostValue",
+                                  //   style: const TextStyle(
+                                  //       fontFamily: 'MontserratBold',
+                                  //       color: Colors.white,
+                                  //       fontSize: 15.0),
+                                  // ),),
                                 ],
                               ),
                             ),
@@ -621,23 +635,40 @@ class FullTimePageState extends State<FullTimePage> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Obx(() => Text(
-                                      "${fullTimePageCont.totalAds} + ${adsCount.toString()}",
+                                   Text(
+                                      "$today_ads + ${adsCount.toString()}",
                                       style: const TextStyle(
                                           fontFamily: 'MontserratBold',
                                           color: Colors.white,
                                           fontSize: 15.0),
-                                    ),),
+                                    ),
+                                    // Obx(() => Text(
+                                    //   "$today_ads + ${adsCount.toString()}",
+                                    //   // "${fullTimePageCont.totalAds} + ${adsCount.toString()}",
+                                    //   style: const TextStyle(
+                                    //       fontFamily: 'MontserratBold',
+                                    //       color: Colors.white,
+                                    //       fontSize: 15.0),
+                                    // ),),
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                    Obx(() => Text(
-                                      "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
+                                    Text(
+                                      "$total_ads + ${adsCount.toString()}",
+                                      // "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
                                       style: const TextStyle(
                                           fontFamily: 'MontserratBold',
                                           color: Colors.white,
                                           fontSize: 15.0),
-                                    ),),
+                                    ),
+                                    // Obx(() => Text(
+                                    //   "$total_ads + ${adsCount.toString()}",
+                                    //   // "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
+                                    //   style: const TextStyle(
+                                    //       fontFamily: 'MontserratBold',
+                                    //       color: Colors.white,
+                                    //       fontSize: 15.0),
+                                    // ),),
                                   ],
                                 ),
                               ],
