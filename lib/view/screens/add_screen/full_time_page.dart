@@ -676,6 +676,8 @@ class FullTimePageState extends State<FullTimePage> {
                     onPressed: () async {
                       debugPrint("homeController.watchAdStatus: ${homeController.watchAdStatus}");
                       debugPrint("adsCount: $adsCount");
+                      var watchAdStatus = prefs.getString(Constant.WATCH_AD_STATUS);
+                      // debugPrint("homeController.watchAdStatus: ${homeController.watchAdStatus}");
                       if (homeController.watchAdStatus == "1" && adsCount < 120) {
                         if (!timerStarted) {
                           generatedOtp = fullTimePageCont

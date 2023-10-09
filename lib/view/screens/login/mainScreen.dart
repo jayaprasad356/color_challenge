@@ -68,7 +68,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    //setupSettings();
+    // setupSettings();
     FirebaseMessaging.instance.getToken().then((token) {
       setState(() {
         _fcmToken = token!;
@@ -709,8 +709,8 @@ break;
     prefs.setString(
         Constant.WITHDRAWAL_STATUS, datass[Constant.WITHDRAWAL_STATUS]);
     prefs.setString(Constant.WHATSPP_GROUP_LINK, datass[Constant.WHATSPP_GROUP_LINK]);
-    prefs.setString(
-        Constant.JOB_VIDEO, datass[Constant.JOB_VIDEO]);
+    // prefs.setString(
+    //     Constant.JOB_VIDEO, datass[Constant.JOB_VIDEO]);
     prefs.setString(
         Constant.JOB_DETAILS, datass[Constant.JOB_DETAILS]);
     prefs.setString(
