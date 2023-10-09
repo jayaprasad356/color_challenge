@@ -29,10 +29,6 @@ class FullTimePage extends StatefulWidget {
 
 class FullTimePageState extends State<FullTimePage> {
   final FullTimePageCont fullTimePageCont = Get.find<FullTimePageCont>();
-  // TextEditingController otpController1 = TextEditingController();
-  // TextEditingController otpController2 = TextEditingController();
-  // TextEditingController otpController3 = TextEditingController();
-  // TextEditingController otpController4 = TextEditingController();
   late SharedPreferences prefs;
   double starttime = 0; // Set the progress value between 0.0 and 1.0 here
   String today_ads_remain = "0";
@@ -56,7 +52,7 @@ class FullTimePageState extends State<FullTimePage> {
   final TextEditingController _serialController = TextEditingController();
   String serilarandom = "",
       basic_wallet = "",
-      premium_wallet = "",
+      // premium_wallet = "",
       target_refers = "",
       today_ads = "0",
       total_ads = "0",
@@ -72,12 +68,6 @@ class FullTimePageState extends State<FullTimePage> {
   double maximumValue = 120.0;
   double currentValue = 60.0;
   double progressPercentage1 = 0.00;
-  // FocusNode otpFocus1 = FocusNode();
-  // FocusNode otpFocus2 = FocusNode();
-  // FocusNode otpFocus3 = FocusNode();
-  // FocusNode otpFocus4 = FocusNode();
-  // late List<FocusNode> focusNodes;
-  // late List<TextEditingController> controllers;
 
   @override
   void initState() {
@@ -85,8 +75,6 @@ class FullTimePageState extends State<FullTimePage> {
     progressPercentage1 = currentValue / maximumValue;
 
     isButtonDisabled = true;
-
-
 
     // // Initialize focus nodes and controllers
     // focusNodes = List.generate(4, (index) => FocusNode());
@@ -96,30 +84,31 @@ class FullTimePageState extends State<FullTimePage> {
       prefs = value;
       setState(() {
         userDeatils();
-        contact_us = prefs.getString(Constant.CONTACT_US).toString();
-        basic_wallet = prefs.getString(Constant.BASIC_WALLET)!;
-        premium_wallet = prefs.getString(Constant.PREMIUM_WALLET)!;
-        status = prefs.getString(Constant.STATUS)!;
-        status = prefs.getString(Constant.ADS_TIME)!;
+        // contact_us = prefs.getString(Constant.CONTACT_US).toString();
+        // basic_wallet = prefs.getString(Constant.BASIC_WALLET)!;
+        // premium_wallet = prefs.getString(Constant.PREMIUM_WALLET)!;
+        // status = prefs.getString(Constant.STATUS)!;
+        ads_time = prefs.getString(Constant.ADS_TIME)!;
         ads_cost = prefs.getString(Constant.ADS_COST)!;
-
-        adsApi();
+        referText = prefs.getString(Constant.REFER_CODE)!;
+        refer_bonus = prefs.getString(Constant.REFER_BONUS)!;
+        // adsApi();
       });
       //ads_status("status");
     });
-    SharedPreferences.getInstance().then((value) {
-      prefs = value;
-      setState(() {
-        contact_us = prefs.getString(Constant.CONTACT_US).toString();
-        image = prefs.getString(Constant.IMAGE).toString();
-        offer_image = prefs.getString(Constant.OFFER_IMAGE).toString();
-        referText = prefs.getString(Constant.REFER_CODE)!;
-        refer_bonus = prefs.getString(Constant.REFER_BONUS)!;
-      });
-    });
+    // SharedPreferences.getInstance().then((value) {
+    //   prefs = value;
+    //   setState(() {
+    //     // contact_us = prefs.getString(Constant.CONTACT_US).toString();
+    //     // image = prefs.getString(Constant.IMAGE).toString();
+    //     // offer_image = prefs.getString(Constant.OFFER_IMAGE).toString();
+    //     referText = prefs.getString(Constant.REFER_CODE)!;
+    //     refer_bonus = prefs.getString(Constant.REFER_BONUS)!;
+    //   });
+    // });
     loadTimerCount();
-    debugPrint("ads_cost: $ads_cost");
-    multiplyCostValue = multiplyCost(adsCount, ads_cost)!;
+    // debugPrint("ads_cost: $ads_cost");
+    // multiplyCostValue = multiplyCost(adsCount, ads_cost)!;
   }
 
   // @override
@@ -139,10 +128,10 @@ class FullTimePageState extends State<FullTimePage> {
     // TODO: implement setState
     super.setState(fn);
     // multiplyCostValue;
-    debugPrint("timerCount: $adsCount");
-    debugPrint("ads_time: $ads_time");
-    userDeatils();
-    multiplyCostValue = multiplyCost(adsCount, ads_cost)!;
+    // debugPrint("timerCount: $adsCount");
+    // debugPrint("ads_time: $ads_time");
+    // userDeatils();
+    // multiplyCostValue = multiplyCost(adsCount, ads_cost)!;
     if (adsCount < 120) {
       isButtonDisabled = true; // Disable the button
     } else if (adsCount >= 120) {
@@ -190,7 +179,7 @@ class FullTimePageState extends State<FullTimePage> {
     prefs.setString(Constant.BANK, user.bank);
     prefs.setString(Constant.BRANCH, user.branch);
     prefs.setString(Constant.BASIC_WALLET, user.basic_wallet);
-    prefs.setString(Constant.PREMIUM_WALLET, user.premium_wallet);
+    // prefs.setString(Constant.PREMIUM_WALLET, user.premium_wallet);
     prefs.setString(Constant.TARGET_REFERS, user.target_refers);
     prefs.setString(Constant.TODAY_ADS, user.today_ads);
     prefs.setString(Constant.TOTAL_ADS, user.total_ads);
@@ -198,12 +187,12 @@ class FullTimePageState extends State<FullTimePage> {
     prefs.setString(Constant.ADS_COST, user.ads_cost);
     prefs.setString(Constant.ADS_TIME, user.ads_time);
     setState(() {
-      basic_wallet = prefs.getString(Constant.BASIC_WALLET)!;
-      premium_wallet = prefs.getString(Constant.PREMIUM_WALLET)!;
+      // basic_wallet = prefs.getString(Constant.BASIC_WALLET)!;
+      // premium_wallet = prefs.getString(Constant.PREMIUM_WALLET)!;
       target_refers = prefs.getString(Constant.TARGET_REFERS)!;
       today_ads = prefs.getString(Constant.TODAY_ADS)!;
       total_ads = prefs.getString(Constant.TOTAL_ADS)!;
-      status = prefs.getString(Constant.STATUS)!;
+      // status = prefs.getString(Constant.STATUS)!;
       ads_time = prefs.getString(Constant.ADS_TIME)!;
       ads_cost = prefs.getString(Constant.ADS_COST)!;
       balance = prefs.getString(Constant.BALANCE)!;
@@ -236,10 +225,11 @@ class FullTimePageState extends State<FullTimePage> {
         });
         adsCount++;
         print('timerCount called $adsCount times.');
+        multiplyCostValue = multiplyCost(adsCount, ads_cost)!;
         setState(() {
           progressPercentage = (adsCount / maximumValue);
           debugPrint("timerCount: $adsCount");
-          saveTimerCount(adsCount);
+          saveTimerCount(adsCount,multiplyCostValue);
           if (adsCount < 120) {
             isButtonDisabled = true; // Disable the button
           } else if (adsCount >= 120) {
@@ -270,14 +260,16 @@ class FullTimePageState extends State<FullTimePage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       adsCount = prefs.getInt('timerCount') ?? 0;
+      multiplyCostValue = prefs.getDouble('multiplyCostValueLocal') ?? 0.0;
       progressPercentage = (adsCount / maximumValue);
     });
   }
 
   // Save timerCount to shared preferences
-  void saveTimerCount(int count) async {
+  void saveTimerCount(int count,double cost) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt('timerCount', count);
+    await prefs.setDouble('multiplyCostValueLocal', cost);
   }
 
   String separateNumber(String number) {
@@ -300,9 +292,9 @@ class FullTimePageState extends State<FullTimePage> {
 
   double? multiplyCost(int timerCount, String str2) {
     try {
-      print('str2: $str2');
+      // print('str2: $str2');
       double num2 = double.parse(str2);
-      print('num2: $num2');
+      // print('num2: $num2');
       return timerCount * num2;
     } catch (e) {
       print('Error: Unable to parse the input string as a number.');
@@ -709,41 +701,6 @@ class FullTimePageState extends State<FullTimePage> {
                         colors.widget_color), // Color of the progress indicator
                   ),
                   const SizedBox(height: 5),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //   children: <Widget>[
-                  //     Text(
-                  //       'Today Viewed Ads: $today_ads',
-                  //       style: const TextStyle(
-                  //           color: colors.white,
-                  //           fontSize: 12,
-                  //           fontFamily: "Montserrat",
-                  //           fontWeight: FontWeight.bold),
-                  //     ),
-                  //     const SizedBox(height: 5),
-                  //     Text(
-                  //       'Total Viewed Ads: $total_ads',
-                  //       style: const TextStyle(
-                  //           color: colors.white,
-                  //           fontSize: 12,
-                  //           fontFamily: "Montserrat",
-                  //           fontWeight: FontWeight.bold),
-                  //     ),
-                  //   ],
-                  // ),
-                  // const SizedBox(height: 5),
-                  // const SizedBox(height: 5),
-                  // const Padding(
-                  //   padding: EdgeInsets.all(10.0),
-                  //   child: Text(
-                  //     'Rs 500 Register Bonus Is Credited In Your Vault Balance. Complete Months Target To Withdraw.',
-                  //     style: TextStyle(
-                  //         color: colors.widget_color,
-                  //         fontSize: 12,
-                  //         fontFamily: "Montserrat",
-                  //         fontWeight: FontWeight.bold),
-                  //   ),
-                  // ),
                 ],
               ),
             ),
@@ -751,256 +708,6 @@ class FullTimePageState extends State<FullTimePage> {
         ),
       ),
     );
-  }
-
-  showSheet() {
-    showModalBottomSheet(
-        context: context,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(40.0),
-          ),
-        ),
-        builder: (context) {
-          return Padding(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: SingleChildScrollView(
-              child: SizedBox(
-                height: 500,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      const SizedBox(
-                        height: 50,
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          serilarandom,
-                          style: const TextStyle(
-                            letterSpacing: 5.0,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 13,
-                            color: colors.black,
-                            fontFamily: "Montserrat",
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(left: 20, right: 20),
-                        child: TextField(
-                          controller: _serialController,
-                          keyboardType: TextInputType.number,
-                          decoration: const InputDecoration(
-                            filled: true,
-                            fillColor: Colors.transparent,
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: colors.primary),
-                            ),
-                            hintText: 'Enter PIN',
-                          ),
-                          style: const TextStyle(
-                              backgroundColor: Colors.transparent),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      MaterialButton(
-                        onPressed: () {
-                          if (serilarandom !=
-                              _serialController.text.toString()) {
-                            Utils().showToast("Pin Wrong");
-                          } else {
-                            _serialController.text = '';
-                            Navigator.pop(context);
-
-                            //ads_status("watch_ad");
-                          }
-                        },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Container(
-                          margin: const EdgeInsets.only(left: 10),
-                          height: 80,
-                          width: double.infinity,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage("assets/images/Verify.png"),
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                          child: const Center(
-                            child: Text(
-                              'Verify',
-                              style: TextStyle(
-                                  color: colors.white,
-                                  fontSize: 18,
-                                  fontFamily: "Montserrat",
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 5),
-                      const Text(
-                        'Today Viewed Ads: 26',
-                        style: TextStyle(
-                            color: colors.white,
-                            fontSize: 14,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 5),
-                      const Text(
-                        'Today Viewed Ads: 26',
-                        style: TextStyle(
-                            color: colors.white,
-                            fontSize: 14,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ]),
-              ),
-            ),
-          );
-        });
-  }
-
-  String generateSerialNumber() {
-    final random = Random();
-    final maxDigits = 4;
-    String randomNumber = '';
-
-    for (int i = 0; i < maxDigits; i++) {
-      randomNumber += random.nextInt(10).toString();
-    }
-
-    return randomNumber;
-  }
-
-  // Method to get device info.
-  Future<void> ads_status(String type) async {
-    var url = Constant.TRIAL_ADS_LIST;
-    Map<String, dynamic> bodyObject = {
-      Constant.USER_ID: prefs.getString(Constant.ID),
-      Constant.DEVICE_ID: prefs.getString(Constant.MY_DEVICE_ID).toString(),
-      Constant.TYPE: type
-    };
-
-    String jsonString = await apiCall(url, bodyObject);
-    final jsonResponse = jsonDecode(jsonString);
-    if (jsonResponse['success'] && type == 'status') {
-      setState(() {
-        today_ads_remain = jsonResponse['today_ads_remain'].toString();
-        time_left = jsonResponse['time_left'].toString();
-        time_start = jsonResponse['time_start'];
-        refer_amount = jsonResponse['refer_amount'].toString();
-        balance = jsonResponse['balance'].toString();
-        history_days = jsonResponse['history_days'].toString();
-
-        status = jsonResponse['status'].toString();
-        level = jsonResponse['level'].toString();
-        starttime = double.parse(time_left);
-        if (status == '1') {
-          isTrial = false;
-          isPremium = true;
-        }
-        if (time_start == 1) {
-          //startTimer();
-        }
-      });
-    } else if (jsonResponse['success'] && type == 'watch_ad') {
-      setState(() {
-        today_ads_remain = jsonResponse['today_ads_remain'].toString();
-        time_left = jsonResponse['time_left'].toString();
-        time_start = jsonResponse['time_start'];
-        refer_amount = jsonResponse['refer_amount'].toString();
-        balance = jsonResponse['balance'].toString();
-        level = jsonResponse['level'].toString();
-        status = jsonResponse['status'].toString();
-        history_days = jsonResponse['history_days'].toString();
-        ads_image = jsonResponse['ads_image'].toString();
-        starttime = double.parse(time_left);
-
-        if (status == '1') {
-          isTrial = false;
-          isPremium = true;
-        }
-        if (time_start == 1) {
-          //startTimer();
-        }
-      });
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(jsonResponse['message'])),
-      );
-    }
-  }
-
-  Future<void> addTomainbalance(String walletType) async {
-    var url = Constant.ADD_MAIN_BALANCE_URL;
-    Map<String, dynamic> bodyObject = {
-      Constant.USER_ID: prefs.getString(Constant.ID),
-      Constant.WALLET_TYPE: walletType,
-    };
-
-    String jsonString = await apiCall(url, bodyObject);
-    final jsonResponse = jsonDecode(jsonString);
-    if (jsonResponse['success']) {
-      Utils().showToast(jsonResponse['message']);
-    } else {
-      Utils().showToast(jsonResponse['message']);
-    }
-    userDeatils();
-  }
-
-  Future<void> watchAdLimit() async {
-    var url = Constant.VIEW_AD_URL;
-    Map<String, dynamic> bodyObject = {
-      Constant.USER_ID: prefs.getString(Constant.ID),
-    };
-
-    debugPrint("bodyObject: $bodyObject");
-
-    String jsonString = await apiCall(url, bodyObject);
-    final jsonResponse = jsonDecode(jsonString);
-
-    if (jsonResponse['success']) {
-      Utils().showToast(jsonResponse['message']);
-      starttime = 0;
-      timerStarted = true;
-      adsApi();
-      startTimer();
-      userDeatils();
-    } else {
-      Utils().showToast(jsonResponse['message']);
-    }
-  }
-
-  Future<void> adsApi() async {
-    prefs = await SharedPreferences.getInstance();
-
-    var response = await dataCall(Constant.ADS_URL);
-
-    String jsonDataString = response.toString();
-    final jsonData = jsonDecode(jsonDataString);
-
-    final dataList = jsonData['data'] as List;
-
-    final datass = dataList.first;
-
-    prefs.setString(Constant.ADS_LINK, datass[Constant.ADS_LINK]);
-    prefs.setString(Constant.ADS_IMAGE, datass[Constant.ADS_IMAGE]);
-
-    setState(() {
-      ads_image = prefs.getString(Constant.ADS_IMAGE)!;
-      ads_link = prefs.getString(Constant.ADS_LINK)!;
-    });
   }
 
   Future<void> watchAds() async {
@@ -1080,10 +787,6 @@ class FullTimePageState extends State<FullTimePage> {
                 if (enteredOtp == generatedOtp) {
                   print('OTP Matched');
                   watchAds();
-                  // watchAdLimit();
-                  // starttime = 0;
-                  // timerStarted = true;
-                  // startTimer();
                   Navigator.of(context).pop();
                 } else {
                   print('OTP Mismatch');
@@ -1103,91 +806,6 @@ class FullTimePageState extends State<FullTimePage> {
       },
     );
   }
-  // Widget OtpInputField(
-  //     String generatedOtp
-  //     ) {
-  //   return Column(
-  //     children: [
-  //       Row(
-  //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //         children: [
-  //           buildOtpTextField(context, controllers[0], focusNodes[1]),
-  //           buildOtpTextField(context, controllers[1], focusNodes[2]),
-  //           buildOtpTextField(context, controllers[2], focusNodes[3]),
-  //           buildOtpTextField(context, controllers[3], null),
-  //         ],
-  //       ),
-  //       const SizedBox(height: 20.0),
-  //       ElevatedButton(
-  //         style: ButtonStyle(
-  //           backgroundColor:  MaterialStateProperty.all<Color>(Colors.orange),
-  //         ),
-  //         onPressed: () {
-  //           String enteredOtp = controllers.fold<String>(
-  //               "", (previousValue, controller) => previousValue + controller.text);
-  //
-  //           if (enteredOtp == generatedOtp) {
-  //             print('OTP Matched');
-  //             if (!timerStarted) {
-  //               // watchad();
-  //               starttime = 0;
-  //               timerStarted = true;
-  //               startTimer();
-  //               Navigator.of(context).pop();
-  //             } else {
-  //               Utils().showToast("Please wait...");
-  //             }
-  //           } else {
-  //             print('OTP Mismatch');
-  //           }
-  //           print('Entered OTP: $enteredOtp');
-  //         },
-  //         child: const Text('Submit'),
-  //       ),
-  //     ],
-  //   );
-  // }
-  //
-  // Widget buildOtpTextField(
-  //     BuildContext context, TextEditingController controller, FocusNode? nextFocus) {
-  //   return Container(
-  //     width: 50.0,
-  //     height: 50.0,
-  //     alignment: Alignment.center,
-  //     decoration: BoxDecoration(
-  //       border: Border.all(color: Colors.orange, width: 2.0),
-  //       borderRadius: BorderRadius.circular(10.0),
-  //     ),
-  //     margin: const EdgeInsets.symmetric(horizontal: 3),
-  //     child: TextField(
-  //       controller: controller,
-  //       maxLength: 1,
-  //       keyboardType: TextInputType.number,
-  //       textAlign: TextAlign.center,
-  //       style: const TextStyle(fontSize: 24.0),
-  //       decoration: const InputDecoration(
-  //         counterText: '',
-  //         enabledBorder: InputBorder.none,
-  //         focusedBorder: InputBorder.none,
-  //       ),
-  //       textInputAction: nextFocus == null ? TextInputAction.done : TextInputAction.next,
-  //       onEditingComplete: () {
-  //         // If there's a next focus, move to it, otherwise, unfocus
-  //         if (nextFocus != null) {
-  //           FocusScope.of(context).requestFocus(nextFocus);
-  //         } else {
-  //           FocusScope.of(context).unfocus();
-  //         }
-  //       },
-  //       onChanged: (value) {
-  //         // Move focus to the next text field when a digit is entered
-  //         if (value.isNotEmpty && nextFocus != null) {
-  //           FocusScope.of(context).requestFocus(nextFocus);
-  //         }
-  //       },
-  //     ),
-  //   );
-  // }
 }
 
 class OtpInputField extends StatefulWidget {
