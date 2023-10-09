@@ -5,6 +5,7 @@ import 'package:color_challenge/model/sync_data_list.dart';
 import 'package:color_challenge/util/Constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 typedef SyncDataCallback = void Function(String syncDataSuccess);
 
@@ -13,9 +14,13 @@ class FullTimePageCont extends GetxController implements GetxService {
   final FullTimeRepo fullTimeRepo;
   FullTimePageCont({required this.fullTimeRepo});
   late String syncDataSuccess = '';
-  RxString todayAds = "0".obs;
-  RxString totalAds = "0".obs;
-  RxString balance = "0.00".obs;
+  late SharedPreferences prefs;
+  String todayAds = "";
+  String totalAds = "";
+  String balance = "";
+  String ads_cost = "";
+  String ads_time = "";
+  // String balance = "";
   // RxString ads_cost = "0.00".obs;
 
   int generateRandomFourDigitNumber() {
@@ -36,6 +41,7 @@ class FullTimePageCont extends GetxController implements GetxService {
       syncUniqueId,
       SyncDataCallback callback, // Add the callback parameter
       ) async {
+    prefs = await SharedPreferences.getInstance();
     try {
       final value = await fullTimeRepo.syncData(userId, ads, syncUniqueId);
       var responseData = value.body;
@@ -47,11 +53,22 @@ class FullTimePageCont extends GetxController implements GetxService {
       syncDataSuccess = syncDataList.success.toString();
 
           if (syncDataList.data != null && syncDataList.data!.isNotEmpty) {
-            todayAds.value = syncDataList.data![0].todayAds!;
-            totalAds.value = syncDataList.data![0].totalAds!;
-            balance.value = syncDataList.data![0].balance!;
+            todayAds = syncDataList.data![0].todayAds!;
+            totalAds = syncDataList.data![0].totalAds!;
+            balance = syncDataList.data![0].balance!;
+            ads_cost = syncDataList.data![0].balance!;
+            ads_time = syncDataList.data![0].balance!;
+            // balance = syncDataList.data![0].balance!;
             // ads_cost.value = syncDataList.data![0].adsCost!;
+            prefs.setString(Constant.TODAY_ADS_SYNC, todayAds);
+            prefs.setString(Constant.TOTAL_ADS_SYNC, totalAds);
+            prefs.setString(Constant.BALANVE_SYNC, balance);
+            prefs.setString(Constant.ADS_COST_SYNC, ads_cost);
+            prefs.setString(Constant.ADS_TIME_SYNC, ads_time);
           }
+
+
+      // prefs.setString(Constant.MOBILE, user.mobile);
 
       Get.snackbar(
         syncDataList.success.toString(),

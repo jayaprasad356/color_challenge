@@ -70,6 +70,11 @@ class Constant {
   static const String USER_LIKE = "user_like";
   static const String OLD_PLAN = "old_plan";
   static const String PLAN = "plan";
+  static const String TODAY_ADS_SYNC = "today_ads_sync";
+  static const String TOTAL_ADS_SYNC = "total_ads_sync";
+  static const String BALANVE_SYNC = "balance_sync";
+  static const String ADS_COST_SYNC = "ads_cost_sync";
+  static const String ADS_TIME_SYNC = "ads_time_sync";
 
   static const String ID = "id";
   static const String LOGED_IN = "loged_in";
