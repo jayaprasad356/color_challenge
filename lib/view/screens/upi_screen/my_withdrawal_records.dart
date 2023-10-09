@@ -153,9 +153,9 @@ class _MyWithdrawalsState extends State<MyWithdrawals> {
                                           padding: const EdgeInsets.only(
                                               right: 15, bottom: 10),
                                           child: Text(
-                                            withdrawalsData[index].status=="0"? "Pending": withdrawalsData[index].status=="1" ? "Completed" : "Concluded",
-                                            style: const TextStyle(
-                                                color: colors.cc_green,
+                                            withdrawalsData[index].status=="0"? "Pending": withdrawalsData[index].status=="1" ? "Completed" : "Cancelled",
+                                            style:  TextStyle(
+                                                color: withdrawalsData[index].status == "0"  ? colors.greyss : withdrawalsData[index].status=="1" ? colors.cc_green : colors.red ,
                                                 fontWeight: FontWeight.bold,
                                                 fontFamily: 'Montserrat',
                                                 fontSize: 12),
