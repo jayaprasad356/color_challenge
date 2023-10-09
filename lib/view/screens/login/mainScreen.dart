@@ -76,8 +76,10 @@ class _MainScreenState extends State<MainScreen> {
       });
       print('FCM Token: $_fcmToken');
     });
-    homeController.allSettingsData();
-    c.offerImageURS();
+    setState(() {
+      homeController.allSettingsData();
+      c.offerImageURS();
+    });
     // offerImage();
     if(status == '0'){
       _selctedIndex = 0;
@@ -94,8 +96,8 @@ class _MainScreenState extends State<MainScreen> {
     debugPrint("status: $status");
     debugPrint("old_plan: $old_plan");
     debugPrint("plan: $plan");
-    homeController.allSettingsData();
-    c.offerImageURS();
+    // homeController.allSettingsData();
+    // c.offerImageURS();
   }
 
   void userDeatils() async {
