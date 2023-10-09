@@ -85,11 +85,6 @@ class FullTimePageState extends State<FullTimePage> {
     SharedPreferences.getInstance().then((value) {
       prefs = value;
       setState(() {
-        userDeatils();
-        // contact_us = prefs.getString(Constant.CONTACT_US).toString();
-        // basic_wallet = prefs.getString(Constant.BASIC_WALLET)!;
-        // premium_wallet = prefs.getString(Constant.PREMIUM_WALLET)!;
-        // status = prefs.getString(Constant.STATUS)!;
         ads_time = prefs.getString(Constant.ADS_TIME)!;
         ads_cost = prefs.getString(Constant.ADS_COST)!;
         referText = prefs.getString(Constant.REFER_CODE)!;
@@ -98,19 +93,9 @@ class FullTimePageState extends State<FullTimePage> {
       });
       //ads_status("status");
     });
-    // SharedPreferences.getInstance().then((value) {
-    //   prefs = value;
-    //   setState(() {
-    //     // contact_us = prefs.getString(Constant.CONTACT_US).toString();
-    //     // image = prefs.getString(Constant.IMAGE).toString();
-    //     // offer_image = prefs.getString(Constant.OFFER_IMAGE).toString();
-    //     referText = prefs.getString(Constant.REFER_CODE)!;
-    //     refer_bonus = prefs.getString(Constant.REFER_BONUS)!;
-    //   });
-    // });
+
     loadTimerCount();
-    // debugPrint("ads_cost: $ads_cost");
-    // multiplyCostValue = multiplyCost(adsCount, ads_cost)!;
+
   }
 
   // @override
@@ -129,12 +114,7 @@ class FullTimePageState extends State<FullTimePage> {
   void setState(VoidCallback fn) async {
     // TODO: implement setState
     super.setState(fn);
-    // multiplyCostValue;
-    // debugPrint("timerCount: $adsCount");
-    // debugPrint("ads_time: $ads_time");
-    String? watchAdStatus = prefs.getString(Constant.WATCH_AD_STATUS);
-    debugPrint("watchAdStatus: $watchAdStatus");
-    userDeatils();
+
     // multiplyCostValue = multiplyCost(adsCount, ads_cost)!;
     if (adsCount < 120) {
       isButtonDisabled = true; // Disable the button
@@ -717,7 +697,7 @@ class FullTimePageState extends State<FullTimePage> {
                   const SizedBox(height: 5),
                   MaterialButton(
                     onPressed: () async {
-                      if(homeController.watchAdStatus == "0") {
+                      if(homeController.watchAdStatus == "1") {
                       if (!timerStarted) {
                         generatedOtp = fullTimePageCont
                             .generateRandomFourDigitNumber()
@@ -743,7 +723,7 @@ class FullTimePageState extends State<FullTimePage> {
                     child: Container(
                       height: 40,
                       width: 140,
-                      decoration: homeController.watchAdStatus == "0" ? const BoxDecoration(
+                      decoration: homeController.watchAdStatus == "1" ? const BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage("assets/images/btnbg.png"),
                           fit: BoxFit.fill,
@@ -804,7 +784,7 @@ class FullTimePageState extends State<FullTimePage> {
       starttime = 0;
       timerStarted = true;
       startTimer();
-      userDeatils();
+      //userDeatils();
     } else {
       Utils().showToast(jsonData['message']);
     }
