@@ -11,7 +11,7 @@ class SettingData {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
   }
@@ -33,6 +33,7 @@ class Data {
   String? contactUs;
   String? minWithdrawal;
   String? image;
+  String? watchAdStatus;
   String? offerImage;
   String? referBonus;
   String? whatsppGroupLink;
@@ -51,6 +52,7 @@ class Data {
         this.contactUs,
         this.minWithdrawal,
         this.image,
+        this.watchAdStatus,
         this.offerImage,
         this.referBonus,
         this.whatsppGroupLink,
@@ -69,6 +71,7 @@ class Data {
     contactUs = json['contact_us'];
     minWithdrawal = json['min_withdrawal'];
     image = json['image'];
+    watchAdStatus = json['watch_ad_status'];
     offerImage = json['offer_image'];
     referBonus = json['refer_bonus'];
     whatsppGroupLink = json['whatspp_group_link'];
@@ -89,6 +92,7 @@ class Data {
     data['contact_us'] = contactUs;
     data['min_withdrawal'] = minWithdrawal;
     data['image'] = image;
+    data['watch_ad_status'] = watchAdStatus;
     data['offer_image'] = offerImage;
     data['refer_bonus'] = referBonus;
     data['whatspp_group_link'] = whatsppGroupLink;

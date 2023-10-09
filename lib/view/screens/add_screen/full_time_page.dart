@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:color_challenge/Helper/apiCall.dart';
 import 'package:color_challenge/controller/full_time_page_con.dart';
+import 'package:color_challenge/controller/home_controller.dart';
 import 'package:color_challenge/model/slider_data.dart';
 import 'package:color_challenge/model/user.dart';
 import 'package:color_challenge/controller/utils.dart';
@@ -29,6 +30,7 @@ class FullTimePage extends StatefulWidget {
 
 class FullTimePageState extends State<FullTimePage> {
   final FullTimePageCont fullTimePageCont = Get.find<FullTimePageCont>();
+  final HomeController homeController = Get.find<HomeController>();
   late SharedPreferences prefs;
   double starttime = 0; // Set the progress value between 0.0 and 1.0 here
   String today_ads_remain = "0";
@@ -124,13 +126,15 @@ class FullTimePageState extends State<FullTimePage> {
   // }
 
   @override
-  void setState(VoidCallback fn) async{
+  void setState(VoidCallback fn) async {
     // TODO: implement setState
     super.setState(fn);
     // multiplyCostValue;
     // debugPrint("timerCount: $adsCount");
     // debugPrint("ads_time: $ads_time");
-    // userDeatils();
+    String? watchAdStatus = prefs.getString(Constant.WATCH_AD_STATUS);
+    debugPrint("watchAdStatus: $watchAdStatus");
+    userDeatils();
     // multiplyCostValue = multiplyCost(adsCount, ads_cost)!;
     if (adsCount < 120) {
       isButtonDisabled = true; // Disable the button
@@ -229,13 +233,21 @@ class FullTimePageState extends State<FullTimePage> {
         setState(() {
           progressPercentage = (adsCount / maximumValue);
           debugPrint("timerCount: $adsCount");
-          saveTimerCount(adsCount,multiplyCostValue);
-          if (adsCount < 120) {
+          saveTimerCount(adsCount, multiplyCostValue);
+          if (adsCount < 119) {
             isButtonDisabled = true; // Disable the button
-          } else if (adsCount >= 120) {
+          } else if (adsCount >= 119) {
             syncUniqueId = fullTimePageCont.generateRandomSixDigitNumber();
+            debugPrint("syncUniqueId: $syncUniqueId");
+            isButtonDisabled = true; // Disable the button
+            // adsCount = 0;
+          }else if (adsCount == 120) {
             isButtonDisabled = false; // Enable the button
-            // timerCount = 1;
+            // adsCount = 0;
+          } else if (adsCount > 120) {
+            progressPercentage = 0.0;
+            isButtonDisabled = false; // Enable the button
+            adsCount = 0;
           }
         });
         // if (timerCount < 100) {
@@ -266,7 +278,7 @@ class FullTimePageState extends State<FullTimePage> {
   }
 
   // Save timerCount to shared preferences
-  void saveTimerCount(int count,double cost) async {
+  void saveTimerCount(int count, double cost) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt('timerCount', count);
     await prefs.setDouble('multiplyCostValueLocal', cost);
@@ -301,7 +313,6 @@ class FullTimePageState extends State<FullTimePage> {
       return null;
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -362,8 +373,8 @@ class FullTimePageState extends State<FullTimePage> {
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(6.0),
-                                        side: const BorderSide(
-                                            color: colors.red),
+                                        side:
+                                            const BorderSide(color: colors.red),
                                       ),
                                     ),
                                     child: Padding(
@@ -440,9 +451,11 @@ class FullTimePageState extends State<FullTimePage> {
                           radius: 35.0,
                           lineWidth: 10.0,
                           animation: true,
-                          percent: progressPercentage,
+                          percent: progressPercentage.clamp(0.0, 1.0),
                           center: Text(
-                            (progressPercentage * maximumValue).toInt().toString(),
+                            (progressPercentage * maximumValue)
+                                .toInt()
+                                .toString(),
                             style: const TextStyle(
                                 fontFamily: 'MontserratBold',
                                 fontSize: 16.0,
@@ -452,29 +465,83 @@ class FullTimePageState extends State<FullTimePage> {
                             ignoring: isButtonDisabled,
                             child: InkWell(
                               onTap: () async {
-                                debugPrint("it is worked");
-                                prefs = await SharedPreferences.getInstance();
-                                // var syncUniqueId = 1;
-                                setState(() {
-                                  syncUniqueId;
-                                });
-                                debugPrint("syncUniqueId: $syncUniqueId");
-                                fullTimePageCont.syncData(
-                                    prefs.getString(Constant.ID),
-                                  adsCount.toString(),
-                                    syncUniqueId.toString(),
-                                );
-                                String? syncAble = await storeLocal.read(
-                                    key: Constant.SYNC_ABLE);
-                                if (syncAble == "true") {
+                                debugPrint("Tap detected");
+                                try {
+                                  prefs = await SharedPreferences.getInstance();
                                   setState(() {
-                                    adsCount = 0;
-                                    isButtonDisabled = true;
+                                    syncUniqueId;
                                   });
-                                } else {
-                                  setState(() { });
+                                  debugPrint("syncUniqueId: $syncUniqueId");
+                                  // Call the syncData function and get the result immediately
+                                  fullTimePageCont.syncData(
+                                    prefs.getString(Constant.ID),
+                                    adsCount.toString(),
+                                    syncUniqueId.toString(),
+                                    (String syncDataSuccess) {
+                                      debugPrint(
+                                          "syncDataSuccess: $syncDataSuccess");
+                                      // Perform actions based on the result of the syncData function
+                                      if (syncDataSuccess == 'true') {
+                                        setState(() {
+                                          adsCount = 0;
+                                          progressPercentage = 0.0;
+                                          isButtonDisabled = true;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          adsCount = 120;
+                                          isButtonDisabled = false;
+                                        });
+                                      }
+                                    },
+                                  );
+                                } catch (e) {
+                                  // Handle any errors that occur during the process
+                                  debugPrint("Error: $e");
                                 }
                               },
+                              // onTap: () async {
+                              //   debugPrint("it is worked");
+                              //   prefs = await SharedPreferences.getInstance();
+                              //   // var syncUniqueId = 1;
+                              //   setState(() {
+                              //     syncUniqueId;
+                              //     // fullTimePageCont.syncAble;
+                              //   });
+                              //   debugPrint("syncUniqueId: $syncUniqueId");
+                              //   fullTimePageCont.syncData(
+                              //     prefs.getString(Constant.ID),
+                              //     adsCount.toString(),
+                              //     syncUniqueId.toString(),
+                              //   );
+                              //   debugPrint("fullTimePageCont.syncDataSuccess: ${fullTimePageCont.syncDataSuccess}");
+                              //   if (fullTimePageCont.syncDataSuccess == 'true') {
+                              //     setState(() {
+                              //       adsCount = 0;
+                              //       progressPercentage = 0.0;
+                              //       isButtonDisabled = true;
+                              //     });
+                              //   } else if (fullTimePageCont.syncDataSuccess == 'false') {
+                              //     setState(() {
+                              //       adsCount = 120;
+                              //       isButtonDisabled = false;
+                              //     });
+                              //   }
+                              //   // String? syncAble = await storeLocal.read(
+                              //   //     key: Constant.SYNC_ABLE);
+                              //   // if (syncAble == "true") {
+                              //   //   setState(() {
+                              //   //     adsCount = 0;
+                              //   //     progressPercentage = 0.0;
+                              //   //     isButtonDisabled = true;
+                              //   //   });
+                              //   // } else {
+                              //   //   setState(() {
+                              //   //     adsCount = 120;
+                              //   //     isButtonDisabled = false;
+                              //   //   });
+                              //   // }
+                              // },
                               child: Container(
                                 decoration: BoxDecoration(
                                     color: isButtonDisabled == false
@@ -579,12 +646,12 @@ class FullTimePageState extends State<FullTimePage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                        "$today_ads + ${adsCount.toString()}",
-                                        style: const TextStyle(
-                                            fontFamily: 'MontserratBold',
-                                            color: Colors.white,
-                                            fontSize: 15.0),
-                                      ),
+                                      "$today_ads + ${adsCount.toString()}",
+                                      style: const TextStyle(
+                                          fontFamily: 'MontserratBold',
+                                          color: Colors.white,
+                                          fontSize: 15.0),
+                                    ),
                                     const SizedBox(
                                       height: 10,
                                     ),
@@ -650,6 +717,7 @@ class FullTimePageState extends State<FullTimePage> {
                   const SizedBox(height: 5),
                   MaterialButton(
                     onPressed: () async {
+                      if(homeController.watchAdStatus == "0") {
                       if (!timerStarted) {
                         generatedOtp = fullTimePageCont
                             .generateRandomFourDigitNumber()
@@ -657,6 +725,8 @@ class FullTimePageState extends State<FullTimePage> {
                         showAlertDialog(context, generatedOtp);
                       } else {
                         Utils().showToast("Please wait...");
+                      }}else{
+                        Utils().showToast("Watch Ad is disable...");
                       }
                       // if (!timerStarted) {
                       //   // watchad();
@@ -673,11 +743,14 @@ class FullTimePageState extends State<FullTimePage> {
                     child: Container(
                       height: 40,
                       width: 140,
-                      decoration: const BoxDecoration(
+                      decoration: homeController.watchAdStatus == "0" ? const BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage("assets/images/btnbg.png"),
                           fit: BoxFit.fill,
                         ),
+                      ) : BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(100),
                       ),
                       child: const Center(
                         child: Text(

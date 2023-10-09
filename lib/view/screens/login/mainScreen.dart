@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:color_challenge/Helper/apiCall.dart';
+import 'package:color_challenge/controller/home_controller.dart';
 import 'package:color_challenge/controller/pcc_controller.dart';
 import 'package:color_challenge/model/jobs_show.dart';
 import 'package:color_challenge/model/user.dart';
@@ -38,6 +39,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  final HomeController homeController = Get.find<HomeController>();
   final TextEditingController _payAmountController = TextEditingController();
   final TextEditingController _addCoinController = TextEditingController();
 
@@ -73,10 +75,10 @@ class _MainScreenState extends State<MainScreen> {
       });
       print('FCM Token: $_fcmToken');
     });
+    homeController.allSettingsData();
     // offerImage();
     if(status == '0'){
       _selctedIndex = 0;
-
     }else{
       _selctedIndex = 2;
     }
@@ -701,31 +703,33 @@ break;
         Constant.JOB_VIDEO, datass[Constant.JOB_VIDEO]);
     prefs.setString(
         Constant.JOB_DETAILS, datass[Constant.JOB_DETAILS]);
+    prefs.setString(
+        Constant.WATCH_AD_STATUS, datass[Constant.WATCH_AD_STATUS]);
 
   }
-  void offerImage() async {
-    prefs = await SharedPreferences.getInstance();
+  // void offerImage() async {
+  //   prefs = await SharedPreferences.getInstance();
+  //
+  //   var response = await dataCall(Constant.OFFER_LIST);
+  //
+  //   String jsonDataString = response.toString();
+  //   final jsonData = jsonDecode(jsonDataString);
+  //
+  //   final dataList = jsonData['data'] as List;
+  //
+  //   final datass = dataList.first;
+  //   prefs.setString(Constant.OFFER_IMAGE, datass[Constant.IMAGE]);
+  //
+  //
+  // }
 
-    var response = await dataCall(Constant.OFFER_LIST);
-
-    String jsonDataString = response.toString();
-    final jsonData = jsonDecode(jsonDataString);
-
-    final dataList = jsonData['data'] as List;
-
-    final datass = dataList.first;
-    prefs.setString(Constant.OFFER_IMAGE, datass[Constant.IMAGE]);
-
-
-  }
-
-  ontop() {
-    Clipboard.setData(ClipboardData(text: link));
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Copied to clipboard')),
-    );
-    Utils().showToast("Copied!");
-  }
+  // ontop() {
+  //   Clipboard.setData(ClipboardData(text: link));
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     const SnackBar(content: Text('Copied to clipboard')),
+  //   );
+  //   Utils().showToast("Copied!");
+  // }
   Future<void> clearSharedPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.clear();

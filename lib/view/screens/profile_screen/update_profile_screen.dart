@@ -100,14 +100,14 @@ class _ProfileFormState extends State<ProfileForm> {
         city = prefs.getString(Constant.CITY)!;
         age = prefs.getString(Constant.AGE)!;
         gender = prefs.getString(Constant.GENDER)!;
-        // deafDumb = prefs.getString(Constant.DEAF)!;
+        deafDumb = prefs.getString(Constant.DEAF)!;
         language = prefs.getString(Constant.SUPPORT_LAN)!;
-        // email = prefs.getString(Constant.EMAIL)!;
+        email = prefs.getString(Constant.EMAIL)!;
 
         _nameController.text = name;
         _cityController.text = city;
         _ageController.text = age;
-        // _emailController.text = email;
+        _emailController.text = email;
       });
     });
   }
@@ -115,24 +115,24 @@ class _ProfileFormState extends State<ProfileForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          width: MediaQuery.of(context)
-              .size
-              .width, // Set width to the screen width
-          height: MediaQuery.of(context)
-              .size
-              .height, // Set height to the screen height
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                colors.primary_color,
-                colors.secondary_color
-              ], // Change these colors to your desired gradient colors
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
+      body: Container(
+        width:
+            MediaQuery.of(context).size.width, // Set width to the screen width
+        height: MediaQuery.of(context)
+            .size
+            .height, // Set height to the screen height
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              colors.primary_color,
+              colors.secondary_color
+            ], // Change these colors to your desired gradient colors
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
+        ),
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Form(
             key: _formKey,
             child: Padding(

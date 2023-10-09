@@ -30,6 +30,7 @@ class HomeController extends GetxController implements GetxService {
   final RxString a2JobDetailsURS = ''.obs;
   final RxString a2JobVideoURS = ''.obs;
   final RxString a2PurchaseURS = ''.obs;
+  final RxString watchAdStatus = ''.obs;
 
   @override
   void onInit() {
@@ -63,13 +64,14 @@ class HomeController extends GetxController implements GetxService {
 
       for (var settingsData in settingData.data!) {
         print(
-            'User ID: ${settingsData.id},\na1jobVideo: ${settingsData.a1JobVideo},\na1jobDetails: ${settingsData.a1JobDetails},\na1PurchaseLink: ${settingsData.a1PurchaseLink},\na2jobVideo: ${settingsData.a2JobVideo},\na2jobDetails: ${settingsData.a2JobDetails},\na2PurchaseLink: ${settingsData.a2PurchaseLink}');
+            'User ID: ${settingsData.id},\na1jobVideo: ${settingsData.a1JobVideo},\na1jobDetails: ${settingsData.a1JobDetails},\na1PurchaseLink: ${settingsData.a1PurchaseLink},\na2jobVideo: ${settingsData.a2JobVideo},\na2jobDetails: ${settingsData.a2JobDetails},\na2PurchaseLink: ${settingsData.a2PurchaseLink},\nwatchAdStatus: ${settingsData.watchAdStatus}');
         a1JobDetailsURS.value = settingsData.a1JobDetails ?? '';
         a1JobVideoURS.value = settingsData.a1JobVideo ?? '';
         a1PurchaseURS.value = settingsData.a1PurchaseLink ?? '';
         a2JobDetailsURS.value = settingsData.a2JobDetails ?? '';
         a2JobVideoURS.value = settingsData.a2JobVideo ?? '';
         a2PurchaseURS.value = settingsData.a2PurchaseLink ?? '';
+        watchAdStatus.value = settingsData.watchAdStatus ?? '';
       }
     } catch (e) {
       debugPrint("shortsVideoData errors: $e");

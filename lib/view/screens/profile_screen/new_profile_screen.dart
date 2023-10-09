@@ -72,8 +72,7 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
+      body: Container(
           width: MediaQuery.of(context)
               .size
               .width, // Set width to the screen width
@@ -90,7 +89,9 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
               end: Alignment.bottomCenter,
             ),
           ),
-          child: Form(
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Form(
             key: _formKey,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -268,7 +269,7 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
                       dropdownColor: Colors.blue,
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   TextField(
                     controller: _referCodeController,
                     decoration: InputDecoration(

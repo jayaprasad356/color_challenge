@@ -118,4 +118,5 @@ class Constant {
   static const String MIN_WITHDRAWAL = "min_withdrawal";
   static const String JOB_VIDEO = "job_video";
   static const String JOB_DETAILS = "job_details";
+  static const String WATCH_AD_STATUS = "watch_ad_status";
 }
