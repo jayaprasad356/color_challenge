@@ -40,6 +40,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final HomeController homeController = Get.find<HomeController>();
+  final PCC c = Get.find<PCC>();
   final TextEditingController _payAmountController = TextEditingController();
   final TextEditingController _addCoinController = TextEditingController();
 
@@ -76,6 +77,7 @@ class _MainScreenState extends State<MainScreen> {
       print('FCM Token: $_fcmToken');
     });
     homeController.allSettingsData();
+    c.offerImageURS();
     // offerImage();
     if(status == '0'){
       _selctedIndex = 0;
@@ -92,6 +94,8 @@ class _MainScreenState extends State<MainScreen> {
     debugPrint("status: $status");
     debugPrint("old_plan: $old_plan");
     debugPrint("plan: $plan");
+    homeController.allSettingsData();
+    c.offerImageURS();
   }
 
   void userDeatils() async {

@@ -73,21 +73,21 @@ class PCC extends GetxController implements GetxService {
     super.onClose();
   }
 
-  Future<void> shortsVideoData() async {
-    try {
-      final value = await shortsVideoRepo.shortsVideoList();
-      var responseData = value.body;
-      VideoList shortVideoListData = VideoList.fromJson(responseData);
-      debugPrint("===> shortVideoListData: $shortVideoListData");
-
-      for (var videoData in shortVideoListData.data!) {
-        print('Video ID: ${videoData.id}, User ID: ${videoData.userId}, URL: ${videoData.url}');
-        videoURL.add(videoData.url ?? '');
-      }
-    } catch (e) {
-      debugPrint("shortsVideoData errors: $e");
-    }
-  }
+  // Future<void> shortsVideoData() async {
+  //   try {
+  //     final value = await shortsVideoRepo.shortsVideoList();
+  //     var responseData = value.body;
+  //     VideoList shortVideoListData = VideoList.fromJson(responseData);
+  //     debugPrint("===> shortVideoListData: $shortVideoListData");
+  //
+  //     for (var videoData in shortVideoListData.data!) {
+  //       print('Video ID: ${videoData.id}, User ID: ${videoData.userId}, URL: ${videoData.url}');
+  //       videoURL.add(videoData.url ?? '');
+  //     }
+  //   } catch (e) {
+  //     debugPrint("shortsVideoData errors: $e");
+  //   }
+  // }
 
   Future<void> imageListData(String userId) async {
     try {

@@ -95,7 +95,6 @@ class FullTimePageState extends State<FullTimePage> {
     });
 
     loadTimerCount();
-
   }
 
   // @override
@@ -120,13 +119,10 @@ class FullTimePageState extends State<FullTimePage> {
       isButtonDisabled = true; // Disable the button
     } else if (adsCount >= 120) {
       isButtonDisabled = false; // Enable the button
-      // String? syncAble = await storeLocal.read(
-      //     key: Constant.SYNC_ABLE);
-      // if (syncAble == "true") {
-      //   setState(() {
-      //     isButtonDisabled = false;
-      //   });
-      // }
+    } else if (adsCount > 120) {
+      progressPercentage = 0.0;
+      isButtonDisabled = false; // Enable the button
+      adsCount = 0;
     }
   }
 
@@ -221,7 +217,7 @@ class FullTimePageState extends State<FullTimePage> {
             debugPrint("syncUniqueId: $syncUniqueId");
             isButtonDisabled = true; // Disable the button
             // adsCount = 0;
-          }else if (adsCount == 120) {
+          } else if (adsCount == 120) {
             isButtonDisabled = false; // Enable the button
             // adsCount = 0;
           } else if (adsCount > 120) {
@@ -579,13 +575,13 @@ class FullTimePageState extends State<FullTimePage> {
                                   const SizedBox(
                                     height: 5,
                                   ),
-                                  Text(
-                                    "$balance + $multiplyCostValue",
+                                  Obx(() => Text(
+                                    "${fullTimePageCont.balance} + $multiplyCostValue",
                                     style: const TextStyle(
                                         fontFamily: 'MontserratBold',
                                         color: Colors.white,
                                         fontSize: 15.0),
-                                  ),
+                                  ),),
                                 ],
                               ),
                             ),
@@ -625,23 +621,23 @@ class FullTimePageState extends State<FullTimePage> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      "$today_ads + ${adsCount.toString()}",
+                                    Obx(() => Text(
+                                      "${fullTimePageCont.totalAds} + ${adsCount.toString()}",
                                       style: const TextStyle(
                                           fontFamily: 'MontserratBold',
                                           color: Colors.white,
                                           fontSize: 15.0),
-                                    ),
+                                    ),),
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                    Text(
-                                      "$total_ads  + ${adsCount.toString()}",
+                                    Obx(() => Text(
+                                      "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
                                       style: const TextStyle(
                                           fontFamily: 'MontserratBold',
                                           color: Colors.white,
                                           fontSize: 15.0),
-                                    ),
+                                    ),),
                                   ],
                                 ),
                               ],
@@ -697,15 +693,20 @@ class FullTimePageState extends State<FullTimePage> {
                   const SizedBox(height: 5),
                   MaterialButton(
                     onPressed: () async {
-                      if(homeController.watchAdStatus == "1") {
-                      if (!timerStarted) {
-                        generatedOtp = fullTimePageCont
-                            .generateRandomFourDigitNumber()
-                            .toString();
-                        showAlertDialog(context, generatedOtp);
+                      debugPrint("homeController.watchAdStatus: ${homeController.watchAdStatus}");
+                      debugPrint("adsCount: $adsCount");
+                      if (homeController.watchAdStatus == "1" && adsCount < 120) {
+                        if (!timerStarted) {
+                          generatedOtp = fullTimePageCont
+                              .generateRandomFourDigitNumber()
+                              .toString();
+                          showAlertDialog(context, generatedOtp);
+                        } else {
+                          Utils().showToast("Please wait...");
+                        }
+                      } else if (adsCount >= 120) {
+                        Utils().showToast("Sync Now Try Again...");
                       } else {
-                        Utils().showToast("Please wait...");
-                      }}else{
                         Utils().showToast("Watch Ad is disable...");
                       }
                       // if (!timerStarted) {
@@ -723,15 +724,16 @@ class FullTimePageState extends State<FullTimePage> {
                     child: Container(
                       height: 40,
                       width: 140,
-                      decoration: homeController.watchAdStatus == "1" ? const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/images/btnbg.png"),
-                          fit: BoxFit.fill,
-                        ),
-                      ) : BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
+                      decoration: homeController.watchAdStatus == "1" && adsCount < 120
+                          ? const BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage("assets/images/btnbg.png"),
+                                fit: BoxFit.fill,
+                              ),
+                            )
+                          : BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(100)),
                       child: const Center(
                         child: Text(
                           'Watch Ad',
