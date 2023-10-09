@@ -293,9 +293,7 @@ class FullTimePageState extends State<FullTimePage> {
 
   double? multiplyCost(int timerCount, String str2) {
     try {
-      // print('str2: $str2');
       double num2 = double.parse(str2);
-      // print('num2: $num2');
       return timerCount * num2;
     } catch (e) {
       print('Error: Unable to parse the input string as a number.');

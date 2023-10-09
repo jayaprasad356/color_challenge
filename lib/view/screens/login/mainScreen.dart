@@ -68,7 +68,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    setupSettings();
+    //setupSettings();
     FirebaseMessaging.instance.getToken().then((token) {
       setState(() {
         _fcmToken = token!;
@@ -90,12 +90,12 @@ class _MainScreenState extends State<MainScreen> {
 
   }
 
-  @override
-  void setState(VoidCallback fn) {
-    // TODO: implement setState
-    super.setState(fn);
-    userDeatils();
-  }
+  // @override
+  // void setState(VoidCallback fn) {
+  //   // TODO: implement setState
+  //   super.setState(fn);
+  //   userDeatils();
+  // }
 
   void userDeatils() async {
     prefs = await SharedPreferences.getInstance();
@@ -132,6 +132,8 @@ class _MainScreenState extends State<MainScreen> {
     prefs.setString(Constant.BRANCH, user.branch);
     prefs.setString(Constant.OLD_PLAN, user.old_plan);
     prefs.setString(Constant.PLAN, user.plan);
+    prefs.setString(Constant.ADS_TIME, user.ads_time);
+    prefs.setString(Constant.ADS_COST, user.ads_cost);
     setState(() {
       status = prefs.getString(Constant.STATUS)!;
       old_plan = prefs.getString(Constant.OLD_PLAN)!;
