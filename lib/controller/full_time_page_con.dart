@@ -60,11 +60,11 @@ class FullTimePageCont extends GetxController implements GetxService {
             ads_time = syncDataList.data![0].balance!;
             // balance = syncDataList.data![0].balance!;
             // ads_cost.value = syncDataList.data![0].adsCost!;
-            prefs.setString(Constant.TODAY_ADS_SYNC, todayAds);
-            prefs.setString(Constant.TOTAL_ADS_SYNC, totalAds);
-            prefs.setString(Constant.BALANVE_SYNC, balance);
-            prefs.setString(Constant.ADS_COST_SYNC, ads_cost);
-            prefs.setString(Constant.ADS_TIME_SYNC, ads_time);
+            prefs.setString(Constant.TODAY_ADS, todayAds);
+            prefs.setString(Constant.TOTAL_ADS, totalAds);
+            prefs.setString(Constant.BALANCE, balance);
+            prefs.setString(Constant.ADS_COST, ads_cost);
+            prefs.setString(Constant.ADS_TIME, ads_time);
           }
 
 

@@ -422,6 +422,11 @@ class FullTimePageState extends State<FullTimePage> {
                                           saveTimerCount(0, 0.0);
                                           loadTimerCount();
                                           isButtonDisabled = true;
+                                          ads_time = prefs.getString(Constant.ADS_TIME)!;
+                                          balance = prefs.getString(Constant.BALANCE)!;
+                                          today_ads = prefs.getString(Constant.TODAY_ADS)!;
+                                          total_ads = prefs.getString(Constant.TOTAL_ADS)!;
+                                          ads_cost = prefs.getString(Constant.ADS_COST)!;
                                         });
                                       } else {
                                       }

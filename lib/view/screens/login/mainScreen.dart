@@ -69,17 +69,17 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     // setupSettings();
+    setState(() {
+      homeController.allSettingsData();
+      c.offerImageURS();
+      // debugPrint("balance: $balance");
+    });
     FirebaseMessaging.instance.getToken().then((token) {
       setState(() {
         _fcmToken = token!;
         userDeatils();
       });
       print('FCM Token: $_fcmToken');
-    });
-    setState(() {
-      homeController.allSettingsData();
-      c.offerImageURS();
-      // debugPrint("balance: $balance");
     });
     // offerImage();
     if(status == '0'){

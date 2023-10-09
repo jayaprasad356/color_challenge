@@ -175,24 +175,40 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void getAppVersion() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    appVersion = packageInfo.version;
-    var url = Constant.APPUPDATE_URL;
-    Map<String, dynamic> bodyObject = {
-      Constant.APP_VERSION: appVersion,
-    };
-    String jsonString = await apiCall(url, bodyObject);
-    final Map<String, dynamic> responseJson = jsonDecode(jsonString);
-    final jsonData = jsonDecode(jsonString);
-    final dataList = jsonData['data'] as List;
-    final datass = dataList.first;
+  Future<void> getAppVersion() async {
+    try {
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      appVersion = packageInfo.version;
+      var url = Constant.APPUPDATE_URL;
+      Map<String, dynamic> bodyObject = {
+        Constant.APP_VERSION: appVersion,
+      };
 
-    setState(() {
-      link = datass[Constant.LINK];
-      update = responseJson["success"];
-    });
+      String jsonString = await apiCall(url, bodyObject);
+      final Map<String, dynamic> responseJson = jsonDecode(jsonString);
+
+      // Check if the 'data' key exists and is a List
+      if (responseJson['data'] is List) {
+        final dataList = responseJson['data'] as List;
+
+        if (dataList.isNotEmpty) {
+          final datass = dataList.first;
+          setState(() {
+            link = datass[Constant.LINK];
+            update = responseJson["success"];
+          });
+        } else {
+          // Handle empty dataList
+        }
+      } else {
+        // Handle cases where 'data' is not a List
+      }
+    } catch (e) {
+      // Handle any errors that occur during the process
+      print("Error: $e");
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
