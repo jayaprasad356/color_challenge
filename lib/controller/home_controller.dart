@@ -35,6 +35,7 @@ class HomeController extends GetxController implements GetxService {
   @override
   void onInit() {
     super.onInit();
+    allSettingsData();
     // shortsVideoData();
     // getUserId();
   }

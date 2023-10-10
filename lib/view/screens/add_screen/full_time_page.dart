@@ -70,6 +70,8 @@ class FullTimePageState extends State<FullTimePage> {
   double maximumValue = 120.0;
   double currentValue = 60.0;
   double progressPercentage1 = 0.00;
+  int executionCount = 0;
+  Timer? timer;
 
   @override
   void initState() {
@@ -86,7 +88,7 @@ class FullTimePageState extends State<FullTimePage> {
       prefs = value;
       ads_time = prefs.getString(Constant.ADS_TIME)!;
       balance = prefs.getString(Constant.BALANCE)!;
-      today_ads = prefs.getString(Constant.TOTAL_ADS)!;
+      today_ads = prefs.getString(Constant.TODAY_ADS)!;
       total_ads = prefs.getString(Constant.TOTAL_ADS)!;
       ads_cost = prefs.getString(Constant.ADS_COST)!;
       referText = prefs.getString(Constant.REFER_CODE)!;
@@ -104,8 +106,22 @@ class FullTimePageState extends State<FullTimePage> {
       //ads_status("status");
     });
 
-    loadTimerCount();
+    initializeTimer();
   }
+  void initializeTimer() {
+    const int maxExecutions = 2;
+
+    timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      loadTimerCount();
+      executionCount++;
+
+      if (executionCount >= maxExecutions) {
+        timer.cancel();
+      }
+    });
+  }
+
+
 
   // @override
   // void dispose() {
@@ -166,7 +182,7 @@ class FullTimePageState extends State<FullTimePage> {
         });
         adsCount++;
         print('timerCount called $adsCount times.');
-        multiplyCostValue = multiplyCost(adsCount, ads_cost)!;
+        multiplyCostValue = adsCount * double.parse(ads_cost);
         setState(() {
           progressPercentage = (adsCount / maximumValue);
           debugPrint("timerCount: $adsCount");
@@ -181,10 +197,10 @@ class FullTimePageState extends State<FullTimePage> {
           } else if (adsCount == 120) {
             isButtonDisabled = false; // Enable the button
             // adsCount = 0;
-          } else if (adsCount > 120) {
-            progressPercentage = 0.0;
-            isButtonDisabled = false; // Enable the button
-            adsCount = 0;
+          // } else if (adsCount > 120) {
+          //   progressPercentage = 0.0;
+          //   isButtonDisabled = false; // Enable the button
+          //   adsCount = 0;
           }
         });
         // if (timerCount < 100) {
@@ -209,7 +225,7 @@ class FullTimePageState extends State<FullTimePage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       adsCount = prefs.getInt('timerCount') ?? 0;
-      multiplyCostValue = prefs.getDouble('multiplyCostValueLocal') ?? 0.0;
+      multiplyCostValue = adsCount * double.parse(ads_cost);
       progressPercentage = (adsCount / maximumValue);
     });
   }
@@ -422,6 +438,7 @@ class FullTimePageState extends State<FullTimePage> {
                                           saveTimerCount(0, 0.0);
                                           loadTimerCount();
                                           isButtonDisabled = true;
+                                          multiplyCostValue = 0.0;
                                           ads_time = prefs.getString(Constant.ADS_TIME)!;
                                           balance = prefs.getString(Constant.BALANCE)!;
                                           today_ads = prefs.getString(Constant.TODAY_ADS)!;

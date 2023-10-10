@@ -146,7 +146,7 @@ class PCC extends GetxController implements GetxService {
       PurchaseData purchaseData = PurchaseData.fromJson(responseData);
       debugPrint("===> likeData message: ${purchaseData.message}");
     } catch (e) {
-      debugPrint("shortsVideoData errors: $e");
+      debugPrint("purchaseAPI errors: $e");
     }
   }
 
@@ -161,7 +161,7 @@ class PCC extends GetxController implements GetxService {
         offerImageURS.value = offerData.image ?? '';
       }
     } catch (e) {
-      debugPrint("shortsVideoData errors: $e");
+      debugPrint("offerAPI errors: $e");
     }
   }
 
@@ -204,7 +204,7 @@ class PCC extends GetxController implements GetxService {
         colorText: Colors.white,
       );
       // Get.snackbar("Oops", "Your image is not uploaded");
-      debugPrint("shortsVideoData errors: $e");
+      debugPrint("postMyPost errors: $e");
     }
   }
 

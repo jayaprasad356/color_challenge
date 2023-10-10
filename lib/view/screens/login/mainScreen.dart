@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:color_challenge/Helper/apiCall.dart';
@@ -64,16 +65,14 @@ class _MainScreenState extends State<MainScreen> {
   final googleSignIn = GoogleSignIn();
   late String contact_us = "";
   late String _fcmToken;
+  int executionCount = 0;
+  Timer? timer;
 
   @override
   void initState() {
     super.initState();
     // setupSettings();
-    setState(() {
-      homeController.allSettingsData();
-      c.offerImageURS();
-      // debugPrint("balance: $balance");
-    });
+
     FirebaseMessaging.instance.getToken().then((token) {
       setState(() {
         _fcmToken = token!;
@@ -81,27 +80,50 @@ class _MainScreenState extends State<MainScreen> {
       });
       print('FCM Token: $_fcmToken');
     });
+    startTimer();
     // offerImage();
     if(status == '0'){
       _selctedIndex = 0;
-    }else{
+    } else {
       _selctedIndex = 2;
     }
+  }
 
+  void startTimer() {
+    const int maxExecutions = 2;
+
+    timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      _initializeData();
+      executionCount++;
+
+      if (executionCount >= maxExecutions) {
+        timer.cancel();
+      }
+    });
+  }
+
+  Future<void> _initializeData() async {
+    prefs = await SharedPreferences.getInstance();
+    homeController.allSettingsData();
+    c.offerAPI(prefs.getString(Constant.ID)!);
+    setState(() {
+      // homeController.allSettingsData();
+      // c.offerImageURS();
+      // debugPrint("balance: $balance");
+    });
   }
 
   // @override
   // void setState(VoidCallback fn) {
   //   // TODO: implement setState
   //   super.setState(fn);
-  //   userDeatils();
+  //   homeController.allSettingsData();
+  //   c.offerImageURS();
   // }
 
   void userDeatils() async {
 
     prefs = await SharedPreferences.getInstance();
-
-    prefs.setInt('timerCount',119);
     var url = Constant.USER_DETAIL_URL;
     Map<String, dynamic> bodyObject = {
       Constant.USER_ID: prefs.getString(Constant.ID),
