@@ -70,8 +70,6 @@ class FullTimePageState extends State<FullTimePage> {
   double maximumValue = 120.0;
   double currentValue = 60.0;
   double progressPercentage1 = 0.00;
-  int executionCount = 0;
-  Timer? timer;
 
   @override
   void initState() {
@@ -106,20 +104,9 @@ class FullTimePageState extends State<FullTimePage> {
       //ads_status("status");
     });
 
-    initializeTimer();
+    loadTimerCount();
   }
-  void initializeTimer() {
-    const int maxExecutions = 2;
 
-    timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-      loadTimerCount();
-      executionCount++;
-
-      if (executionCount >= maxExecutions) {
-        timer.cancel();
-      }
-    });
-  }
 
 
 
@@ -197,10 +184,10 @@ class FullTimePageState extends State<FullTimePage> {
           } else if (adsCount == 120) {
             isButtonDisabled = false; // Enable the button
             // adsCount = 0;
-          // } else if (adsCount > 120) {
-          //   progressPercentage = 0.0;
-          //   isButtonDisabled = false; // Enable the button
-          //   adsCount = 0;
+          } else if (adsCount > 120) {
+            progressPercentage = 0.0;
+            isButtonDisabled = false; // Enable the button
+            adsCount = 0;
           }
         });
         // if (timerCount < 100) {
