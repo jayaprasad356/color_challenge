@@ -86,7 +86,7 @@ class FullTimePageState extends State<FullTimePage> {
       prefs = value;
       ads_time = prefs.getString(Constant.ADS_TIME)!;
       balance = prefs.getString(Constant.BALANCE)!;
-      today_ads = prefs.getString(Constant.TOTAL_ADS)!;
+      today_ads = prefs.getString(Constant.TODAY_ADS)!;
       total_ads = prefs.getString(Constant.TOTAL_ADS)!;
       ads_cost = prefs.getString(Constant.ADS_COST)!;
       referText = prefs.getString(Constant.REFER_CODE)!;
@@ -166,7 +166,7 @@ class FullTimePageState extends State<FullTimePage> {
         });
         adsCount++;
         print('timerCount called $adsCount times.');
-        multiplyCostValue = multiplyCost(adsCount, ads_cost)!;
+        multiplyCostValue = adsCount * double.parse(ads_cost);
         setState(() {
           progressPercentage = (adsCount / maximumValue);
           debugPrint("timerCount: $adsCount");
@@ -209,7 +209,7 @@ class FullTimePageState extends State<FullTimePage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       adsCount = prefs.getInt('timerCount') ?? 0;
-      multiplyCostValue = prefs.getDouble('multiplyCostValueLocal') ?? 0.0;
+      multiplyCostValue = adsCount * double.parse(ads_cost);
       progressPercentage = (adsCount / maximumValue);
     });
   }

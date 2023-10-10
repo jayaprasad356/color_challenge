@@ -101,7 +101,6 @@ class _MainScreenState extends State<MainScreen> {
 
     prefs = await SharedPreferences.getInstance();
 
-    prefs.setInt('timerCount',119);
     var url = Constant.USER_DETAIL_URL;
     Map<String, dynamic> bodyObject = {
       Constant.USER_ID: prefs.getString(Constant.ID),
