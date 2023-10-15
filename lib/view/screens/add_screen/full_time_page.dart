@@ -807,7 +807,7 @@ class FullTimePageState extends State<FullTimePage> {
                       var watchAdStatus =
                           prefs.getString(Constant.WATCH_AD_STATUS);
                       debugPrint("myDeviceId: $myDeviceId");
-                      if (homeController.watchAdStatus == "0" &&
+                      if (homeController.watchAdStatus == "1" &&
                           adsCount < 120) {
                         if (!timerStarted) {
                           generatedOtp = fullTimePageCont
@@ -838,7 +838,7 @@ class FullTimePageState extends State<FullTimePage> {
                     child: Container(
                       height: 40,
                       width: 140,
-                      decoration: homeController.watchAdStatus == "0" &&
+                      decoration: homeController.watchAdStatus == "1" &&
                               adsCount < 120
                           ? const BoxDecoration(
                               image: DecorationImage(
