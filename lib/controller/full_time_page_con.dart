@@ -20,6 +20,7 @@ class FullTimePageCont extends GetxController implements GetxService {
   String balance = "";
   String ads_cost = "";
   String ads_time = "";
+  String reward_ads = "";
   // String balance = "";
   // RxString ads_cost = "0.00".obs;
 
@@ -39,11 +40,13 @@ class FullTimePageCont extends GetxController implements GetxService {
       userId,
       ads,
       syncUniqueId,
+      deviceId,
+      syncType,
       SyncDataCallback callback, // Add the callback parameter
       ) async {
     prefs = await SharedPreferences.getInstance();
     try {
-      final value = await fullTimeRepo.syncData(userId, ads, syncUniqueId);
+      final value = await fullTimeRepo.syncData(userId, ads, syncUniqueId, deviceId, syncType);
       var responseData = value.body;
       SyncDataList syncDataList = SyncDataList.fromJson(responseData);
       debugPrint("===> SyncDataList: $syncDataList");
@@ -58,6 +61,7 @@ class FullTimePageCont extends GetxController implements GetxService {
             balance = syncDataList.data![0].balance!;
             ads_cost = syncDataList.data![0].adsCost!;
             ads_time = syncDataList.data![0].adsTime!;
+            reward_ads = syncDataList.data![0].rewardAds!;
             // balance = syncDataList.data![0].balance!;
             // ads_cost.value = syncDataList.data![0].adsCost!;
             prefs.remove(Constant.TODAY_ADS);
@@ -65,12 +69,14 @@ class FullTimePageCont extends GetxController implements GetxService {
             prefs.remove(Constant.BALANCE);
             prefs.remove(Constant.ADS_COST);
             prefs.remove(Constant.ADS_TIME);
+            prefs.remove(Constant.REWARD_ADS);
 
             prefs.setString(Constant.TODAY_ADS, todayAds);
             prefs.setString(Constant.TOTAL_ADS, totalAds);
             prefs.setString(Constant.BALANCE, balance);
             prefs.setString(Constant.ADS_COST, ads_cost);
             prefs.setString(Constant.ADS_TIME, ads_time);
+            prefs.setString(Constant.REWARD_ADS, reward_ads);
           }
 
 

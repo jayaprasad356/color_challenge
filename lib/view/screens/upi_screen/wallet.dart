@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:color_challenge/model/user.dart';
 import 'package:color_challenge/controller/utils.dart';
 import 'package:color_challenge/view/screens/profile_screen/update_profile_screen.dart';
+import 'package:color_challenge/view/screens/upi_screen/apply%20leave.dart';
 import 'package:color_challenge/view/screens/upi_screen/my_withdrawal_records.dart';
+import 'package:color_challenge/view/screens/upi_screen/verify_ads.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
@@ -61,6 +63,7 @@ class _walletState extends State<wallet> {
   Widget build(BuildContext context) {
     bool _isDisabled = true;
     return Scaffold(
+      backgroundColor: colors.secondary_color,
       appBar: AppBar(
         centerTitle: true,
         automaticallyImplyLeading: false,
@@ -108,329 +111,364 @@ class _walletState extends State<wallet> {
           ),
           child: Column(
             children: [
+              const SizedBox(
+                height: 10,
+              ),
               Container(
-                child: Column(
-                  children: <Widget>[
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      width: double.infinity,
-                      child: Card(
-                        color: const Color(0xFF060A70),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color:
-                                    colors.widget_color, // Set the border color
-                                width: 2, // Set the border width
-                              ),
-                              borderRadius: BorderRadius.circular(
-                                  50), // Set border radius
+                width: double.infinity,
+                child: Card(
+                  color: const Color(0xFF060A70),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color:
+                              colors.widget_color, // Set the border color
+                          width: 2, // Set the border width
+                        ),
+                        borderRadius: BorderRadius.circular(
+                            50), // Set border radius
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 3.0, left: 5.0, right: 5.0, bottom: 3.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "$name",
+                              style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: colors.white),
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 3.0, left: 5.0, right: 5.0, bottom: 3.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "$name",
-                                    style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: colors.white),
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    "$mobile",
-                                    style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: colors.white),
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    "Total Earnings - ₹$earn",
-                                    style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: colors.white),
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                ],
-                              ),
+                            const SizedBox(
+                              height: 5,
                             ),
-                          ),
+                            Text(
+                              "$mobile",
+                              style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: colors.white),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              "Total Earnings - ₹$earn",
+                              style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: colors.white),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 5,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              const Text(
+                "Main Balance",
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: colors.white),
+              ),
+              const SizedBox(height: 5),
+              Card(
+                color: const Color(0xFF060A70),
+                child: Container(
+                  width: 200,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: colors.widget_color2, // Set the border color
+                      width: 2, // Set the border width
                     ),
-                    const Text(
-                      "Main Balance",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: colors.white),
-                    ),
-                    const SizedBox(height: 5),
-                    Card(
-                      color: const Color(0xFF060A70),
-                      child: Container(
-                        width: 200,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: colors.widget_color2, // Set the border color
-                            width: 2, // Set the border width
-                          ),
-                          borderRadius: BorderRadius.circular(35),
-                          color: const Color(0xFF080A42),
+                    borderRadius: BorderRadius.circular(35),
+                    color: const Color(0xFF080A42),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 3.0, left: 20.0, right: 20.0, bottom: 3.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/money.png',
+                          height: 30,
+                          width: 20,
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 3.0, left: 20.0, right: 20.0, bottom: 3.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/images/money.png',
-                                height: 30,
-                                width: 20,
-                              ),
-                              const SizedBox(
-                                  width:
-                                      5), // Adding some spacing between image and text
-                              Text(
-                                "₹ $balance",
-                                style: const TextStyle(
-                                    fontSize: 18, color: Colors.white),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        MaterialButton(
-                          color: colors.primary,
-                          onPressed: () {
-                            // Navigate to the BankDetailsScreen when the button is clicked
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => BankDetailsScreen(),
-                              ),
-                            );
-                          },
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: const Text('Update Bank Detail',
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  color: colors.white,
-                                  fontFamily: "Montserra")),
-                        ),
-                        const SizedBox(height: 5),
-                        MaterialButton(
-                          color: colors.primary,
-                          onPressed: () {
-                            // Navigate to the BankDetailsScreen when the button is clicked
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => UpdateProfileScreen(),
-                              ),
-                            );
-                          },
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: const Text('Update Profile',
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  color: colors.white,
-                                  fontFamily: "Montserra")),
+                        const SizedBox(
+                            width:
+                                5), // Adding some spacing between image and text
+                        Text(
+                          "₹ $balance",
+                          style: const TextStyle(
+                              fontSize: 18, color: Colors.white),
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Container(
-                        margin: const EdgeInsets.only(left: 20, right: 20),
-                        child: Column(
-                          children: <Widget>[
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Container(
-                                child: const Text(
-                                  "Withdrawal Amount",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: colors.white,
-                                      fontFamily: "Montserra"),
-                                ),
-                              ),
-                            ),
-                          ],
-                        )),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 20, right: 20),
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.circular(
-                            35), // Adjust the radius as needed
-                        border: Border.all(
-                            color: colors.widget_color), // Border color
-                      ),
-                      child: TextField(
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
-                        controller: _withdrawalAmtController,
-                        textAlign: TextAlign.center,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter Amount', // Hint text
-                          hintStyle: TextStyle(color: Colors.white),
-                          filled: true,
-                          fillColor: Colors
-                              .transparent, // Set to transparent to let the background show
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 20),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors
-                                    .transparent), // Set your desired border color
-                          ),
-
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors
-                                    .transparent), // Set your desired border color for focused state
-                          ),
-                        ),
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 20, right: 20),
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: RichText(
-                          text: TextSpan(
-                            text: "Minimum : ",
-                            style: const TextStyle(
-                                color: colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Montserrat"),
-                            children: [
-                              TextSpan(
-                                text: "₹$minimum",
-                                style: const TextStyle(
-                                    color: colors.cc_green,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: "Montserrat"),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    const Text(
-                      "Amount will be credit in 24 hrs.",
-                      style: TextStyle(
-                          fontSize: 10,
-                          color: colors.white,
-                          fontFamily: "Montserra"),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    MaterialButton(
-                      onPressed: () async {
-                        // showAlertDialog(context);
-                        double withdrawalAmt =
-                            double.tryParse(_withdrawalAmtController.text) ??
-                                0.0;
-                        double minimumAmt = double.tryParse(minimum) ?? 0.0;
-                        if (withdrawalAmt < minimumAmt) {
-                          utils.showToast("please enter minimum $minimum");
-                        } else {
-                          doWithdrawal();
-                        }
-                      },
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Container(
-                        margin: const EdgeInsets.only(left: 10),
-                        height: 50,
-                        width: 150,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage("assets/images/btnbg.png"),
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            'Withdrawal',
-                            style: TextStyle(
-                                color: colors.white,
-                                fontSize: 14,
-                                fontFamily: "Montserrat",
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                        margin:
-                            const EdgeInsets.only(left: 20, right: 20, top: 15),
-                        child: Column(
-                          children: <Widget>[
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Container(
-                                child: const Text(
-                                  "Withdrawal Record",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: colors.white,
-                                      fontFamily: "Montserra"),
-                                ),
-                              ),
-                            ),
-                          ],
-                        )),
-                  ],
+                  ),
                 ),
               ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  MaterialButton(
+                    color: colors.primary,
+                    onPressed: () {
+                      // Navigate to the BankDetailsScreen when the button is clicked
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BankDetailsScreen(),
+                        ),
+                      );
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: const Text('Update Bank Detail',
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: colors.white,
+                            fontFamily: "Montserra")),
+                  ),
+                  const SizedBox(height: 5),
+                  MaterialButton(
+                    color: colors.primary,
+                    onPressed: () {
+                      // Navigate to the BankDetailsScreen when the button is clicked
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UpdateProfileScreen(),
+                        ),
+                      );
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: const Text('Update Profile',
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: colors.white,
+                            fontFamily: "Montserra")),
+                  ),
+                ],
+              ),
+              // const SizedBox(
+              //   height: 15,
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 28),
+              //   child: Row(
+              //     children: [
+              //       MaterialButton(
+              //         color: colors.primary,
+              //         onPressed: () {
+              //           Get.to(const ApplyLeave());
+              //         },
+              //         shape: RoundedRectangleBorder(
+              //           borderRadius: BorderRadius.circular(6),
+              //         ),
+              //         child: const Text('Apply Leave',
+              //             style: TextStyle(
+              //                 fontSize: 14,
+              //                 color: colors.white,
+              //                 fontFamily: "Montserra")),
+              //       ),
+              //       Padding(
+              //         padding: const EdgeInsets.symmetric(horizontal: 28),
+              //         child: MaterialButton(
+              //           color: colors.primary,
+              //           onPressed: () {
+              //             Get.to(const VerifyAD());
+              //           },
+              //           shape: RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.circular(6),
+              //           ),
+              //           child: const Text('Verify AD',
+              //               style: TextStyle(
+              //                   fontSize: 14,
+              //                   color: colors.white,
+              //                   fontFamily: "Montserra")),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              const SizedBox(
+                height: 15,
+              ),
+              Container(
+                  margin: const EdgeInsets.only(left: 20, right: 20),
+                  child: Column(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          child: const Text(
+                            "Withdrawal Amount",
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: colors.white,
+                                fontFamily: "Montserra"),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                margin: const EdgeInsets.only(left: 20, right: 20),
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(
+                      35), // Adjust the radius as needed
+                  border: Border.all(
+                      color: colors.widget_color), // Border color
+                ),
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
+                  controller: _withdrawalAmtController,
+                  textAlign: TextAlign.center,
+                  decoration: const InputDecoration(
+                    hintText: 'Enter Amount', // Hint text
+                    hintStyle: TextStyle(color: Colors.white),
+                    filled: true,
+                    fillColor: Colors
+                        .transparent, // Set to transparent to let the background show
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 20),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Colors
+                              .transparent), // Set your desired border color
+                    ),
+
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Colors
+                              .transparent), // Set your desired border color for focused state
+                    ),
+                  ),
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Container(
+                margin: const EdgeInsets.only(left: 20, right: 20),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: RichText(
+                    text: TextSpan(
+                      text: "Minimum : ",
+                      style: const TextStyle(
+                          color: colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "Montserrat"),
+                      children: [
+                        TextSpan(
+                          text: "₹$minimum",
+                          style: const TextStyle(
+                              color: colors.cc_green,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "Montserrat"),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const Text(
+                "Amount will be credit in 24 hrs.",
+                style: TextStyle(
+                    fontSize: 10,
+                    color: colors.white,
+                    fontFamily: "Montserra"),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              MaterialButton(
+                onPressed: () async {
+                  // showAlertDialog(context);
+                  double withdrawalAmt =
+                      double.tryParse(_withdrawalAmtController.text) ??
+                          0.0;
+                  double minimumAmt = double.tryParse(minimum) ?? 0.0;
+                  if (withdrawalAmt < minimumAmt) {
+                    utils.showToast("please enter minimum $minimum");
+                  } else {
+                    doWithdrawal();
+                  }
+                },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Container(
+                  margin: const EdgeInsets.only(left: 10),
+                  height: 50,
+                  width: 150,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/btnbg.png"),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'Withdrawal',
+                      style: TextStyle(
+                          color: colors.white,
+                          fontSize: 14,
+                          fontFamily: "Montserrat",
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                  margin:
+                      const EdgeInsets.only(left: 20, right: 20, top: 15),
+                  child: Column(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          child: const Text(
+                            "Withdrawal Record",
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: colors.white,
+                                fontFamily: "Montserra"),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
               const MyWithdrawals()
             ],
           ),
@@ -486,7 +524,7 @@ class _walletState extends State<wallet> {
       contentPadding: const EdgeInsets.all(20),
       content: Container(
         height: size.height * 0.13,
-        decoration: BoxDecoration(),
+        decoration: const BoxDecoration(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -505,7 +543,7 @@ class _walletState extends State<wallet> {
                   ),
                 ),
                 InkWell(
-                  onTap: () =>  Navigator.of(context).pop(),
+                  onTap: () => Navigator.of(context).pop(),
                   child: Transform.rotate(
                     angle: 45 * (3.1415926535 / 180),
                     child: const Icon(

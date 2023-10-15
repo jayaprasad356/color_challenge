@@ -35,6 +35,7 @@ class Users {
   final String plan;
   final String deaf;
   final String email;
+  final String reward_ads;
 
 
 
@@ -75,6 +76,7 @@ class Users {
     required this.plan,
     required this.deaf,
     required this.email,
+    required this.reward_ads,
 
   });
 
@@ -116,6 +118,7 @@ class Users {
       plan: json['plan'],
       deaf: json['deaf'],
       email: json['email'],
+      reward_ads: json['reward_ads'],
     );
   }
   factory Users.fromJsonNew(Map<String, dynamic> json) {
@@ -156,6 +159,7 @@ class Users {
       plan: json['plan'],
       deaf: json['deaf'],
       email: json['email'],
+      reward_ads: json['reward_ads'],
     );
   }
 

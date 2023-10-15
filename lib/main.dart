@@ -4,10 +4,12 @@ import 'dart:convert';
 import 'package:color_challenge/controller/full_time_page_con.dart';
 import 'package:color_challenge/controller/home_controller.dart';
 import 'package:color_challenge/controller/pcc_controller.dart';
+import 'package:color_challenge/controller/upi_controller.dart';
 import 'package:color_challenge/data/api/api_client.dart';
 import 'package:color_challenge/data/repository/full_time_repo.dart';
 import 'package:color_challenge/data/repository/home_repo.dart';
 import 'package:color_challenge/data/repository/shorts_video_repo.dart';
+import 'package:color_challenge/data/repository/upi_repo.dart';
 import 'package:color_challenge/test.dart';
 import 'package:color_challenge/view/screens/login/loginMobile.dart';
 import 'package:color_challenge/view/screens/login/mainScreen.dart';
@@ -252,6 +254,15 @@ class _MyAppState extends State<MyApp> {
               Get.put(
                 FullTimePageCont(
                   fullTimeRepo: FullTimeRepo(
+                      apiClient: ApiClient(
+                          appBaseUrl: Constant.MainBaseUrl,
+                          storageLocal: storeLocal),
+                      storageLocal: storeLocal),
+                ),
+              );
+              Get.put(
+                UPIController(
+                  upiRepo: UPIRepo(
                       apiClient: ApiClient(
                           appBaseUrl: Constant.MainBaseUrl,
                           storageLocal: storeLocal),

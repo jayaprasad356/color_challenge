@@ -13,6 +13,7 @@ import 'package:color_challenge/controller/utils.dart';
 import 'package:color_challenge/view/screens/add_screen/ads_screen.dart';
 import 'package:color_challenge/view/screens/add_screen/full_time_page.dart';
 import 'package:color_challenge/view/screens/home_page/homePage.dart';
+import 'package:color_challenge/view/screens/invest/invers_screen.dart';
 import 'package:color_challenge/view/screens/notification_screen/notification_screen.dart';
 import 'package:color_challenge/view/screens/profile_screen/my_profile.dart';
 import 'package:color_challenge/view/screens/shorts_vid/my_offer.dart';
@@ -46,6 +47,7 @@ class _MainScreenState extends State<MainScreen> {
   final TextEditingController _addCoinController = TextEditingController();
 
   int _selctedIndex = 0;
+  // String title = "Invest";
   String title = "My Offer";
   String upi_id = "";
   bool _actionsVisible = false;
@@ -122,7 +124,6 @@ class _MainScreenState extends State<MainScreen> {
   // }
 
   void userDeatils() async {
-
     prefs = await SharedPreferences.getInstance();
     var url = Constant.USER_DETAIL_URL;
     Map<String, dynamic> bodyObject = {
@@ -159,6 +160,7 @@ class _MainScreenState extends State<MainScreen> {
     prefs.setString(Constant.PLAN, user.plan);
     prefs.setString(Constant.ADS_TIME, user.ads_time);
     prefs.setString(Constant.ADS_COST, user.ads_cost);
+    prefs.setString(Constant.REWARD_ADS, user.reward_ads);
     setState(() {
       status = prefs.getString(Constant.STATUS)!;
       old_plan = prefs.getString(Constant.OLD_PLAN)!;
@@ -201,6 +203,13 @@ class _MainScreenState extends State<MainScreen> {
         _leftArrowVisible = false;
         _notificationVisible = false;
         _addPost = false;
+      // } else if (index == 2) {
+      //   title = "Invest";
+      //   _actionsVisible = false;
+      //   _logoutVisible = false;
+      //   _leftArrowVisible = false;
+      //   _notificationVisible = false;
+      //   _addPost = false;
       } else if (index == 3) {
         title = "Notifications";
         _actionsVisible = false;
@@ -437,6 +446,16 @@ class _MainScreenState extends State<MainScreen> {
                     label: 'My Offer',
                     backgroundColor: colors.primary_color,
                   ),
+                  // BottomNavigationBarItem(
+                  //   icon: Icon(
+                  //     Icons.monetization_on,
+                  //     color: _selctedIndex == 2
+                  //         ? colors.widget_color
+                  //         : colors.white,
+                  //   ),
+                  //   label: 'Invest',
+                  //   backgroundColor: colors.primary_color,
+                  // ),
                   BottomNavigationBarItem(
                     icon: ImageIcon(
                       const AssetImage(
@@ -695,9 +714,9 @@ class _MainScreenState extends State<MainScreen> {
           return const FullTimePage();
         } else {
           return const ADsScreen();
-        };
-break;
+        }
         case 2:
+          // return const InvestScreen();
           return const MyOffer();
       // case 1:
       //   return const JobShow();

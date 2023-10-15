@@ -96,7 +96,8 @@ class HomeState extends State<Home> {
     homeController.allSettingsData();
 
     setState(() {
-      debugPrint("homeController.a1JobVideoURS.string: ${homeController.a1JobVideoURS.string}");
+      debugPrint(
+          "homeController.a1JobVideoURS.string: ${homeController.a1JobVideoURS.string}");
       debugPrint(homeController.a1JobDetailsURS.string);
     });
   }
@@ -211,56 +212,72 @@ class HomeState extends State<Home> {
             ),
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.only(top: 2.0),
+                padding: const EdgeInsets.only(top: 10.0),
                 child: Column(
                   children: [
-                    CarouselSlider(
-                      options: CarouselOptions(
-                        autoPlay: true,
-                        enableInfiniteScroll: false,
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            _currentIndex = index;
-                          });
-                        },
-                      ),
-                      items: homeController.sliderImageURL
-                          .asMap()
-                          .entries
-                          .map((entry) {
-                        int index = entry.key;
-                        String imageUrl = entry.value;
-                        String imageName = homeController.sliderName[index];
+                    homeController.sliderImageURL.isNotEmpty
+                        ? CarouselSlider(
+                            options: CarouselOptions(
+                              autoPlay: true,
+                              enableInfiniteScroll: false,
+                              onPageChanged: (index, reason) {
+                                setState(() {
+                                  _currentIndex = index;
+                                });
+                              },
+                            ),
+                            items: homeController.sliderImageURL
+                                .asMap()
+                                .entries
+                                .map((entry) {
+                              int index = entry.key;
+                              String imageUrl = entry.value;
+                              String imageName =
+                                  homeController.sliderName[index];
 
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return Container(
-                              width: size.width,
-                              margin:
-                                  const EdgeInsets.symmetric(horizontal: 5.0),
-                              decoration: BoxDecoration(
-                                color: Colors.blue,
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Stack(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(16),
-                                    child: Image.network(
-                                      imageUrl,
-                                      fit: BoxFit
-                                          .cover, // Ensure the image covers the background space
-                                      width: double.infinity,
-                                      height: double.infinity,
+                              return Builder(
+                                builder: (BuildContext context) {
+                                  return Container(
+                                    width: size.width,
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 5.0),
+                                    decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      borderRadius: BorderRadius.circular(16),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      }).toList(),
-                    ),
+                                    child: Stack(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          child: Image.network(
+                                            imageUrl,
+                                            fit: BoxFit
+                                                .cover, // Ensure the image covers the background space
+                                            width: double.infinity,
+                                            height: double.infinity,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            }).toList(),
+                          )
+                        :  Container(
+                          width: size.width,
+                          height: size.height * 0.2,
+                          alignment: Alignment.center,
+                          child: const SizedBox(
+                            height: 50.0,
+                            width: 50.0,
+                            child: CircularProgressIndicator(
+                              value: null,
+                              strokeWidth: 7.0,
+                            ),
+                          ),
+                        ),
                     const SizedBox(
                       height: 20,
                     ),
@@ -313,42 +330,42 @@ class HomeState extends State<Home> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         MaterialButton(
-                            onPressed: () {
-                              String? uri =
-                                  homeController.a1JobDetailsURS.toString();
-                              debugPrint("uri: $uri");
-                              launchUrl(
-                                Uri.parse(uri!),
-                                mode: LaunchMode.externalApplication,
-                              );
-                            },
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Container(
-                              height: 40,
-                              // width: 140,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage("assets/images/btnbg.png"),
-                                  fit: BoxFit.fill,
-                                ),
+                          onPressed: () {
+                            String? uri =
+                                homeController.a1JobDetailsURS.toString();
+                            debugPrint("uri: $uri");
+                            launchUrl(
+                              Uri.parse(uri!),
+                              mode: LaunchMode.externalApplication,
+                            );
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Container(
+                            height: 40,
+                            // width: 140,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage("assets/images/btnbg.png"),
+                                fit: BoxFit.fill,
                               ),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: size.width * 0.1),
-                              alignment: Alignment.center,
-                              child: const Center(
-                                child: Text(
-                                  'Job Details',
-                                  style: TextStyle(
-                                      color: colors.white,
-                                      fontSize: 14,
-                                      fontFamily: "Montserrat",
-                                      fontWeight: FontWeight.bold),
-                                ),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: size.width * 0.1),
+                            alignment: Alignment.center,
+                            child: const Center(
+                              child: Text(
+                                'Job Details',
+                                style: TextStyle(
+                                    color: colors.white,
+                                    fontSize: 14,
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
+                        ),
                         MaterialButton(
                           onPressed: () {
                             String? uri =
@@ -417,7 +434,7 @@ class HomeState extends State<Home> {
                         },
                         style: ButtonStyle(
                           backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.pink),
+                              MaterialStateProperty.all<Color>(Colors.pink),
                           // You can customize other styles of the button here as well
                         ),
                         child: const Text(
@@ -438,7 +455,7 @@ class HomeState extends State<Home> {
                         MaterialButton(
                           onPressed: () {
                             String? uri =
-                            homeController.a2JobDetailsURS.toString();
+                                homeController.a2JobDetailsURS.toString();
                             debugPrint("uri: $uri");
                             launchUrl(
                               Uri.parse(uri!),
@@ -475,7 +492,7 @@ class HomeState extends State<Home> {
                         MaterialButton(
                           onPressed: () {
                             String? uri =
-                            homeController.a2JobVideoURS.toString();
+                                homeController.a2JobVideoURS.toString();
                             debugPrint("uri: $uri");
                             launchUrl(
                               Uri.parse(uri!),

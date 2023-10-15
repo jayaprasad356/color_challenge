@@ -11,7 +11,7 @@ class SyncDataList {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(Data.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
   }
@@ -32,6 +32,8 @@ class Data {
   String? mobile;
   String? name;
   String? upi;
+  String? email;
+  String? deaf;
   String? totalReferrals;
   String? earn;
   String? balance;
@@ -77,12 +79,16 @@ class Data {
   String? postLeft;
   String? adsTime;
   String? oldPlan;
+  String? oldPb;
+  String? rewardAds;
 
   Data(
       {this.id,
         this.mobile,
         this.name,
         this.upi,
+        this.email,
+        this.deaf,
         this.totalReferrals,
         this.earn,
         this.balance,
@@ -127,13 +133,17 @@ class Data {
         this.mediaWallet,
         this.postLeft,
         this.adsTime,
-        this.oldPlan});
+        this.oldPlan,
+        this.oldPb,
+        this.rewardAds});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     mobile = json['mobile'];
     name = json['name'];
     upi = json['upi'];
+    email = json['email'];
+    deaf = json['deaf'];
     totalReferrals = json['total_referrals'];
     earn = json['earn'];
     balance = json['balance'];
@@ -179,6 +189,8 @@ class Data {
     postLeft = json['post_left'];
     adsTime = json['ads_time'];
     oldPlan = json['old_plan'];
+    oldPb = json['old_pb'];
+    rewardAds = json['reward_ads'];
   }
 
   Map<String, dynamic> toJson() {
@@ -187,6 +199,8 @@ class Data {
     data['mobile'] = mobile;
     data['name'] = name;
     data['upi'] = upi;
+    data['email'] = email;
+    data['deaf'] = deaf;
     data['total_referrals'] = totalReferrals;
     data['earn'] = earn;
     data['balance'] = balance;
@@ -232,6 +246,8 @@ class Data {
     data['post_left'] = postLeft;
     data['ads_time'] = adsTime;
     data['old_plan'] = oldPlan;
+    data['old_pb'] = oldPb;
+    data['reward_ads'] = rewardAds;
     return data;
   }
 }

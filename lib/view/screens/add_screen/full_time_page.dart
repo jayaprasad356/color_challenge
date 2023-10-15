@@ -9,6 +9,8 @@ import 'package:color_challenge/controller/home_controller.dart';
 import 'package:color_challenge/model/slider_data.dart';
 import 'package:color_challenge/model/user.dart';
 import 'package:color_challenge/controller/utils.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -19,7 +21,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../util/Color.dart';
 import '../../../util/Constant.dart';
-import '../job/online_jobs.dart';
+import 'package:slide_action/slide_action.dart';
 
 class FullTimePage extends StatefulWidget {
   const FullTimePage({Key? key}) : super(key: key);
@@ -58,13 +60,18 @@ class FullTimePageState extends State<FullTimePage> {
       target_refers = "",
       today_ads = "0",
       total_ads = "0",
+      reward_ads = "0",
       ads_time = "0";
   double progressbar = 0.0;
   late String image = "", referText = "", offer_image = "", refer_bonus = "";
   int adsCount = 0;
+  int rewardAds = 0;
   double progressPercentage = 0.0;
+  double progressPercentageTwo = 0.0;
   late bool isButtonDisabled;
+  late bool isClaimButtonDisabled;
   late String generatedOtp;
+  late String syncType;
   int syncUniqueId = 1;
   double multiplyCostValue = 0;
   double maximumValue = 120.0;
@@ -77,6 +84,7 @@ class FullTimePageState extends State<FullTimePage> {
     progressPercentage1 = currentValue / maximumValue;
 
     isButtonDisabled = true;
+    isClaimButtonDisabled = true;
 
     // // Initialize focus nodes and controllers
     // focusNodes = List.generate(4, (index) => FocusNode());
@@ -91,6 +99,7 @@ class FullTimePageState extends State<FullTimePage> {
       ads_cost = prefs.getString(Constant.ADS_COST)!;
       referText = prefs.getString(Constant.REFER_CODE)!;
       refer_bonus = prefs.getString(Constant.REFER_BONUS)!;
+      reward_ads = prefs.getString(Constant.REWARD_ADS)!;
       // setState(() {
       //   ads_time = prefs.getString(Constant.ADS_TIME)!;
       //   balance = prefs.getString(Constant.BALANCE)!;
@@ -105,10 +114,10 @@ class FullTimePageState extends State<FullTimePage> {
     });
 
     loadTimerCount();
+
+    // progressPercentageTwo = double.parse(reward_ads);
+    // debugPrint("progressPercentageTwo : $progressPercentageTwo");
   }
-
-
-
 
   // @override
   // void dispose() {
@@ -140,19 +149,18 @@ class FullTimePageState extends State<FullTimePage> {
       isButtonDisabled = false; // Enable the button
       adsCount = 0;
     }
+    rewardAds = int.parse(reward_ads);
+    progressPercentageTwo = double.parse(reward_ads);
+    debugPrint("progressPercentageTwo : $progressPercentageTwo");
+
+    if (rewardAds < 120) {
+      isClaimButtonDisabled = true; // Disable the button
+    } else if (rewardAds >= 120) {
+      syncUniqueId = fullTimePageCont.generateRandomSixDigitNumber();
+      isClaimButtonDisabled = false; // Enable the button
+    }
   }
 
-
-  void isButtonDisabledINIT() {
-    setState(() {
-      debugPrint("timerCount: $adsCount");
-      if (adsCount < 120) {
-        isButtonDisabled = true; // Disable the button
-      } else if (adsCount >= 120) {
-        isButtonDisabled = false; // Enable the button
-      }
-    });
-  }
 
   void startTimer() {
     // Example: Countdown from 100 to 0 with a 1-second interval
@@ -167,7 +175,7 @@ class FullTimePageState extends State<FullTimePage> {
           timerStarted = false;
           progressPercentage;
         });
-        adsCount++;
+        adsCount=80;
         print('timerCount called $adsCount times.');
         multiplyCostValue = adsCount * double.parse(ads_cost);
         setState(() {
@@ -276,106 +284,125 @@ class FullTimePageState extends State<FullTimePage> {
               padding: const EdgeInsets.only(top: 2.0),
               child: Column(
                 children: [
-                  Container(
-                    color: colors.cc_velvet,
-                    margin: const EdgeInsets.only(right: 10, left: 10, top: 10),
-                    child: Card(
-                      child: Container(
-                        color: colors.cc_velvet,
-                        child: Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                "Refer friend and earn ₹$refer_bonus",
-                                style: const TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: "Montserrat"),
-                              ),
-                              const SizedBox(height: 10.0),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  OutlinedButton(
-                                    onPressed: () {
-                                      Utils().showToast("Copied !");
-                                      Clipboard.setData(
-                                          ClipboardData(text: referText));
-                                    },
-                                    style: OutlinedButton.styleFrom(
-                                      backgroundColor: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(6.0),
-                                        side:
-                                            const BorderSide(color: colors.red),
-                                      ),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16, vertical: 11),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          Image.asset(
-                                            "assets/images/copy.png",
-                                            width: 24.0,
-                                            height: 24.0,
-                                          ),
-                                          const SizedBox(width: 8.0),
-                                          Text(
-                                            referText,
-                                            style: const TextStyle(
-                                              color: colors.primary,
-                                              fontSize: 12.0,
-                                              fontFamily: "Montserrat",
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 12.0),
-                                  MaterialButton(
-                                    onPressed: () {
-                                      Share.share(referText +
-                                          "\n Use my Refer Code and install this app https://play.google.com/store/apps/details?id=com.app.colorchallenge");
-                                    },
-                                    color: colors.primary_color,
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(8.0)),
-                                    ),
-                                    child: const Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 14.0, horizontal: 16.0),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          Text(
-                                            'Refer Friends',
-                                            style: TextStyle(
-                                              color: colors.white,
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: colors.widget_color,
+                            width: 2,
                           ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 10,
+                        ),
+                        child: Column(
+                          children: [
+                            const Text(
+                              "Main Balance",
+                              style: TextStyle(
+                                  fontFamily: 'MontserratLight',
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white,
+                                  fontSize: 15.0),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              "$balance + $multiplyCostValue",
+                              style: const TextStyle(
+                                  fontFamily: 'MontserratBold',
+                                  color: Colors.white,
+                                  fontSize: 15.0),
+                            ),
+                            // Obx(() => Text(
+                            //   "$balance + $multiplyCostValue",
+                            //   // "${fullTimePageCont.balance} + $multiplyCostValue",
+                            //   style: const TextStyle(
+                            //       fontFamily: 'MontserratBold',
+                            //       color: Colors.white,
+                            //       fontSize: 15.0),
+                            // ),),
+                          ],
                         ),
                       ),
-                    ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Today Ads",
+                            style: TextStyle(
+                                fontFamily: 'MontserratLight',
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                                fontSize: 15.0),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "Total Ads",
+                            style: TextStyle(
+                                fontFamily: 'MontserratLight',
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                                fontSize: 15.0),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "$today_ads + ${adsCount.toString()}",
+                            style: const TextStyle(
+                                fontFamily: 'MontserratBold',
+                                color: Colors.white,
+                                fontSize: 15.0),
+                          ),
+                          // Obx(() => Text(
+                          //   "$today_ads + ${adsCount.toString()}",
+                          //   // "${fullTimePageCont.totalAds} + ${adsCount.toString()}",
+                          //   style: const TextStyle(
+                          //       fontFamily: 'MontserratBold',
+                          //       color: Colors.white,
+                          //       fontSize: 15.0),
+                          // ),),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "$total_ads + ${adsCount.toString()}",
+                            // "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
+                            style: const TextStyle(
+                                fontFamily: 'MontserratBold',
+                                color: Colors.white,
+                                fontSize: 15.0),
+                          ),
+                          // Obx(() => Text(
+                          //   "$total_ads + ${adsCount.toString()}",
+                          //   // "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
+                          //   style: const TextStyle(
+                          //       fontFamily: 'MontserratBold',
+                          //       color: Colors.white,
+                          //       fontSize: 15.0),
+                          // ),),
+                        ],
+                      ),
+                    ],
                   ),
                   const SizedBox(
                     height: 10,
@@ -384,12 +411,15 @@ class FullTimePageState extends State<FullTimePage> {
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CircularPercentIndicator(
                           radius: 35.0,
                           lineWidth: 10.0,
                           animation: true,
+                          backgroundColor: Colors.grey.shade400,
                           percent: progressPercentage.clamp(0.0, 1.0),
+                          animateFromLastPercent: true,
                           center: Text(
                             (progressPercentage * maximumValue)
                                 .toInt()
@@ -403,7 +433,8 @@ class FullTimePageState extends State<FullTimePage> {
                             ignoring: isButtonDisabled,
                             child: InkWell(
                               onTap: () async {
-                                debugPrint("Tap detected");
+                                syncType = 'regular_sync';
+                                debugPrint("syncType: $syncType");
                                 try {
                                   prefs = await SharedPreferences.getInstance();
                                   setState(() {
@@ -415,25 +446,32 @@ class FullTimePageState extends State<FullTimePage> {
                                     prefs.getString(Constant.ID),
                                     adsCount.toString(),
                                     syncUniqueId.toString(),
+                                    prefs
+                                        .getString(Constant.MY_DEVICE_ID)
+                                        .toString(),
+                                    syncType,
                                     (String syncDataSuccess) {
                                       debugPrint(
                                           "syncDataSuccess: $syncDataSuccess");
                                       // Perform actions based on the result of the syncData function
                                       if (syncDataSuccess == 'true') {
-
                                         setState(() {
                                           saveTimerCount(0, 0.0);
                                           loadTimerCount();
                                           isButtonDisabled = true;
                                           multiplyCostValue = 0.0;
-                                          ads_time = prefs.getString(Constant.ADS_TIME)!;
-                                          balance = prefs.getString(Constant.BALANCE)!;
-                                          today_ads = prefs.getString(Constant.TODAY_ADS)!;
-                                          total_ads = prefs.getString(Constant.TOTAL_ADS)!;
-                                          ads_cost = prefs.getString(Constant.ADS_COST)!;
+                                          ads_time = prefs
+                                              .getString(Constant.ADS_TIME)!;
+                                          balance = prefs
+                                              .getString(Constant.BALANCE)!;
+                                          today_ads = prefs
+                                              .getString(Constant.TODAY_ADS)!;
+                                          total_ads = prefs
+                                              .getString(Constant.TOTAL_ADS)!;
+                                          ads_cost = prefs
+                                              .getString(Constant.ADS_COST)!;
                                         });
-                                      } else {
-                                      }
+                                      } else {}
                                     },
                                   );
                                 } catch (e) {
@@ -441,53 +479,11 @@ class FullTimePageState extends State<FullTimePage> {
                                   debugPrint("Error: $e");
                                 }
                               },
-                              // onTap: () async {
-                              //   debugPrint("it is worked");
-                              //   prefs = await SharedPreferences.getInstance();
-                              //   // var syncUniqueId = 1;
-                              //   setState(() {
-                              //     syncUniqueId;
-                              //     // fullTimePageCont.syncAble;
-                              //   });
-                              //   debugPrint("syncUniqueId: $syncUniqueId");
-                              //   fullTimePageCont.syncData(
-                              //     prefs.getString(Constant.ID),
-                              //     adsCount.toString(),
-                              //     syncUniqueId.toString(),
-                              //   );
-                              //   debugPrint("fullTimePageCont.syncDataSuccess: ${fullTimePageCont.syncDataSuccess}");
-                              //   if (fullTimePageCont.syncDataSuccess == 'true') {
-                              //     setState(() {
-                              //       adsCount = 0;
-                              //       progressPercentage = 0.0;
-                              //       isButtonDisabled = true;
-                              //     });
-                              //   } else if (fullTimePageCont.syncDataSuccess == 'false') {
-                              //     setState(() {
-                              //       adsCount = 120;
-                              //       isButtonDisabled = false;
-                              //     });
-                              //   }
-                              //   // String? syncAble = await storeLocal.read(
-                              //   //     key: Constant.SYNC_ABLE);
-                              //   // if (syncAble == "true") {
-                              //   //   setState(() {
-                              //   //     adsCount = 0;
-                              //   //     progressPercentage = 0.0;
-                              //   //     isButtonDisabled = true;
-                              //   //   });
-                              //   // } else {
-                              //   //   setState(() {
-                              //   //     adsCount = 120;
-                              //   //     isButtonDisabled = false;
-                              //   //   });
-                              //   // }
-                              // },
                               child: Container(
                                 decoration: BoxDecoration(
                                     color: isButtonDisabled == false
-                                        ? Colors.deepOrangeAccent
-                                        : Colors.grey,
+                                        ? Colors.deepPurpleAccent
+                                        : Colors.purple[50],
                                     borderRadius: BorderRadius.circular(10)),
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 15, vertical: 10),
@@ -500,140 +496,259 @@ class FullTimePageState extends State<FullTimePage> {
                                     fontSize: 12.0,
                                     color: isButtonDisabled == false
                                         ? Colors.white
-                                        : Colors.black,
+                                        : Colors.grey[500],
+                                    // : Colors.purpleAccent[200],
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          circularStrokeCap: CircularStrokeCap.round,
-                          progressColor: Colors.purple,
+                          progressColor: Colors.deepPurpleAccent,
                         ),
                         const SizedBox(
                           width: 15,
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: colors.widget_color,
-                                  width: 2,
-                                ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 15,
-                                vertical: 10,
-                              ),
-                              child: Column(
-                                children: [
-                                  const Text(
-                                    "Main Balance",
-                                    style: TextStyle(
-                                        fontFamily: 'MontserratLight',
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.white,
-                                        fontSize: 15.0),
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    "$balance + $multiplyCostValue",
-                                    style: const TextStyle(
-                                        fontFamily: 'MontserratBold',
-                                        color: Colors.white,
-                                        fontSize: 15.0),
-                                  ),
-                                  // Obx(() => Text(
-                                  //   "$balance + $multiplyCostValue",
-                                  //   // "${fullTimePageCont.balance} + $multiplyCostValue",
-                                  //   style: const TextStyle(
-                                  //       fontFamily: 'MontserratBold',
-                                  //       color: Colors.white,
-                                  //       fontSize: 15.0),
-                                  // ),),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                const Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Today Ads",
+                        CircularPercentIndicator(
+                          radius: 35.0,
+                          lineWidth: 10.0,
+                          animation: true,
+                          percent: progressPercentageTwo.clamp(0.0, 1.0),
+                          backgroundWidth: 13,
+                          center: Text(
+                            (progressPercentageTwo)
+                                .toInt()
+                                .toString(),
+                            style: const TextStyle(
+                                fontFamily: 'MontserratBold',
+                                fontSize: 16.0,
+                                color: Colors.white),
+                          ),
+                          footer: Column(
+                            children: [
+                              IgnorePointer(
+                                ignoring: isClaimButtonDisabled,
+                                child: InkWell(
+                                  onTap: () async {
+                                    syncType = 'reward_sync';
+                                    debugPrint("syncType: $syncType");
+                                    try {
+                                      prefs = await SharedPreferences.getInstance();
+                                      setState(() {
+                                        syncUniqueId;
+                                      });
+                                      debugPrint("syncUniqueId: $syncUniqueId");
+                                      // Call the syncData function and get the result immediately
+                                      fullTimePageCont.syncData(
+                                        prefs.getString(Constant.ID),
+                                        adsCount.toString(),
+                                        syncUniqueId.toString(),
+                                        prefs
+                                            .getString(Constant.MY_DEVICE_ID)
+                                            .toString(),
+                                        syncType,
+                                        (String syncDataSuccess) {
+                                          debugPrint(
+                                              "syncDataSuccess: $syncDataSuccess");
+                                          // Perform actions based on the result of the syncData function
+                                          if (syncDataSuccess == 'true') {
+                                            setState(() {
+                                              isClaimButtonDisabled = true;
+                                              reward_ads = prefs
+                                                  .getString(Constant.REWARD_ADS)!;
+                                              ads_time = prefs
+                                                  .getString(Constant.ADS_TIME)!;
+                                              balance = prefs
+                                                  .getString(Constant.BALANCE)!;
+                                              today_ads = prefs
+                                                  .getString(Constant.TODAY_ADS)!;
+                                              total_ads = prefs
+                                                  .getString(Constant.TOTAL_ADS)!;
+                                              ads_cost = prefs
+                                                  .getString(Constant.ADS_COST)!;
+                                            });
+                                          } else {}
+                                        },
+                                      );
+                                    } catch (e) {
+                                      // Handle any errors that occur during the process
+                                      debugPrint("Error: $e");
+                                    }
+                                  },
+                                  child: Container(
+                                      decoration: isClaimButtonDisabled == false ? BoxDecoration(
+                                        gradient: const LinearGradient(
+                                          begin: Alignment.topRight,
+                                          end: Alignment.bottomLeft,
+                                          colors:  [ Colors.deepOrangeAccent, Colors.pink,],
+                                        ),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ): BoxDecoration(
+                                        color: Colors.orange.shade50,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 10),
+                                    margin:
+                                        const EdgeInsets.only(top: 10),
+                                    child: Text(
+                                      "Claim Reward",
                                       style: TextStyle(
-                                          fontFamily: 'MontserratLight',
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.white,
-                                          fontSize: 15.0),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      "Total Ads",
-                                      style: TextStyle(
-                                          fontFamily: 'MontserratLight',
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.white,
-                                          fontSize: 15.0),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                   Text(
-                                      "$today_ads + ${adsCount.toString()}",
-                                      style: const TextStyle(
                                           fontFamily: 'MontserratBold',
-                                          color: Colors.white,
-                                          fontSize: 15.0),
+                                          fontSize: 12.0,
+                                          color: isClaimButtonDisabled == false
+                                              ? Colors.white
+                                              : Colors.grey[500]
+                                          // : Colors.orangeAccent[200],
+                                          ),
                                     ),
-                                    // Obx(() => Text(
-                                    //   "$today_ads + ${adsCount.toString()}",
-                                    //   // "${fullTimePageCont.totalAds} + ${adsCount.toString()}",
-                                    //   style: const TextStyle(
-                                    //       fontFamily: 'MontserratBold',
-                                    //       color: Colors.white,
-                                    //       fontSize: 15.0),
-                                    // ),),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      "$total_ads + ${adsCount.toString()}",
-                                      // "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
-                                      style: const TextStyle(
-                                          fontFamily: 'MontserratBold',
-                                          color: Colors.white,
-                                          fontSize: 15.0),
-                                    ),
-                                    // Obx(() => Text(
-                                    //   "$total_ads + ${adsCount.toString()}",
-                                    //   // "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
-                                    //   style: const TextStyle(
-                                    //       fontFamily: 'MontserratBold',
-                                    //       color: Colors.white,
-                                    //       fontSize: 15.0),
-                                    // ),),
-                                  ],
+                                  ),
                                 ),
-                              ],
-                            ),
-                          ],
-                        )
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  launchUrl(
+                                    Uri.parse(homeController.rewardAdsDetails.toString()),
+                                    mode: LaunchMode.externalApplication,
+                                  );
+                                },
+                                child: Text(
+                                  "more details",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          linearGradient: const LinearGradient(colors: [ Colors.deepOrangeAccent, Colors.pink,], ),
+                          circularStrokeCap: CircularStrokeCap.round,
+                          // progressColor: Colors.deepOrangeAccent,
+                        ),
+                        // Column(
+                        //   crossAxisAlignment: CrossAxisAlignment.start,
+                        //   children: [
+                        //     Container(
+                        //       decoration: BoxDecoration(
+                        //         border: Border.all(
+                        //           color: colors.widget_color,
+                        //           width: 2,
+                        //         ),
+                        //         borderRadius: BorderRadius.circular(8),
+                        //       ),
+                        //       padding: const EdgeInsets.symmetric(
+                        //         horizontal: 15,
+                        //         vertical: 10,
+                        //       ),
+                        //       child: Column(
+                        //         children: [
+                        //           const Text(
+                        //             "Main Balance",
+                        //             style: TextStyle(
+                        //                 fontFamily: 'MontserratLight',
+                        //                 fontWeight: FontWeight.w500,
+                        //                 color: Colors.white,
+                        //                 fontSize: 15.0),
+                        //           ),
+                        //           const SizedBox(
+                        //             height: 5,
+                        //           ),
+                        //           Text(
+                        //             "$balance + $multiplyCostValue",
+                        //             style: const TextStyle(
+                        //                 fontFamily: 'MontserratBold',
+                        //                 color: Colors.white,
+                        //                 fontSize: 15.0),
+                        //           ),
+                        //           // Obx(() => Text(
+                        //           //   "$balance + $multiplyCostValue",
+                        //           //   // "${fullTimePageCont.balance} + $multiplyCostValue",
+                        //           //   style: const TextStyle(
+                        //           //       fontFamily: 'MontserratBold',
+                        //           //       color: Colors.white,
+                        //           //       fontSize: 15.0),
+                        //           // ),),
+                        //         ],
+                        //       ),
+                        //     ),
+                        //     const SizedBox(
+                        //       height: 10,
+                        //     ),
+                        //     Row(
+                        //       mainAxisAlignment: MainAxisAlignment.start,
+                        //       children: [
+                        //         const Column(
+                        //           crossAxisAlignment: CrossAxisAlignment.start,
+                        //           children: [
+                        //             Text(
+                        //               "Today Ads",
+                        //               style: TextStyle(
+                        //                   fontFamily: 'MontserratLight',
+                        //                   fontWeight: FontWeight.w500,
+                        //                   color: Colors.white,
+                        //                   fontSize: 15.0),
+                        //             ),
+                        //             SizedBox(
+                        //               height: 10,
+                        //             ),
+                        //             Text(
+                        //               "Total Ads",
+                        //               style: TextStyle(
+                        //                   fontFamily: 'MontserratLight',
+                        //                   fontWeight: FontWeight.w500,
+                        //                   color: Colors.white,
+                        //                   fontSize: 15.0),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //         const SizedBox(
+                        //           width: 10,
+                        //         ),
+                        //         Column(
+                        //           crossAxisAlignment: CrossAxisAlignment.start,
+                        //           children: [
+                        //             Text(
+                        //               "$today_ads + ${adsCount.toString()}",
+                        //               style: const TextStyle(
+                        //                   fontFamily: 'MontserratBold',
+                        //                   color: Colors.white,
+                        //                   fontSize: 15.0),
+                        //             ),
+                        //             // Obx(() => Text(
+                        //             //   "$today_ads + ${adsCount.toString()}",
+                        //             //   // "${fullTimePageCont.totalAds} + ${adsCount.toString()}",
+                        //             //   style: const TextStyle(
+                        //             //       fontFamily: 'MontserratBold',
+                        //             //       color: Colors.white,
+                        //             //       fontSize: 15.0),
+                        //             // ),),
+                        //             const SizedBox(
+                        //               height: 10,
+                        //             ),
+                        //             Text(
+                        //               "$total_ads + ${adsCount.toString()}",
+                        //               // "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
+                        //               style: const TextStyle(
+                        //                   fontFamily: 'MontserratBold',
+                        //                   color: Colors.white,
+                        //                   fontSize: 15.0),
+                        //             ),
+                        //             // Obx(() => Text(
+                        //             //   "$total_ads + ${adsCount.toString()}",
+                        //             //   // "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
+                        //             //   style: const TextStyle(
+                        //             //       fontFamily: 'MontserratBold',
+                        //             //       color: Colors.white,
+                        //             //       fontSize: 15.0),
+                        //             // ),),
+                        //           ],
+                        //         ),
+                        //       ],
+                        //     ),
+                        //   ],
+                        // )
                       ],
                     ),
                   ),
@@ -683,16 +798,22 @@ class FullTimePageState extends State<FullTimePage> {
                   const SizedBox(height: 5),
                   MaterialButton(
                     onPressed: () async {
-                      debugPrint("homeController.watchAdStatus: ${homeController.watchAdStatus}");
+                      debugPrint(
+                          "homeController.watchAdStatus: ${homeController.watchAdStatus}");
                       debugPrint("adsCount: $adsCount");
-                      var watchAdStatus = prefs.getString(Constant.WATCH_AD_STATUS);
-                      // debugPrint("homeController.watchAdStatus: ${homeController.watchAdStatus}");
-                      if (homeController.watchAdStatus == "1" && adsCount < 120) {
+                      var myDeviceId =
+                          prefs.getString(Constant.MY_DEVICE_ID).toString();
+                      var watchAdStatus =
+                          prefs.getString(Constant.WATCH_AD_STATUS);
+                      debugPrint("myDeviceId: $myDeviceId");
+                      if (homeController.watchAdStatus == "0" &&
+                          adsCount < 120) {
                         if (!timerStarted) {
                           generatedOtp = fullTimePageCont
                               .generateRandomFourDigitNumber()
                               .toString();
-                          showAlertDialog(context, generatedOtp);
+                          showAlertDialog(context);
+                          // showAlertDialog(context, generatedOtp);
                         } else {
                           Utils().showToast("Please wait...");
                         }
@@ -716,7 +837,8 @@ class FullTimePageState extends State<FullTimePage> {
                     child: Container(
                       height: 40,
                       width: 140,
-                      decoration: homeController.watchAdStatus == "1" && adsCount < 120
+                      decoration: homeController.watchAdStatus == "0" &&
+                              adsCount < 120
                           ? const BoxDecoration(
                               image: DecorationImage(
                                 image: AssetImage("assets/images/btnbg.png"),
@@ -786,62 +908,72 @@ class FullTimePageState extends State<FullTimePage> {
 
   showAlertDialog(
     BuildContext context,
-    String generatedOtp,
+    // String generatedOtp,
   ) {
     Size size = MediaQuery.of(context).size;
 
     AlertDialog alert = AlertDialog(
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10))),
+          borderRadius: BorderRadius.all(Radius.circular(16))),
       contentPadding: const EdgeInsets.all(20),
       content: Container(
-        height: size.height * 0.2,
+        height: size.height * 0.1,
         decoration: const BoxDecoration(),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: size.width * 0.5,
-                  child: Text(
-                    generatedOtp,
-                    style: const TextStyle(
-                      fontFamily: 'MontserratBold',
+        alignment: Alignment.center,
+        child: SlideAction(
+          trackBuilder: (context, state) {
+            return Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                color: Colors.white,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 8,
+                  ),
+                ],
+              ),
+              child: Center(
+                child: Text(
+                  state.isPerformingAction ? "Loading..." : "Go To ADS",
+                  style: const TextStyle(
+                      color: colors.black,
                       fontSize: 14,
-                      color: Colors.black,
-                    ),
-                  ),
+                      fontFamily: "Montserrat",
+                      fontWeight: FontWeight.bold),
                 ),
-                InkWell(
-                  onTap: () => Navigator.of(context).pop(),
-                  child: Transform.rotate(
-                    angle: 45 * (3.1415926535 / 180),
-                    child: const Icon(
-                      Icons.add,
-                      // Adjust other properties as needed
-                      size: 24.0,
-                      color: Colors.black,
-                    ),
-                  ),
-                )
-              ],
-            ),
-            OtpInputField(
-              generatedOtp: generatedOtp,
-              onPress: (enteredOtp) {
-                if (enteredOtp == generatedOtp) {
-                  print('OTP Matched');
-                  watchAds();
-                  Navigator.of(context).pop();
-                } else {
-                  print('OTP Mismatch');
-                }
-                print('Entered OTP: $enteredOtp');
+              ),
+            );
+          },
+          thumbBuilder: (context, state) {
+            return Container(
+              margin: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                color: Colors.orange,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Center(
+                child: state.isPerformingAction
+                    ? const CupertinoActivityIndicator(
+                        color: Colors.white,
+                      )
+                    : const Icon(
+                        Icons.chevron_right,
+                        color: Colors.white,
+                      ),
+              ),
+            );
+          },
+          action: () async {
+            await Future.delayed(
+              const Duration(seconds: 2),
+              () {
+                debugPrint("action completed");
+                watchAds();
+                Navigator.of(context).pop();
               },
-            ),
-          ],
+            );
+          },
         ),
       ),
     );
@@ -853,6 +985,76 @@ class FullTimePageState extends State<FullTimePage> {
       },
     );
   }
+
+  // showAlertDialog(
+  //   BuildContext context,
+  //   String generatedOtp,
+  // ) {
+  //   Size size = MediaQuery.of(context).size;
+  //
+  //   AlertDialog alert = AlertDialog(
+  //     shape: const RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.all(Radius.circular(10))),
+  //     contentPadding: const EdgeInsets.all(20),
+  //     content: Container(
+  //       height: size.height * 0.2,
+  //       decoration: const BoxDecoration(),
+  //       child: Column(
+  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //         children: [
+  //           Row(
+  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //             children: [
+  //               SizedBox(
+  //                 width: size.width * 0.5,
+  //                 child: Text(
+  //                   generatedOtp,
+  //                   style: const TextStyle(
+  //                     fontFamily: 'MontserratBold',
+  //                     fontSize: 14,
+  //                     color: Colors.black,
+  //                   ),
+  //                 ),
+  //               ),
+  //               InkWell(
+  //                 onTap: () => Navigator.of(context).pop(),
+  //                 child: Transform.rotate(
+  //                   angle: 45 * (3.1415926535 / 180),
+  //                   child: const Icon(
+  //                     Icons.add,
+  //                     // Adjust other properties as needed
+  //                     size: 24.0,
+  //                     color: Colors.black,
+  //                   ),
+  //                 ),
+  //               )
+  //             ],
+  //           ),
+  //           OtpInputField(
+  //             generatedOtp: generatedOtp,
+  //             onPress: (enteredOtp) {
+  //               if (enteredOtp == generatedOtp) {
+  //                 print('OTP Matched');
+  //                 watchAds();
+  //                 Navigator.of(context).pop();
+  //               } else {
+  //                 print('OTP Mismatch');
+  //               }
+  //               print('Entered OTP: $enteredOtp');
+  //             },
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  //
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return alert;
+  //     },
+  //   );
+  // }
 }
 
 class OtpInputField extends StatefulWidget {

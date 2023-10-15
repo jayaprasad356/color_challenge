@@ -45,6 +45,7 @@ class Data {
   String? a2JobVideo;
   String? a1PurchaseLink;
   String? a2PurchaseLink;
+  String? rewardAdsDetails;
 
   Data(
       {this.id,
@@ -63,7 +64,8 @@ class Data {
         this.a2JobDetails,
         this.a2JobVideo,
         this.a1PurchaseLink,
-        this.a2PurchaseLink});
+        this.a2PurchaseLink,
+        this.rewardAdsDetails});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -83,6 +85,7 @@ class Data {
     a2JobVideo = json['a2_job_video'];
     a1PurchaseLink = json['a1_purchase_link'];
     a2PurchaseLink = json['a2_purchase_link'];
+    rewardAdsDetails = json['reward_ads_details'];
   }
 
   Map<String, dynamic> toJson() {
@@ -104,6 +107,7 @@ class Data {
     data['a2_job_video'] = a2JobVideo;
     data['a1_purchase_link'] = a1PurchaseLink;
     data['a2_purchase_link'] = a2PurchaseLink;
+    data['reward_ads_details'] = rewardAdsDetails;
     return data;
   }
 }

@@ -4,9 +4,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 const FlutterSecureStorage storeLocal = FlutterSecureStorage();
 
 class Constant {
-  static const String MainBaseUrl = "https://admin.colorjobs.site/";
+  // static const String MainBaseUrl = "https://admin.colorjobs.site/";
   //static const String MainBaseUrl = "http://192.168.35.38/color_challenge_admin/";
-  //static const String MainBaseUrl = "https://demo.colorjobs.site/";
+  static const String MainBaseUrl = "https://demo.colorjobs.site/";
   static const String BaseUrl = "${MainBaseUrl}api/";
   static const String LOGIN_URL = "${BaseUrl}login.php";
   static const String USER_DETAIL_URL = "${BaseUrl}user_details.php";
@@ -91,6 +91,7 @@ class Constant {
   static const String MEDIA_WALLET = "media_wallet";
   static const String POST_LEFT = "post_left";
   static const String ADS_COST = "ads_cost";
+  static const String REWARD_ADS = "reward_ads";
   static const String ADS_TIME = "ads_time";
 
   static const String NAME = "name";
