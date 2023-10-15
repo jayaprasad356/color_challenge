@@ -32,6 +32,7 @@ class HomeController extends GetxController implements GetxService {
   final RxString a2PurchaseURS = ''.obs;
   final RxString watchAdStatus = ''.obs;
   final RxString rewardAdsDetails = ''.obs;
+  final RxString referBonus = ''.obs;
 
   @override
   void onInit() {
@@ -75,6 +76,7 @@ class HomeController extends GetxController implements GetxService {
         a2PurchaseURS.value = settingsData.a2PurchaseLink ?? '';
         watchAdStatus.value = settingsData.watchAdStatus ?? '';
         rewardAdsDetails.value = settingsData.rewardAdsDetails ?? '';
+        referBonus.value = settingsData.referBonus ?? '';
       }
     } catch (e) {
       debugPrint("shortsVideoData errors: $e");

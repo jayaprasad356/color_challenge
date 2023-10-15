@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:color_challenge/controller/home_controller.dart';
 import 'package:color_challenge/controller/utils.dart';
 import 'package:color_challenge/model/jobs_show.dart';
 import 'package:color_challenge/reports.dart';
@@ -20,8 +21,7 @@ class MyProfile extends StatefulWidget {
 }
 
 class _MyProfileState extends State<MyProfile> {
-
-
+  final HomeController homeController = Get.find<HomeController>();
   late SharedPreferences prefs;
   String name = "";
   String mobile_number = "";
@@ -42,7 +42,8 @@ class _MyProfileState extends State<MyProfile> {
     SharedPreferences.getInstance().then((value) {
       prefs = value;
       referText = prefs.getString(Constant.REFER_CODE)!;
-      refer_bonus = prefs.getString(Constant.REFER_BONUS)!;
+      // refer_bonus = prefs.getString(Constant.REFER_BONUS)!;
+      refer_bonus = homeController.referBonus.toString();
     });
   }
 
@@ -51,6 +52,7 @@ class _MyProfileState extends State<MyProfile> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: colors.secondary_color,
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Container(
