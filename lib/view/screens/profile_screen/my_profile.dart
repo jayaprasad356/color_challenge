@@ -25,21 +25,27 @@ class _MyProfileState extends State<MyProfile> {
   late SharedPreferences prefs;
   String name = "";
   String mobile_number = "";
-  late String referText = "", refer_bonus = "";
+  String referText = "", refer_bonus = "";
 
   @override
   void initState() {
     super.initState();
     SharedPreferences.getInstance().then((value) {
       prefs = value;
+      // referText = prefs.getString(Constant.REFER_CODE)!;
+      // refer_bonus = prefs.getString(Constant.REFER_BONUS)!;
       setState(() {
         name = prefs.getString(Constant.NAME)!;
         mobile_number = prefs.getString(Constant.MOBILE)!;
-        referText = prefs.getString(Constant.REFER_CODE)!;
-        refer_bonus = prefs.getString(Constant.REFER_BONUS)!;
       });
     });
+    SharedPreferences.getInstance().then((value) {
+      prefs = value;
+      referText = prefs.getString(Constant.REFER_CODE)!;
+      refer_bonus = prefs.getString(Constant.REFER_BONUS)!;
+    });
   }
+
 
   @override
   Widget build(BuildContext context) {

@@ -175,7 +175,7 @@ class FullTimePageState extends State<FullTimePage> {
           timerStarted = false;
           progressPercentage;
         });
-        adsCount=80;
+        adsCount++;
         print('timerCount called $adsCount times.');
         multiplyCostValue = adsCount * double.parse(ads_cost);
         setState(() {
