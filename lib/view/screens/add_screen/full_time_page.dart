@@ -98,8 +98,8 @@ class FullTimePageState extends State<FullTimePage> {
       total_ads = prefs.getString(Constant.TOTAL_ADS)!;
       ads_cost = prefs.getString(Constant.ADS_COST)!;
       referText = prefs.getString(Constant.REFER_CODE)!;
-      refer_bonus = prefs.getString(Constant.REFER_BONUS)!;
       reward_ads = prefs.getString(Constant.REWARD_ADS)!;
+      debugPrint("reward_ads : $reward_ads");
       // setState(() {
       //   ads_time = prefs.getString(Constant.ADS_TIME)!;
       //   balance = prefs.getString(Constant.BALANCE)!;
@@ -150,7 +150,8 @@ class FullTimePageState extends State<FullTimePage> {
       adsCount = 0;
     }
     rewardAds = int.parse(reward_ads);
-    progressPercentageTwo = double.parse(reward_ads);
+    debugPrint("rewardAds : $rewardAds");
+    progressPercentageTwo = double.parse(reward_ads) / maximumValue;
     debugPrint("progressPercentageTwo : $progressPercentageTwo");
 
     if (rewardAds < 120) {
@@ -515,7 +516,7 @@ class FullTimePageState extends State<FullTimePage> {
                           percent: progressPercentageTwo.clamp(0.0, 1.0),
                           backgroundWidth: 13,
                           center: Text(
-                            (progressPercentageTwo)
+                            (progressPercentageTwo * maximumValue)
                                 .toInt()
                                 .toString(),
                             style: const TextStyle(
@@ -806,7 +807,7 @@ class FullTimePageState extends State<FullTimePage> {
                       var watchAdStatus =
                           prefs.getString(Constant.WATCH_AD_STATUS);
                       debugPrint("myDeviceId: $myDeviceId");
-                      if (homeController.watchAdStatus == "1" &&
+                      if (homeController.watchAdStatus == "0" &&
                           adsCount < 120) {
                         if (!timerStarted) {
                           generatedOtp = fullTimePageCont
@@ -837,7 +838,7 @@ class FullTimePageState extends State<FullTimePage> {
                     child: Container(
                       height: 40,
                       width: 140,
-                      decoration: homeController.watchAdStatus == "1" &&
+                      decoration: homeController.watchAdStatus == "0" &&
                               adsCount < 120
                           ? const BoxDecoration(
                               image: DecorationImage(
