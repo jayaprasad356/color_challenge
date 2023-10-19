@@ -149,19 +149,14 @@ class _MyProfileState extends State<MyProfile> {
                                 ),
                                 child: const Padding(
                                   padding: EdgeInsets.symmetric(
-                                      vertical: 14.0, horizontal: 16.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      Text(
-                                        'Refer Friends',
-                                        style: TextStyle(
-                                          color: colors.white,
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
+                                      vertical: 14.0, horizontal: 14.0),
+                                  child: Text(
+                                    'Refer Friends',
+                                    style: TextStyle(
+                                      color: colors.white,
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                               ),
