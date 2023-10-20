@@ -84,7 +84,7 @@ class _MainScreenState extends State<MainScreen> {
     });
     startTimer();
     // offerImage();
-    if(status == '0'){
+    if (status == '0') {
       _selctedIndex = 0;
     } else {
       _selctedIndex = 2;
@@ -109,9 +109,10 @@ class _MainScreenState extends State<MainScreen> {
     homeController.allSettingsData();
     c.offerAPI(prefs.getString(Constant.ID)!);
     setState(() {
-      // homeController.allSettingsData();
-      // c.offerImageURS();
-      // debugPrint("balance: $balance");
+      status = prefs.getString(Constant.STATUS)!;
+      old_plan = prefs.getString(Constant.OLD_PLAN)!;
+      plan = prefs.getString(Constant.PLAN)!;
+      balance = prefs.getString(Constant.BALANCE)!;
     });
   }
 
@@ -185,7 +186,7 @@ class _MainScreenState extends State<MainScreen> {
       //   _addPost = false;
       // } else if (index == 2) {
       if (index == 1) {
-        if(old_plan == "0" && plan == "A1" && status == "1" ) {
+        if (old_plan == "0" && plan == "A1" && status == "1") {
           title = "A1 Plan";
         } else {
           title = "A2 Plan";
@@ -203,13 +204,13 @@ class _MainScreenState extends State<MainScreen> {
         _leftArrowVisible = false;
         _notificationVisible = false;
         _addPost = false;
-      // } else if (index == 2) {
-      //   title = "Invest";
-      //   _actionsVisible = false;
-      //   _logoutVisible = false;
-      //   _leftArrowVisible = false;
-      //   _notificationVisible = false;
-      //   _addPost = false;
+        // } else if (index == 2) {
+        //   title = "Invest";
+        //   _actionsVisible = false;
+        //   _logoutVisible = false;
+        //   _leftArrowVisible = false;
+        //   _notificationVisible = false;
+        //   _addPost = false;
       } else if (index == 3) {
         title = "Notifications";
         _actionsVisible = false;
@@ -217,13 +218,13 @@ class _MainScreenState extends State<MainScreen> {
         _leftArrowVisible = false;
         _notificationVisible = false;
         _addPost = false;
-      // } else if (index == 3) {
-      //   title = "Post";
-      //   _actionsVisible = false;
-      //   _logoutVisible = false;
-      //   _leftArrowVisible = false;
-      //   _notificationVisible = false;
-      //   _addPost = false;
+        // } else if (index == 3) {
+        //   title = "Post";
+        //   _actionsVisible = false;
+        //   _logoutVisible = false;
+        //   _leftArrowVisible = false;
+        //   _notificationVisible = false;
+        //   _addPost = false;
         // } else if (index == 3) {
         //   title = "Reports";
         //   _actionsVisible = false;
@@ -710,19 +711,19 @@ class _MainScreenState extends State<MainScreen> {
       case 1:
         // return const ADsScreen(); //HomePage(updateAmount: updateAmount);
         // return const FullTimePage();
-        if(status == "1" && old_plan == "0" && plan == "A1") {
+        if (status == "1" && old_plan == "0" && plan == "A1") {
           return const FullTimePage();
         } else {
           return const ADsScreen();
         }
-        case 2:
-          // return const InvestScreen();
-          return const MyOffer();
+      case 2:
+        // return const InvestScreen();
+        return const MyOffer();
       // case 1:
       //   return const JobShow();
       case 3:
         return const NotifyScreen();
-        // return const PreloadPage();
+      // return const PreloadPage();
       // case 3:
       //   return const report();
       case 4:
@@ -749,14 +750,12 @@ class _MainScreenState extends State<MainScreen> {
     prefs.setString(Constant.REFER_BONUS, datass[Constant.REFER_BONUS]);
     prefs.setString(
         Constant.WITHDRAWAL_STATUS, datass[Constant.WITHDRAWAL_STATUS]);
-    prefs.setString(Constant.WHATSPP_GROUP_LINK, datass[Constant.WHATSPP_GROUP_LINK]);
+    prefs.setString(
+        Constant.WHATSPP_GROUP_LINK, datass[Constant.WHATSPP_GROUP_LINK]);
     // prefs.setString(
     //     Constant.JOB_VIDEO, datass[Constant.JOB_VIDEO]);
-    prefs.setString(
-        Constant.JOB_DETAILS, datass[Constant.JOB_DETAILS]);
-    prefs.setString(
-        Constant.WATCH_AD_STATUS, datass[Constant.WATCH_AD_STATUS]);
-
+    prefs.setString(Constant.JOB_DETAILS, datass[Constant.JOB_DETAILS]);
+    prefs.setString(Constant.WATCH_AD_STATUS, datass[Constant.WATCH_AD_STATUS]);
   }
   // void offerImage() async {
   //   prefs = await SharedPreferences.getInstance();

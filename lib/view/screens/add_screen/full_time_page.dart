@@ -72,7 +72,7 @@ class FullTimePageState extends State<FullTimePage> {
   late bool isClaimButtonDisabled;
   late String generatedOtp;
   late String syncType;
-  int syncUniqueId = 1;
+  late int syncUniqueId;
   double multiplyCostValue = 0;
   double maximumValue = 120.0;
   double currentValue = 60.0;
@@ -162,7 +162,6 @@ class FullTimePageState extends State<FullTimePage> {
     }
   }
 
-
   void startTimer() {
     // Example: Countdown from 100 to 0 with a 1-second interval
     const oneSec = Duration(seconds: 1);
@@ -186,11 +185,16 @@ class FullTimePageState extends State<FullTimePage> {
           if (adsCount < 119) {
             isButtonDisabled = true; // Disable the button
           } else if (adsCount >= 119) {
-            syncUniqueId = fullTimePageCont.generateRandomSixDigitNumber();
+            setState(() {
+              syncUniqueId = fullTimePageCont.generateRandomSixDigitNumber();
+            });
             debugPrint("syncUniqueId: $syncUniqueId");
             isButtonDisabled = true; // Disable the button
             // adsCount = 0;
           } else if (adsCount == 120) {
+            setState(() {
+              syncUniqueId = fullTimePageCont.generateRandomSixDigitNumber();
+            });
             isButtonDisabled = false; // Enable the button
             // adsCount = 0;
           } else if (adsCount > 120) {
@@ -408,6 +412,78 @@ class FullTimePageState extends State<FullTimePage> {
                   const SizedBox(
                     height: 10,
                   ),
+                  Container(
+                    width: double.infinity,
+                    height: 30,
+                    margin: const EdgeInsets.symmetric(horizontal: 30),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      gradient: const LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.bottomLeft,
+                        colors: [
+                          Colors.deepOrangeAccent,
+                          Colors.pink,
+                        ],
+                      ),
+                    ),
+                    child: SizedBox(
+                      height: 30,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              '19453',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 10),
+                            ),
+                            Row(
+                              children: [
+                                Image.asset(
+                                  "assets/images/6941697-removebg-preview.png",
+                                  width: 20,
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                const Text(
+                                  'name',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 10),
+                                ),
+                              ],
+                            ),
+                            const Text(
+                              '2500 ads',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 10),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                showRankAlertDialog(context);
+                              },
+                              child: const Icon(
+                                Icons.open_in_new,
+                                color: Colors.white,
+                                size: 15,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: Row(
@@ -533,7 +609,8 @@ class FullTimePageState extends State<FullTimePage> {
                                     syncType = 'reward_sync';
                                     debugPrint("syncType: $syncType");
                                     try {
-                                      prefs = await SharedPreferences.getInstance();
+                                      prefs =
+                                          await SharedPreferences.getInstance();
                                       setState(() {
                                         syncUniqueId;
                                       });
@@ -554,18 +631,18 @@ class FullTimePageState extends State<FullTimePage> {
                                           if (syncDataSuccess == 'true') {
                                             setState(() {
                                               isClaimButtonDisabled = true;
-                                              reward_ads = prefs
-                                                  .getString(Constant.REWARD_ADS)!;
-                                              ads_time = prefs
-                                                  .getString(Constant.ADS_TIME)!;
+                                              reward_ads = prefs.getString(
+                                                  Constant.REWARD_ADS)!;
+                                              ads_time = prefs.getString(
+                                                  Constant.ADS_TIME)!;
                                               balance = prefs
                                                   .getString(Constant.BALANCE)!;
-                                              today_ads = prefs
-                                                  .getString(Constant.TODAY_ADS)!;
-                                              total_ads = prefs
-                                                  .getString(Constant.TOTAL_ADS)!;
-                                              ads_cost = prefs
-                                                  .getString(Constant.ADS_COST)!;
+                                              today_ads = prefs.getString(
+                                                  Constant.TODAY_ADS)!;
+                                              total_ads = prefs.getString(
+                                                  Constant.TOTAL_ADS)!;
+                                              ads_cost = prefs.getString(
+                                                  Constant.ADS_COST)!;
                                             });
                                           } else {}
                                         },
@@ -576,21 +653,27 @@ class FullTimePageState extends State<FullTimePage> {
                                     }
                                   },
                                   child: Container(
-                                      decoration: isClaimButtonDisabled == false ? BoxDecoration(
-                                        gradient: const LinearGradient(
-                                          begin: Alignment.topRight,
-                                          end: Alignment.bottomLeft,
-                                          colors:  [ Colors.deepOrangeAccent, Colors.pink,],
-                                        ),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ): BoxDecoration(
-                                        color: Colors.orange.shade50,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
+                                    decoration: isClaimButtonDisabled == false
+                                        ? BoxDecoration(
+                                            gradient: const LinearGradient(
+                                              begin: Alignment.topRight,
+                                              end: Alignment.bottomLeft,
+                                              colors: [
+                                                Colors.deepOrangeAccent,
+                                                Colors.pink,
+                                              ],
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          )
+                                        : BoxDecoration(
+                                            color: Colors.orange.shade50,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 15, vertical: 10),
-                                    margin:
-                                        const EdgeInsets.only(top: 10),
+                                    margin: const EdgeInsets.only(top: 10),
                                     child: Text(
                                       "Claim Reward",
                                       style: TextStyle(
@@ -608,7 +691,8 @@ class FullTimePageState extends State<FullTimePage> {
                               InkWell(
                                 onTap: () {
                                   launchUrl(
-                                    Uri.parse(homeController.rewardAdsDetails.toString()),
+                                    Uri.parse(homeController.rewardAdsDetails
+                                        .toString()),
                                     mode: LaunchMode.externalApplication,
                                   );
                                 },
@@ -624,7 +708,12 @@ class FullTimePageState extends State<FullTimePage> {
                               ),
                             ],
                           ),
-                          linearGradient: const LinearGradient(colors: [ Colors.deepOrangeAccent, Colors.pink,], ),
+                          linearGradient: const LinearGradient(
+                            colors: [
+                              Colors.deepOrangeAccent,
+                              Colors.pink,
+                            ],
+                          ),
                           circularStrokeCap: CircularStrokeCap.round,
                           // progressColor: Colors.deepOrangeAccent,
                         ),
@@ -975,6 +1064,391 @@ class FullTimePageState extends State<FullTimePage> {
               },
             );
           },
+        ),
+      ),
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showRankAlertDialog(
+    BuildContext context,
+    // String generatedOtp,
+  ) {
+    Size size = MediaQuery.of(context).size;
+    AlertDialog alert = AlertDialog(
+      backgroundColor: Colors.orange[50],
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(16))),
+      content: Container(
+        height: size.height * 0.5,
+        decoration: const BoxDecoration(),
+        alignment: Alignment.center,
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              Container(
+                width: double.infinity,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  gradient: const LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [
+                      Colors.deepOrangeAccent,
+                      Colors.pink,
+                    ],
+                  ),
+                  border: Border.all(width: 5, color: colors.primary_color),
+                ),
+                child: const Text(
+                  "Daily Reward prize Announce For\nTop 20 users today😍",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: colors.white,
+                      fontSize: 14,
+                      fontFamily: "Montserrat",
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  gradient: const LinearGradient(
+                    colors: [colors.primary_color, colors.secondary_color],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        gradient: const LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.bottomLeft,
+                          colors: [
+                            Colors.deepOrangeAccent,
+                            Colors.pink,
+                          ],
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Column(
+                            children: [
+                              Image.asset(
+                                "assets/images/6941697-removebg-preview.png",
+                                width: 30,
+                                color: Colors.deepOrangeAccent[200],
+                              ),
+                              const Text(
+                                "2",
+                                style: TextStyle(
+                                    color: colors.white,
+                                    fontSize: 30,
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const Text(
+                                "Place",
+                                style: TextStyle(
+                                    color: colors.white,
+                                    fontSize: 14,
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const Text(
+                                "₹2,000",
+                                style: TextStyle(
+                                    color: colors.white,
+                                    fontSize: 14,
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Column(
+                            children: [
+                              Image.asset(
+                                "assets/images/6941697-removebg-preview.png",
+                                width: 40,
+                              ),
+                              const Text(
+                                "1",
+                                style: TextStyle(
+                                    color: colors.white,
+                                    fontSize: 40,
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const Text(
+                                "Place",
+                                style: TextStyle(
+                                    color: colors.white,
+                                    fontSize: 16,
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const Text(
+                                "₹3,000",
+                                style: TextStyle(
+                                    color: colors.white,
+                                    fontSize: 16,
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Column(
+                            children: [
+                              Image.asset(
+                                "assets/images/6941697-removebg-preview.png",
+                                width: 30,
+                                color: Colors.blueGrey[200],
+                              ),
+                              const Text(
+                                "3",
+                                style: TextStyle(
+                                    color: colors.white,
+                                    fontSize: 30,
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const Text(
+                                "Place",
+                                style: TextStyle(
+                                    color: colors.white,
+                                    fontSize: 14,
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const Text(
+                                "₹1,000",
+                                style: TextStyle(
+                                    color: colors.white,
+                                    fontSize: 14,
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        gradient: const LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.bottomLeft,
+                          colors: [
+                            Colors.deepOrangeAccent,
+                            Colors.pink,
+                          ],
+                        ),
+                      ),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "4th place",
+                            style: TextStyle(
+                                color: colors.white,
+                                fontSize: 14,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "₹700",
+                            style: TextStyle(
+                                color: colors.white,
+                                fontSize: 14,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        gradient: const LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.bottomLeft,
+                          colors: [
+                            Colors.deepOrangeAccent,
+                            Colors.pink,
+                          ],
+                        ),
+                      ),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "5th place",
+                            style: TextStyle(
+                                color: colors.white,
+                                fontSize: 14,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "₹500",
+                            style: TextStyle(
+                                color: colors.white,
+                                fontSize: 14,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        gradient: const LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.bottomLeft,
+                          colors: [
+                            Colors.deepOrangeAccent,
+                            Colors.pink,
+                          ],
+                        ),
+                      ),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "6th to 10th place",
+                            style: TextStyle(
+                                color: colors.white,
+                                fontSize: 14,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "₹200",
+                            style: TextStyle(
+                                color: colors.white,
+                                fontSize: 14,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        gradient: const LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.bottomLeft,
+                          colors: [
+                            Colors.deepOrangeAccent,
+                            Colors.pink,
+                          ],
+                        ),
+                      ),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "11th to 20th place",
+                            style: TextStyle(
+                                color: colors.white,
+                                fontSize: 14,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "₹100",
+                            style: TextStyle(
+                                color: colors.white,
+                                fontSize: 14,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: double.infinity,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  gradient: const LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [
+                      Colors.deepOrangeAccent,
+                      Colors.pink,
+                    ],
+                  ),
+                  border: Border.all(width: 5, color: colors.primary_color),
+                ),
+                child: const Text(
+                  "👍All the best Everyone do well😊",
+                  style: TextStyle(
+                      color: colors.black,
+                      fontSize: 14,
+                      fontFamily: "Montserrat",
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
