@@ -71,20 +71,22 @@ Future<void> main() async {
     sound: true,
   );
 
-  Get.put(HomeController(
-    homeRepo: HomeRepo(
-        apiClient: ApiClient(
-            appBaseUrl: Constant.MainBaseUrl,
-            storageLocal: storeLocal),
-        storageLocal: storeLocal),
-  ),);
+  Get.put(
+    HomeController(
+      homeRepo: HomeRepo(
+          apiClient: ApiClient(
+              appBaseUrl: Constant.MainBaseUrl, storageLocal: storeLocal),
+          storageLocal: storeLocal),
+    ),
+  );
 
   Get.put(
     PCC(
       shortsVideoRepo: ShortsVideoRepo(
           apiClient: ApiClient(
             appBaseUrl: Constant.MainBaseUrl,
-            storageLocal: storeLocal,),
+            storageLocal: storeLocal,
+          ),
           storageLocal: storeLocal),
     ),
   );
@@ -155,12 +157,13 @@ class _MyAppState extends State<MyApp> {
       }
     });
 
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print('A new onMessageOpenedApp event was published!');
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      if (notification != null && android != null) {
-        showDialog(
+    FirebaseMessaging.onMessageOpenedApp.listen(
+      (RemoteMessage message) {
+        print('A new onMessageOpenedApp event was published!');
+        RemoteNotification? notification = message.notification;
+        AndroidNotification? android = message.notification?.android;
+        if (notification != null && android != null) {
+          showDialog(
             context: context,
             builder: (_) {
               return AlertDialog(
@@ -172,9 +175,11 @@ class _MyAppState extends State<MyApp> {
                   ),
                 ),
               );
-            });
-      }
-    });
+            },
+          );
+        }
+      },
+    );
   }
 
   Future<void> getAppVersion() async {
@@ -211,7 +216,6 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -237,8 +241,9 @@ class _MyAppState extends State<MyApp> {
                 PCC(
                   shortsVideoRepo: ShortsVideoRepo(
                       apiClient: ApiClient(
-                          appBaseUrl: Constant.MainBaseUrl,
-                          storageLocal: storeLocal,),
+                        appBaseUrl: Constant.MainBaseUrl,
+                        storageLocal: storeLocal,
+                      ),
                       storageLocal: storeLocal),
                 ),
               );
