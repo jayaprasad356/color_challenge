@@ -7,6 +7,35 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:766073031164:android:ee959b56916a778b420a79",
+        "android_client_info": {
+          "package_name": "com.app.a1_ads"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "766073031164-pamf62u4tf612derofd2qle85hl15gj5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqNw2YCrZC-jlKay03bUF5mztsD_3lTNE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "766073031164-en1577e60g18m6mvlsosth1t8835p87p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:766073031164:android:3219b095e39dea9c420a79",
         "android_client_info": {
           "package_name": "com.app.colorchallenge"
@@ -14,7 +43,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "766073031164-en1577e60g18m6mvlsosth1t8835p87p.apps.googleusercontent.com",
+          "client_id": "766073031164-6b0n1tjh77u851con6iars9ja9ea5noh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.colorchallenge",
+            "certificate_hash": "8881fdd25c090af0389a1c16daa2b5a47b80e897"
+          }
+        },
+        {
+          "client_id": "766073031164-pamf62u4tf612derofd2qle85hl15gj5.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

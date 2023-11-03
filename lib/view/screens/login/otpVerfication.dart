@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 
-import 'package:color_challenge/Helper/apiCall.dart';
-import 'package:color_challenge/model/user.dart';
-import 'package:color_challenge/util/Color.dart';
-import 'package:color_challenge/util/Constant.dart';
-import 'package:color_challenge/controller/utils.dart';
-import 'package:color_challenge/view/screens/login/mainScreen.dart';
-import 'package:color_challenge/view/screens/profile_screen/new_profile_screen.dart';
+import 'package:a1_ads/Helper/apiCall.dart';
+import 'package:a1_ads/model/user.dart';
+import 'package:a1_ads/util/Color.dart';
+import 'package:a1_ads/util/Constant.dart';
+import 'package:a1_ads/controller/utils.dart';
+import 'package:a1_ads/view/screens/login/mainScreen.dart';
+import 'package:a1_ads/view/screens/profile_screen/new_profile_screen.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -43,16 +43,18 @@ class _OtpVerificationState extends State<OtpVerification> {
   final TextEditingController _otpController = TextEditingController();
   late String _mobileNumber;
   late String realotp;
+  late String isWeb;
   final _auth = FirebaseAuth.instance;
   //late final Rx<User?> firebaseUser;
   var verificationId = ''.obs;
-   String otpSuccessMsg="OTP send Successfully";
+  String otpSuccessMsg="OTP send Successfully";
   Map<String, dynamic> _deviceData = <String, dynamic>{};
+  String device_id = "";
 
   _OtpVerificationState(String mobileNumber,String otp) {
     _mobileNumber = mobileNumber;
     realotp = otp;
-   //phoneAuthentication(mobileNumber);
+    //phoneAuthentication(mobileNumber);
   }
 
 
@@ -63,21 +65,36 @@ class _OtpVerificationState extends State<OtpVerification> {
       fontWeight: FontWeight.bold);
 
   @override
+  void initState() {
+    super.initState();
+    handleAsyncInit();
+  }
+
+  void handleAsyncInit() async {
+    setState(() async {
+      isWeb = (await storeLocal.read(key: Constant.IS_WEB))!;
+      debugPrint("isWeb: $isWeb");
+    });
+  }
+
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
 
-      body: SingleChildScrollView(
-        child: Container(
-          width: MediaQuery.of(context).size.width, // Set width to the screen width
-          height: MediaQuery.of(context).size.height, // Set height to the screen height
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [colors.primary_color, colors.secondary_color], // Change these colors to your desired gradient colors
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
+      body:Container(
+        width: MediaQuery.of(context).size.width, // Set width to the screen width
+        height: MediaQuery.of(context).size.height, // Set height to the screen height
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [colors.primary_color, colors.secondary_color], // Change these colors to your desired gradient colors
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
-          child: Column(
+        ),
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child:  Column(
             children: <Widget>[
               const SizedBox(height: 160),
               Image.asset(
@@ -97,9 +114,9 @@ class _OtpVerificationState extends State<OtpVerification> {
               ),
               const SizedBox(height: 20),
               //todo description OTP view
-               Text(
-                  "The OTP sent to +91 $_mobileNumber",
-                style: TextStyle(
+              Text(
+                "The OTP sent to +91 $_mobileNumber",
+                style: const TextStyle(
                     fontSize: 14,
                     color: colors.greyss,
                     fontFamily: "Montserrat"),
@@ -118,7 +135,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   controller: _otpController,
                   textAlign: TextAlign.center,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: 'Enter OTP', // Hint text
                     hintStyle: TextStyle(color: Colors.white),
                     filled: true,
@@ -132,7 +149,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                       borderSide: BorderSide(color: Colors.transparent), // Set your desired border color for focused state
                     ),
                   ),
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
 
               ),
@@ -142,63 +159,70 @@ class _OtpVerificationState extends State<OtpVerification> {
               MaterialButton(
                 onPressed: () async {
 
-                    if(_otpController.text.toString()== '011011' || _otpController.text.toString()== realotp){
-                      prefs = await SharedPreferences.getInstance();
-                      var url = Constant.LOGIN_URL;
-                      var device_id = prefs.getString(Constant.MY_DEVICE_ID).toString();
-                      Map<String, dynamic> bodyObject = {
-                        Constant.MOBILE: _mobileNumber,
-                        Constant.DEVICE_ID: device_id,
-                      };
-                      String jsonString = await apiCall(url, bodyObject);
-                      dynamic json = jsonDecode(jsonString);
-                      bool success = json["success"];
-                      bool registered = json["registered"];
-                      String message = json["message"];
-                      if (success && registered) {
+                  if(_otpController.text.toString()== '011011' || _otpController.text.toString()== realotp){
+                    prefs = await SharedPreferences.getInstance();
+                    var url = Constant.LOGIN_URL;
+                    // var device_id = isWeb == 'true' ? '12345678' : prefs.getString(Constant.MY_DEVICE_ID);
+                    // var device_id = prefs.getString(Constant.MY_DEVICE_ID).toString();
+                    // 5a73c3ef053ebaf8284eb0c980c5b0dc
+                    // 5a73c3ef053ebaf8284eb0c980c5b0dc
+                    setState(() {
+                      device_id = prefs.getString(Constant.MY_DEVICE_ID).toString();
+                    });
+                    debugPrint("device_id: $device_id");
+                    Map<String, dynamic> bodyObject = {
+                      Constant.MOBILE: _mobileNumber,
+                      Constant.DEVICE_ID: device_id,
+                    };
+                    String jsonString = await apiCall(url, bodyObject);
+                    dynamic json = jsonDecode(jsonString);
+                    bool success = json["success"];
+                    bool registered = json["registered"];
+                    String message = json["message"];
+                    if (success && registered) {
 
-                        final Map<String, dynamic> responseJson = jsonDecode(jsonString);
-                        final dataList = responseJson['data'] as List;
-                        final Users user = Users.fromJsonNew(dataList.first);
-                        prefs.setString(Constant.LOGED_IN, "true");
-                        prefs.setString(Constant.ID, Constant.handleNullableString(user.id));
-                        prefs.setString(Constant.MOBILE, Constant.handleNullableString(user.mobile));
-                        prefs.setString(Constant.EARN, Constant.handleNullableString(user.earn));
-                        prefs.setString(Constant.BALANCE, Constant.handleNullableString(user.balance));
-                        prefs.setString(Constant.REFERRED_BY, Constant.handleNullableString(user.referredBy));
-                        prefs.setString(Constant.REFER_CODE, Constant.handleNullableString(user.referCode));
-                        prefs.setString(Constant.WITHDRAWAL_STATUS, Constant.handleNullableString(user.withdrawalStatus));
-                        prefs.setString(Constant.STATUS, Constant.handleNullableString(user.status));
-                        prefs.setString(Constant.JOINED_DATE, Constant.handleNullableString(user.joinedDate));
-                        prefs.setString(Constant.LAST_UPDATED, Constant.handleNullableString(user.lastUpdated));
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MainScreen(),
-                          ),
-                        );
-                      }
-                      else if(success && !registered){
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
+                      final Map<String, dynamic> responseJson = jsonDecode(jsonString);
+                      final dataList = responseJson['data'] as List;
+                      final Users user = Users.fromJsonNew(dataList.first);
+                      prefs.setString(Constant.LOGED_IN, "true");
+                      prefs.setString(Constant.ID, Constant.handleNullableString(user.id));
+                      prefs.setString(Constant.MOBILE, Constant.handleNullableString(user.mobile));
+                      prefs.setString(Constant.EARN, Constant.handleNullableString(user.earn));
+                      prefs.setString(Constant.BALANCE, Constant.handleNullableString(user.balance));
+                      prefs.setString(Constant.REFERRED_BY, Constant.handleNullableString(user.referredBy));
+                      prefs.setString(Constant.REFER_CODE, Constant.handleNullableString(user.referCode));
+                      prefs.setString(Constant.WITHDRAWAL_STATUS, Constant.handleNullableString(user.withdrawalStatus));
+                      prefs.setString(Constant.STATUS, Constant.handleNullableString(user.status));
+                      prefs.setString(Constant.JOINED_DATE, Constant.handleNullableString(user.joinedDate));
+                      prefs.setString(Constant.LAST_UPDATED, Constant.handleNullableString(user.lastUpdated));
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MainScreen(),
+                        ),
+                      );
+                    }
+                    else if(success && !registered){
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
 
-                              return NewProfileScreen(mobileNumber: _mobileNumber); // Replace NextPage with the actual page you want to navigate to
-                            },
-                          ),
-                        );
-                        //showReferCodeSheet();
-
-                      }
-                      else {
-                        Utils().showToast(message);
-
-                      }
-
+                            return NewProfileScreen(mobileNumber: _mobileNumber); // Replace NextPage with the actual page you want to navigate to
+                          },
+                        ),
+                      );
+                      //showReferCodeSheet();
 
                     }
-                    else{
+                    else {
+                      Utils().showToast(message);
+
+                    }
+
+
+                  }
+                  else{
                     Utils().showToast("Please Enter valid Otp");
                   }
                 },
@@ -222,16 +246,13 @@ class _OtpVerificationState extends State<OtpVerification> {
                     ),
                   ),
                 ),
-              )
+              ),
+              Text(device_id!,style: TextStyle(color: Colors.white),),
             ],
           ),
         ),
       ),
     );
-  }
-  @override
-  void initState() {
-    super.initState();
   }
 
 
@@ -300,7 +321,7 @@ class _OtpVerificationState extends State<OtpVerification> {
           return Container(
             width: MediaQuery.of(context).size.width, // Set width to the screen width
             height: MediaQuery.of(context).size.height, // Set height to the screen height
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [colors.primary_color, colors.secondary_color], // Change these colors to your desired gradient colors
                 begin: Alignment.topCenter,
@@ -342,7 +363,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                                 borderSide: BorderSide(color: colors.primary),
                               ),
                             ),
-                            style: TextStyle(backgroundColor: Colors.transparent,color: Colors.white),
+                            style: const TextStyle(backgroundColor: Colors.transparent,color: Colors.white),
                           ),
                         ),
                         const SizedBox(height: 5),
@@ -367,7 +388,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                                 borderSide: BorderSide(color: colors.primary),
                               ),
                             ),
-                            style: TextStyle(backgroundColor: Colors.transparent,color: Colors.white),
+                            style: const TextStyle(backgroundColor: Colors.transparent,color: Colors.white),
                           ),
                         ),
                         const SizedBox(height: 5),
@@ -394,7 +415,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                                 borderSide: BorderSide(color: colors.primary),
                               ),
                             ),
-                            style: TextStyle(backgroundColor: Colors.transparent,color: Colors.white),
+                            style: const TextStyle(backgroundColor: Colors.transparent,color: Colors.white),
                           ),
                         ),
                         const SizedBox(
@@ -430,7 +451,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                                 gender = newValue!;
                               });
                             },
-                            style: TextStyle(color: colors.white),
+                            style: const TextStyle(color: colors.white),
                             dropdownColor: colors.primary_color,// Change the text color
                             underline: Container(
                               height: 2,
@@ -463,7 +484,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                                 borderSide: BorderSide(color: colors.primary),
                               ),
                             ),
-                            style: TextStyle(backgroundColor: Colors.transparent,color: Colors.white),
+                            style: const TextStyle(backgroundColor: Colors.transparent,color: Colors.white),
                           ),
                         ),
                         const SizedBox(height: 20),
@@ -537,7 +558,7 @@ class _OtpVerificationState extends State<OtpVerification> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MainScreen(),
+          builder: (context) => const MainScreen(),
         ),
       );
 

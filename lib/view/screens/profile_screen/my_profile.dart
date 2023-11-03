@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:color_challenge/controller/home_controller.dart';
-import 'package:color_challenge/controller/utils.dart';
-import 'package:color_challenge/model/jobs_show.dart';
-import 'package:color_challenge/reports.dart';
-import 'package:color_challenge/util/Color.dart';
-import 'package:color_challenge/util/Constant.dart';
-import 'package:color_challenge/view/screens/upi_screen/wallet.dart';
+import 'package:a1_ads/controller/home_controller.dart';
+import 'package:a1_ads/controller/utils.dart';
+import 'package:a1_ads/model/jobs_show.dart';
+import 'package:a1_ads/reports.dart';
+import 'package:a1_ads/util/Color.dart';
+import 'package:a1_ads/util/Constant.dart';
+import 'package:a1_ads/view/screens/upi_screen/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';

@@ -50,7 +50,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.app.colorchallenge"
+        applicationId "com.app.a1_ads"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
         minSdkVersion 21
@@ -63,8 +63,8 @@ android {
         release {
             keyAlias 'upload'
             keyPassword '123456'
-//            storeFile file("D:\\Flutter_Project\\color_challenge\\upload-keystore.jks")
-            storeFile file("D:\\Studio Projects\\color_challenge\\upload-keystore.jks")
+            storeFile file("D:\\Flutter_Project\\color_challenge\\upload-keystore.jks")
+//            storeFile file("D:\\Studio Projects\\color_challenge\\upload-keystore.jks")
             storePassword '123456'
         }
     }
@@ -84,7 +84,8 @@ flutter {
 }
 
 dependencies {
-    implementation platform('com.google.firebase:firebase-bom:31.2.2')
+    implementation(platform("com.google.firebase:firebase-bom:32.4.1"))
+//    implementation platform('com.google.firebase:firebase-bom:31.2.2')
     implementation 'com.google.firebase:firebase-analytics'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

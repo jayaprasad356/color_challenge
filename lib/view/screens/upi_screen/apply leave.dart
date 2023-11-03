@@ -1,5 +1,5 @@
-import 'package:color_challenge/controller/upi_controller.dart';
-import 'package:color_challenge/util/Color.dart';
+import 'package:a1_ads/controller/upi_controller.dart';
+import 'package:a1_ads/util/Color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

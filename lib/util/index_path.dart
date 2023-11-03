@@ -8,7 +8,7 @@ export 'dart:typed_data';
 //controller
 
 //data
-export 'package:color_challenge/Helper/apiCall.dart';
+export 'package:a1_ads/Helper/apiCall.dart';
 
 //const
 

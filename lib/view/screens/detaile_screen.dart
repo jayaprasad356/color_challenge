@@ -1,6 +1,6 @@
-import 'package:color_challenge/controller/utils.dart';
-import 'package:color_challenge/util/Color.dart';
-import 'package:color_challenge/util/Constant.dart';
+import 'package:a1_ads/controller/utils.dart';
+import 'package:a1_ads/util/Color.dart';
+import 'package:a1_ads/util/Constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';

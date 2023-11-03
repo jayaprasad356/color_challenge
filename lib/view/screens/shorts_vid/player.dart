@@ -1,4 +1,4 @@
-import 'package:color_challenge/controller/pcc_controller.dart';
+import 'package:a1_ads/controller/pcc_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';

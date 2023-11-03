@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:color_challenge/Helper/apiCall.dart';
-import 'package:color_challenge/model/user.dart';
+import 'package:a1_ads/Helper/apiCall.dart';
+import 'package:a1_ads/model/user.dart';
 import 'package:flutter/material.dart';
 
 import '../../../util/Color.dart';

@@ -1,5 +1,5 @@
-import 'package:color_challenge/data/api/api_client.dart';
-import 'package:color_challenge/util/Constant.dart';
+import 'package:a1_ads/data/api/api_client.dart';
+import 'package:a1_ads/util/Constant.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 

@@ -1,13 +1,13 @@
 import 'dart:io';
 
-import 'package:color_challenge/Helper/apiCall.dart';
-import 'package:color_challenge/controller/pcc_controller.dart';
-import 'package:color_challenge/controller/utils.dart';
-import 'package:color_challenge/model/user.dart';
-import 'package:color_challenge/util/Color.dart';
-import 'package:color_challenge/util/Constant.dart';
-import 'package:color_challenge/util/index_path.dart';
-import 'package:color_challenge/view/screens/job/online_jobs.dart';
+import 'package:a1_ads/Helper/apiCall.dart';
+import 'package:a1_ads/controller/pcc_controller.dart';
+import 'package:a1_ads/controller/utils.dart';
+import 'package:a1_ads/model/user.dart';
+import 'package:a1_ads/util/Color.dart';
+import 'package:a1_ads/util/Constant.dart';
+import 'package:a1_ads/util/index_path.dart';
+import 'package:a1_ads/view/screens/job/online_jobs.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';

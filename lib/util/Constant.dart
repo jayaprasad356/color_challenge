@@ -102,6 +102,7 @@ class Constant {
   static const String SUPPORT_LAN = "support_lan";
   static const String DEVICE_ID = "device_id";
   static const String SYNC_ABLE = "sync_able";
+  static const String IS_WEB = "is_web";
 
   static const String RESULT_ANNOUNCE_TIME = "result_announce_time";
   static String handleNullableString(String input) {

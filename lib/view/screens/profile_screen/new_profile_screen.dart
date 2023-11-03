@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:color_challenge/model/user.dart';
-import 'package:color_challenge/util/Color.dart';
-import 'package:color_challenge/util/Constant.dart';
-import 'package:color_challenge/controller/utils.dart';
-import 'package:color_challenge/view/screens/login/mainScreen.dart';
+import 'package:a1_ads/model/user.dart';
+import 'package:a1_ads/util/Color.dart';
+import 'package:a1_ads/util/Constant.dart';
+import 'package:a1_ads/controller/utils.dart';
+import 'package:a1_ads/view/screens/login/mainScreen.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';

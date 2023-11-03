@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:color_challenge/Helper/apiCall.dart';
-import 'package:color_challenge/controller/utils.dart';
+import 'package:a1_ads/Helper/apiCall.dart';
+import 'package:a1_ads/controller/utils.dart';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';

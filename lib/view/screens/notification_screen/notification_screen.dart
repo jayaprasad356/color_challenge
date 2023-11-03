@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:color_challenge/model/user.dart';
-import 'package:color_challenge/controller/utils.dart';
+import 'package:a1_ads/model/user.dart';
+import 'package:a1_ads/controller/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';

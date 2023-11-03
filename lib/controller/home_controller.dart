@@ -1,10 +1,10 @@
-import 'package:color_challenge/data/api/api_client.dart';
-import 'package:color_challenge/data/repository/home_repo.dart';
-import 'package:color_challenge/data/repository/shorts_video_repo.dart';
-import 'package:color_challenge/model/settings_data.dart';
-import 'package:color_challenge/model/slider_data.dart';
-import 'package:color_challenge/model/video_list.dart';
-import 'package:color_challenge/util/Constant.dart';
+import 'package:a1_ads/data/api/api_client.dart';
+import 'package:a1_ads/data/repository/home_repo.dart';
+import 'package:a1_ads/data/repository/shorts_video_repo.dart';
+import 'package:a1_ads/model/settings_data.dart';
+import 'package:a1_ads/model/slider_data.dart';
+import 'package:a1_ads/model/video_list.dart';
+import 'package:a1_ads/util/Constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';

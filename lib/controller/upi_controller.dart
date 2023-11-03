@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:color_challenge/data/repository/upi_repo.dart';
+import 'package:a1_ads/data/repository/upi_repo.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

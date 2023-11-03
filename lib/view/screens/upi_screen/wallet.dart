@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:color_challenge/model/user.dart';
-import 'package:color_challenge/controller/utils.dart';
-import 'package:color_challenge/view/screens/profile_screen/update_profile_screen.dart';
-import 'package:color_challenge/view/screens/upi_screen/apply%20leave.dart';
-import 'package:color_challenge/view/screens/upi_screen/my_withdrawal_records.dart';
-import 'package:color_challenge/view/screens/upi_screen/verify_ads.dart';
+import 'package:a1_ads/model/user.dart';
+import 'package:a1_ads/controller/utils.dart';
+import 'package:a1_ads/view/screens/profile_screen/update_profile_screen.dart';
+import 'package:a1_ads/view/screens/upi_screen/apply%20leave.dart';
+import 'package:a1_ads/view/screens/upi_screen/my_withdrawal_records.dart';
+import 'package:a1_ads/view/screens/upi_screen/verify_ads.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';

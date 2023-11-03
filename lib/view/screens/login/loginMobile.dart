@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'dart:math';
 
 
-import 'package:color_challenge/Helper/apiCall.dart';
-import 'package:color_challenge/util/Color.dart';
-import 'package:color_challenge/util/Constant.dart';
-import 'package:color_challenge/controller/utils.dart';
-import 'package:color_challenge/view/screens/login/otpVerfication.dart';
+import 'package:a1_ads/Helper/apiCall.dart';
+import 'package:a1_ads/util/Color.dart';
+import 'package:a1_ads/util/Constant.dart';
+import 'package:a1_ads/controller/utils.dart';
+import 'package:a1_ads/view/screens/login/otpVerfication.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -68,18 +68,18 @@ class _LoginMobileState extends State<LoginMobile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-
-        child: Container(
-          width: MediaQuery.of(context).size.width, // Set width to the screen width
-          height: MediaQuery.of(context).size.height, // Set height to the screen height
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [colors.primary_color, colors.secondary_color], // Change these colors to your desired gradient colors
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
+      body: Container(
+        width: MediaQuery.of(context).size.width, // Set width to the screen width
+        height: MediaQuery.of(context).size.height, // Set height to the screen height
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [colors.primary_color, colors.secondary_color], // Change these colors to your desired gradient colors
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
+        ),
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Column(
             children: <Widget>[
               const SizedBox(height: 150),
@@ -113,7 +113,7 @@ class _LoginMobileState extends State<LoginMobile> {
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   controller: _mobileNumberController,
                   textAlign: TextAlign.center,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: 'Mobile number', // Hint text
                     hintStyle: TextStyle(color: Colors.white),
                     filled: true,
@@ -127,7 +127,7 @@ class _LoginMobileState extends State<LoginMobile> {
                       borderSide: BorderSide(color: Colors.transparent), // Set your desired border color for focused state
                     ),
                   ),
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
               ),
 
@@ -264,7 +264,7 @@ class _LoginMobileState extends State<LoginMobile> {
                               borderSide: BorderSide(color: colors.primary),
                             ),
                           ),
-                          style: TextStyle(backgroundColor: Colors.transparent),
+                          style: const TextStyle(backgroundColor: Colors.transparent),
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -281,14 +281,14 @@ class _LoginMobileState extends State<LoginMobile> {
                               borderSide: BorderSide(color: colors.primary),
                             ),
                           ),
-                          style: TextStyle(backgroundColor: Colors.transparent),
+                          style: const TextStyle(backgroundColor: Colors.transparent),
                         ),
                       ),
 
-                      Center(
+                      const Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
                             Text(
                               "Same device Multiple Register",
                               style: TextStyle(
@@ -350,8 +350,8 @@ class _LoginMobileState extends State<LoginMobile> {
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: Center(
-          child: const Text(
+        title: const Center(
+          child: Text(
             'Allow one device one Registration only',
             style: TextStyle(
               fontFamily: "Montserrat",

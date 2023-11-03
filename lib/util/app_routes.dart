@@ -1,4 +1,4 @@
-import 'package:color_challenge/view/screens/login/otpVerfication.dart';
+import 'package:a1_ads/view/screens/login/otpVerfication.dart';
 import 'package:flutter/material.dart';
 
 

@@ -1,0 +1,15 @@
+{
+  "hosting": {
+    "site": "a1-ads-website",
+    "public": "/",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "target": "a1-ads-website"
+  }
+}
+
+
+

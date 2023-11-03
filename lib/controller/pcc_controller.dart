@@ -1,17 +1,15 @@
-
-
 import 'dart:io';
 
-import 'package:color_challenge/data/api/api_client.dart';
-import 'package:color_challenge/data/repository/shorts_video_repo.dart';
-import 'package:color_challenge/model/like_data.dart';
-import 'package:color_challenge/model/offer_list.dart';
-import 'package:color_challenge/model/post_list.dart';
-import 'package:color_challenge/model/purchase_data.dart';
-import 'package:color_challenge/model/upload_image.dart';
-import 'package:color_challenge/model/video_list.dart';
-import 'package:color_challenge/util/Constant.dart';
-import 'package:color_challenge/view/screens/shorts_vid/post_upload.dart';
+import 'package:a1_ads/data/api/api_client.dart';
+import 'package:a1_ads/data/repository/shorts_video_repo.dart';
+import 'package:a1_ads/model/like_data.dart';
+import 'package:a1_ads/model/offer_list.dart';
+import 'package:a1_ads/model/post_list.dart';
+import 'package:a1_ads/model/purchase_data.dart';
+import 'package:a1_ads/model/upload_image.dart';
+import 'package:a1_ads/model/video_list.dart';
+import 'package:a1_ads/util/Constant.dart';
+import 'package:a1_ads/view/screens/shorts_vid/post_upload.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';

@@ -1,4 +1,4 @@
-import 'package:color_challenge/util/Color.dart';
+import 'package:a1_ads/util/Color.dart';
 import 'package:flutter/material.dart';
 
 class InvestScreen extends StatefulWidget {

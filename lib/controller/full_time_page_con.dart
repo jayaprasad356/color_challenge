@@ -1,14 +1,13 @@
 import 'dart:math';
 
-import 'package:color_challenge/data/repository/full_time_repo.dart';
-import 'package:color_challenge/model/sync_data_list.dart';
-import 'package:color_challenge/util/Constant.dart';
+import 'package:a1_ads/data/repository/full_time_repo.dart';
+import 'package:a1_ads/model/sync_data_list.dart';
+import 'package:a1_ads/util/Constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 typedef SyncDataCallback = void Function(String syncDataSuccess);
-
 
 class FullTimePageCont extends GetxController implements GetxService {
   final FullTimeRepo fullTimeRepo;
@@ -37,16 +36,17 @@ class FullTimePageCont extends GetxController implements GetxService {
   }
 
   Future<void> syncData(
-      userId,
-      ads,
-      syncUniqueId,
-      deviceId,
-      syncType,
-      SyncDataCallback callback, // Add the callback parameter
-      ) async {
+    userId,
+    ads,
+    syncUniqueId,
+    deviceId,
+    syncType,
+    SyncDataCallback callback, // Add the callback parameter
+  ) async {
     prefs = await SharedPreferences.getInstance();
     try {
-      final value = await fullTimeRepo.syncData(userId, ads, syncUniqueId, deviceId, syncType);
+      final value = await fullTimeRepo.syncData(
+          userId, ads, syncUniqueId, deviceId, syncType);
       var responseData = value.body;
       SyncDataList syncDataList = SyncDataList.fromJson(responseData);
       debugPrint("===> SyncDataList: $syncDataList");
@@ -55,30 +55,29 @@ class FullTimePageCont extends GetxController implements GetxService {
 
       syncDataSuccess = syncDataList.success.toString();
 
-          if (syncDataList.data != null && syncDataList.data!.isNotEmpty) {
-            todayAds = syncDataList.data![0].todayAds!;
-            totalAds = syncDataList.data![0].totalAds!;
-            balance = syncDataList.data![0].balance!;
-            ads_cost = syncDataList.data![0].adsCost!;
-            ads_time = syncDataList.data![0].adsTime!;
-            reward_ads = syncDataList.data![0].rewardAds!;
-            // balance = syncDataList.data![0].balance!;
-            // ads_cost.value = syncDataList.data![0].adsCost!;
-            prefs.remove(Constant.TODAY_ADS);
-            prefs.remove(Constant.TOTAL_ADS);
-            prefs.remove(Constant.BALANCE);
-            prefs.remove(Constant.ADS_COST);
-            prefs.remove(Constant.ADS_TIME);
-            prefs.remove(Constant.REWARD_ADS);
+      if (syncDataList.data != null && syncDataList.data!.isNotEmpty) {
+        todayAds = syncDataList.data![0].todayAds!;
+        totalAds = syncDataList.data![0].totalAds!;
+        balance = syncDataList.data![0].balance!;
+        ads_cost = syncDataList.data![0].adsCost!;
+        ads_time = syncDataList.data![0].adsTime!;
+        reward_ads = syncDataList.data![0].rewardAds!;
+        // balance = syncDataList.data![0].balance!;
+        // ads_cost.value = syncDataList.data![0].adsCost!;
+        prefs.remove(Constant.TODAY_ADS);
+        prefs.remove(Constant.TOTAL_ADS);
+        prefs.remove(Constant.BALANCE);
+        prefs.remove(Constant.ADS_COST);
+        prefs.remove(Constant.ADS_TIME);
+        prefs.remove(Constant.REWARD_ADS);
 
-            prefs.setString(Constant.TODAY_ADS, todayAds);
-            prefs.setString(Constant.TOTAL_ADS, totalAds);
-            prefs.setString(Constant.BALANCE, balance);
-            prefs.setString(Constant.ADS_COST, ads_cost);
-            prefs.setString(Constant.ADS_TIME, ads_time);
-            prefs.setString(Constant.REWARD_ADS, reward_ads);
-          }
-
+        prefs.setString(Constant.TODAY_ADS, todayAds);
+        prefs.setString(Constant.TOTAL_ADS, totalAds);
+        prefs.setString(Constant.BALANCE, balance);
+        prefs.setString(Constant.ADS_COST, ads_cost);
+        prefs.setString(Constant.ADS_TIME, ads_time);
+        prefs.setString(Constant.REWARD_ADS, reward_ads);
+      }
 
       // prefs.setString(Constant.MOBILE, user.mobile);
 
