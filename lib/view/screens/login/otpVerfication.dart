@@ -174,9 +174,12 @@ class _OtpVerificationState extends State<OtpVerification> {
                       Constant.MOBILE: _mobileNumber,
                       Constant.DEVICE_ID: device_id,
                     };
+                    debugPrint("===> bodyObject: $bodyObject");
                     String jsonString = await apiCall(url, bodyObject);
+                    debugPrint("===> url: $url");
                     dynamic json = jsonDecode(jsonString);
                     bool success = json["success"];
+                    debugPrint("===> success: $success");
                     bool registered = json["registered"];
                     String message = json["message"];
                     if (success && registered) {

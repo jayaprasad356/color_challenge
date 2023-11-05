@@ -56,7 +56,7 @@ class FullTimePageState extends State<FullTimePage> {
   final TextEditingController _serialController = TextEditingController();
   String serilarandom = "",
       basic_wallet = "",
-  // premium_wallet = "",
+      // premium_wallet = "",
       target_refers = "",
       today_ads = "0",
       total_ads = "0",
@@ -78,6 +78,8 @@ class FullTimePageState extends State<FullTimePage> {
   double currentValue = 60.0;
   double progressPercentage1 = 0.00;
   late String isWeb;
+  bool isButtonEnabled = true; // Initially, the button is enabled.
+  Timer? buttonTimer;
 
   @override
   void initState() {
@@ -171,7 +173,6 @@ class FullTimePageState extends State<FullTimePage> {
     }
   }
 
-
   void startTimer() {
     // Example: Countdown from 100 to 0 with a 1-second interval
     const oneSec = Duration(seconds: 1);
@@ -179,7 +180,6 @@ class FullTimePageState extends State<FullTimePage> {
     Timer.periodic(oneSec, (Timer timer) {
       if (starttime >= adsTimeInSeconds) {
         timer.cancel();
-
         setState(() {
           progressbar = 0.0;
           timerStarted = false;
@@ -276,7 +276,7 @@ class FullTimePageState extends State<FullTimePage> {
     return Scaffold(
       body: Container(
         width:
-        MediaQuery.of(context).size.width, // Set width to the screen width
+            MediaQuery.of(context).size.width, // Set width to the screen width
         height: MediaQuery.of(context)
             .size
             .height, // Set height to the screen height
@@ -460,7 +460,7 @@ class FullTimePageState extends State<FullTimePage> {
                                         .getString(Constant.MY_DEVICE_ID)
                                         .toString(),
                                     syncType,
-                                        (String syncDataSuccess) {
+                                    (String syncDataSuccess) {
                                       debugPrint(
                                           "syncDataSuccess: $syncDataSuccess");
                                       // Perform actions based on the result of the syncData function
@@ -498,7 +498,7 @@ class FullTimePageState extends State<FullTimePage> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 15, vertical: 10),
                                 margin:
-                                const EdgeInsets.symmetric(vertical: 10),
+                                    const EdgeInsets.symmetric(vertical: 10),
                                 child: Text(
                                   "Sync Now",
                                   style: TextStyle(
@@ -542,7 +542,8 @@ class FullTimePageState extends State<FullTimePage> {
                                     syncType = 'reward_sync';
                                     debugPrint("syncType: $syncType");
                                     try {
-                                      prefs = await SharedPreferences.getInstance();
+                                      prefs =
+                                          await SharedPreferences.getInstance();
                                       setState(() {
                                         syncUniqueId;
                                       });
@@ -556,25 +557,25 @@ class FullTimePageState extends State<FullTimePage> {
                                             .getString(Constant.MY_DEVICE_ID)
                                             .toString(),
                                         syncType,
-                                            (String syncDataSuccess) {
+                                        (String syncDataSuccess) {
                                           debugPrint(
                                               "syncDataSuccess: $syncDataSuccess");
                                           // Perform actions based on the result of the syncData function
                                           if (syncDataSuccess == 'true') {
                                             setState(() {
                                               isClaimButtonDisabled = true;
-                                              reward_ads = prefs
-                                                  .getString(Constant.REWARD_ADS)!;
-                                              ads_time = prefs
-                                                  .getString(Constant.ADS_TIME)!;
+                                              reward_ads = prefs.getString(
+                                                  Constant.REWARD_ADS)!;
+                                              ads_time = prefs.getString(
+                                                  Constant.ADS_TIME)!;
                                               balance = prefs
                                                   .getString(Constant.BALANCE)!;
-                                              today_ads = prefs
-                                                  .getString(Constant.TODAY_ADS)!;
-                                              total_ads = prefs
-                                                  .getString(Constant.TOTAL_ADS)!;
-                                              ads_cost = prefs
-                                                  .getString(Constant.ADS_COST)!;
+                                              today_ads = prefs.getString(
+                                                  Constant.TODAY_ADS)!;
+                                              total_ads = prefs.getString(
+                                                  Constant.TOTAL_ADS)!;
+                                              ads_cost = prefs.getString(
+                                                  Constant.ADS_COST)!;
                                             });
                                           } else {}
                                         },
@@ -585,21 +586,27 @@ class FullTimePageState extends State<FullTimePage> {
                                     }
                                   },
                                   child: Container(
-                                    decoration: isClaimButtonDisabled == false ? BoxDecoration(
-                                      gradient: const LinearGradient(
-                                        begin: Alignment.topRight,
-                                        end: Alignment.bottomLeft,
-                                        colors:  [ Colors.deepOrangeAccent, Colors.pink,],
-                                      ),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ): BoxDecoration(
-                                      color: Colors.orange.shade50,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
+                                    decoration: isClaimButtonDisabled == false
+                                        ? BoxDecoration(
+                                            gradient: const LinearGradient(
+                                              begin: Alignment.topRight,
+                                              end: Alignment.bottomLeft,
+                                              colors: [
+                                                Colors.deepOrangeAccent,
+                                                Colors.pink,
+                                              ],
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          )
+                                        : BoxDecoration(
+                                            color: Colors.orange.shade50,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 15, vertical: 10),
-                                    margin:
-                                    const EdgeInsets.only(top: 10),
+                                    margin: const EdgeInsets.only(top: 10),
                                     child: Text(
                                       "Claim Reward",
                                       style: TextStyle(
@@ -608,8 +615,8 @@ class FullTimePageState extends State<FullTimePage> {
                                           color: isClaimButtonDisabled == false
                                               ? Colors.white
                                               : Colors.grey[500]
-                                        // : Colors.orangeAccent[200],
-                                      ),
+                                          // : Colors.orangeAccent[200],
+                                          ),
                                     ),
                                   ),
                                 ),
@@ -617,7 +624,8 @@ class FullTimePageState extends State<FullTimePage> {
                               InkWell(
                                 onTap: () {
                                   launchUrl(
-                                    Uri.parse(homeController.rewardAdsDetails.toString()),
+                                    Uri.parse(homeController.rewardAdsDetails
+                                        .toString()),
                                     mode: LaunchMode.externalApplication,
                                   );
                                 },
@@ -633,7 +641,12 @@ class FullTimePageState extends State<FullTimePage> {
                               ),
                             ],
                           ),
-                          linearGradient: const LinearGradient(colors: [ Colors.deepOrangeAccent, Colors.pink,], ),
+                          linearGradient: const LinearGradient(
+                            colors: [
+                              Colors.deepOrangeAccent,
+                              Colors.pink,
+                            ],
+                          ),
                           circularStrokeCap: CircularStrokeCap.round,
                           // progressColor: Colors.deepOrangeAccent,
                         ),
@@ -807,21 +820,37 @@ class FullTimePageState extends State<FullTimePage> {
                   // ),
                   const SizedBox(height: 5),
                   MaterialButton(
-                    onPressed: () async {
+                    onPressed: isButtonEnabled == true
+                        ? () async {
                       debugPrint(
                           "homeController.watchAdStatus: ${homeController.watchAdStatus}");
+                      int adsTimeInSeconds = int.parse(ads_time);
                       debugPrint("adsCount: $adsCount");
                       var myDeviceId = isWeb == 'true' ? '12345678' : prefs.getString(Constant.MY_DEVICE_ID);
                       var watchAdStatus =
                       prefs.getString(Constant.WATCH_AD_STATUS);
                       debugPrint("myDeviceId: $myDeviceId");
-                      if (homeController.watchAdStatus == "1" &&
+                      if (homeController.watchAdStatus == "0" &&
                           adsCount < 120) {
                         if (!timerStarted) {
                           // generatedOtp = fullTimePageCont
                           //     .generateRandomFourDigitNumber()
                           //     .toString();
                           showAlertDialog(context);
+                          debugPrint("isButtonEnabled is false");
+                          setState(() {
+                            isButtonEnabled = false;
+                          });
+                          Future.delayed(
+                            Duration(seconds: adsTimeInSeconds),
+                                () {
+                                  debugPrint("isButtonEnabled is true");
+                                  setState(() {
+                                    isButtonEnabled = true;
+                                  });
+                            },
+                          );
+                          // showAlertDialog(context);
                           // showAlertDialog(context, generatedOtp);
                         } else {
                           Utils().showToast("Please wait...");
@@ -839,14 +868,16 @@ class FullTimePageState extends State<FullTimePage> {
                       // } else {
                       //   Utils().showToast("Please wait...");
                       // }
-                    },
+                    } : (){
+                      Utils().showToast("Please wait...");
+                      },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Container(
                       height: 40,
                       width: 140,
-                      decoration: homeController.watchAdStatus == "1" &&
+                      decoration: homeController.watchAdStatus == "0" &&
                           adsCount < 120
                           ? const BoxDecoration(
                         image: DecorationImage(
@@ -916,9 +947,9 @@ class FullTimePageState extends State<FullTimePage> {
   }
 
   showAlertDialog(
-      BuildContext context,
-      // String generatedOtp,
-      ) {
+    BuildContext context,
+    // String generatedOtp,
+  ) {
     Size size = MediaQuery.of(context).size;
 
     AlertDialog alert = AlertDialog(
@@ -964,19 +995,19 @@ class FullTimePageState extends State<FullTimePage> {
               child: Center(
                 child: state.isPerformingAction
                     ? const CupertinoActivityIndicator(
-                  color: Colors.white,
-                )
+                        color: Colors.white,
+                      )
                     : const Icon(
-                  Icons.chevron_right,
-                  color: Colors.white,
-                ),
+                        Icons.chevron_right,
+                        color: Colors.white,
+                      ),
               ),
             );
           },
           action: () async {
             await Future.delayed(
-              const Duration(seconds: 2),
-                  () {
+              const Duration(seconds: 3),
+              () {
                 debugPrint("action completed");
                 watchAds();
                 Navigator.of(context).pop();

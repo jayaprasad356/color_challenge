@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
 
-
 import 'package:a1_ads/Helper/apiCall.dart';
 import 'package:a1_ads/util/Color.dart';
 import 'package:a1_ads/util/Constant.dart';
@@ -144,7 +143,7 @@ class _LoginMobileState extends State<LoginMobile> {
                       MaterialPageRoute(
                         builder: (context) {
                           if(_mobileNumberController.text.toString() != '8778624681'){
-                            otpsuccess();
+                            otpSuccess();
 
                           }
 
@@ -175,7 +174,7 @@ class _LoginMobileState extends State<LoginMobile> {
                           color: colors.white,
                           fontSize: 18,
                           fontFamily: "Montserrat",
-                          fontWeight: FontWeight.bold),
+                          fontWeight: FontWeight.bold,),
                     ),
                   ),
                 ),
@@ -209,7 +208,7 @@ class _LoginMobileState extends State<LoginMobile> {
     );
   }
 
-  otpsuccess() async {
+  otpSuccess() async {
     Map<String, dynamic> bodyObject = {
       Constant.EMAIL: 'dsds',
     };
@@ -217,7 +216,7 @@ class _LoginMobileState extends State<LoginMobile> {
     if (_referCodeController.text.isNotEmpty) {
       bodyObject[Constant.REFERRED_BY] = _referCodeController.text;
     }
-    String jsonString = await apiCall("https://api.authkey.io/request?authkey=b45c58db6d261f2a&mobile="+_mobileNumberController.text+"&country_code=91&sid=9214&otp="+randomNumber.toString()+"&company=A1 Ads", bodyObject);
+    String jsonString = await apiCall("https://api.authkey.io/request?authkey=b45c58db6d261f2a&mobile=${_mobileNumberController.text}&country_code=91&sid=9214&otp=$randomNumber&company=A1 Ads", bodyObject);
   }
 
   showReferCodeSheet() {

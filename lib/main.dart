@@ -323,16 +323,16 @@ class _MyAppState extends State<MyApp> {
                 ),
               );
             }),
-            home: screens(prefs, update, link),
+            // home: screens(prefs, update, link),
             // home: NewProfileScreen(mobileNumber: "7010565083"),
-            // home: isOpenLap() != 'true'
-            //     ? screens(prefs, update, link)
-            //     : const Scaffold(
-            //   backgroundColor: Colors.white,
-            //   body: Center(
-            //     child: Text("This website is for mobile only"),
-            //   ),
-            // ),
+            home: isOpenLap() != 'true'
+                ? screens(prefs, update, link)
+                : const Scaffold(
+              backgroundColor: Colors.white,
+              body: Center(
+                child: Text("This website is for mobile only"),
+              ),
+            ),
           );
         } else {
           return const CircularProgressIndicator();
