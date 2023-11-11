@@ -23,4 +23,13 @@ class HomeRepo {
       'https://admin.colorjobs.site/api/slide_list.php',body,{}
     );
   }
+
+  Future<Response> userData(String userId,) async {
+    Map<String, dynamic> body = {
+      'user_id' : userId,
+    };
+    return await apiClient.postData(
+        Constant.USER_DETAIL_URL,body,{}
+    );
+  }
 }

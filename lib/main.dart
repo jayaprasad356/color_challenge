@@ -4,11 +4,13 @@ import 'dart:io';
 // import 'package:color_challenge/test.dart';
 import 'package:a1_ads/controller/full_time_page_con.dart';
 import 'package:a1_ads/controller/home_controller.dart';
+import 'package:a1_ads/controller/main_screen_controller.dart';
 import 'package:a1_ads/controller/pcc_controller.dart';
 import 'package:a1_ads/controller/upi_controller.dart';
 import 'package:a1_ads/data/api/api_client.dart';
 import 'package:a1_ads/data/repository/full_time_repo.dart';
 import 'package:a1_ads/data/repository/home_repo.dart';
+import 'package:a1_ads/data/repository/main_repo.dart';
 import 'package:a1_ads/data/repository/shorts_video_repo.dart';
 import 'package:a1_ads/data/repository/upi_repo.dart';
 import 'package:a1_ads/test.dart';
@@ -32,7 +34,6 @@ import 'package:get/get.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'view/screens/profile_screen/new_profile_screen.dart';
 import 'view/screens/updateApp/updateApp.dart';
-// import 'dart:html' as html;
 import 'package:flutter/foundation.dart';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
@@ -59,13 +60,13 @@ Future<void> main() async {
     debugPrint("The app is running on the web.");
     await Firebase.initializeApp(
       options: const FirebaseOptions(
-          apiKey: "AIzaSyBnBf0EAqIe6QL7aeO9yC6dd-yHI5mI9hc",
-          authDomain: "color-challenge-524cd.firebaseapp.com",
-          projectId: "color-challenge-524cd",
-          storageBucket: "color-challenge-524cd.appspot.com",
-          messagingSenderId: "766073031164",
-          appId: "1:766073031164:web:71aeb12543c06f15420a79",
-          measurementId: "G-SZPYEKQ7WJ",),
+        apiKey: "AIzaSyBnBf0EAqIe6QL7aeO9yC6dd-yHI5mI9hc",
+        authDomain: "color-challenge-524cd.firebaseapp.com",
+        projectId: "color-challenge-524cd",
+        storageBucket: "color-challenge-524cd.appspot.com",
+        messagingSenderId: "766073031164",
+        appId: "1:766073031164:web:71aeb12543c06f15420a79",
+        measurementId: "G-SZPYEKQ7WJ",),
     );
     await storeLocal.write(key: Constant.IS_WEB, value: 'true');
   } else {
@@ -107,6 +108,28 @@ Future<void> main() async {
           storageLocal: storeLocal),
     ),
   );
+
+  Get.put(
+    MainController(
+      mainRepo: MainRepo(
+          apiClient: ApiClient(
+            appBaseUrl: Constant.MainBaseUrl,
+            storageLocal: storeLocal,
+          ),
+          storageLocal: storeLocal),
+    ),
+  );
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    // Handle incoming message when the app is in the foreground
+    print('Got a message whilst in the foreground!');
+    print('Message data: ${message.data}');
+  });
+
+  FirebaseMessaging.onBackgroundMessage((RemoteMessage message) async {
+    // Handle incoming message when the app is in the background or terminated
+    print('Handling a background message: ${message.messageId}');
+  });
 
   // runApp(MyVideoApp());
   runApp(const MyApp());
@@ -213,22 +236,21 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  String isOpenLap() {
-    if (!kIsWeb) {
-      return 'false'; // Running on a non-web platform (e.g., Android)
-    } else {
-      return 'true'; // Running in a web-based environment
-    }
-  }
-
   // String isOpenLap() {
-  //   final userAgent = html.window.navigator.userAgent.toLowerCase();
-  //   if (userAgent.contains('android')) {
-  //     return 'false';
+  //   if (!kIsWeb) {
+  //     return 'false'; // Running on a non-web platform (e.g., Android)
   //   } else {
-  //     return 'true';
+  //     return 'true'; // Running in a web-based environment
   //   }
   // }
+
+  String isOpenLap() {
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      return 'false';
+    } else {
+      return 'true';
+    }
+  }
 
   Future<void> getAppVersion() async {
     try {
@@ -305,6 +327,16 @@ class _MyAppState extends State<MyApp> {
                 ),
               );
               Get.put(
+                MainController(
+                  mainRepo: MainRepo(
+                      apiClient: ApiClient(
+                        appBaseUrl: Constant.MainBaseUrl,
+                        storageLocal: storeLocal,
+                      ),
+                      storageLocal: storeLocal),
+                ),
+              );
+              Get.put(
                 FullTimePageCont(
                   fullTimeRepo: FullTimeRepo(
                       apiClient: ApiClient(
@@ -323,16 +355,16 @@ class _MyAppState extends State<MyApp> {
                 ),
               );
             }),
-            // home: screens(prefs, update, link),
+            home: screens(prefs, update, link),
             // home: NewProfileScreen(mobileNumber: "7010565083"),
-            home: isOpenLap() != 'true'
-                ? screens(prefs, update, link)
-                : const Scaffold(
-              backgroundColor: Colors.white,
-              body: Center(
-                child: Text("This website is for mobile only"),
-              ),
-            ),
+            // home: isOpenLap() != 'true'
+            //     ? screens(prefs, update, link)
+            //     : const Scaffold(
+            //   backgroundColor: Colors.white,
+            //   body: Center(
+            //     child: Text("This website is for mobile only"),
+            //   ),
+            // ),
           );
         } else {
           return const CircularProgressIndicator();

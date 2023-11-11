@@ -78,6 +78,7 @@ class FullTimePageState extends State<FullTimePage> {
   double currentValue = 60.0;
   double progressPercentage1 = 0.00;
   late String isWeb;
+  late String platformType;
   bool isButtonEnabled = true; // Initially, the button is enabled.
   Timer? buttonTimer;
 
@@ -103,7 +104,7 @@ class FullTimePageState extends State<FullTimePage> {
       ads_cost = prefs.getString(Constant.ADS_COST)!;
       referText = prefs.getString(Constant.REFER_CODE)!;
       reward_ads = prefs.getString(Constant.REWARD_ADS)!;
-      debugPrint("reward_ads : $reward_ads");
+      debugPrint("ads_time : $ads_time");
       // setState(() {
       //   ads_time = prefs.getString(Constant.ADS_TIME)!;
       //   balance = prefs.getString(Constant.BALANCE)!;
@@ -127,6 +128,11 @@ class FullTimePageState extends State<FullTimePage> {
     setState(() async {
       isWeb = (await storeLocal.read(key: Constant.IS_WEB))!;
       debugPrint("isWeb: $isWeb");
+      if(isWeb == 'true'){
+        platformType = 'web';
+      } else if (isWeb == 'true'){
+        platformType = 'app';
+      }
     });
   }
 
@@ -171,6 +177,13 @@ class FullTimePageState extends State<FullTimePage> {
       syncUniqueId = fullTimePageCont.generateRandomSixDigitNumber();
       isClaimButtonDisabled = false; // Enable the button
     }
+  }
+
+  @override
+  void dispose() {
+    // Cancel the timer when the widget is disposed.
+    buttonTimer?.cancel();
+    super.dispose();
   }
 
   void startTimer() {
@@ -460,6 +473,7 @@ class FullTimePageState extends State<FullTimePage> {
                                         .getString(Constant.MY_DEVICE_ID)
                                         .toString(),
                                     syncType,
+                                    platformType,
                                     (String syncDataSuccess) {
                                       debugPrint(
                                           "syncDataSuccess: $syncDataSuccess");
@@ -557,6 +571,7 @@ class FullTimePageState extends State<FullTimePage> {
                                             .getString(Constant.MY_DEVICE_ID)
                                             .toString(),
                                         syncType,
+                                        platformType,
                                         (String syncDataSuccess) {
                                           debugPrint(
                                               "syncDataSuccess: $syncDataSuccess");
@@ -830,7 +845,7 @@ class FullTimePageState extends State<FullTimePage> {
                       var watchAdStatus =
                       prefs.getString(Constant.WATCH_AD_STATUS);
                       debugPrint("myDeviceId: $myDeviceId");
-                      if (homeController.watchAdStatus == "0" &&
+                      if (homeController.watchAdStatus == "1" &&
                           adsCount < 120) {
                         if (!timerStarted) {
                           // generatedOtp = fullTimePageCont
@@ -877,7 +892,7 @@ class FullTimePageState extends State<FullTimePage> {
                     child: Container(
                       height: 40,
                       width: 140,
-                      decoration: homeController.watchAdStatus == "0" &&
+                      decoration: homeController.watchAdStatus == "1" &&
                           adsCount < 120
                           ? const BoxDecoration(
                         image: DecorationImage(
@@ -956,64 +971,70 @@ class FullTimePageState extends State<FullTimePage> {
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(16))),
       contentPadding: const EdgeInsets.all(20),
-      content: Container(
-        height: size.height * 0.1,
-        decoration: const BoxDecoration(),
-        alignment: Alignment.center,
-        child: SlideAction(
-          trackBuilder: (context, state) {
-            return Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: Colors.white,
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 8,
-                  ),
-                ],
-              ),
-              child: Center(
-                child: Text(
-                  state.isPerformingAction ? "Loading..." : "Go To ADS",
-                  style: const TextStyle(
-                      color: colors.black,
-                      fontSize: 14,
-                      fontFamily: "Montserrat",
-                      fontWeight: FontWeight.bold),
+      content: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          // Handle the tap, or do nothing to prevent dismissal
+        },
+        child: Container(
+          height: size.height * 0.1,
+          decoration: const BoxDecoration(),
+          alignment: Alignment.center,
+          child: SlideAction(
+            trackBuilder: (context, state) {
+              return Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: Colors.white,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 8,
+                    ),
+                  ],
                 ),
-              ),
-            );
-          },
-          thumbBuilder: (context, state) {
-            return Container(
-              margin: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                color: Colors.orange,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Center(
-                child: state.isPerformingAction
-                    ? const CupertinoActivityIndicator(
-                        color: Colors.white,
-                      )
-                    : const Icon(
-                        Icons.chevron_right,
-                        color: Colors.white,
-                      ),
-              ),
-            );
-          },
-          action: () async {
-            await Future.delayed(
-              const Duration(seconds: 3),
-              () {
-                debugPrint("action completed");
-                watchAds();
-                Navigator.of(context).pop();
-              },
-            );
-          },
+                child: Center(
+                  child: Text(
+                    state.isPerformingAction ? "Loading..." : "Go To ADS",
+                    style: const TextStyle(
+                        color: colors.black,
+                        fontSize: 14,
+                        fontFamily: "Montserrat",
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              );
+            },
+            thumbBuilder: (context, state) {
+              return Container(
+                margin: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  color: Colors.orange,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Center(
+                  child: state.isPerformingAction
+                      ? const CupertinoActivityIndicator(
+                          color: Colors.white,
+                        )
+                      : const Icon(
+                          Icons.chevron_right,
+                          color: Colors.white,
+                        ),
+                ),
+              );
+            },
+            action: () async {
+              await Future.delayed(
+                const Duration(seconds: 3),
+                () {
+                  debugPrint("action completed");
+                  watchAds();
+                  Navigator.of(context).pop();
+                },
+              );
+            },
+          ),
         ),
       ),
     );
@@ -1021,7 +1042,8 @@ class FullTimePageState extends State<FullTimePage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return alert;
+        return WillPopScope(
+            onWillPop: () async => false,child: alert);
       },
     );
   }

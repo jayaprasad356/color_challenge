@@ -41,12 +41,13 @@ class FullTimePageCont extends GetxController implements GetxService {
     syncUniqueId,
     deviceId,
     syncType,
+      platformType,
     SyncDataCallback callback, // Add the callback parameter
   ) async {
     prefs = await SharedPreferences.getInstance();
     try {
       final value = await fullTimeRepo.syncData(
-          userId, ads, syncUniqueId, deviceId, syncType);
+          userId, ads, syncUniqueId, deviceId, syncType, platformType);
       var responseData = value.body;
       SyncDataList syncDataList = SyncDataList.fromJson(responseData);
       debugPrint("===> SyncDataList: $syncDataList");

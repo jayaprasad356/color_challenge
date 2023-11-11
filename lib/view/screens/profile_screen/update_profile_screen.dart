@@ -28,17 +28,25 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        title: const Text('Profile',style: TextStyle(fontFamily: 'Montserra', color: colors.white),),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [
-                colors.primary_color,
-                colors.primary_color2
-              ], // Change these colors to your desired gradient colors
+              colors: [colors.primary_color, colors.primary_color2], // Change these colors to your desired gradient colors
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
+          ),
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: const Icon(
+            Icons.arrow_back_outlined,
+            color: colors.white,
           ),
         ),
       ),

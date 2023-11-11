@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:a1_ads/Helper/apiCall.dart';
 import 'package:a1_ads/controller/home_controller.dart';
+import 'package:a1_ads/controller/main_screen_controller.dart';
 import 'package:a1_ads/controller/pcc_controller.dart';
 import 'package:a1_ads/model/jobs_show.dart';
 import 'package:a1_ads/model/user.dart';
@@ -42,6 +43,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final HomeController homeController = Get.find<HomeController>();
+  final MainController mainController = Get.find<MainController>();
   final PCC c = Get.find<PCC>();
   final TextEditingController _payAmountController = TextEditingController();
   final TextEditingController _addCoinController = TextEditingController();
@@ -75,12 +77,19 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     // setupSettings();
 
-    FirebaseMessaging.instance.getToken().then((token) {
-      setState(() {
-        _fcmToken = token!;
-        userDeatils();
-      });
-      print('FCM Token: $_fcmToken');
+    // userDeatils();
+
+    // FirebaseMessaging.instance.getToken().then((token) {
+    //   setState(() {
+    //     _fcmToken = token!;
+    //     userDeatils();
+    //   });
+    //   print('FCM Token: $_fcmToken');
+    // });
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      // Handle incoming message
+      print('Got a message whilst in the foreground!');
+      print('Message data: ${message.data}');
     });
     startTimer();
     // offerImage();
@@ -107,6 +116,7 @@ class _MainScreenState extends State<MainScreen> {
   Future<void> _initializeData() async {
     prefs = await SharedPreferences.getInstance();
     homeController.allSettingsData();
+    mainController.userDetail(prefs.getString(Constant.ID));
     c.offerAPI(prefs.getString(Constant.ID)!);
     setState(() {
       status = prefs.getString(Constant.STATUS)!;
@@ -124,55 +134,58 @@ class _MainScreenState extends State<MainScreen> {
   //   c.offerImageURS();
   // }
 
-  void userDeatils() async {
-    prefs = await SharedPreferences.getInstance();
-    var url = Constant.USER_DETAIL_URL;
-    Map<String, dynamic> bodyObject = {
-      Constant.USER_ID: prefs.getString(Constant.ID),
-      Constant.FCM_ID: _fcmToken
-    };
-    String jsonString = await apiCall(url, bodyObject);
-    final Map<String, dynamic> responseJson = jsonDecode(jsonString);
-    final dataList = responseJson['data'] as List;
-    final Users user = Users.fromJsonNew(dataList.first);
-
-    prefs.setString(Constant.LOGED_IN, "true");
-    prefs.setString(Constant.ID, user.id);
-    prefs.setString(Constant.MOBILE, user.mobile);
-    prefs.setString(Constant.NAME, user.name);
-    prefs.setString(Constant.UPI, user.upi);
-    prefs.setString(Constant.EARN, user.earn);
-    prefs.setString(Constant.BALANCE, user.balance);
-    prefs.setString(Constant.TODAY_ADS, user.today_ads);
-    prefs.setString(Constant.TOTAL_ADS, user.total_ads);
-    prefs.setString(Constant.REFERRED_BY, user.referredBy);
-    prefs.setString(Constant.REFER_CODE, user.referCode);
-    prefs.setString(Constant.WITHDRAWAL_STATUS, user.withdrawalStatus);
-    prefs.setString(Constant.STATUS, user.status);
-    prefs.setString(Constant.JOINED_DATE, user.joinedDate);
-    prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
-    prefs.setString(Constant.MIN_WITHDRAWAL, user.min_withdrawal);
-    prefs.setString(Constant.HOLDER_NAME, user.holder_name);
-    prefs.setString(Constant.ACCOUNT_NUM, user.account_num);
-    prefs.setString(Constant.IFSC, user.ifsc);
-    prefs.setString(Constant.BANK, user.bank);
-    prefs.setString(Constant.BRANCH, user.branch);
-    prefs.setString(Constant.OLD_PLAN, user.old_plan);
-    prefs.setString(Constant.PLAN, user.plan);
-    prefs.setString(Constant.ADS_TIME, user.ads_time);
-    prefs.setString(Constant.ADS_COST, user.ads_cost);
-    prefs.setString(Constant.REWARD_ADS, user.reward_ads);
-    setState(() {
-      status = prefs.getString(Constant.STATUS)!;
-      old_plan = prefs.getString(Constant.OLD_PLAN)!;
-      plan = prefs.getString(Constant.PLAN)!;
-      balance = prefs.getString(Constant.BALANCE)!;
-    });
-    if (user.status == "2" || user.device_id == "0") {
-      logout();
-      SystemNavigator.pop();
-    }
-  }
+  // void userDeatils() async {
+  //   prefs = await SharedPreferences.getInstance();
+  //   var url = Constant.USER_DETAIL_URL;
+  //   Map<String, dynamic> bodyObject = {
+  //     Constant.USER_ID: prefs.getString(Constant.ID),
+  //     Constant.FCM_ID: _fcmToken
+  //   };
+  //   String jsonString = await apiCall(url, bodyObject);
+  //   final Map<String, dynamic> responseJson = jsonDecode(jsonString);
+  //   final dataList = responseJson['data'] as List;
+  //   final Users user = Users.fromJsonNew(dataList.first);
+  //   debugPrint("bodyObject: $bodyObject");
+  //   debugPrint("responseJson: $responseJson");
+  //   debugPrint("user id: ${user.id}");
+  //
+  //   prefs.setString(Constant.LOGED_IN, "true");
+  //   prefs.setString(Constant.ID, user.id);
+  //   prefs.setString(Constant.MOBILE, user.mobile);
+  //   prefs.setString(Constant.NAME, user.name);
+  //   prefs.setString(Constant.UPI, user.upi);
+  //   prefs.setString(Constant.EARN, user.earn);
+  //   prefs.setString(Constant.BALANCE, user.balance);
+  //   prefs.setString(Constant.TODAY_ADS, user.today_ads);
+  //   prefs.setString(Constant.TOTAL_ADS, user.total_ads);
+  //   prefs.setString(Constant.REFERRED_BY, user.referredBy);
+  //   prefs.setString(Constant.REFER_CODE, user.referCode);
+  //   prefs.setString(Constant.WITHDRAWAL_STATUS, user.withdrawalStatus);
+  //   prefs.setString(Constant.STATUS, user.status);
+  //   prefs.setString(Constant.JOINED_DATE, user.joinedDate);
+  //   prefs.setString(Constant.LAST_UPDATED, user.lastUpdated);
+  //   prefs.setString(Constant.MIN_WITHDRAWAL, user.min_withdrawal);
+  //   prefs.setString(Constant.HOLDER_NAME, user.holder_name);
+  //   prefs.setString(Constant.ACCOUNT_NUM, user.account_num);
+  //   prefs.setString(Constant.IFSC, user.ifsc);
+  //   prefs.setString(Constant.BANK, user.bank);
+  //   prefs.setString(Constant.BRANCH, user.branch);
+  //   prefs.setString(Constant.OLD_PLAN, user.old_plan);
+  //   prefs.setString(Constant.PLAN, user.plan);
+  //   prefs.setString(Constant.ADS_TIME, user.ads_time);
+  //   prefs.setString(Constant.ADS_COST, user.ads_cost);
+  //   prefs.setString(Constant.REWARD_ADS, user.reward_ads);
+  //   setState(() {
+  //     status = prefs.getString(Constant.STATUS)!;
+  //     old_plan = prefs.getString(Constant.OLD_PLAN)!;
+  //     plan = prefs.getString(Constant.PLAN)!;
+  //     balance = prefs.getString(Constant.BALANCE)!;
+  //   });
+  //   if (user.status == "2" || user.device_id == "0") {
+  //     logout();
+  //     SystemNavigator.pop();
+  //   }
+  // }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -709,13 +722,14 @@ class _MainScreenState extends State<MainScreen> {
       case 0:
         return const Home(); //HomePage(updateAmount: updateAmount);
       case 1:
+        return const FullTimePage();
         // return const ADsScreen(); //HomePage(updateAmount: updateAmount);
         // return const FullTimePage();
-        if (status == "1" && old_plan == "0" && plan == "A1") {
-          return const FullTimePage();
-        } else {
-          return const ADsScreen();
-        }
+        // if (status == "1" && old_plan == "0" && plan == "A1") {
+        //   return const FullTimePage();
+        // } else {
+        //   return const ADsScreen();
+        // }
       case 2:
         // return const InvestScreen();
         return const MyOffer();

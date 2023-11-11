@@ -10,13 +10,14 @@ class FullTimeRepo {
   FullTimeRepo({required this.apiClient, required this.storageLocal});
 
   Future<Response> syncData(String userId, String ads, String syncUniqueId,
-      String deviceId, String syncType) async {
+      String deviceId, String syncType, String platformType) async {
     Map<String, String> body = {
       'user_id': userId,
       'ads': ads,
       'sync_unique_id': syncUniqueId,
       'device_id': deviceId,
       'sync_type': syncType,
+      'platform_type': platformType,
     };
     return await apiClient.postData(Constant.WALLET, body, {});
   }

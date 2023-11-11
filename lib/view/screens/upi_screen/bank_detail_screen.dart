@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:a1_ads/Helper/apiCall.dart';
 import 'package:a1_ads/model/user.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../util/Color.dart';
 import '../../../util/Constant.dart';
@@ -12,14 +13,25 @@ class BankDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Bank Details'),
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        title: const Text('Bank Details',style: TextStyle(fontFamily: 'Montserra', color: colors.white),),
         flexibleSpace: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [colors.primary_color, colors.primary_color2], // Change these colors to your desired gradient colors
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
+          ),
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: const Icon(
+            Icons.arrow_back_outlined,
+            color: colors.white,
           ),
         ),
       ),
@@ -74,7 +86,7 @@ class _BankDetailsFormState extends State<BankDetailsForm> {
       child: Container(
         width: MediaQuery.of(context).size.width, // Set width to the screen width
         height: MediaQuery.of(context).size.height, // Set height to the screen height
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [colors.primary_color, colors.secondary_color],
             begin: Alignment.topCenter,
@@ -90,36 +102,36 @@ class _BankDetailsFormState extends State<BankDetailsForm> {
               children: [
                 TextField(
                   controller: _holdernameController,
-                  decoration: InputDecoration(labelText: 'Holder Name', labelStyle: TextStyle(color: Colors.white),hintStyle: TextStyle(color: Colors.white),),
-                  style: TextStyle(color: Colors.white),
+                  decoration: const InputDecoration(labelText: 'Holder Name', labelStyle: TextStyle(color: Colors.white),hintStyle: TextStyle(color: Colors.white),),
+                  style: const TextStyle(color: Colors.white),
 
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 TextField(
                   controller: _accountNumberController,
-                  style: TextStyle(color: Colors.white),
-                  decoration: InputDecoration(labelText: 'Account Number', labelStyle: TextStyle(color: Colors.white),hintStyle: TextStyle(color: Colors.white),),
+                  style: const TextStyle(color: Colors.white),
+                  decoration: const InputDecoration(labelText: 'Account Number', labelStyle: TextStyle(color: Colors.white),hintStyle: TextStyle(color: Colors.white),),
                   keyboardType: TextInputType.number,
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 TextField(
                   controller: _ifscCodeController,
-                  decoration: InputDecoration(labelText: 'IFSC Code', labelStyle: TextStyle(color: Colors.white),hintStyle: TextStyle(color: Colors.white),),
-                  style: TextStyle(color: Colors.white),
+                  decoration: const InputDecoration(labelText: 'IFSC Code', labelStyle: TextStyle(color: Colors.white),hintStyle: TextStyle(color: Colors.white),),
+                  style: const TextStyle(color: Colors.white),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 TextField(
                   controller: _bankNameController,
-                  decoration: InputDecoration(labelText: 'Bank Name', labelStyle: TextStyle(color: Colors.white),hintStyle: TextStyle(color: Colors.white),),
-                  style: TextStyle(color: Colors.white),
+                  decoration: const InputDecoration(labelText: 'Bank Name', labelStyle: TextStyle(color: Colors.white),hintStyle: TextStyle(color: Colors.white),),
+                  style: const TextStyle(color: Colors.white),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 TextField(
                   controller: _branchNameController,
-                  decoration: InputDecoration(labelText: 'Branch Name', labelStyle: TextStyle(color: Colors.white),hintStyle: TextStyle(color: Colors.white),),
-                  style: TextStyle(color: Colors.white),
+                  decoration: const InputDecoration(labelText: 'Branch Name', labelStyle: TextStyle(color: Colors.white),hintStyle: TextStyle(color: Colors.white),),
+                  style: const TextStyle(color: Colors.white),
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
@@ -155,7 +167,7 @@ class _BankDetailsFormState extends State<BankDetailsForm> {
                       );
                     }
                   },
-                  child: Text('Save Bank Details'),
+                  child: const Text('Save Bank Details'),
                 ),
               ],
             ),
