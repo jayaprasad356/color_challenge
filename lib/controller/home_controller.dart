@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:a1_ads/data/api/api_client.dart';
 import 'package:a1_ads/data/repository/home_repo.dart';
 import 'package:a1_ads/data/repository/shorts_video_repo.dart';
@@ -9,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
+import 'package:http/http.dart' as http;
 
 class SliderItem {
   final String imageUrl;
@@ -55,6 +58,16 @@ class HomeController extends GetxController implements GetxService {
   Future<String?> getUserId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(Constant.ID);
+  }
+
+  Future<String?> getIpAddress() async {
+    final response = await http.get(Uri.parse('https://admin.colorjobs.site/'));
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load IP address');
+    }
   }
 
   Future<void> allSettingsData() async {

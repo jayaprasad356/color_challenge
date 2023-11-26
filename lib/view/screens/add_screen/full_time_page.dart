@@ -128,9 +128,9 @@ class FullTimePageState extends State<FullTimePage> {
     setState(() async {
       isWeb = (await storeLocal.read(key: Constant.IS_WEB))!;
       debugPrint("isWeb: $isWeb");
-      if(isWeb == 'true'){
+      if (isWeb == 'true') {
         platformType = 'web';
-      } else if (isWeb == 'true'){
+      } else if (isWeb == 'true') {
         platformType = 'app';
       }
     });
@@ -177,13 +177,6 @@ class FullTimePageState extends State<FullTimePage> {
       syncUniqueId = fullTimePageCont.generateRandomSixDigitNumber();
       isClaimButtonDisabled = false; // Enable the button
     }
-  }
-
-  @override
-  void dispose() {
-    // Cancel the timer when the widget is disposed.
-    buttonTimer?.cancel();
-    super.dispose();
   }
 
   void startTimer() {
@@ -307,126 +300,126 @@ class FullTimePageState extends State<FullTimePage> {
               padding: const EdgeInsets.only(top: 2.0),
               child: Column(
                 children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: colors.widget_color,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 15,
-                          vertical: 10,
-                        ),
-                        child: Column(
-                          children: [
-                            const Text(
-                              "Main Balance",
-                              style: TextStyle(
-                                  fontFamily: 'MontserratLight',
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white,
-                                  fontSize: 15.0),
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              "$balance + $multiplyCostValue",
-                              style: const TextStyle(
-                                  fontFamily: 'MontserratBold',
-                                  color: Colors.white,
-                                  fontSize: 15.0),
-                            ),
-                            // Obx(() => Text(
-                            //   "$balance + $multiplyCostValue",
-                            //   // "${fullTimePageCont.balance} + $multiplyCostValue",
-                            //   style: const TextStyle(
-                            //       fontFamily: 'MontserratBold',
-                            //       color: Colors.white,
-                            //       fontSize: 15.0),
-                            // ),),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Today Ads",
-                            style: TextStyle(
-                                fontFamily: 'MontserratLight',
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                                fontSize: 15.0),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Total Ads",
-                            style: TextStyle(
-                                fontFamily: 'MontserratLight',
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                                fontSize: 15.0),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "$today_ads + ${adsCount.toString()}",
-                            style: const TextStyle(
-                                fontFamily: 'MontserratBold',
-                                color: Colors.white,
-                                fontSize: 15.0),
-                          ),
-                          // Obx(() => Text(
-                          //   "$today_ads + ${adsCount.toString()}",
-                          //   // "${fullTimePageCont.totalAds} + ${adsCount.toString()}",
-                          //   style: const TextStyle(
-                          //       fontFamily: 'MontserratBold',
-                          //       color: Colors.white,
-                          //       fontSize: 15.0),
-                          // ),),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "$total_ads + ${adsCount.toString()}",
-                            // "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
-                            style: const TextStyle(
-                                fontFamily: 'MontserratBold',
-                                color: Colors.white,
-                                fontSize: 15.0),
-                          ),
-                          // Obx(() => Text(
-                          //   "$total_ads + ${adsCount.toString()}",
-                          //   // "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
-                          //   style: const TextStyle(
-                          //       fontFamily: 'MontserratBold',
-                          //       color: Colors.white,
-                          //       fontSize: 15.0),
-                          // ),),
-                        ],
-                      ),
-                    ],
-                  ),
+                  // const SizedBox(
+                  //   height: 10,
+                  // ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     Container(
+                  //       decoration: BoxDecoration(
+                  //         border: Border.all(
+                  //           color: colors.widget_color,
+                  //           width: 2,
+                  //         ),
+                  //         borderRadius: BorderRadius.circular(8),
+                  //       ),
+                  //       padding: const EdgeInsets.symmetric(
+                  //         horizontal: 15,
+                  //         vertical: 10,
+                  //       ),
+                  //       child: Column(
+                  //         children: [
+                  //           const Text(
+                  //             "Main Balance",
+                  //             style: TextStyle(
+                  //                 fontFamily: 'MontserratLight',
+                  //                 fontWeight: FontWeight.w500,
+                  //                 color: Colors.white,
+                  //                 fontSize: 15.0),
+                  //           ),
+                  //           const SizedBox(
+                  //             height: 5,
+                  //           ),
+                  //           Text(
+                  //             "$balance + $multiplyCostValue",
+                  //             style: const TextStyle(
+                  //                 fontFamily: 'MontserratBold',
+                  //                 color: Colors.white,
+                  //                 fontSize: 15.0),
+                  //           ),
+                  //           // Obx(() => Text(
+                  //           //   "$balance + $multiplyCostValue",
+                  //           //   // "${fullTimePageCont.balance} + $multiplyCostValue",
+                  //           //   style: const TextStyle(
+                  //           //       fontFamily: 'MontserratBold',
+                  //           //       color: Colors.white,
+                  //           //       fontSize: 15.0),
+                  //           // ),),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //     const SizedBox(
+                  //       width: 10,
+                  //     ),
+                  //     const Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         Text(
+                  //           "Today Ads",
+                  //           style: TextStyle(
+                  //               fontFamily: 'MontserratLight',
+                  //               fontWeight: FontWeight.w500,
+                  //               color: Colors.white,
+                  //               fontSize: 15.0),
+                  //         ),
+                  //         SizedBox(
+                  //           height: 10,
+                  //         ),
+                  //         Text(
+                  //           "Total Ads",
+                  //           style: TextStyle(
+                  //               fontFamily: 'MontserratLight',
+                  //               fontWeight: FontWeight.w500,
+                  //               color: Colors.white,
+                  //               fontSize: 15.0),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //     const SizedBox(
+                  //       width: 10,
+                  //     ),
+                  //     Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         Text(
+                  //           "$today_ads + ${adsCount.toString()}",
+                  //           style: const TextStyle(
+                  //               fontFamily: 'MontserratBold',
+                  //               color: Colors.white,
+                  //               fontSize: 15.0),
+                  //         ),
+                  //         // Obx(() => Text(
+                  //         //   "$today_ads + ${adsCount.toString()}",
+                  //         //   // "${fullTimePageCont.totalAds} + ${adsCount.toString()}",
+                  //         //   style: const TextStyle(
+                  //         //       fontFamily: 'MontserratBold',
+                  //         //       color: Colors.white,
+                  //         //       fontSize: 15.0),
+                  //         // ),),
+                  //         const SizedBox(
+                  //           height: 10,
+                  //         ),
+                  //         Text(
+                  //           "$total_ads + ${adsCount.toString()}",
+                  //           // "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
+                  //           style: const TextStyle(
+                  //               fontFamily: 'MontserratBold',
+                  //               color: Colors.white,
+                  //               fontSize: 15.0),
+                  //         ),
+                  //         // Obx(() => Text(
+                  //         //   "$total_ads + ${adsCount.toString()}",
+                  //         //   // "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
+                  //         //   style: const TextStyle(
+                  //         //       fontFamily: 'MontserratBold',
+                  //         //       color: Colors.white,
+                  //         //       fontSize: 15.0),
+                  //         // ),),
+                  //       ],
+                  //     ),
+                  //   ],
+                  // ),
                   const SizedBox(
                     height: 10,
                   ),
@@ -530,263 +523,260 @@ class FullTimePageState extends State<FullTimePage> {
                           progressColor: Colors.deepPurpleAccent,
                         ),
                         const SizedBox(
-                          width: 15,
+                          width: 20,
                         ),
-                        CircularPercentIndicator(
-                          radius: 35.0,
-                          lineWidth: 10.0,
-                          animation: true,
-                          percent: progressPercentageTwo.clamp(0.0, 1.0),
-                          backgroundWidth: 13,
-                          center: Text(
-                            (progressPercentageTwo * maximumValue)
-                                .toInt()
-                                .toString(),
-                            style: const TextStyle(
-                                fontFamily: 'MontserratBold',
-                                fontSize: 16.0,
-                                color: Colors.white),
-                          ),
-                          footer: Column(
-                            children: [
-                              IgnorePointer(
-                                ignoring: isClaimButtonDisabled,
-                                child: InkWell(
-                                  onTap: () async {
-                                    syncType = 'reward_sync';
-                                    debugPrint("syncType: $syncType");
-                                    try {
-                                      prefs =
-                                          await SharedPreferences.getInstance();
-                                      setState(() {
-                                        syncUniqueId;
-                                      });
-                                      debugPrint("syncUniqueId: $syncUniqueId");
-                                      // Call the syncData function and get the result immediately
-                                      fullTimePageCont.syncData(
-                                        prefs.getString(Constant.ID),
-                                        adsCount.toString(),
-                                        syncUniqueId.toString(),
-                                        prefs
-                                            .getString(Constant.MY_DEVICE_ID)
-                                            .toString(),
-                                        syncType,
-                                        platformType,
-                                        (String syncDataSuccess) {
-                                          debugPrint(
-                                              "syncDataSuccess: $syncDataSuccess");
-                                          // Perform actions based on the result of the syncData function
-                                          if (syncDataSuccess == 'true') {
-                                            setState(() {
-                                              isClaimButtonDisabled = true;
-                                              reward_ads = prefs.getString(
-                                                  Constant.REWARD_ADS)!;
-                                              ads_time = prefs.getString(
-                                                  Constant.ADS_TIME)!;
-                                              balance = prefs
-                                                  .getString(Constant.BALANCE)!;
-                                              today_ads = prefs.getString(
-                                                  Constant.TODAY_ADS)!;
-                                              total_ads = prefs.getString(
-                                                  Constant.TOTAL_ADS)!;
-                                              ads_cost = prefs.getString(
-                                                  Constant.ADS_COST)!;
-                                            });
-                                          } else {}
-                                        },
-                                      );
-                                    } catch (e) {
-                                      // Handle any errors that occur during the process
-                                      debugPrint("Error: $e");
-                                    }
-                                  },
-                                  child: Container(
-                                    decoration: isClaimButtonDisabled == false
-                                        ? BoxDecoration(
-                                            gradient: const LinearGradient(
-                                              begin: Alignment.topRight,
-                                              end: Alignment.bottomLeft,
-                                              colors: [
-                                                Colors.deepOrangeAccent,
-                                                Colors.pink,
-                                              ],
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          )
-                                        : BoxDecoration(
-                                            color: Colors.orange.shade50,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 10),
-                                    margin: const EdgeInsets.only(top: 10),
-                                    child: Text(
-                                      "Claim Reward",
+                        Column(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: colors.widget_color,
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 15,
+                                vertical: 10,
+                              ),
+                              child: Column(
+                                children: [
+                                  const Text(
+                                    "Main Balance",
+                                    style: TextStyle(
+                                        fontFamily: 'MontserratLight',
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white,
+                                        fontSize: 15.0),
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    "$balance + $multiplyCostValue",
+                                    style: const TextStyle(
+                                        fontFamily: 'MontserratBold',
+                                        color: Colors.white,
+                                        fontSize: 15.0),
+                                  ),
+                                  // Obx(() => Text(
+                                  //   "$balance + $multiplyCostValue",
+                                  //   // "${fullTimePageCont.balance} + $multiplyCostValue",
+                                  //   style: const TextStyle(
+                                  //       fontFamily: 'MontserratBold',
+                                  //       color: Colors.white,
+                                  //       fontSize: 15.0),
+                                  // ),),
+                                ],
+                              ),
+                            ),const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                const Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Today Ads",
                                       style: TextStyle(
-                                          fontFamily: 'MontserratBold',
-                                          fontSize: 12.0,
-                                          color: isClaimButtonDisabled == false
-                                              ? Colors.white
-                                              : Colors.grey[500]
-                                          // : Colors.orangeAccent[200],
-                                          ),
+                                          fontFamily: 'MontserratLight',
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white,
+                                          fontSize: 15.0),
                                     ),
-                                  ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      "Total Ads",
+                                      style: TextStyle(
+                                          fontFamily: 'MontserratLight',
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white,
+                                          fontSize: 15.0),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  launchUrl(
-                                    Uri.parse(homeController.rewardAdsDetails
-                                        .toString()),
-                                    mode: LaunchMode.externalApplication,
-                                  );
-                                },
-                                child: Text(
-                                  "more details",
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 14,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.underline,
-                                  ),
+                                const SizedBox(
+                                  width: 10,
                                 ),
-                              ),
-                            ],
-                          ),
-                          linearGradient: const LinearGradient(
-                            colors: [
-                              Colors.deepOrangeAccent,
-                              Colors.pink,
-                            ],
-                          ),
-                          circularStrokeCap: CircularStrokeCap.round,
-                          // progressColor: Colors.deepOrangeAccent,
-                        ),
-                        // Column(
-                        //   crossAxisAlignment: CrossAxisAlignment.start,
-                        //   children: [
-                        //     Container(
-                        //       decoration: BoxDecoration(
-                        //         border: Border.all(
-                        //           color: colors.widget_color,
-                        //           width: 2,
-                        //         ),
-                        //         borderRadius: BorderRadius.circular(8),
-                        //       ),
-                        //       padding: const EdgeInsets.symmetric(
-                        //         horizontal: 15,
-                        //         vertical: 10,
-                        //       ),
-                        //       child: Column(
-                        //         children: [
-                        //           const Text(
-                        //             "Main Balance",
-                        //             style: TextStyle(
-                        //                 fontFamily: 'MontserratLight',
-                        //                 fontWeight: FontWeight.w500,
-                        //                 color: Colors.white,
-                        //                 fontSize: 15.0),
-                        //           ),
-                        //           const SizedBox(
-                        //             height: 5,
-                        //           ),
-                        //           Text(
-                        //             "$balance + $multiplyCostValue",
-                        //             style: const TextStyle(
-                        //                 fontFamily: 'MontserratBold',
-                        //                 color: Colors.white,
-                        //                 fontSize: 15.0),
-                        //           ),
-                        //           // Obx(() => Text(
-                        //           //   "$balance + $multiplyCostValue",
-                        //           //   // "${fullTimePageCont.balance} + $multiplyCostValue",
-                        //           //   style: const TextStyle(
-                        //           //       fontFamily: 'MontserratBold',
-                        //           //       color: Colors.white,
-                        //           //       fontSize: 15.0),
-                        //           // ),),
-                        //         ],
-                        //       ),
-                        //     ),
-                        //     const SizedBox(
-                        //       height: 10,
-                        //     ),
-                        //     Row(
-                        //       mainAxisAlignment: MainAxisAlignment.start,
-                        //       children: [
-                        //         const Column(
-                        //           crossAxisAlignment: CrossAxisAlignment.start,
-                        //           children: [
-                        //             Text(
-                        //               "Today Ads",
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "$today_ads + ${adsCount.toString()}",
+                                      style: const TextStyle(
+                                          fontFamily: 'MontserratBold',
+                                          color: Colors.white,
+                                          fontSize: 15.0),
+                                    ),
+                                    // Obx(() => Text(
+                                    //   "$today_ads + ${adsCount.toString()}",
+                                    //   // "${fullTimePageCont.totalAds} + ${adsCount.toString()}",
+                                    //   style: const TextStyle(
+                                    //       fontFamily: 'MontserratBold',
+                                    //       color: Colors.white,
+                                    //       fontSize: 15.0),
+                                    // ),),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      "$total_ads + ${adsCount.toString()}",
+                                      // "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
+                                      style: const TextStyle(
+                                          fontFamily: 'MontserratBold',
+                                          color: Colors.white,
+                                          fontSize: 15.0),
+                                    ),
+                                    // Obx(() => Text(
+                                    //   "$total_ads + ${adsCount.toString()}",
+                                    //   // "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
+                                    //   style: const TextStyle(
+                                    //       fontFamily: 'MontserratBold',
+                                    //       color: Colors.white,
+                                    //       fontSize: 15.0),
+                                    // ),),
+                                  ],
+                                ),
+                              ],
+                            )
+                          ],
+                        )
+                        // CircularPercentIndicator(
+                        //   radius: 35.0,
+                        //   lineWidth: 10.0,
+                        //   animation: true,
+                        //   percent: progressPercentageTwo.clamp(0.0, 1.0),
+                        //   backgroundWidth: 13,
+                        //   center: Text(
+                        //     (progressPercentageTwo * maximumValue)
+                        //         .toInt()
+                        //         .toString(),
+                        //     style: const TextStyle(
+                        //         fontFamily: 'MontserratBold',
+                        //         fontSize: 16.0,
+                        //         color: Colors.white),
+                        //   ),
+                        //   footer: Column(
+                        //     children: [
+                        //       IgnorePointer(
+                        //         ignoring: isClaimButtonDisabled,
+                        //         child: InkWell(
+                        //           onTap: () async {
+                        //             syncType = 'reward_sync';
+                        //             debugPrint("syncType: $syncType");
+                        //             try {
+                        //               prefs =
+                        //                   await SharedPreferences.getInstance();
+                        //               setState(() {
+                        //                 syncUniqueId;
+                        //               });
+                        //               debugPrint("syncUniqueId: $syncUniqueId");
+                        //               // Call the syncData function and get the result immediately
+                        //               fullTimePageCont.syncData(
+                        //                 prefs.getString(Constant.ID),
+                        //                 adsCount.toString(),
+                        //                 syncUniqueId.toString(),
+                        //                 prefs
+                        //                     .getString(Constant.MY_DEVICE_ID)
+                        //                     .toString(),
+                        //                 syncType,
+                        //                 platformType,
+                        //                 (String syncDataSuccess) {
+                        //                   debugPrint(
+                        //                       "syncDataSuccess: $syncDataSuccess");
+                        //                   // Perform actions based on the result of the syncData function
+                        //                   if (syncDataSuccess == 'true') {
+                        //                     setState(() {
+                        //                       isClaimButtonDisabled = true;
+                        //                       reward_ads = prefs.getString(
+                        //                           Constant.REWARD_ADS)!;
+                        //                       ads_time = prefs.getString(
+                        //                           Constant.ADS_TIME)!;
+                        //                       balance = prefs
+                        //                           .getString(Constant.BALANCE)!;
+                        //                       today_ads = prefs.getString(
+                        //                           Constant.TODAY_ADS)!;
+                        //                       total_ads = prefs.getString(
+                        //                           Constant.TOTAL_ADS)!;
+                        //                       ads_cost = prefs.getString(
+                        //                           Constant.ADS_COST)!;
+                        //                     });
+                        //                   } else {}
+                        //                 },
+                        //               );
+                        //             } catch (e) {
+                        //               // Handle any errors that occur during the process
+                        //               debugPrint("Error: $e");
+                        //             }
+                        //           },
+                        //           child: Container(
+                        //             decoration: isClaimButtonDisabled == false
+                        //                 ? BoxDecoration(
+                        //                     gradient: const LinearGradient(
+                        //                       begin: Alignment.topRight,
+                        //                       end: Alignment.bottomLeft,
+                        //                       colors: [
+                        //                         Colors.deepOrangeAccent,
+                        //                         Colors.pink,
+                        //                       ],
+                        //                     ),
+                        //                     borderRadius:
+                        //                         BorderRadius.circular(10),
+                        //                   )
+                        //                 : BoxDecoration(
+                        //                     color: Colors.orange.shade50,
+                        //                     borderRadius:
+                        //                         BorderRadius.circular(10),
+                        //                   ),
+                        //             padding: const EdgeInsets.symmetric(
+                        //                 horizontal: 15, vertical: 10),
+                        //             margin: const EdgeInsets.only(top: 10),
+                        //             child: Text(
+                        //               "Claim Reward",
                         //               style: TextStyle(
-                        //                   fontFamily: 'MontserratLight',
-                        //                   fontWeight: FontWeight.w500,
-                        //                   color: Colors.white,
-                        //                   fontSize: 15.0),
-                        //             ),
-                        //             SizedBox(
-                        //               height: 10,
-                        //             ),
-                        //             Text(
-                        //               "Total Ads",
-                        //               style: TextStyle(
-                        //                   fontFamily: 'MontserratLight',
-                        //                   fontWeight: FontWeight.w500,
-                        //                   color: Colors.white,
-                        //                   fontSize: 15.0),
-                        //             ),
-                        //           ],
-                        //         ),
-                        //         const SizedBox(
-                        //           width: 10,
-                        //         ),
-                        //         Column(
-                        //           crossAxisAlignment: CrossAxisAlignment.start,
-                        //           children: [
-                        //             Text(
-                        //               "$today_ads + ${adsCount.toString()}",
-                        //               style: const TextStyle(
                         //                   fontFamily: 'MontserratBold',
-                        //                   color: Colors.white,
-                        //                   fontSize: 15.0),
+                        //                   fontSize: 12.0,
+                        //                   color: isClaimButtonDisabled == false
+                        //                       ? Colors.white
+                        //                       : Colors.grey[500]
+                        //                   // : Colors.orangeAccent[200],
+                        //                   ),
                         //             ),
-                        //             // Obx(() => Text(
-                        //             //   "$today_ads + ${adsCount.toString()}",
-                        //             //   // "${fullTimePageCont.totalAds} + ${adsCount.toString()}",
-                        //             //   style: const TextStyle(
-                        //             //       fontFamily: 'MontserratBold',
-                        //             //       color: Colors.white,
-                        //             //       fontSize: 15.0),
-                        //             // ),),
-                        //             const SizedBox(
-                        //               height: 10,
-                        //             ),
-                        //             Text(
-                        //               "$total_ads + ${adsCount.toString()}",
-                        //               // "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
-                        //               style: const TextStyle(
-                        //                   fontFamily: 'MontserratBold',
-                        //                   color: Colors.white,
-                        //                   fontSize: 15.0),
-                        //             ),
-                        //             // Obx(() => Text(
-                        //             //   "$total_ads + ${adsCount.toString()}",
-                        //             //   // "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
-                        //             //   style: const TextStyle(
-                        //             //       fontFamily: 'MontserratBold',
-                        //             //       color: Colors.white,
-                        //             //       fontSize: 15.0),
-                        //             // ),),
-                        //           ],
+                        //           ),
                         //         ),
-                        //       ],
-                        //     ),
-                        //   ],
-                        // )
+                        //       ),
+                        //       InkWell(
+                        //         onTap: () {
+                        //           launchUrl(
+                        //             Uri.parse(homeController.rewardAdsDetails
+                        //                 .toString()),
+                        //             mode: LaunchMode.externalApplication,
+                        //           );
+                        //         },
+                        //         child: Text(
+                        //           "more details",
+                        //           style: GoogleFonts.poppins(
+                        //             fontSize: 14,
+                        //             color: Colors.white,
+                        //             fontWeight: FontWeight.normal,
+                        //             decoration: TextDecoration.underline,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        //   linearGradient: const LinearGradient(
+                        //     colors: [
+                        //       Colors.deepOrangeAccent,
+                        //       Colors.pink,
+                        //     ],
+                        //   ),
+                        //   circularStrokeCap: CircularStrokeCap.round,
+                        //   // progressColor: Colors.deepOrangeAccent,
+                        // ),
                       ],
                     ),
                   ),
@@ -837,55 +827,58 @@ class FullTimePageState extends State<FullTimePage> {
                   MaterialButton(
                     onPressed: isButtonEnabled == true
                         ? () async {
-                      debugPrint(
-                          "homeController.watchAdStatus: ${homeController.watchAdStatus}");
-                      int adsTimeInSeconds = int.parse(ads_time);
-                      debugPrint("adsCount: $adsCount");
-                      var myDeviceId = isWeb == 'true' ? '12345678' : prefs.getString(Constant.MY_DEVICE_ID);
-                      var watchAdStatus =
-                      prefs.getString(Constant.WATCH_AD_STATUS);
-                      debugPrint("myDeviceId: $myDeviceId");
-                      if (homeController.watchAdStatus == "1" &&
-                          adsCount < 120) {
-                        if (!timerStarted) {
-                          // generatedOtp = fullTimePageCont
-                          //     .generateRandomFourDigitNumber()
-                          //     .toString();
-                          showAlertDialog(context);
-                          debugPrint("isButtonEnabled is false");
-                          setState(() {
-                            isButtonEnabled = false;
-                          });
-                          Future.delayed(
-                            Duration(seconds: adsTimeInSeconds),
-                                () {
-                                  debugPrint("isButtonEnabled is true");
-                                  setState(() {
-                                    isButtonEnabled = true;
-                                  });
-                            },
-                          );
-                          // showAlertDialog(context);
-                          // showAlertDialog(context, generatedOtp);
-                        } else {
-                          Utils().showToast("Please wait...");
-                        }
-                      } else if (adsCount >= 120) {
-                        Utils().showToast("Sync Now Try Again...");
-                      } else {
-                        Utils().showToast("Watch Ad is disable...");
-                      }
-                      // if (!timerStarted) {
-                      //   // watchad();
-                      //   starttime = 0;
-                      //   timerStarted = true;
-                      //   startTimer();
-                      // } else {
-                      //   Utils().showToast("Please wait...");
-                      // }
-                    } : (){
-                      Utils().showToast("Please wait...");
-                      },
+                            debugPrint(
+                                "homeController.watchAdStatus: ${homeController.watchAdStatus}");
+                            int adsTimeInSeconds = int.parse(ads_time);
+                            debugPrint("adsCount: $adsCount");
+                            var myDeviceId = isWeb == 'true'
+                                ? '12345678'
+                                : prefs.getString(Constant.MY_DEVICE_ID);
+                            var watchAdStatus =
+                                prefs.getString(Constant.WATCH_AD_STATUS);
+                            debugPrint("myDeviceId: $myDeviceId");
+                            if (homeController.watchAdStatus == "1" &&
+                                adsCount < 120) {
+                              if (!timerStarted) {
+                                generatedOtp = fullTimePageCont
+                                    .generateRandomFourDigitNumber()
+                                    .toString();
+                                // showAlertDialog(context);
+                                showAlertDialog(context, generatedOtp);
+                                debugPrint("isButtonEnabled is false");
+                                setState(() {
+                                  isButtonEnabled = false;
+                                });
+                                Future.delayed(
+                                  Duration(seconds: adsTimeInSeconds),
+                                  () {
+                                    debugPrint("isButtonEnabled is true");
+                                    setState(() {
+                                      isButtonEnabled = true;
+                                    });
+                                  },
+                                );
+                                // showAlertDialog(context);
+                              } else {
+                                Utils().showToast("Please wait...");
+                              }
+                            } else if (adsCount >= 120) {
+                              Utils().showToast("Sync Now Try Again...");
+                            } else {
+                              Utils().showToast("Watch Ad is disable...");
+                            }
+                            // if (!timerStarted) {
+                            //   // watchad();
+                            //   starttime = 0;
+                            //   timerStarted = true;
+                            //   startTimer();
+                            // } else {
+                            //   Utils().showToast("Please wait...");
+                            // }
+                          }
+                        : () {
+                            Utils().showToast("Please wait...");
+                          },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -893,16 +886,16 @@ class FullTimePageState extends State<FullTimePage> {
                       height: 40,
                       width: 140,
                       decoration: homeController.watchAdStatus == "1" &&
-                          adsCount < 120
+                              adsCount < 120
                           ? const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/images/btnbg.png"),
-                          fit: BoxFit.fill,
-                        ),
-                      )
+                              image: DecorationImage(
+                                image: AssetImage("assets/images/btnbg.png"),
+                                fit: BoxFit.fill,
+                              ),
+                            )
                           : BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(100)),
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(100)),
                       child: const Center(
                         child: Text(
                           'Watch Ad',
@@ -961,22 +954,205 @@ class FullTimePageState extends State<FullTimePage> {
     }
   }
 
+  // showAlertDialog(
+  //   BuildContext context,
+  //   // String generatedOtp,
+  // ) {
+  //   Size size = MediaQuery.of(context).size;
+  //
+  //   AlertDialog alert = AlertDialog(
+  //     shape: const RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.all(Radius.circular(16))),
+  //     contentPadding: const EdgeInsets.all(20),
+  //     content: GestureDetector(
+  //       behavior: HitTestBehavior.opaque,
+  //       onTap: () {
+  //         // Handle the tap, or do nothing to prevent dismissal
+  //       },
+  //       child: Container(
+  //         height: size.height * 0.1,
+  //         decoration: const BoxDecoration(),
+  //         alignment: Alignment.center,
+  //         child: SlideAction(
+  //           trackBuilder: (context, state) {
+  //             return Container(
+  //               decoration: BoxDecoration(
+  //                 borderRadius: BorderRadius.circular(16),
+  //                 color: Colors.white,
+  //                 boxShadow: const [
+  //                   BoxShadow(
+  //                     color: Colors.black26,
+  //                     blurRadius: 8,
+  //                   ),
+  //                 ],
+  //               ),
+  //               child: Center(
+  //                 child: Text(
+  //                   state.isPerformingAction ? "Loading..." : "Go To ADS",
+  //                   style: const TextStyle(
+  //                       color: colors.black,
+  //                       fontSize: 14,
+  //                       fontFamily: "Montserrat",
+  //                       fontWeight: FontWeight.bold),
+  //                 ),
+  //               ),
+  //             );
+  //           },
+  //           thumbBuilder: (context, state) {
+  //             return Container(
+  //               margin: const EdgeInsets.all(4),
+  //               decoration: BoxDecoration(
+  //                 color: Colors.orange,
+  //                 borderRadius: BorderRadius.circular(16),
+  //               ),
+  //               child: Center(
+  //                 child: state.isPerformingAction
+  //                     ? const CupertinoActivityIndicator(
+  //                         color: Colors.white,
+  //                       )
+  //                     : const Icon(
+  //                         Icons.chevron_right,
+  //                         color: Colors.white,
+  //                       ),
+  //               ),
+  //             );
+  //           },
+  //           action: () async {
+  //             await Future.delayed(
+  //               const Duration(seconds: 3),
+  //               () {
+  //                 debugPrint("action completed");
+  //                 watchAds();
+  //                 Navigator.of(context).pop();
+  //               },
+  //             );
+  //           },
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  //
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return WillPopScope(
+  //           onWillPop: () async => false,child: alert);
+  //     },
+  //   );
+  // }
+
   showAlertDialog(
     BuildContext context,
-    // String generatedOtp,
+    String generatedOtp,
   ) {
     Size size = MediaQuery.of(context).size;
 
     AlertDialog alert = AlertDialog(
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(16))),
+          borderRadius: BorderRadius.all(Radius.circular(10))),
       contentPadding: const EdgeInsets.all(20),
-      content: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () {
-          // Handle the tap, or do nothing to prevent dismissal
-        },
-        child: Container(
+      content: Container(
+        height: size.height * 0.25,
+        decoration: const BoxDecoration(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: size.width * 0.5,
+                  child: Text(
+                    generatedOtp,
+                    style: const TextStyle(
+                      fontFamily: 'MontserratBold',
+                      fontSize: 14,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+                // InkWell(
+                //   onTap: () => Navigator.of(context).pop(),
+                //   child: Transform.rotate(
+                //     angle: 45 * (3.1415926535 / 180),
+                //     child: const Icon(
+                //       Icons.add,
+                //       // Adjust other properties as needed
+                //       size: 24.0,
+                //       color: Colors.black,
+                //     ),
+                //   ),
+                // )
+              ],
+            ),
+            OtpInputField(
+              generatedOtp: generatedOtp,
+              onPress: (enteredOtp) {
+                if (enteredOtp == generatedOtp) {
+                  print('OTP Matched');
+                  watchAds();
+                } else {
+                  print('OTP Mismatch');
+                }
+                print('Entered OTP: $enteredOtp');
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return WillPopScope(onWillPop: () async => false, child: alert);
+      },
+    );
+  }
+}
+
+class OtpInputField extends StatefulWidget {
+  final String generatedOtp;
+  final Function onPress;
+  const OtpInputField(
+      {super.key, required this.generatedOtp, required this.onPress});
+
+  @override
+  _OtpInputFieldState createState() => _OtpInputFieldState();
+}
+
+class _OtpInputFieldState extends State<OtpInputField> {
+  TextEditingController otpController1 = TextEditingController();
+  TextEditingController otpController2 = TextEditingController();
+  TextEditingController otpController3 = TextEditingController();
+  TextEditingController otpController4 = TextEditingController();
+  bool isTimer = false;
+
+  @override
+  void dispose() {
+    otpController1.dispose();
+    otpController2.dispose();
+    otpController3.dispose();
+    otpController4.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            buildOtpTextField(otpController1),
+            buildOtpTextField(otpController2),
+            buildOtpTextField(otpController3),
+            buildOtpTextField(otpController4),
+          ],
+        ),
+        const SizedBox(height: 20.0),
+        Container(
           height: size.height * 0.1,
           decoration: const BoxDecoration(),
           alignment: Alignment.center,
@@ -1025,154 +1201,50 @@ class FullTimePageState extends State<FullTimePage> {
               );
             },
             action: () async {
+              isTimer = true;
               await Future.delayed(
                 const Duration(seconds: 3),
                 () {
-                  debugPrint("action completed");
-                  watchAds();
-                  Navigator.of(context).pop();
+                  if (otpController1.text.isNotEmpty &&
+                      otpController2.text.isNotEmpty &&
+                      otpController3.text.isNotEmpty &&
+                      otpController2.text.isNotEmpty) {
+                    debugPrint('otp is not empty');
+                    if (mounted) {
+                      String enteredOtp =
+                          "${otpController1.text}${otpController2.text}${otpController3.text}${otpController4.text}";
+                      widget.onPress(enteredOtp);
+                      debugPrint("action completed");
+                    }
+                    debugPrint("action completed");
+                    // watchAds();
+                    setState(() {
+                      isTimer = false;
+                    });
+                    Navigator.of(context).pop();
+                  } else {
+                    debugPrint('otp is empty');
+                  }
                 },
               );
             },
           ),
         ),
-      ),
-    );
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return WillPopScope(
-            onWillPop: () async => false,child: alert);
-      },
-    );
-  }
-
-// showAlertDialog(
-//   BuildContext context,
-//   String generatedOtp,
-// ) {
-//   Size size = MediaQuery.of(context).size;
-//
-//   AlertDialog alert = AlertDialog(
-//     shape: const RoundedRectangleBorder(
-//         borderRadius: BorderRadius.all(Radius.circular(10))),
-//     contentPadding: const EdgeInsets.all(20),
-//     content: Container(
-//       height: size.height * 0.2,
-//       decoration: const BoxDecoration(),
-//       child: Column(
-//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//         children: [
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             children: [
-//               SizedBox(
-//                 width: size.width * 0.5,
-//                 child: Text(
-//                   generatedOtp,
-//                   style: const TextStyle(
-//                     fontFamily: 'MontserratBold',
-//                     fontSize: 14,
-//                     color: Colors.black,
-//                   ),
-//                 ),
-//               ),
-//               InkWell(
-//                 onTap: () => Navigator.of(context).pop(),
-//                 child: Transform.rotate(
-//                   angle: 45 * (3.1415926535 / 180),
-//                   child: const Icon(
-//                     Icons.add,
-//                     // Adjust other properties as needed
-//                     size: 24.0,
-//                     color: Colors.black,
-//                   ),
-//                 ),
-//               )
-//             ],
-//           ),
-//           OtpInputField(
-//             generatedOtp: generatedOtp,
-//             onPress: (enteredOtp) {
-//               if (enteredOtp == generatedOtp) {
-//                 print('OTP Matched');
-//                 watchAds();
-//                 Navigator.of(context).pop();
-//               } else {
-//                 print('OTP Mismatch');
-//               }
-//               print('Entered OTP: $enteredOtp');
-//             },
-//           ),
-//         ],
-//       ),
-//     ),
-//   );
-//
-//   showDialog(
-//     context: context,
-//     builder: (BuildContext context) {
-//       return alert;
-//     },
-//   );
-// }
-}
-
-class OtpInputField extends StatefulWidget {
-  final String generatedOtp;
-  final Function onPress;
-  const OtpInputField(
-      {super.key, required this.generatedOtp, required this.onPress});
-
-  @override
-  _OtpInputFieldState createState() => _OtpInputFieldState();
-}
-
-class _OtpInputFieldState extends State<OtpInputField> {
-  TextEditingController otpController1 = TextEditingController();
-  TextEditingController otpController2 = TextEditingController();
-  TextEditingController otpController3 = TextEditingController();
-  TextEditingController otpController4 = TextEditingController();
-
-  @override
-  void dispose() {
-    otpController1.dispose();
-    otpController2.dispose();
-    otpController3.dispose();
-    otpController4.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            buildOtpTextField(otpController1),
-            buildOtpTextField(otpController2),
-            buildOtpTextField(otpController3),
-            buildOtpTextField(otpController4),
-          ],
-        ),
-        const SizedBox(height: 20.0),
-        ElevatedButton(
-          onPressed: () {
-            String enteredOtp =
-                "${otpController1.text}${otpController2.text}${otpController3.text}${otpController4.text}";
-            widget.onPress(enteredOtp);
-            //
-            // if (enteredOtp == widget.generatedOtp) {
-            //   print('OTP Matched');
-            // } else {
-            //   print('OTP Mismatch');
-            // }
-            // print('Entered OTP: ${otpController1.text}${otpController2.text}${otpController3.text}${otpController4.text}');
-          },
-          child: const Text('Submit'),
-        ),
+        // ElevatedButton(
+        //   onPressed: () {
+        //     String enteredOtp =
+        //         "${otpController1.text}${otpController2.text}${otpController3.text}${otpController4.text}";
+        //     widget.onPress(enteredOtp);
+        //     //
+        //     // if (enteredOtp == widget.generatedOtp) {
+        //     //   print('OTP Matched');
+        //     // } else {
+        //     //   print('OTP Mismatch');
+        //     // }
+        //     // print('Entered OTP: ${otpController1.text}${otpController2.text}${otpController3.text}${otpController4.text}');
+        //   },
+        //   child: const Text('Submit'),
+        // ),
       ],
     );
   }

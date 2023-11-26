@@ -104,7 +104,6 @@ class _BankDetailsFormState extends State<BankDetailsForm> {
                   controller: _holdernameController,
                   decoration: const InputDecoration(labelText: 'Holder Name', labelStyle: TextStyle(color: Colors.white),hintStyle: TextStyle(color: Colors.white),),
                   style: const TextStyle(color: Colors.white),
-
                 ),
                 const SizedBox(height: 16),
                 TextField(
@@ -156,7 +155,6 @@ class _BankDetailsFormState extends State<BankDetailsForm> {
                       final jsonResponse = jsonDecode(jsonString);
                       final message = jsonResponse['message'];
                       final status = jsonResponse['success'];
-
                       if (status) {
                         userDeatils();
                       }

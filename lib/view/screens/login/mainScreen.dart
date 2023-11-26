@@ -15,6 +15,7 @@ import 'package:a1_ads/view/screens/add_screen/ads_screen.dart';
 import 'package:a1_ads/view/screens/add_screen/full_time_page.dart';
 import 'package:a1_ads/view/screens/home_page/homePage.dart';
 import 'package:a1_ads/view/screens/invest/invers_screen.dart';
+import 'package:a1_ads/view/screens/login/loginMobile.dart';
 import 'package:a1_ads/view/screens/notification_screen/notification_screen.dart';
 import 'package:a1_ads/view/screens/profile_screen/my_profile.dart';
 import 'package:a1_ads/view/screens/shorts_vid/my_offer.dart';
@@ -26,6 +27,7 @@ import 'package:a1_ads/view/screens/upi_screen/wallet.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -323,10 +325,10 @@ class _MainScreenState extends State<MainScreen> {
                         String text = 'Hello I need help in app';
                         String encodedText = Uri.encodeFull(text);
                         String uri =
-                            'https://wa.me/${prefs.getString(Constant.CONTACT_US)}?text=$encodedText';
+                            'https://tawk.to/chat/65380c2da84dd54dc484c3e7/1hdhev5kg';
                         launchUrl(
                           Uri.parse(uri),
-                          mode: LaunchMode.externalApplication,
+                          mode: LaunchMode.inAppWebView,
                         );
                       },
                       child: Row(
@@ -803,5 +805,26 @@ class _MainScreenState extends State<MainScreen> {
     clearSharedPreferences();
     SystemNavigator.pop();
     FirebaseAuth.instance.signOut();
+    Get.to(const LoginMobile());
   }
 }
+
+class WebViewExample extends StatelessWidget {
+  final String initialUrl;
+
+  WebViewExample({required this.initialUrl});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('My Web App'),
+      ),
+      body: InAppWebView(
+        initialUrlRequest: URLRequest(url: Uri.parse(initialUrl)),
+      ),
+    );
+  }
+}
+
+

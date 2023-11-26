@@ -18,8 +18,11 @@ import 'package:a1_ads/view/screens/login/loginMobile.dart';
 import 'package:a1_ads/view/screens/login/mainScreen.dart';
 import 'package:a1_ads/view/screens/login/otpVerfication.dart';
 import 'package:a1_ads/view/screens/upi_screen/wallet.dart';
+import 'package:device_info/device_info.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -35,18 +38,19 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'view/screens/profile_screen/new_profile_screen.dart';
 import 'view/screens/updateApp/updateApp.dart';
 import 'package:flutter/foundation.dart';
+import 'package:device_info/device_info.dart' as device_info;
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'high_importance_channel', // id
   'High Importance Notifications', // title
   description:
-  'This channel is used for important notifications.', // description
+      'This channel is used for important notifications.', // description
   importance: Importance.high,
   playSound: true,
 );
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+    FlutterLocalNotificationsPlugin();
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -66,7 +70,8 @@ Future<void> main() async {
         storageBucket: "color-challenge-524cd.appspot.com",
         messagingSenderId: "766073031164",
         appId: "1:766073031164:web:71aeb12543c06f15420a79",
-        measurementId: "G-SZPYEKQ7WJ",),
+        measurementId: "G-SZPYEKQ7WJ",
+      ),
     );
     await storeLocal.write(key: Constant.IS_WEB, value: 'true');
   } else {
@@ -80,7 +85,7 @@ Future<void> main() async {
 
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
-      AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
 
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
@@ -148,6 +153,7 @@ class _MyAppState extends State<MyApp> {
   late String appVersion;
   bool update = true;
   String link = "";
+  String? _deviceId;
 
   @override
   void initState() {
@@ -173,9 +179,9 @@ class _MyAppState extends State<MyApp> {
     getAppVersion();
 
     FirebaseMessaging.instance.getToken().then(
-          (token) {
+      (token) {
         setState(
-              () {
+          () {
             _fcmToken = token!;
           },
         );
@@ -184,7 +190,7 @@ class _MyAppState extends State<MyApp> {
     );
 
     FirebaseMessaging.onMessage.listen(
-          (RemoteMessage message) {
+      (RemoteMessage message) {
         print('onMessage received: $message');
         //showNotification();
         RemoteNotification? notification = message.notification;
@@ -212,7 +218,7 @@ class _MyAppState extends State<MyApp> {
     );
 
     FirebaseMessaging.onMessageOpenedApp.listen(
-          (RemoteMessage message) {
+      (RemoteMessage message) {
         print('A new onMessageOpenedApp event was published!');
         RemoteNotification? notification = message.notification;
         AndroidNotification? android = message.notification?.android;
@@ -302,9 +308,9 @@ class _MyAppState extends State<MyApp> {
             ),
             routes: {
               '/otpVerification': (context) => const OtpVerification(
-                mobileNumber: '',
-                otp: '',
-              ),
+                    mobileNumber: '',
+                    otp: '',
+                  ),
             },
             initialBinding: BindingsBuilder(() {
               Get.put(
@@ -355,16 +361,18 @@ class _MyAppState extends State<MyApp> {
                 ),
               );
             }),
-            home: screens(prefs, update, link),
-            // home: NewProfileScreen(mobileNumber: "7010565083"),
-            // home: isOpenLap() != 'true'
-            //     ? screens(prefs, update, link)
-            //     : const Scaffold(
-            //   backgroundColor: Colors.white,
-            //   body: Center(
-            //     child: Text("This website is for mobile only"),
-            //   ),
-            // ),
+            // home: screens(prefs, update, link),
+            // ca65ae48b1a00e20e4d2c81cc87f50de
+            // b7512f3a7251c50a1737b614cf78d929
+            // home: LoginMobile(),
+            home: isOpenLap() != 'true'
+                ? screens(prefs, update, link)
+                : const Scaffold(
+                    backgroundColor: Colors.white,
+                    body: Center(
+                      child: Text("This website is for mobile only"),
+                    ),
+                  ),
           );
         } else {
           return const CircularProgressIndicator();

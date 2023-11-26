@@ -30,11 +30,14 @@ class _MyOfferState extends State<MyOffer> {
   late SharedPreferences prefs;
   // String offer_image = '';
   final PCC c = Get.find<PCC>();
+  List<String> DeviceID = [];
+  String deviceID = '';
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    readData();
     initializeData();
   }
 
@@ -47,8 +50,47 @@ class _MyOfferState extends State<MyOffer> {
     //   //ads_status("status");
     // });
     prefs = await SharedPreferences.getInstance();
+    deviceID = prefs.getString(Constant.MY_DEVICE_ID)!;
     c.offerAPI(prefs.getString(Constant.ID)!);
     setState(() {});
+    // DeviceID.add(deviceID);
+    // prefs.setStringList("DeviceIDList", DeviceID);
+    // areLastTwoIdsEqual();
+    // bool lastTwoIdsEqual = areLastTwoIdsEqual();
+    // Get.snackbar("Equal", lastTwoIdsEqual == true ? 'Last Device ID is Equal' : 'Last Device ID is Not Equal',colorText: Colors.blue,backgroundColor: Colors.white);
+  }
+
+  bool areLastTwoIdsEqual() {
+    late bool isTrue;
+
+    // Retrieve the last two elements of the list
+    String lastId = DeviceID[DeviceID.length - 1];
+    String secondLastId = DeviceID[DeviceID.length - 2];
+
+    if (lastId == secondLastId) {
+      isTrue = true;
+      debugPrint("Equal");
+    }else{
+      isTrue = false;
+      debugPrint("Not Equal");
+    }
+
+    // Compare the last two elements
+    return isTrue;
+  }
+
+  void readData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Retrieve the list of device IDs
+    List<String>? storedDeviceIDs = prefs.getStringList("DeviceIDList");
+    debugPrint("storedDeviceIDs: $storedDeviceIDs");
+
+    if (storedDeviceIDs != null) {
+      setState(() {
+        DeviceID = storedDeviceIDs;
+      });
+    }
   }
 
   @override
@@ -108,8 +150,26 @@ class _MyOfferState extends State<MyOffer> {
           //     ),
           //   ),
           // ),
+          // child: ListView.builder(
+          //   itemCount: DeviceID.length,
+          //     itemBuilder: (context, index){
+          //       return Container(
+          //         color: Colors.white,
+          //         margin: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+          //         padding: const EdgeInsets.all(10),
+          //         child: Text(
+          //             DeviceID[index],
+          //           style: const TextStyle(
+          //             color: Colors.black,
+          //             fontSize: 16,
+          //           ),
+          //         ),
+          //       );
+          //     }
+          // ),
         ),
       ),
     );
   }
 }
+

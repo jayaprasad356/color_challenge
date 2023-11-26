@@ -281,7 +281,7 @@ class HomeState extends State<Home> {
                     // const SizedBox(
                     //   height: 20,
                     // ),
-                    buildIndicator(),
+                    // buildIndicator(),
                     const SizedBox(
                       height: 20,
                     ),

@@ -140,7 +140,7 @@ class _MyProfileState extends State<MyProfile> {
                               MaterialButton(
                                 onPressed: () {
                                   Share.share(referText +
-                                      "\n Use my Refer Code and install this app https://play.google.com/store/apps/details?id=com.app.colorchallenge");
+                                      "\n Use my Refer Code and install this app ${Constant.A1AdsWebUrl}");
                                 },
                                 color: colors.primary_color,
                                 shape: const RoundedRectangleBorder(

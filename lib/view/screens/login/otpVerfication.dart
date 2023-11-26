@@ -50,6 +50,7 @@ class _OtpVerificationState extends State<OtpVerification> {
   String otpSuccessMsg="OTP send Successfully";
   Map<String, dynamic> _deviceData = <String, dynamic>{};
   String device_id = "";
+  late String platformType;
 
   _OtpVerificationState(String mobileNumber,String otp) {
     _mobileNumber = mobileNumber;
@@ -74,6 +75,11 @@ class _OtpVerificationState extends State<OtpVerification> {
     setState(() async {
       isWeb = (await storeLocal.read(key: Constant.IS_WEB))!;
       debugPrint("isWeb: $isWeb");
+      if (isWeb == 'true') {
+        platformType = 'web';
+      } else if (isWeb == 'true') {
+        platformType = 'app';
+      }
     });
   }
 
@@ -166,6 +172,8 @@ class _OtpVerificationState extends State<OtpVerification> {
                     // var device_id = prefs.getString(Constant.MY_DEVICE_ID).toString();
                     // 5a73c3ef053ebaf8284eb0c980c5b0dc
                     // 5a73c3ef053ebaf8284eb0c980c5b0dc
+                    // 5a73c3ef053ebaf8284eb0c980c5b0dc
+                    // 5a73c3ef053ebaf8284eb0c980c5b0dc
                     setState(() {
                       device_id = prefs.getString(Constant.MY_DEVICE_ID).toString();
                     });
@@ -173,6 +181,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                     Map<String, dynamic> bodyObject = {
                       Constant.MOBILE: _mobileNumber,
                       Constant.DEVICE_ID: device_id,
+                      Constant.PLATFORM_TYPE: platformType,
                     };
                     debugPrint("===> bodyObject: $bodyObject");
                     String jsonString = await apiCall(url, bodyObject);
@@ -187,6 +196,8 @@ class _OtpVerificationState extends State<OtpVerification> {
                       final Map<String, dynamic> responseJson = jsonDecode(jsonString);
                       final dataList = responseJson['data'] as List;
                       final Users user = Users.fromJsonNew(dataList.first);
+                      debugPrint("===> user: $user");
+                      debugPrint("===> platformType: ${user.platform_type}");
                       prefs.setString(Constant.LOGED_IN, "true");
                       prefs.setString(Constant.ID, Constant.handleNullableString(user.id));
                       prefs.setString(Constant.MOBILE, Constant.handleNullableString(user.mobile));
@@ -250,7 +261,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                   ),
                 ),
               ),
-              Text(device_id!,style: TextStyle(color: Colors.white),),
+              // Text(device_id!,style: TextStyle(color: Colors.white),),
             ],
           ),
         ),

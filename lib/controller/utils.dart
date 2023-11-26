@@ -1,5 +1,6 @@
 import 'package:a1_ads/util/Constant.dart';
 import 'package:device_info/device_info.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,12 +11,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
+// import 'dart:html' as html;
+import 'dart:io' show Platform;
+import 'package:flutter/material.dart';
+import 'dart:async';
+
+import 'package:flutter/services.dart';
 
 final googleSignIn = GoogleSignIn();
 
 class Utils extends GetxController {
   final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
   late SharedPreferences prefs;
+  String? _deviceId;
 
   showToast(String msg) {
     Fluttertoast.showToast(
@@ -32,19 +40,9 @@ class Utils extends GetxController {
   Future<String> deviceInfo() async {
     late String deviceId;
 
-    if (kIsWeb) {
-      final userData = {
-        'userAgent': 'Web user agent data',
-        'language': 'Web language data',
-        'platform': 'Web platform data',
-      };
-      final encodedData = json.encode(userData);
-      final uniqueId = _generateMD5Hash(encodedData);
-      deviceId = uniqueId;
-    } else {
+
       AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
       deviceId = androidInfo.androidId;
-    }
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setString(Constant.MY_DEVICE_ID, deviceId);
@@ -52,6 +50,22 @@ class Utils extends GetxController {
     return deviceId;
   }
 
+  // Future<String> deviceInfo() async {
+  //   late String deviceId;
+  //
+  //   if (kIsWeb) {
+  //     deviceId = generateWebUniqueId();
+  //   } else {
+  //     AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
+  //     deviceId = androidInfo.androidId;
+  //   }
+  //
+  //   final prefs = await SharedPreferences.getInstance();
+  //   prefs.setString(Constant.MY_DEVICE_ID, deviceId);
+  //
+  //   return deviceId;
+  // }
+  //
   // String generateWebUniqueId() {
   //   final userData = {
   //     'userAgent': html.window.navigator.userAgent,
@@ -62,12 +76,12 @@ class Utils extends GetxController {
   //   final uniqueId = _generateMD5Hash(encodedData);
   //   return uniqueId;
   // }
-
-  String _generateMD5Hash(String input) {
-    final bytes = utf8.encode(input);
-    final digest = md5.convert(bytes);
-    return digest.toString();
-  }
+  //
+  // String _generateMD5Hash(String input) {
+  //   final bytes = utf8.encode(input);
+  //   final digest = md5.convert(bytes);
+  //   return digest.toString();
+  // }
 
   void logout() async {
     SystemNavigator.pop();

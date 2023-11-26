@@ -5,6 +5,7 @@ const FlutterSecureStorage storeLocal = FlutterSecureStorage();
 
 class Constant {
   static const String MainBaseUrl = "https://admin.colorjobs.site/";
+  static const String A1AdsWebUrl = "https://a1-ads-web.web.app";
   //static const String MainBaseUrl = "http://192.168.35.38/color_challenge_admin/";
   //static const String MainBaseUrl = "https://demo.colorjobs.site/";
   static const String BaseUrl = "${MainBaseUrl}api/";
@@ -101,6 +102,7 @@ class Constant {
   static const String CITY = "city";
   static const String SUPPORT_LAN = "support_lan";
   static const String DEVICE_ID = "device_id";
+  static const String PLATFORM_TYPE = "platform_type";
   static const String SYNC_ABLE = "sync_able";
   static const String IS_WEB = "is_web";
 
