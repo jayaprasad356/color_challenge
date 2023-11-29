@@ -1,5 +1,5 @@
 name: a1_ads
-description: A new Flutter project.
+description: A1 Ads Website.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -76,6 +76,7 @@ dependencies:
   slide_action: ^0.0.2
   cached_network_image: ^3.3.0
   crypto: ^3.0.3
+  platform_device_id: ^1.0.1
 
 
 dev_dependencies:

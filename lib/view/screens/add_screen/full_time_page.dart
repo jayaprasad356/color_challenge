@@ -48,6 +48,7 @@ class FullTimePageState extends State<FullTimePage> {
   String generate_coin = "0";
   bool _isLoading = true;
   String balance = "0";
+  String storeBalance = "0";
   String ads_cost = "0";
   bool timerStarted = false;
   bool isTrial = true, isPremium = false;
@@ -80,7 +81,11 @@ class FullTimePageState extends State<FullTimePage> {
   late String isWeb;
   late String platformType;
   bool isButtonEnabled = true; // Initially, the button is enabled.
+  bool skipAdButton = true; // Initially, the button is enabled.
   Timer? buttonTimer;
+  int countdown = 5;
+  late Timer timer;
+  late Timer timerWatchAd;
 
   @override
   void initState() {
@@ -104,6 +109,7 @@ class FullTimePageState extends State<FullTimePage> {
       ads_cost = prefs.getString(Constant.ADS_COST)!;
       referText = prefs.getString(Constant.REFER_CODE)!;
       reward_ads = prefs.getString(Constant.REWARD_ADS)!;
+      storeBalance = prefs.getString(Constant.STORE_BALANCE)!;
       debugPrint("ads_time : $ads_time");
       // setState(() {
       //   ads_time = prefs.getString(Constant.ADS_TIME)!;
@@ -119,10 +125,34 @@ class FullTimePageState extends State<FullTimePage> {
     });
 
     loadTimerCount();
+    // skipAdTimer();
 
     // progressPercentageTwo = double.parse(reward_ads);
     // debugPrint("progressPercentageTwo : $progressPercentageTwo");
   }
+
+  void skipAdTimer() {
+    setState(() {skipAdButton = true;});
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        if (countdown > 0) {
+          countdown--;
+        } else {
+          timer.cancel();
+          skipAdButton = false;
+          // Implement code to navigate or perform an action after skipping ad
+          print('Ad skipped!');
+        }
+      });
+    });
+    setState(() {countdown = 5;});
+  }
+
+  // @override
+  // void dispose() {
+  //   timer.cancel(); // Cancel the timer to avoid memory leaks
+  //   super.dispose();
+  // }
 
   void handleAsyncInit() async {
     setState(() async {
@@ -183,7 +213,7 @@ class FullTimePageState extends State<FullTimePage> {
     // Example: Countdown from 100 to 0 with a 1-second interval
     const oneSec = Duration(seconds: 1);
     int adsTimeInSeconds = int.parse(ads_time);
-    Timer.periodic(oneSec, (Timer timer) {
+    timerWatchAd = Timer.periodic(oneSec, (Timer timer) {
       if (starttime >= adsTimeInSeconds) {
         timer.cancel();
         setState(() {
@@ -192,6 +222,7 @@ class FullTimePageState extends State<FullTimePage> {
           progressPercentage;
         });
         adsCount++;
+        skipAdButton = true;
         print('timerCount called $adsCount times.');
         multiplyCostValue = adsCount * double.parse(ads_cost);
         setState(() {
@@ -430,8 +461,8 @@ class FullTimePageState extends State<FullTimePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CircularPercentIndicator(
-                          radius: 35.0,
-                          lineWidth: 10.0,
+                          radius: 40.0,
+                          lineWidth: 13.0,
                           animation: true,
                           backgroundColor: Colors.grey.shade400,
                           percent: progressPercentage.clamp(0.0, 1.0),
@@ -487,6 +518,8 @@ class FullTimePageState extends State<FullTimePage> {
                                               .getString(Constant.TOTAL_ADS)!;
                                           ads_cost = prefs
                                               .getString(Constant.ADS_COST)!;
+                                          storeBalance = prefs
+                                              .getString(Constant.STORE_BALANCE)!;
                                         });
                                       } else {}
                                     },
@@ -505,7 +538,7 @@ class FullTimePageState extends State<FullTimePage> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 15, vertical: 10),
                                 margin:
-                                    const EdgeInsets.symmetric(vertical: 10),
+                                    const EdgeInsets.only(top: 20),
                                 child: Text(
                                   "Sync Now",
                                   style: TextStyle(
@@ -526,6 +559,7 @@ class FullTimePageState extends State<FullTimePage> {
                           width: 20,
                         ),
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
                               decoration: BoxDecoration(
@@ -539,37 +573,73 @@ class FullTimePageState extends State<FullTimePage> {
                                 horizontal: 15,
                                 vertical: 10,
                               ),
-                              child: Column(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  const Text(
-                                    "Main Balance",
-                                    style: TextStyle(
-                                        fontFamily: 'MontserratLight',
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.white,
-                                        fontSize: 15.0),
+                                  Column(
+                                    children: [
+                                      const Text(
+                                        "Store Balance",
+                                        style: TextStyle(
+                                            fontFamily: 'MontserratLight',
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white,
+                                            fontSize: 13.0),
+                                      ),
+                                      const SizedBox(
+                                        height: 3,
+                                      ),
+                                      Text(
+                                        "$storeBalance + $multiplyCostValue",
+                                        style: const TextStyle(
+                                            fontFamily: 'MontserratBold',
+                                            color: Colors.white,
+                                            fontSize: 15.0),
+                                      ),
+                                      // Obx(() => Text(
+                                      //   "$balance + $multiplyCostValue",
+                                      //   // "${fullTimePageCont.balance} + $multiplyCostValue",
+                                      //   style: const TextStyle(
+                                      //       fontFamily: 'MontserratBold',
+                                      //       color: Colors.white,
+                                      //       fontSize: 15.0),
+                                      // ),),
+                                    ],
                                   ),
                                   const SizedBox(
-                                    height: 5,
+                                    width: 10,
                                   ),
-                                  Text(
-                                    "$balance + $multiplyCostValue",
-                                    style: const TextStyle(
-                                        fontFamily: 'MontserratBold',
-                                        color: Colors.white,
-                                        fontSize: 15.0),
+                                  InkWell(
+                                    onTap: (){
+                                      String uri =
+                                          Constant.PurchaseWebUrl;
+                                      launchUrl(
+                                        Uri.parse(uri),
+                                        mode: LaunchMode.inAppWebView,
+                                      );
+                                    },
+                                    child: Container(
+                                      height: 30,
+                                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10000),
+                                        color: colors.widget_color,
+                                      ),
+                                      alignment: Alignment.center,
+                                      child: const Text(
+                                        'Purchase',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 10,
+                                            color: Colors.white
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                  // Obx(() => Text(
-                                  //   "$balance + $multiplyCostValue",
-                                  //   // "${fullTimePageCont.balance} + $multiplyCostValue",
-                                  //   style: const TextStyle(
-                                  //       fontFamily: 'MontserratBold',
-                                  //       color: Colors.white,
-                                  //       fontSize: 15.0),
-                                  // ),),
                                 ],
                               ),
-                            ),const SizedBox(
+                            ),
+                            const SizedBox(
                               height: 10,
                             ),
                             Row(
@@ -583,10 +653,10 @@ class FullTimePageState extends State<FullTimePage> {
                                           fontFamily: 'MontserratLight',
                                           fontWeight: FontWeight.w500,
                                           color: Colors.white,
-                                          fontSize: 15.0),
+                                          fontSize: 13.0),
                                     ),
                                     SizedBox(
-                                      height: 5,
+                                      height: 4,
                                     ),
                                     Text(
                                       "Total Ads",
@@ -594,7 +664,18 @@ class FullTimePageState extends State<FullTimePage> {
                                           fontFamily: 'MontserratLight',
                                           fontWeight: FontWeight.w500,
                                           color: Colors.white,
-                                          fontSize: 15.0),
+                                          fontSize: 13.0),
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
+                                    Text(
+                                      "Balance",
+                                      style: TextStyle(
+                                        fontFamily: 'MontserratLight',
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white,
+                                        fontSize: 13.0,),
                                     ),
                                   ],
                                 ),
@@ -609,7 +690,7 @@ class FullTimePageState extends State<FullTimePage> {
                                       style: const TextStyle(
                                           fontFamily: 'MontserratBold',
                                           color: Colors.white,
-                                          fontSize: 15.0),
+                                          fontSize: 13.0),
                                     ),
                                     // Obx(() => Text(
                                     //   "$today_ads + ${adsCount.toString()}",
@@ -620,7 +701,7 @@ class FullTimePageState extends State<FullTimePage> {
                                     //       fontSize: 15.0),
                                     // ),),
                                     const SizedBox(
-                                      height: 5,
+                                      height: 4,
                                     ),
                                     Text(
                                       "$total_ads + ${adsCount.toString()}",
@@ -628,8 +709,17 @@ class FullTimePageState extends State<FullTimePage> {
                                       style: const TextStyle(
                                           fontFamily: 'MontserratBold',
                                           color: Colors.white,
-                                          fontSize: 15.0),
+                                          fontSize: 13.0),
                                     ),
+                                    const SizedBox(
+                                      height: 4,
+                                    ),
+                                    Text(
+                                      "$balance + $multiplyCostValue",
+                                      style: const TextStyle(
+                                          fontFamily: 'MontserratBold',
+                                          color: Colors.white,
+                                          fontSize: 13.0),),
                                     // Obx(() => Text(
                                     //   "$total_ads + ${adsCount.toString()}",
                                     //   // "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
@@ -781,6 +871,36 @@ class FullTimePageState extends State<FullTimePage> {
                     ),
                   ),
                   const SizedBox(height: 10),
+                  Container(
+                    margin: const EdgeInsets.only(right: 30),
+                    alignment: Alignment.topRight,
+                    child: InkWell(
+                      onTap: skipAdButton == false ? () {
+                        timerWatchAd.cancel();
+                        watchAds();
+                        skipAdTimer();
+                        print('Ad skipped manually!');
+                      } : () {},
+                      child: Container(
+                          height: 30,
+                          width: 80,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(1000),
+                              color: skipAdButton == false ? Colors.deepPurpleAccent : Colors.purple[50],),
+                          child: countdown == 0 ? Text(
+                            'Skip Ad',
+                            style: TextStyle(
+                              fontSize: 12, color: skipAdButton == false ? Colors.white
+                                : Colors.grey[500],fontWeight: FontWeight.bold,),
+                          ): Text(
+                            'Skip Ad ($countdown)',
+                            style: TextStyle(
+                                fontSize: 12, color: skipAdButton == false ? Colors.white
+                                : Colors.grey[500],fontWeight: FontWeight.bold,),
+                          )),
+                    ),
+                  ),
                   Image.network(
                     ads_image,
                     fit: BoxFit.contain,
@@ -843,8 +963,8 @@ class FullTimePageState extends State<FullTimePage> {
                                 generatedOtp = fullTimePageCont
                                     .generateRandomFourDigitNumber()
                                     .toString();
-                                // showAlertDialog(context);
-                                showAlertDialog(context, generatedOtp);
+                                showAlertDialog(context);
+                                // showAlertDialog(context, generatedOtp);
                                 debugPrint("isButtonEnabled is false");
                                 setState(() {
                                   isButtonEnabled = false;
@@ -954,150 +1074,82 @@ class FullTimePageState extends State<FullTimePage> {
     }
   }
 
-  // showAlertDialog(
-  //   BuildContext context,
-  //   // String generatedOtp,
-  // ) {
-  //   Size size = MediaQuery.of(context).size;
-  //
-  //   AlertDialog alert = AlertDialog(
-  //     shape: const RoundedRectangleBorder(
-  //         borderRadius: BorderRadius.all(Radius.circular(16))),
-  //     contentPadding: const EdgeInsets.all(20),
-  //     content: GestureDetector(
-  //       behavior: HitTestBehavior.opaque,
-  //       onTap: () {
-  //         // Handle the tap, or do nothing to prevent dismissal
-  //       },
-  //       child: Container(
-  //         height: size.height * 0.1,
-  //         decoration: const BoxDecoration(),
-  //         alignment: Alignment.center,
-  //         child: SlideAction(
-  //           trackBuilder: (context, state) {
-  //             return Container(
-  //               decoration: BoxDecoration(
-  //                 borderRadius: BorderRadius.circular(16),
-  //                 color: Colors.white,
-  //                 boxShadow: const [
-  //                   BoxShadow(
-  //                     color: Colors.black26,
-  //                     blurRadius: 8,
-  //                   ),
-  //                 ],
-  //               ),
-  //               child: Center(
-  //                 child: Text(
-  //                   state.isPerformingAction ? "Loading..." : "Go To ADS",
-  //                   style: const TextStyle(
-  //                       color: colors.black,
-  //                       fontSize: 14,
-  //                       fontFamily: "Montserrat",
-  //                       fontWeight: FontWeight.bold),
-  //                 ),
-  //               ),
-  //             );
-  //           },
-  //           thumbBuilder: (context, state) {
-  //             return Container(
-  //               margin: const EdgeInsets.all(4),
-  //               decoration: BoxDecoration(
-  //                 color: Colors.orange,
-  //                 borderRadius: BorderRadius.circular(16),
-  //               ),
-  //               child: Center(
-  //                 child: state.isPerformingAction
-  //                     ? const CupertinoActivityIndicator(
-  //                         color: Colors.white,
-  //                       )
-  //                     : const Icon(
-  //                         Icons.chevron_right,
-  //                         color: Colors.white,
-  //                       ),
-  //               ),
-  //             );
-  //           },
-  //           action: () async {
-  //             await Future.delayed(
-  //               const Duration(seconds: 3),
-  //               () {
-  //                 debugPrint("action completed");
-  //                 watchAds();
-  //                 Navigator.of(context).pop();
-  //               },
-  //             );
-  //           },
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  //
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return WillPopScope(
-  //           onWillPop: () async => false,child: alert);
-  //     },
-  //   );
-  // }
-
   showAlertDialog(
     BuildContext context,
-    String generatedOtp,
+    // String generatedOtp,
   ) {
     Size size = MediaQuery.of(context).size;
 
     AlertDialog alert = AlertDialog(
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10))),
+          borderRadius: BorderRadius.all(Radius.circular(16))),
       contentPadding: const EdgeInsets.all(20),
-      content: Container(
-        height: size.height * 0.25,
-        decoration: const BoxDecoration(),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: size.width * 0.5,
-                  child: Text(
-                    generatedOtp,
-                    style: const TextStyle(
-                      fontFamily: 'MontserratBold',
-                      fontSize: 14,
-                      color: Colors.black,
+      content: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          // Handle the tap, or do nothing to prevent dismissal
+        },
+        child: Container(
+          height: size.height * 0.1,
+          decoration: const BoxDecoration(),
+          alignment: Alignment.center,
+          child: SlideAction(
+            trackBuilder: (context, state) {
+              return Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: Colors.white,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 8,
                     ),
+                  ],
+                ),
+                child: Center(
+                  child: Text(
+                    state.isPerformingAction ? "Loading..." : "Go To ADS",
+                    style: const TextStyle(
+                        color: colors.black,
+                        fontSize: 14,
+                        fontFamily: "Montserrat",
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
-                // InkWell(
-                //   onTap: () => Navigator.of(context).pop(),
-                //   child: Transform.rotate(
-                //     angle: 45 * (3.1415926535 / 180),
-                //     child: const Icon(
-                //       Icons.add,
-                //       // Adjust other properties as needed
-                //       size: 24.0,
-                //       color: Colors.black,
-                //     ),
-                //   ),
-                // )
-              ],
-            ),
-            OtpInputField(
-              generatedOtp: generatedOtp,
-              onPress: (enteredOtp) {
-                if (enteredOtp == generatedOtp) {
-                  print('OTP Matched');
+              );
+            },
+            thumbBuilder: (context, state) {
+              return Container(
+                margin: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  color: Colors.orange,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Center(
+                  child: state.isPerformingAction
+                      ? const CupertinoActivityIndicator(
+                          color: Colors.white,
+                        )
+                      : const Icon(
+                          Icons.chevron_right,
+                          color: Colors.white,
+                        ),
+                ),
+              );
+            },
+            action: () async {
+              await Future.delayed(
+                const Duration(seconds: 3),
+                () {
+                  debugPrint("action completed");
+                  skipAdTimer();
+                  setState(() {countdown = 5;});
                   watchAds();
-                } else {
-                  print('OTP Mismatch');
-                }
-                print('Entered OTP: $enteredOtp');
-              },
-            ),
-          ],
+                  Navigator.of(context).pop();
+                },
+              );
+            },
+          ),
         ),
       ),
     );
@@ -1109,6 +1161,75 @@ class FullTimePageState extends State<FullTimePage> {
       },
     );
   }
+
+  // showAlertDialog(
+  //   BuildContext context,
+  //   String generatedOtp,
+  // ) {
+  //   Size size = MediaQuery.of(context).size;
+  //
+  //   AlertDialog alert = AlertDialog(
+  //     shape: const RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.all(Radius.circular(10))),
+  //     contentPadding: const EdgeInsets.all(20),
+  //     content: Container(
+  //       height: size.height * 0.25,
+  //       decoration: const BoxDecoration(),
+  //       child: Column(
+  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //         children: [
+  //           Row(
+  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //             children: [
+  //               SizedBox(
+  //                 width: size.width * 0.5,
+  //                 child: Text(
+  //                   generatedOtp,
+  //                   style: const TextStyle(
+  //                     fontFamily: 'MontserratBold',
+  //                     fontSize: 14,
+  //                     color: Colors.black,
+  //                   ),
+  //                 ),
+  //               ),
+  //               // InkWell(
+  //               //   onTap: () => Navigator.of(context).pop(),
+  //               //   child: Transform.rotate(
+  //               //     angle: 45 * (3.1415926535 / 180),
+  //               //     child: const Icon(
+  //               //       Icons.add,
+  //               //       // Adjust other properties as needed
+  //               //       size: 24.0,
+  //               //       color: Colors.black,
+  //               //     ),
+  //               //   ),
+  //               // )
+  //             ],
+  //           ),
+  //           OtpInputField(
+  //             generatedOtp: generatedOtp,
+  //             onPress: (enteredOtp) {
+  //               if (enteredOtp == generatedOtp) {
+  //                 print('OTP Matched');
+  //                 watchAds();
+  //               } else {
+  //                 print('OTP Mismatch');
+  //               }
+  //               print('Entered OTP: $enteredOtp');
+  //             },
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  //
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return WillPopScope(onWillPop: () async => false, child: alert);
+  //     },
+  //   );
+  // }
 }
 
 class OtpInputField extends StatefulWidget {

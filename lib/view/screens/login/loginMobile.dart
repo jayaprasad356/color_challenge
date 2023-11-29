@@ -209,7 +209,7 @@ class _LoginMobileState extends State<LoginMobile> {
                         String text = 'Hello I need help in app';
                         String encodedText = Uri.encodeFull(text);
                         String uri =
-                            'https://tawk.to/chat/65380c2da84dd54dc484c3e7/1hdhev5kg';
+                            Constant.A1AdsHelpWebUrl;
                         launchUrl(
                           Uri.parse(uri),
                           mode: LaunchMode.inAppWebView,
@@ -287,7 +287,7 @@ class _LoginMobileState extends State<LoginMobile> {
                         String text = 'Hello I need help in app';
                         String encodedText = Uri.encodeFull(text);
                         String uri =
-                            'https://tawk.to/chat/65380c2da84dd54dc484c3e7/1hdhev5kg';
+                            Constant.A1AdsHelpWebUrl;
                         launchUrl(
                           Uri.parse(uri),
                           mode: LaunchMode.inAppWebView,

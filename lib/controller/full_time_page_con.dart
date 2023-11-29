@@ -20,6 +20,7 @@ class FullTimePageCont extends GetxController implements GetxService {
   String ads_cost = "";
   String ads_time = "";
   String reward_ads = "";
+  String storeBalance = "";
   // String balance = "";
   // RxString ads_cost = "0.00".obs;
 
@@ -63,6 +64,7 @@ class FullTimePageCont extends GetxController implements GetxService {
         ads_cost = syncDataList.data![0].adsCost!;
         ads_time = syncDataList.data![0].adsTime!;
         reward_ads = syncDataList.data![0].rewardAds!;
+        storeBalance = syncDataList.data![0].storeBalance!;
         // balance = syncDataList.data![0].balance!;
         // ads_cost.value = syncDataList.data![0].adsCost!;
         prefs.remove(Constant.TODAY_ADS);
@@ -71,6 +73,7 @@ class FullTimePageCont extends GetxController implements GetxService {
         prefs.remove(Constant.ADS_COST);
         prefs.remove(Constant.ADS_TIME);
         prefs.remove(Constant.REWARD_ADS);
+        prefs.remove(Constant.STORE_BALANCE);
 
         prefs.setString(Constant.TODAY_ADS, todayAds);
         prefs.setString(Constant.TOTAL_ADS, totalAds);
@@ -78,6 +81,7 @@ class FullTimePageCont extends GetxController implements GetxService {
         prefs.setString(Constant.ADS_COST, ads_cost);
         prefs.setString(Constant.ADS_TIME, ads_time);
         prefs.setString(Constant.REWARD_ADS, reward_ads);
+        prefs.setString(Constant.STORE_BALANCE, storeBalance);
       }
 
       // prefs.setString(Constant.MOBILE, user.mobile);

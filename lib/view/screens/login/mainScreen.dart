@@ -205,7 +205,7 @@ class _MainScreenState extends State<MainScreen> {
           title = "A1 Plan";
         } else {
           title = "A2 Plan";
-        };
+        }
         // title = "ADS";
         _actionsVisible = false;
         _logoutVisible = false;
@@ -325,7 +325,7 @@ class _MainScreenState extends State<MainScreen> {
                         String text = 'Hello I need help in app';
                         String encodedText = Uri.encodeFull(text);
                         String uri =
-                            'https://tawk.to/chat/65380c2da84dd54dc484c3e7/1hdhev5kg';
+                            Constant.A1AdsHelpWebUrl;
                         launchUrl(
                           Uri.parse(uri),
                           mode: LaunchMode.inAppWebView,

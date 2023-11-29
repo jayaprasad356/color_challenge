@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:a1_ads/controller/home_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:a1_ads/Helper/apiCall.dart';
 import 'package:a1_ads/model/slider_data.dart';
@@ -26,6 +27,7 @@ class ADsScreen extends StatefulWidget {
 }
 
 class ADsScreenState extends State<ADsScreen> {
+  final HomeController homeController = Get.find<HomeController>();
   late SharedPreferences prefs;
   double starttime = 0; // Set the progress value between 0.0 and 1.0 here
   String today_ads_remain = "0";
@@ -69,6 +71,7 @@ class ADsScreenState extends State<ADsScreen> {
       basic_wallet = prefs.getString(Constant.BASIC_WALLET)!;
       premium_wallet = prefs.getString(Constant.PREMIUM_WALLET)!;
       status = prefs.getString(Constant.STATUS)!;
+      // refer_bonus = prefs.getString(Constant.REFER_BONUS)!;
 
       adsApi();
       //ads_status("status");
@@ -80,7 +83,7 @@ class ADsScreenState extends State<ADsScreen> {
         image = prefs.getString(Constant.IMAGE).toString();
         offer_image = prefs.getString(Constant.OFFER_IMAGE).toString();
         referText = prefs.getString(Constant.REFER_CODE)!;
-        refer_bonus = prefs.getString(Constant.REFER_BONUS)!;
+        // refer_bonus = homeController.referBonus.toString();
       });
     });
   }
@@ -208,13 +211,15 @@ class ADsScreenState extends State<ADsScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                Text(
-                                  "Refer friend and earn ₹$refer_bonus",
-                                  style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: "Montserrat"),
+                                Obx(
+                                () => Text(
+                                    "Refer friend and earn ₹${homeController.referBonus.toString()}",
+                                    style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "Montserrat"),
+                                  ),
                                 ),
                                 const SizedBox(height: 10.0),
                                 Row(
@@ -259,7 +264,7 @@ class ADsScreenState extends State<ADsScreen> {
                                     const SizedBox(width: 12.0),
                                     MaterialButton(
                                       onPressed: () {
-                                        Share.share(referText + "\n Use my Refer Code and install this app https://play.google.com/store/apps/details?id=com.app.colorchallenge");
+                                        Share.share("$referText\nUse my Refer Code and Login to our website ${Constant.A1AdsWebUrl}");
                                       },
                                       color: colors.primary_color,
                                       shape: const RoundedRectangleBorder(

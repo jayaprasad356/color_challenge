@@ -1,6 +1,6 @@
 # color_challenge
 
-A new Flutter project.
+A1 Ads Website.
 
 ## Getting Started
 

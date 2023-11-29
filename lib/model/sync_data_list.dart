@@ -37,11 +37,13 @@ class Data {
   String? totalReferrals;
   String? earn;
   String? balance;
+  String? storeBalance;
   String? deviceId;
   String? referredBy;
   String? referCode;
   String? withdrawalStatus;
   String? status;
+  String? blocked;
   String? joinedDate;
   String? fcmId;
   String? lastUpdated;
@@ -81,6 +83,18 @@ class Data {
   String? oldPlan;
   String? oldPb;
   String? rewardAds;
+  String? lastTodayAds;
+  String? tSyncTime;
+  String? tSync;
+  String? description;
+  String? ads10thDay;
+  String? performance;
+  String? projectType;
+  String? platformType;
+  String? missedDays;
+  String? orderId;
+  String? paymentVerified;
+  String? lastMissedDays;
 
   Data(
       {this.id,
@@ -92,11 +106,13 @@ class Data {
         this.totalReferrals,
         this.earn,
         this.balance,
+        this.storeBalance,
         this.deviceId,
         this.referredBy,
         this.referCode,
         this.withdrawalStatus,
         this.status,
+        this.blocked,
         this.joinedDate,
         this.fcmId,
         this.lastUpdated,
@@ -135,7 +151,19 @@ class Data {
         this.adsTime,
         this.oldPlan,
         this.oldPb,
-        this.rewardAds});
+        this.rewardAds,
+        this.lastTodayAds,
+        this.tSyncTime,
+        this.tSync,
+        this.description,
+        this.ads10thDay,
+        this.performance,
+        this.projectType,
+        this.platformType,
+        this.missedDays,
+        this.orderId,
+        this.paymentVerified,
+        this.lastMissedDays});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -147,11 +175,13 @@ class Data {
     totalReferrals = json['total_referrals'];
     earn = json['earn'];
     balance = json['balance'];
+    storeBalance = json['store_balance'];
     deviceId = json['device_id'];
     referredBy = json['referred_by'];
     referCode = json['refer_code'];
     withdrawalStatus = json['withdrawal_status'];
     status = json['status'];
+    blocked = json['blocked'];
     joinedDate = json['joined_date'];
     fcmId = json['fcm_id'];
     lastUpdated = json['last_updated'];
@@ -191,6 +221,18 @@ class Data {
     oldPlan = json['old_plan'];
     oldPb = json['old_pb'];
     rewardAds = json['reward_ads'];
+    lastTodayAds = json['last_today_ads'];
+    tSyncTime = json['t_sync_time'];
+    tSync = json['t_sync'];
+    description = json['description'];
+    ads10thDay = json['ads_10th_day'];
+    performance = json['performance'];
+    projectType = json['project_type'];
+    platformType = json['platform_type'];
+    missedDays = json['missed_days'];
+    orderId = json['order_id'];
+    paymentVerified = json['payment_verified'];
+    lastMissedDays = json['last_missed_days'];
   }
 
   Map<String, dynamic> toJson() {
@@ -204,11 +246,13 @@ class Data {
     data['total_referrals'] = totalReferrals;
     data['earn'] = earn;
     data['balance'] = balance;
+    data['store_balance'] = storeBalance;
     data['device_id'] = deviceId;
     data['referred_by'] = referredBy;
     data['refer_code'] = referCode;
     data['withdrawal_status'] = withdrawalStatus;
     data['status'] = status;
+    data['blocked'] = blocked;
     data['joined_date'] = joinedDate;
     data['fcm_id'] = fcmId;
     data['last_updated'] = lastUpdated;
@@ -248,6 +292,18 @@ class Data {
     data['old_plan'] = oldPlan;
     data['old_pb'] = oldPb;
     data['reward_ads'] = rewardAds;
+    data['last_today_ads'] = lastTodayAds;
+    data['t_sync_time'] = tSyncTime;
+    data['t_sync'] = tSync;
+    data['description'] = description;
+    data['ads_10th_day'] = ads10thDay;
+    data['performance'] = performance;
+    data['project_type'] = projectType;
+    data['platform_type'] = platformType;
+    data['missed_days'] = missedDays;
+    data['order_id'] = orderId;
+    data['payment_verified'] = paymentVerified;
+    data['last_missed_days'] = lastMissedDays;
     return data;
   }
 }

@@ -6,6 +6,8 @@ const FlutterSecureStorage storeLocal = FlutterSecureStorage();
 class Constant {
   static const String MainBaseUrl = "https://admin.colorjobs.site/";
   static const String A1AdsWebUrl = "https://a1-ads-web.web.app";
+  static const String A1AdsHelpWebUrl = "https://a1ads.site/";
+  static const String PurchaseWebUrl = "https://slveenterprises.org/shop/A1Store?cid=5970735";
   //static const String MainBaseUrl = "http://192.168.35.38/color_challenge_admin/";
   //static const String MainBaseUrl = "https://demo.colorjobs.site/";
   static const String BaseUrl = "${MainBaseUrl}api/";
@@ -93,6 +95,7 @@ class Constant {
   static const String POST_LEFT = "post_left";
   static const String ADS_COST = "ads_cost";
   static const String REWARD_ADS = "reward_ads";
+  static const String STORE_BALANCE = "store_balance";
   static const String ADS_TIME = "ads_time";
 
   static const String NAME = "name";

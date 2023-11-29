@@ -139,8 +139,7 @@ class _MyProfileState extends State<MyProfile> {
                               const SizedBox(width: 12.0),
                               MaterialButton(
                                 onPressed: () {
-                                  Share.share(referText +
-                                      "\n Use my Refer Code and install this app ${Constant.A1AdsWebUrl}");
+                                  Share.share("$referText\nUse my Refer Code and Login to our website ${Constant.A1AdsWebUrl}");
                                 },
                                 color: colors.primary_color,
                                 shape: const RoundedRectangleBorder(

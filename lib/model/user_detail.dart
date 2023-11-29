@@ -24,7 +24,7 @@ class UserDetail {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['success'] = success;
     data['message'] = message;
     if (this.data != null) {
@@ -47,6 +47,7 @@ class Data {
   String? totalReferrals;
   String? earn;
   String? balance;
+  String? storeBalance;
   String? deviceId;
   String? referredBy;
   String? referCode;
@@ -99,6 +100,11 @@ class Data {
   String? ads10thDay;
   String? performance;
   String? projectType;
+  String? platformType;
+  String? missedDays;
+  String? orderId;
+  String? paymentVerified;
+  String? lastMissedDays;
 
   Data(
       {this.id,
@@ -110,6 +116,7 @@ class Data {
         this.totalReferrals,
         this.earn,
         this.balance,
+        this.storeBalance,
         this.deviceId,
         this.referredBy,
         this.referCode,
@@ -161,7 +168,12 @@ class Data {
         this.description,
         this.ads10thDay,
         this.performance,
-        this.projectType});
+        this.projectType,
+        this.platformType,
+        this.missedDays,
+        this.orderId,
+        this.paymentVerified,
+        this.lastMissedDays});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -173,6 +185,7 @@ class Data {
     totalReferrals = json['total_referrals'];
     earn = json['earn'];
     balance = json['balance'];
+    storeBalance = json['store_balance'];
     deviceId = json['device_id'];
     referredBy = json['referred_by'];
     referCode = json['refer_code'];
@@ -225,10 +238,15 @@ class Data {
     ads10thDay = json['ads_10th_day'];
     performance = json['performance'];
     projectType = json['project_type'];
+    platformType = json['platform_type'];
+    missedDays = json['missed_days'];
+    orderId = json['order_id'];
+    paymentVerified = json['payment_verified'];
+    lastMissedDays = json['last_missed_days'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['mobile'] = mobile;
     data['name'] = name;
@@ -238,6 +256,7 @@ class Data {
     data['total_referrals'] = totalReferrals;
     data['earn'] = earn;
     data['balance'] = balance;
+    data['store_balance'] = storeBalance;
     data['device_id'] = deviceId;
     data['referred_by'] = referredBy;
     data['refer_code'] = referCode;
@@ -290,6 +309,11 @@ class Data {
     data['ads_10th_day'] = ads10thDay;
     data['performance'] = performance;
     data['project_type'] = projectType;
+    data['platform_type'] = platformType;
+    data['missed_days'] = missedDays;
+    data['order_id'] = orderId;
+    data['payment_verified'] = paymentVerified;
+    data['last_missed_days'] = lastMissedDays;
     return data;
   }
 }
@@ -350,7 +374,7 @@ class Settings {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['withdrawal_status'] = withdrawalStatus;
     data['contact_us'] = contactUs;

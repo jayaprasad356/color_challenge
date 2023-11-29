@@ -356,23 +356,23 @@ class _MyAppState extends State<MyApp> {
                   upiRepo: UPIRepo(
                       apiClient: ApiClient(
                           appBaseUrl: Constant.MainBaseUrl,
-                          storageLocal: storeLocal),
-                      storageLocal: storeLocal),
+                          storageLocal: storeLocal,),
+                      storageLocal: storeLocal,),
                 ),
               );
             }),
-            // home: screens(prefs, update, link),
+            home: screens(prefs, update, link),
             // ca65ae48b1a00e20e4d2c81cc87f50de
             // b7512f3a7251c50a1737b614cf78d929
             // home: LoginMobile(),
-            home: isOpenLap() != 'true'
-                ? screens(prefs, update, link)
-                : const Scaffold(
-                    backgroundColor: Colors.white,
-                    body: Center(
-                      child: Text("This website is for mobile only"),
-                    ),
-                  ),
+            // home: isOpenLap() != 'true'
+            //     ? screens(prefs, update, link)
+            //     : const Scaffold(
+            //         backgroundColor: Colors.white,
+            //         body: Center(
+            //           child: Text("This website is for mobile only"),
+            //         ),
+            //       ),
           );
         } else {
           return const CircularProgressIndicator();

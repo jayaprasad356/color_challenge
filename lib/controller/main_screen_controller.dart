@@ -69,6 +69,7 @@ class MainController extends GetxController implements GetxService {
         prefs.setString(Constant.ADS_TIME, userDetailData.adsTime ?? '');
         prefs.setString(Constant.ADS_COST, userDetailData.adsCost ?? '');
         prefs.setString(Constant.REWARD_ADS, userDetailData.rewardAds ?? '');
+        prefs.setString(Constant.STORE_BALANCE, userDetailData.storeBalance ?? '');
 
       }
     } catch (e) {

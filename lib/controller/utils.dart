@@ -11,8 +11,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
-// import 'dart:html' as html;
+import 'dart:html' as html;
 import 'dart:io' show Platform;
+import 'package:platform_device_id/platform_device_id.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -37,12 +38,28 @@ class Utils extends GetxController {
     );
   }
 
+  // Future<String> deviceInfo() async {
+  //   late String deviceId;
+  //
+  //
+  //     AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
+  //     deviceId = androidInfo.androidId;
+  //
+  //   final prefs = await SharedPreferences.getInstance();
+  //   prefs.setString(Constant.MY_DEVICE_ID, deviceId);
+  //
+  //   return deviceId;
+  // }
+
   Future<String> deviceInfo() async {
     late String deviceId;
 
-
+    if (kIsWeb) {
+      deviceId = generateWebUniqueId();
+    } else {
       AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
       deviceId = androidInfo.androidId;
+    }
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setString(Constant.MY_DEVICE_ID, deviceId);
@@ -50,38 +67,22 @@ class Utils extends GetxController {
     return deviceId;
   }
 
-  // Future<String> deviceInfo() async {
-  //   late String deviceId;
-  //
-  //   if (kIsWeb) {
-  //     deviceId = generateWebUniqueId();
-  //   } else {
-  //     AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
-  //     deviceId = androidInfo.androidId;
-  //   }
-  //
-  //   final prefs = await SharedPreferences.getInstance();
-  //   prefs.setString(Constant.MY_DEVICE_ID, deviceId);
-  //
-  //   return deviceId;
-  // }
-  //
-  // String generateWebUniqueId() {
-  //   final userData = {
-  //     'userAgent': html.window.navigator.userAgent,
-  //     'language': html.window.navigator.language,
-  //     'platform': html.window.navigator.platform,
-  //   };
-  //   final encodedData = json.encode(userData);
-  //   final uniqueId = _generateMD5Hash(encodedData);
-  //   return uniqueId;
-  // }
-  //
-  // String _generateMD5Hash(String input) {
-  //   final bytes = utf8.encode(input);
-  //   final digest = md5.convert(bytes);
-  //   return digest.toString();
-  // }
+  String generateWebUniqueId() {
+    final userData = {
+      'userAgent': html.window.navigator.userAgent,
+      'language': html.window.navigator.language,
+      'platform': html.window.navigator.platform,
+    };
+    final encodedData = json.encode(userData);
+    final uniqueId = _generateMD5Hash(encodedData);
+    return uniqueId;
+  }
+
+  String _generateMD5Hash(String input) {
+    final bytes = utf8.encode(input);
+    final digest = md5.convert(bytes);
+    return digest.toString();
+  }
 
   void logout() async {
     SystemNavigator.pop();
