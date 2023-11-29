@@ -590,7 +590,7 @@ class FullTimePageState extends State<FullTimePage> {
                                         height: 3,
                                       ),
                                       Text(
-                                        "$storeBalance + $multiplyCostValue",
+                                        "$storeBalance",
                                         style: const TextStyle(
                                             fontFamily: 'MontserratBold',
                                             color: Colors.white,
@@ -715,7 +715,7 @@ class FullTimePageState extends State<FullTimePage> {
                                       height: 4,
                                     ),
                                     Text(
-                                      "$balance + $multiplyCostValue",
+                                      "$balance",
                                       style: const TextStyle(
                                           fontFamily: 'MontserratBold',
                                           color: Colors.white,
