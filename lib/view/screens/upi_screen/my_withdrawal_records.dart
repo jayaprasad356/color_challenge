@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'package:a1_ads/controller/home_controller.dart';
 import 'package:a1_ads/model/withdrawal_data.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../util/Color.dart';
 import '../../../util/Constant.dart';
@@ -24,7 +26,8 @@ class _MyWithdrawalsState extends State<MyWithdrawals> {
       Constant.USER_ID: prefs.getString(Constant.ID)!,
     };
 
-    String response = await apiCall(Constant.MY_WITHDRAWALS_LIST_URL,bodyObject);
+    String response =
+        await apiCall(Constant.MY_WITHDRAWALS_LIST_URL, bodyObject);
 
     final jsonsData = jsonDecode(response);
     withdrawalsData.clear();
@@ -50,19 +53,83 @@ class _MyWithdrawalsState extends State<MyWithdrawals> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return FutureBuilder(
       future: _getWithdrawalsData(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        if (withdrawalsData.isEmpty) {
-          return Center(
+        // if (withdrawalsData.isNotEmpty) {
+          if (withdrawalsData.isEmpty) {
+          return const Center(
               child: Column(
-                children: const [
-                 // CircularProgressIndicator(color: colors.primary),
-                ],
-              ));
+            children: [
+              // CircularProgressIndicator(color: colors.primary),
+            ],
+          ));
         } else {
-          return  SizedBox(
+          return SizedBox(
             height: 300,
+            // child: ListView.builder(
+            //   scrollDirection: Axis.vertical,
+            //   itemCount: withdrawalsData.length,
+            //   itemBuilder: (BuildContext context, int index) {
+            //     return SingleChildScrollView(
+            //       child: GestureDetector(
+            //           onTap: () {},
+            //           child: Container(
+            //             width: double.infinity,
+            //             decoration: BoxDecoration(
+            //               borderRadius: BorderRadius.circular(10),
+            //               color: const Color(0xFFC6C8E9),
+            //             ),
+            //             margin: const EdgeInsets.symmetric(vertical: 5),
+            //             padding: const EdgeInsets.symmetric(
+            //                 vertical: 10, horizontal: 20),
+            //             child: Row(
+            //               mainAxisAlignment: MainAxisAlignment.start,
+            //               children: [
+            //                 Image.asset(
+            //                   'assets/images/transfer 1.png',
+            //                   height: 34,
+            //                 ),
+            //                 const SizedBox(
+            //                   width: 10,
+            //                 ),
+            //                  Column(
+            //                   crossAxisAlignment: CrossAxisAlignment.start,
+            //                   children: [
+            //                     Text(
+            //                       withdrawalsData[index].status,
+            //                       style: const TextStyle(
+            //                           color: Color(0xFF000000),
+            //                           fontFamily: 'MontserratLight',
+            //                           fontSize: 16),
+            //                     ),
+            //                     const SizedBox(
+            //                       height: 5,
+            //                     ),
+            //                     Text(
+            //                       withdrawalsData[index].datetime,
+            //                       style: const TextStyle(
+            //                           color: Color(0xFF4F4F53),
+            //                           fontFamily: 'MontserratLight',
+            //                           fontSize: 10),
+            //                     ),
+            //                   ],
+            //                 ),
+            //                 Expanded(child: Container()),
+            //                 Text(
+            //                   withdrawalsData[index].amount,
+            //                   style: const TextStyle(
+            //                       color: Color(0xFFDF5E00),
+            //                       fontFamily: 'MontserratBold',
+            //                       fontSize: 16),
+            //                 ),
+            //               ],
+            //             ),
+            //           )),
+            //     );
+            //   },
+            // ),
             child: ListView.builder(
               scrollDirection: Axis.vertical,
               itemCount: withdrawalsData.length,

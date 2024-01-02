@@ -15,8 +15,11 @@ import 'package:a1_ads/view/screens/add_screen/ads_screen.dart';
 import 'package:a1_ads/view/screens/add_screen/full_time_page.dart';
 import 'package:a1_ads/view/screens/home_page/homePage.dart';
 import 'package:a1_ads/view/screens/invest/invers_screen.dart';
+import 'package:a1_ads/view/screens/job/job.dart';
+import 'package:a1_ads/view/screens/job/jobs.dart';
 import 'package:a1_ads/view/screens/login/loginMobile.dart';
 import 'package:a1_ads/view/screens/notification_screen/notification_screen.dart';
+import 'package:a1_ads/view/screens/notification_screen/reward.dart';
 import 'package:a1_ads/view/screens/profile_screen/my_profile.dart';
 import 'package:a1_ads/view/screens/shorts_vid/my_offer.dart';
 import 'package:a1_ads/view/screens/shorts_vid/preload_page.dart';
@@ -55,6 +58,10 @@ class _MainScreenState extends State<MainScreen> {
   String title = "My Offer";
   String upi_id = "";
   bool _actionsVisible = false;
+  bool _isHomePage = false;
+  bool _isAdsPage = false;
+  bool _isMorePage = false;
+  bool _isJobsPage = false;
   bool _logoutVisible = false;
   bool _leftArrowVisible = false;
   bool _notificationVisible = false;
@@ -124,6 +131,7 @@ class _MainScreenState extends State<MainScreen> {
       status = prefs.getString(Constant.STATUS)!;
       old_plan = prefs.getString(Constant.OLD_PLAN)!;
       plan = prefs.getString(Constant.PLAN)!;
+      debugPrint("plan: $plan");
       balance = prefs.getString(Constant.BALANCE)!;
     });
   }
@@ -201,13 +209,17 @@ class _MainScreenState extends State<MainScreen> {
       //   _addPost = false;
       // } else if (index == 2) {
       if (index == 1) {
-        if (old_plan == "0" && plan == "A1" && status == "1") {
+        if (old_plan == "0" && (plan == "A1" || plan == "A1S" || plan == "A1U") && status == "1") {
           title = "A1 Plan";
         } else {
           title = "A2 Plan";
         }
         // title = "ADS";
         _actionsVisible = false;
+        _isHomePage = false;
+        _isAdsPage = false;
+        _isMorePage = false;
+        _isJobsPage = false;
         _logoutVisible = false;
         _leftArrowVisible = false;
         _notificationVisible = false;
@@ -215,6 +227,10 @@ class _MainScreenState extends State<MainScreen> {
       } else if (index == 2) {
         title = "My Offer";
         _actionsVisible = false;
+        _isHomePage = false;
+        _isAdsPage = false;
+        _isMorePage = false;
+        _isJobsPage = false;
         _logoutVisible = false;
         _leftArrowVisible = false;
         _notificationVisible = false;
@@ -227,8 +243,12 @@ class _MainScreenState extends State<MainScreen> {
         //   _notificationVisible = false;
         //   _addPost = false;
       } else if (index == 3) {
-        title = "Notifications";
+        title = "Reward";
         _actionsVisible = false;
+        _isHomePage = false;
+        _isAdsPage = false;
+        _isMorePage = false;
+        _isJobsPage = false;
         _logoutVisible = false;
         _leftArrowVisible = false;
         _notificationVisible = false;
@@ -250,6 +270,10 @@ class _MainScreenState extends State<MainScreen> {
       } else if (index == 4) {
         title = "Profile";
         _actionsVisible = false;
+        _isHomePage = false;
+        _isAdsPage = false;
+        _isJobsPage = false;
+        _isMorePage = false;
         _logoutVisible = true;
         _leftArrowVisible = false;
         _notificationVisible = false;
@@ -257,6 +281,10 @@ class _MainScreenState extends State<MainScreen> {
       } else {
         title = "Home";
         _actionsVisible = true;
+        _isHomePage = false;
+        _isAdsPage = false;
+        _isMorePage = false;
+        _isJobsPage = false;
         _logoutVisible = false;
         _leftArrowVisible = false;
         _notificationVisible = false;
@@ -268,7 +296,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+        appBar: _isHomePage == true || _isAdsPage == true || _isMorePage == true  || _isJobsPage == true ? null : AppBar(
           centerTitle: true,
           automaticallyImplyLeading: false,
           flexibleSpace: Container(
@@ -443,7 +471,7 @@ class _MainScreenState extends State<MainScreen> {
                   BottomNavigationBarItem(
                     icon: ImageIcon(
                       const AssetImage(
-                        "assets/images/ADS_icon.png",
+                        "assets/icon/Vector (1).png",
                       ),
                       color: _selctedIndex == 1
                           ? colors.widget_color
@@ -475,13 +503,15 @@ class _MainScreenState extends State<MainScreen> {
                   BottomNavigationBarItem(
                     icon: ImageIcon(
                       const AssetImage(
-                        "assets/images/notification.png",
+                        "assets/images/2666513_1-removebg-preview.png",
+                        // "assets/icon/Group (1).png",
                       ),
                       color: _selctedIndex == 3
                           ? colors.widget_color
                           : colors.white,
                     ),
-                    label: 'Notification',
+                    label: 'Reward',
+                    // label: 'Jobs',
                     backgroundColor: colors.primary_color,
                   ),
                   // BottomNavigationBarItem(
@@ -507,11 +537,18 @@ class _MainScreenState extends State<MainScreen> {
                   //   backgroundColor: colors.primary_color,
                   // ),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.person,
-                          color: _selctedIndex == 4
-                              ? colors.widget_color
-                              : colors.white),
+                    icon: Icon(Icons.person,color: _selctedIndex == 4
+                        ? colors.widget_color
+                        : colors.white),
+                      // icon: ImageIcon(
+                      //     const AssetImage(
+                      //       "assets/icon/Vector (2).png",
+                      //     ),
+                      //     color: _selctedIndex == 4
+                      //         ? colors.widget_color
+                      //         : colors.white),
                       label: 'Profile',
+                      // label: 'More',
                       backgroundColor: colors.white),
                 ],
                 currentIndex: _selctedIndex,
@@ -520,7 +557,38 @@ class _MainScreenState extends State<MainScreen> {
                 onTap: _onItemTapped,
               ),
             )),
-        body: getPage(_selctedIndex));
+        backgroundColor: const Color(0xFFF2F2F2),
+        body: getPage(_selctedIndex),
+        // body: Column(
+        //   children: [
+        //     Stack(
+        //       children: [
+        //         SizedBox(
+        //           height: 80,
+        //           width: double.infinity,
+        //           child: Image.asset(
+        //             'assets/images/Ellipse 11.png',
+        //             fit: BoxFit.fill,
+        //           ),
+        //         ),
+        //         const Padding(
+        //           padding: EdgeInsets.only(top: 20.0, left: 30),
+        //           child: Text(
+        //             'A1 - Store',
+        //             style: TextStyle(
+        //               fontFamily: 'MontserratBold',
+        //               color: Colors.white,
+        //               fontWeight: FontWeight.bold,
+        //               fontSize: 18,
+        //             ),
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //     Expanded(child: getPage(_selctedIndex)),
+        //   ],
+        // ),
+    );
   }
 
   String separateNumber(String number) {
@@ -724,22 +792,24 @@ class _MainScreenState extends State<MainScreen> {
       case 0:
         return const Home(); //HomePage(updateAmount: updateAmount);
       case 1:
-        return const FullTimePage();
+        // return const FullTimePage();
         // return const ADsScreen(); //HomePage(updateAmount: updateAmount);
         // return const FullTimePage();
-        // if (status == "1" && old_plan == "0" && plan == "A1") {
-        //   return const FullTimePage();
-        // } else {
-        //   return const ADsScreen();
-        // }
+        if (status == "1" && old_plan == "0" && (plan == "A1" || plan == "A1S" || plan == "A1U")) {
+          return const FullTimePage();
+        } else {
+          return const ADsScreen();
+        }
       case 2:
         // return const InvestScreen();
         return const MyOffer();
+        // return const JobFinder();
       // case 1:
       //   return const JobShow();
       case 3:
-        return const NotifyScreen();
-      // return const PreloadPage();
+        // return const Jobs();
+        // return const NotifyScreen();
+      return const Reward();
       // case 3:
       //   return const report();
       case 4:

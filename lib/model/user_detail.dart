@@ -105,6 +105,8 @@ class Data {
   String? orderId;
   String? paymentVerified;
   String? lastMissedDays;
+  String? realAds;
+  String? oldStoreBalance;
 
   Data(
       {this.id,
@@ -173,7 +175,9 @@ class Data {
         this.missedDays,
         this.orderId,
         this.paymentVerified,
-        this.lastMissedDays});
+        this.lastMissedDays,
+        this.realAds,
+        this.oldStoreBalance});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -243,6 +247,8 @@ class Data {
     orderId = json['order_id'];
     paymentVerified = json['payment_verified'];
     lastMissedDays = json['last_missed_days'];
+    realAds = json['real_ads'];
+    oldStoreBalance = json['old_store_balance'];
   }
 
   Map<String, dynamic> toJson() {
@@ -314,6 +320,8 @@ class Data {
     data['order_id'] = orderId;
     data['payment_verified'] = paymentVerified;
     data['last_missed_days'] = lastMissedDays;
+    data['real_ads'] = realAds;
+    data['old_store_balance'] = oldStoreBalance;
     return data;
   }
 }

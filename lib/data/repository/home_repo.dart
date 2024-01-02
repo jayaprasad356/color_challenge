@@ -20,7 +20,7 @@ class HomeRepo {
       'user_id' : userId,
     };
     return await apiClient.postData(
-      'https://admin.colorjobs.site/api/slide_list.php',body,{}
+      Constant.SLIDE_API,body,{}
     );
   }
 
@@ -30,6 +30,43 @@ class HomeRepo {
     };
     return await apiClient.postData(
         Constant.USER_DETAIL_URL,body,{}
+    );
+  }
+
+  Future<Response> categoryListData() async {
+    Map<String, dynamic> body = {};
+    return await apiClient.postData(
+        Constant.CATEGORY_LIST,body,{}
+    );
+  }
+
+  Future<Response> myOrderListData(String userId) async {
+    Map<String, dynamic> body = {
+      'user_id' : userId,
+    };
+    return await apiClient.postData(
+        Constant.ORDERS_LIST,body,{}
+    );
+  }
+
+  Future<Response> productListData(String categoryId) async {
+    Map<String, dynamic> body = {
+      'category_id' : categoryId
+    };
+    return await apiClient.postData(
+        Constant.PRODUCT_LIST,body,{}
+    );
+  }
+
+  Future<Response> placeOrder(String userId, String productId, String address, String pinCode) async {
+    Map<String, dynamic> body = {
+      'user_id' : userId,
+      'product_id' : productId,
+      'address' : address,
+      'pincode' : pinCode,
+    };
+    return await apiClient.postData(
+        Constant.ORDERS,body,{}
     );
   }
 }

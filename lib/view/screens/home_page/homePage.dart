@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:a1_ads/view/screens/home_page/product_details.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:a1_ads/Helper/apiCall.dart';
 import 'package:a1_ads/controller/home_controller.dart';
@@ -58,6 +59,8 @@ class HomeState extends State<Home> {
   int _currentIndex = 0;
   PageController _pageController = PageController();
   int _currentPage = 0;
+  int selectedCategoryIndex = 0;
+  int selectedProductIndex = -1;
 
   @override
   void initState() {
@@ -67,7 +70,8 @@ class HomeState extends State<Home> {
 
     handleAsyncInit();
     settingsApi();
-    // homeController.allSettingsData();
+    homeController.categoryListData();
+    homeController.productListData('1');
     SharedPreferences.getInstance().then((value) {
       prefs = value;
       userDeatils();
@@ -197,372 +201,254 @@ class HomeState extends State<Home> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: colors.secondary_color,
-      body: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
+      backgroundColor: const Color(0xFFF2F2F2),
+      body: Container(
+        height: size.height,
+        width: size.width,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [colors.primary_color, colors.secondary_color],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        padding: const EdgeInsets.all(20),
+        child: SafeArea(
           child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [colors.primary_color, colors.secondary_color],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
+            width: size.width,
+            decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(16)),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Image.asset('assets/images/WhatsApp Image 2023-12-20 at 1.35.15 AM.jpeg',
+                fit: BoxFit.cover,
               ),
             ),
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: Column(
-                  children: [
-                    // homeController.sliderImageURL.isNotEmpty
-                    //     ? CarouselSlider(
-                    //         options: CarouselOptions(
-                    //           autoPlay: true,
-                    //           enableInfiniteScroll: false,
-                    //           onPageChanged: (index, reason) {
-                    //             setState(() {
-                    //               _currentIndex = index;
-                    //             });
-                    //           },
-                    //         ),
-                    //         items: homeController.sliderImageURL
-                    //             .asMap()
-                    //             .entries
-                    //             .map((entry) {
-                    //           int index = entry.key;
-                    //           String imageUrl = entry.value;
-                    //           String imageName =
-                    //               homeController.sliderName[index];
-                    //
-                    //           return Builder(
-                    //             builder: (BuildContext context) {
-                    //               return Container(
-                    //                 width: size.width,
-                    //                 margin: const EdgeInsets.symmetric(
-                    //                     horizontal: 5.0),
-                    //                 decoration: BoxDecoration(
-                    //                   color: Colors.blue,
-                    //                   borderRadius: BorderRadius.circular(16),
-                    //                 ),
-                    //                 child: Stack(
-                    //                   children: [
-                    //                     ClipRRect(
-                    //                       borderRadius:
-                    //                           BorderRadius.circular(16),
-                    //                       child: Image.network(
-                    //                         imageUrl,
-                    //                         fit: BoxFit
-                    //                             .cover, // Ensure the image covers the background space
-                    //                         width: double.infinity,
-                    //                         height: double.infinity,
-                    //                       ),
-                    //                     ),
-                    //                   ],
-                    //                 ),
-                    //               );
-                    //             },
-                    //           );
-                    //         }).toList(),
-                    //       )
-                    //     :  Container(
-                    //       width: size.width,
-                    //       height: size.height * 0.2,
-                    //       alignment: Alignment.center,
-                    //       child: const SizedBox(
-                    //         height: 50.0,
-                    //         width: 50.0,
-                    //         child: CircularProgressIndicator(
-                    //           value: null,
-                    //           strokeWidth: 7.0,
-                    //         ),
-                    //       ),
-                    //     ),
-                    // const SizedBox(
-                    //   height: 20,
-                    // ),
-                    // buildIndicator(),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const Text(
-                      'A1 Plan',
-                      style: TextStyle(
-                        fontFamily: 'MontserratBold',
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      width: double.infinity,
-                      margin: const EdgeInsets.symmetric(horizontal: 16),
-                      child: TextButton(
-                        onPressed: () {
-                          String? uri = homeController.a1PurchaseURS.toString();
-                          debugPrint("uri: $uri");
-                          launchUrl(
-                            Uri.parse(uri!),
-                            mode: LaunchMode.externalApplication,
-                          );
-                        },
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(Colors.pink),
-                          // You can customize other styles of the button here as well
-                        ),
-                        child: const Text(
-                          'Purchase Premium Plan',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        MaterialButton(
-                          onPressed: () {
-                            String? uri =
-                                homeController.a1JobDetailsURS.toString();
-                            debugPrint("uri: $uri");
-                            launchUrl(
-                              Uri.parse(uri!),
-                              mode: LaunchMode.externalApplication,
-                            );
-                          },
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Container(
-                            height: 40,
-                            // width: 140,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/images/btnbg.png"),
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: size.width * 0.1),
-                            alignment: Alignment.center,
-                            child: const Center(
-                              child: Text(
-                                'Job Details',
-                                style: TextStyle(
-                                    color: colors.white,
-                                    fontSize: 14,
-                                    fontFamily: "Montserrat",
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ),
-                        MaterialButton(
-                          onPressed: () {
-                            String? uri =
-                                homeController.a1JobVideoURS.toString();
-                            debugPrint("uri: $uri");
-                            launchUrl(
-                              Uri.parse(uri!),
-                              mode: LaunchMode.externalApplication,
-                            );
-                          },
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Container(
-                            height: 40,
-                            // width: 140,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/images/btnbg.png"),
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: size.width * 0.1),
-                            alignment: Alignment.center,
-                            child: const Center(
-                              child: Text(
-                                'Demo Video',
-                                style: TextStyle(
-                                    color: colors.white,
-                                    fontSize: 14,
-                                    fontFamily: "Montserrat",
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    const Text(
-                      'A2 Plan',
-                      style: TextStyle(
-                        fontFamily: 'MontserratBold',
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      width: double.infinity,
-                      margin: const EdgeInsets.symmetric(horizontal: 16),
-                      child: TextButton(
-                        onPressed: () {
-                          String? uri = homeController.a2PurchaseURS.toString();
-                          debugPrint("uri: $uri");
-                          launchUrl(
-                            Uri.parse(uri!),
-                            mode: LaunchMode.externalApplication,
-                          );
-                        },
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(Colors.pink),
-                          // You can customize other styles of the button here as well
-                        ),
-                        child: const Text(
-                          'Purchase Premium Plan',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        MaterialButton(
-                          onPressed: () {
-                            String? uri =
-                                homeController.a2JobDetailsURS.toString();
-                            debugPrint("uri: $uri");
-                            launchUrl(
-                              Uri.parse(uri!),
-                              mode: LaunchMode.externalApplication,
-                            );
-                          },
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Container(
-                            height: 40,
-                            // width: 140,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/images/btnbg.png"),
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: size.width * 0.1),
-                            alignment: Alignment.center,
-                            child: const Center(
-                              child: Text(
-                                'Job Details',
-                                style: TextStyle(
-                                    color: colors.white,
-                                    fontSize: 14,
-                                    fontFamily: "Montserrat",
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ),
-                        MaterialButton(
-                          onPressed: () {
-                            String? uri =
-                                homeController.a2JobVideoURS.toString();
-                            debugPrint("uri: $uri");
-                            launchUrl(
-                              Uri.parse(uri!),
-                              mode: LaunchMode.externalApplication,
-                            );
-                          },
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Container(
-                            height: 40,
-                            // width: 140,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/images/btnbg.png"),
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: size.width * 0.1),
-                            alignment: Alignment.center,
-                            child: const Center(
-                              child: Text(
-                                'Demo Video',
-                                style: TextStyle(
-                                    color: colors.white,
-                                    fontSize: 14,
-                                    fontFamily: "Montserrat",
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Container(
-                      width: double.infinity,
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
-                      child: TextButton(
-                        onPressed: () {
-                          String uri = group_link;
-                          launchUrl(
-                            Uri.parse(uri),
-                            mode: LaunchMode.externalApplication,
-                          );
-                        },
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(Colors.green),
-                          // You can customize other styles of the button here as well
-                        ),
-                        child: const Text(
-                          'Join our Whatsapp Group',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          )),
+          ),
+        ),
+      ),
     );
+    // return Scaffold(
+    //   backgroundColor: const Color(0xFFF2F2F2),
+    //   body: SingleChildScrollView(
+    //     physics: const BouncingScrollPhysics(),
+    //     child: Column(
+    //       children: [
+    //         const SizedBox(
+    //           height: 10,
+    //         ),
+    //         CarouselSlider(
+    //           options: CarouselOptions(
+    //             height: size.height * 0.27,
+    //             autoPlay: true,
+    //             enableInfiniteScroll: false,
+    //             onPageChanged: (index, reason) {
+    //               setState(() {
+    //                 _currentIndex = index;
+    //               });
+    //             },
+    //           ),
+    //           items:
+    //               homeController.sliderImageURL.asMap().entries.map((entry) {
+    //             int index = entry.key;
+    //             String imageUrl = entry.value;
+    //             // String imageName = homeController.sliderName[index];
+    //             return Builder(
+    //               builder: (BuildContext context) {
+    //                 return Container(
+    //                   // height: size.height * 0.01,
+    //                   width: size.width,
+    //                   margin: const EdgeInsets.symmetric(horizontal: 5.0),
+    //                   child: ClipRRect(
+    //                     borderRadius: BorderRadius.circular(16),
+    //                     child: Image.network(
+    //                       imageUrl,
+    //                     ),
+    //                   ),
+    //                 );
+    //               },
+    //             );
+    //           }).toList(),
+    //         ),
+    //         const SizedBox(
+    //           height: 10,
+    //         ),
+    //         // Image.network(
+    //         //   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfBJhHB86PPHocV3n-ou6ZwUWX8vSPEZ-H3w&usqp=CAU',
+    //         //   loadingBuilder: (BuildContext context, Widget child,
+    //         //       ImageChunkEvent? loadingProgress) {
+    //         //     if (loadingProgress == null) {
+    //         //       return child;
+    //         //     } else {
+    //         //       return Center(
+    //         //         child: CircularProgressIndicator(
+    //         //           value: loadingProgress.expectedTotalBytes != null
+    //         //               ? loadingProgress.cumulativeBytesLoaded /
+    //         //                   (loadingProgress.expectedTotalBytes ?? 1)
+    //         //               : null,
+    //         //         ),
+    //         //       );
+    //         //     }
+    //         //   },
+    //         // ),
+    //         SizedBox(
+    //           height: size.height * 0.17,
+    //           width: double.infinity,
+    //           child: Obx(
+    //             () => ListView.builder(
+    //               itemCount: homeController.categoryJson.length,
+    //               scrollDirection: Axis.horizontal,
+    //               shrinkWrap: true,
+    //               itemBuilder: (context, index) {
+    //                 return InkWell(
+    //                   onTap: () {
+    //                     setState(() {
+    //                       selectedCategoryIndex =
+    //                           index; // Update selected index on tap
+    //                     });
+    //                     debugPrint(
+    //                         "selectedCategoryIndex: $selectedCategoryIndex");
+    //                     homeController.productListData(
+    //                         homeController.categoryJson[index].id);
+    //                   },
+    //                   child: Container(
+    //                     height: size.height * 0.17,
+    //                     width: size.width * 0.2,
+    //                     margin: const EdgeInsets.symmetric(horizontal: 5),
+    //                     decoration: BoxDecoration(
+    //                       borderRadius: BorderRadius.circular(100000),
+    //                       color: index == selectedCategoryIndex
+    //                           ? const Color(0xFF161C7E)
+    //                           : const Color(0xFFFFFFFF),
+    //                     ),
+    //                     child: Column(
+    //                       children: [
+    //                         SizedBox(
+    //                     height: size.height * 0.1,
+    //                           child: ClipRRect(
+    //                             borderRadius: BorderRadius.circular(100000),
+    //                             child: Image.network(
+    //                               homeController.categoryJson[index].image,
+    //                               fit: BoxFit.cover,
+    //                             ),
+    //                           ),
+    //                         ),
+    //                         const SizedBox(
+    //                           height: 10,
+    //                         ),
+    //                         Text(
+    //                           homeController.categoryJson[index].name,
+    //                           style: TextStyle(
+    //                             fontFamily: 'MontserratLight',
+    //                             color: index == selectedCategoryIndex
+    //                                 ? const Color(0xFFFFFFFF)
+    //                                 : const Color(0xFF67666D),
+    //                           ),
+    //                           textAlign: TextAlign.center,
+    //                         ),
+    //                       ],
+    //                     ),
+    //                   ),
+    //                 );
+    //               },
+    //             ),
+    //           ),
+    //         ),
+    //         const SizedBox(
+    //           height: 10,
+    //         ),
+    //         SizedBox(
+    //           height: size.height * 0.3,
+    //           child: Obx(
+    //             () => ListView.builder(
+    //               itemCount: homeController.productJson.length,
+    //               scrollDirection: Axis.horizontal,
+    //               itemBuilder: (context, index) {
+    //                 return InkWell(
+    //                   onTap: () {
+    //                     setState(() {
+    //                       selectedProductIndex = index;
+    //                     });
+    //                     Get.to(ProductDetails(
+    //                       imageUrl: homeController.productJson[index].image,
+    //                       name: homeController.productJson[index].name,
+    //                       price:
+    //                           homeController.productJson[index].originalPrice,
+    //                       description:
+    //                           homeController.productJson[index].description,
+    //                       productId:
+    //                           homeController.productJson[index].categoryId,
+    //                     ));
+    //                   },
+    //                   child: Container(
+    //                     height: size.height * 0.3,
+    //                     width: size.width * 0.4,
+    //                     margin: const EdgeInsets.symmetric(horizontal: 5),
+    //                     decoration: BoxDecoration(
+    //                       borderRadius: BorderRadius.circular(16),
+    //                       color: const Color(0xFFF8F8F8),
+    //                     ),
+    //                     padding: const EdgeInsets.symmetric(
+    //                         horizontal: 15, vertical: 10),
+    //                     child: Column(
+    //                       crossAxisAlignment: CrossAxisAlignment.start,
+    //                       children: [
+    //                         Container(
+    //                           decoration: BoxDecoration(
+    //                             borderRadius: BorderRadius.circular(16),
+    //                             color: const Color(0xFFFFFFFF),
+    //                           ),
+    //                           padding: const EdgeInsets.symmetric(
+    //                               horizontal: 10, vertical: 5),
+    //                           child: Text(homeController.productList[index][4],style: TextStyle(fontFamily: 'MontserratLight'),),
+    //                         ),
+    //                         const SizedBox(
+    //                           height: 5,
+    //                         ),
+    //                         Container(
+    //                             height: size.height * 0.15,
+    //                             width: double.infinity,
+    //                             alignment: Alignment.center,
+    //                             child: Image.network(
+    //                               homeController.productJson[index].image,
+    //                               fit: BoxFit.fill,
+    //                             ),),
+    //                         Text(
+    //                           homeController.productJson[index].name,
+    //                           style: const TextStyle(
+    //                             color: Color(0xFF67666D),
+    //                             fontFamily: 'MontserratLight',
+    //                           ),
+    //                           textAlign: TextAlign.center,
+    //                         ),
+    //                         const SizedBox(
+    //                           height: 10,
+    //                         ),
+    //                         Text(
+    //                           "₹ ${homeController.productJson[index].originalPrice}",
+    //                           style: const TextStyle(
+    //                             color: Color(0xFF000000),
+    //                             fontWeight: FontWeight.bold,
+    //                             fontFamily: 'MontserratBold',
+    //                           ),
+    //                           textAlign: TextAlign.center,
+    //                         ),
+    //                       ],
+    //                     ),
+    //                   ),
+    //                 );
+    //               },
+    //             ),
+    //           ),
+    //         ),
+    //         const SizedBox(
+    //           height: 10,
+    //         ),
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 
   showSheet() {

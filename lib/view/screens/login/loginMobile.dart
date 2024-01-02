@@ -208,8 +208,7 @@ class _LoginMobileState extends State<LoginMobile> {
                       onPressed: () {
                         String text = 'Hello I need help in app';
                         String encodedText = Uri.encodeFull(text);
-                        String uri =
-                            Constant.A1AdsHelpWebUrl;
+                        String uri = Constant.A1AdsHelpWebUrl;
                         launchUrl(
                           Uri.parse(uri),
                           mode: LaunchMode.inAppWebView,
@@ -286,8 +285,7 @@ class _LoginMobileState extends State<LoginMobile> {
                       onPressed: () {
                         String text = 'Hello I need help in app';
                         String encodedText = Uri.encodeFull(text);
-                        String uri =
-                            Constant.A1AdsHelpWebUrl;
+                        String uri = Constant.A1AdsHelpWebUrl;
                         launchUrl(
                           Uri.parse(uri),
                           mode: LaunchMode.inAppWebView,

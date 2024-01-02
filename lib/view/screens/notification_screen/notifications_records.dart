@@ -50,9 +50,9 @@ class _NotificationsState extends State<Notifications> {
       future: _getWithdrawalsData(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (notificationData.isEmpty) {
-          return Center(
+          return const Center(
               child: Column(
-                children: const [
+                children: [
                  // CircularProgressIndicator(color: colors.primary),
                 ],
               ));
@@ -76,30 +76,30 @@ class _NotificationsState extends State<Notifications> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "${notificationData[index].title}",
+                                notificationData[index].title,
                                 style: const TextStyle(
                                   color: colors.white,
-                                  fontFamily: 'Montserrat',
-                                  fontSize: 12,
+                                  fontFamily: 'MontserratBold',
+                                  fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(height: 5), // Adding some spacing between the two Text widgets
+                              const SizedBox(height: 5), // Adding some spacing between the two Text widgets
                               Text(
-                                "${notificationData[index].description}",
-                                style: TextStyle(
+                                notificationData[index].description,
+                                style: const TextStyle(
                                   color: colors.white,
-                                  fontFamily: 'Montserrat',
-                                  fontSize: 10, // You can adjust the font size as needed
+                                  fontFamily: 'MontserratLight',
+                                  fontSize: 14, // You can adjust the font size as needed
                                 ),
                               ),
                               if (notificationData[index].link.isNotEmpty)
                               MaterialButton(
-                                height: 25,
+                                height: 30,
                                 color: colors.primary,
                                 onPressed: () {
                                   String uri =
-                                      "${notificationData[index].link}";
+                                      notificationData[index].link;
                                   launchUrl(
                                     Uri.parse(uri),
                                     mode: LaunchMode.externalApplication,
@@ -108,18 +108,18 @@ class _NotificationsState extends State<Notifications> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(6),
                                 ),
-                                child: Text('Open',
+                                child: const Text('Open',
                                     style: TextStyle(
-                                        fontSize: 10,
+                                        fontSize: 14,
                                         color: colors.white,
-                                        fontFamily: "Montserra")),
+                                        fontFamily: "MontserratLight")),
                               ),
                               Text(
-                                "${notificationData[index].datetime}",
-                                style: TextStyle(
+                                notificationData[index].datetime,
+                                style: const TextStyle(
                                   color: colors.white,
-                                  fontFamily: 'Montserrat',
-                                  fontSize: 10, // You can adjust the font size as needed
+                                  fontFamily: 'MontserratLight',
+                                  fontSize: 14, // You can adjust the font size as needed
                                 ),
                               ),
                             ],

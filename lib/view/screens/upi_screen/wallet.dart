@@ -59,9 +59,280 @@ class _walletState extends State<wallet> {
     });
   }
 
+  void showLoadingIndicator(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return WillPopScope(
+          onWillPop: () async => false, // Disable back button press
+          child: const AlertDialog(
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: 8),
+                Text('Loading...'),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+  void hideLoadingIndicator(BuildContext context) {
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     bool _isDisabled = true;
+    Size size = MediaQuery.of(context).size;
+    // return Scaffold(
+    //   backgroundColor: const Color(0xFFF8F8F8),
+    //   appBar: AppBar(
+    //     centerTitle: true,
+    //     automaticallyImplyLeading: false,
+    //     elevation: 0,
+    //     backgroundColor: const Color(0xFFF8F8F8),
+    //     title: const Text(
+    //       "Wallet",
+    //       style: TextStyle(
+    //         fontFamily: 'MontserratLight',
+    //         color: Color(0xFF000000),
+    //       ),
+    //     ),
+    //     leading: IconButton(
+    //       onPressed: () {
+    //         Get.back();
+    //       },
+    //       icon: Image.asset(
+    //         'assets/images/Group 18197.png',
+    //         height: 34,
+    //       ),
+    //     ),
+    //   ),
+    //   body: SingleChildScrollView(
+    //     physics: const BouncingScrollPhysics(),
+    //     child: Padding(
+    //       padding: const EdgeInsets.symmetric(horizontal: 20.0),
+    //       child: Column(
+    //         children: [
+    //           const SizedBox(
+    //             height: 10,
+    //           ),
+    //           const Text(
+    //             'My Earnings',
+    //             style: TextStyle(
+    //               fontFamily: 'MontserratLight',
+    //               color: Color(0xFF000000),
+    //               fontWeight: FontWeight.bold,
+    //               fontSize: 14,
+    //             ),
+    //           ),
+    //           const SizedBox(
+    //             height: 5,
+    //           ),
+    //           Container(
+    //             width: size.width * 0.3,
+    //             decoration: BoxDecoration(
+    //               borderRadius: BorderRadius.circular(10),
+    //               color: const Color(0xFFDDDDDD),
+    //             ),
+    //             alignment: Alignment.center,
+    //             padding: const EdgeInsets.symmetric(vertical: 5),
+    //             child: Row(
+    //               mainAxisAlignment: MainAxisAlignment.center,
+    //               children: [
+    //                 Image.asset(
+    //                   'assets/images/dollar 1.png',
+    //                   height: 24,
+    //                 ),
+    //                 const SizedBox(
+    //                   width: 10,
+    //                 ),
+    //                 Text(
+    //                   '₹ $earn',
+    //                   style: const TextStyle(
+    //                     fontFamily: 'MontserratBold',
+    //                     color: Color(0xFF31800C),
+    //                     fontWeight: FontWeight.bold,
+    //                     fontSize: 14,
+    //                   ),
+    //                 ),
+    //               ],
+    //             ),
+    //           ),
+    //           const SizedBox(
+    //             height: 30,
+    //           ),
+    //           Padding(
+    //             padding: const EdgeInsets.only(
+    //               left: 20,
+    //             ),
+    //             child: Align(
+    //               alignment: Alignment.topLeft,
+    //               child: Text(
+    //                 'Balance: Rs.$balance',
+    //                 style: const TextStyle(
+    //                   fontFamily: 'MontserratLight',
+    //                   color: Color(0xFF000000),
+    //                   fontWeight: FontWeight.bold,
+    //                   fontSize: 14,
+    //                 ),
+    //               ),
+    //             ),
+    //           ),
+    //           const SizedBox(
+    //             height: 10,
+    //           ),
+    //           Container(
+    //             margin: const EdgeInsets.only(left: 20, right: 20),
+    //             decoration: BoxDecoration(
+    //               color: Colors.transparent,
+    //               borderRadius:
+    //                   BorderRadius.circular(5), // Adjust the radius as needed
+    //               border: Border.all(
+    //                 color: const Color(0xFFD00000),
+    //               ), // Border color
+    //             ),
+    //             child: TextField(
+    //               keyboardType: TextInputType.number,
+    //               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+    //               controller: _withdrawalAmtController,
+    //               textAlign: TextAlign.center,
+    //               decoration: const InputDecoration(
+    //                 hintText: 'Enter Amount', // Hint text
+    //                 hintStyle: TextStyle(
+    //                   fontFamily: 'MontserratLight',
+    //                   color: Color(0xFF000000),
+    //                 ),
+    //                 filled: true,
+    //                 fillColor: Color(
+    //                     0xFFFFFFFF), // Set to transparent to let the background show
+    //                 contentPadding:
+    //                     EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+    //                 enabledBorder: UnderlineInputBorder(
+    //                   borderSide: BorderSide(
+    //                       color: Colors
+    //                           .transparent), // Set your desired border color
+    //                 ),
+    //
+    //                 focusedBorder: UnderlineInputBorder(
+    //                   borderSide: BorderSide(
+    //                       color: Colors
+    //                           .transparent), // Set your desired border color for focused state
+    //                 ),
+    //               ),
+    //               style: const TextStyle(
+    //                 fontFamily: 'MontserratBold',
+    //                 color: Color(0xFF000000),
+    //               ),
+    //             ),
+    //           ),
+    //           const SizedBox(
+    //             height: 10,
+    //           ),
+    //           Padding(
+    //             padding: const EdgeInsets.only(
+    //               right: 20,
+    //             ),
+    //             child: Align(
+    //                 alignment: Alignment.topRight,
+    //                 child: RichText(
+    //                   text: TextSpan(
+    //                     style: const TextStyle(
+    //                       fontFamily: 'MontserratLight',
+    //                       color: Color(0xFF000000),
+    //                       fontWeight: FontWeight.bold,
+    //                       fontSize: 14,
+    //                     ),
+    //                     children: [
+    //                       const TextSpan(
+    //                         text: 'Minimum: ',
+    //                       ),
+    //                       TextSpan(
+    //                         text: minimum,
+    //                         style: const TextStyle(
+    //                           color: Color(0xFF067C04),
+    //                         ),
+    //                       ),
+    //                     ],
+    //                   ),
+    //                 )),
+    //           ),
+    //           const SizedBox(
+    //             height: 30,
+    //           ),
+    //           const Text(
+    //             'Amount  will be credit in 24 hrs.',
+    //             style: TextStyle(
+    //               fontFamily: 'MontserratLight',
+    //               color: Color(0xFF000000),
+    //               fontWeight: FontWeight.bold,
+    //               fontSize: 10,
+    //             ),
+    //           ),
+    //           const SizedBox(
+    //             height: 10,
+    //           ),
+    //           InkWell(
+    //             onTap: () {
+    //               // showAlertDialog(context);
+    //               double withdrawalAmt =
+    //                   double.tryParse(_withdrawalAmtController.text) ?? 0.0;
+    //               double minimumAmt = double.tryParse(minimum) ?? 0.0;
+    //               if (withdrawalAmt < minimumAmt) {
+    //                 utils.showToast("please enter minimum $minimum");
+    //               } else {
+    //                 doWithdrawal();
+    //               }
+    //             },
+    //             child: Container(
+    //               height: 50,
+    //               width: size.width * 0.35,
+    //               decoration: BoxDecoration(
+    //                 borderRadius: BorderRadius.circular(1000),
+    //                 color: const Color(0xFFBD732D),
+    //               ),
+    //               alignment: Alignment.center,
+    //               child: const Text(
+    //                 'Withdrawal',
+    //                 style: TextStyle(
+    //                   fontFamily: 'MontserratLight',
+    //                   color: Color(0xFFFFFFFF),
+    //                   fontWeight: FontWeight.bold,
+    //                   fontSize: 14,
+    //                 ),
+    //               ),
+    //             ),
+    //           ),
+    //           const SizedBox(
+    //             height: 20,
+    //           ),
+    //           const Align(
+    //             alignment: Alignment.topLeft,
+    //             child: Text(
+    //               'Withdrawal  Record :',
+    //               style: TextStyle(
+    //                 fontFamily: 'MontserratLight',
+    //                 color: Color(0xFF000000),
+    //                 fontWeight: FontWeight.bold,
+    //                 fontSize: 14,
+    //               ),
+    //             ),
+    //           ),
+    //           const SizedBox(
+    //             height: 10,
+    //           ),
+    //           const MyWithdrawals()
+    //         ],
+    //       ),
+    //     ),
+    //   ),
+    // );
     return Scaffold(
       backgroundColor: colors.secondary_color,
       appBar: AppBar(
@@ -571,30 +842,38 @@ class _walletState extends State<wallet> {
   }
 
   void doWithdrawal() async {
-    prefs = await SharedPreferences.getInstance();
-    var url = Constant.WITHDRAWAL_URL;
-    Map<String, dynamic> bodyObject = {
-      Constant.USER_ID: prefs.getString(Constant.ID),
-      Constant.AMOUNT: _withdrawalAmtController.text,
-    };
-    String jsonString = await apiCall(url, bodyObject);
-    final jsonResponse = jsonDecode(jsonString);
-    final message = jsonResponse['message'];
-    final status = jsonResponse['success'];
+    try {
+      showLoadingIndicator(context);
 
-    if (status) {
-      FirebaseMessaging.instance.getToken().then((token) {
-        setState(() {
-          _fcmToken = token!;
-          userDeatils();
+      await Future.delayed(const Duration(seconds: 5));
+      prefs = await SharedPreferences.getInstance();
+      var url = Constant.WITHDRAWAL_URL;
+      Map<String, dynamic> bodyObject = {
+        Constant.USER_ID: prefs.getString(Constant.ID),
+        Constant.AMOUNT: _withdrawalAmtController.text,
+      };
+      String jsonString = await apiCall(url, bodyObject);
+      final jsonResponse = jsonDecode(jsonString);
+      final message = jsonResponse['message'];
+      final status = jsonResponse['success'];
+
+      if (status) {
+        FirebaseMessaging.instance.getToken().then((token) {
+          setState(() {
+            _fcmToken = token!;
+            userDeatils();
+          });
+          print('FCM Token: $_fcmToken');
         });
-        print('FCM Token: $_fcmToken');
-      });
-      setState(() {
-        _withdrawalAmtController.text = "";
-      });
+        setState(() {
+          _withdrawalAmtController.text = "";
+        });
+      }
+      utils.showToast(message);
+      hideLoadingIndicator(context);
+    } catch (e) {
+      debugPrint("error: $e");
     }
-    utils.showToast(message);
   }
 
   void userDeatils() async {

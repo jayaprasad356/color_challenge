@@ -1,3 +1,4 @@
+import 'package:a1_ads/controller/main_screen_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:a1_ads/controller/pcc_controller.dart';
 import 'package:a1_ads/controller/utils.dart';
@@ -18,6 +19,7 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:like_button/like_button.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class MyOffer extends StatefulWidget {
   const MyOffer({Key? key}) : super(key: key);
@@ -30,6 +32,7 @@ class _MyOfferState extends State<MyOffer> {
   late SharedPreferences prefs;
   // String offer_image = '';
   final PCC c = Get.find<PCC>();
+  final MainController mainController = Get.find<MainController>();
   List<String> DeviceID = [];
   String deviceID = '';
 
@@ -51,6 +54,7 @@ class _MyOfferState extends State<MyOffer> {
     // });
     prefs = await SharedPreferences.getInstance();
     deviceID = prefs.getString(Constant.MY_DEVICE_ID)!;
+    debugPrint("MyOffer deviceID: $deviceID");
     c.offerAPI(prefs.getString(Constant.ID)!);
     setState(() {});
     // DeviceID.add(deviceID);
@@ -70,7 +74,7 @@ class _MyOfferState extends State<MyOffer> {
     if (lastId == secondLastId) {
       isTrue = true;
       debugPrint("Equal");
-    }else{
+    } else {
       isTrue = false;
       debugPrint("Not Equal");
     }
@@ -97,10 +101,13 @@ class _MyOfferState extends State<MyOffer> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Center(
-        child: Container(
-          height: size.height,
-          width: size.width,
+      // backgroundColor: const Color(0xFFF2F2F2),
+      body: Container(
+          width:
+          MediaQuery.of(context).size.width, // Set width to the screen width
+          height: MediaQuery.of(context)
+              .size
+              .height, // Set height to the screen height
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [colors.primary_color, colors.secondary_color],
@@ -108,68 +115,83 @@ class _MyOfferState extends State<MyOffer> {
               end: Alignment.bottomCenter,
             ),
           ),
-          padding: const EdgeInsets.all(20),
-          child: SafeArea(
-            child: Obx(
-              () => c.offerImageURS.isNotEmpty
-                  ? Container(
-                      width: size.width,
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Obx(
+                      () => c.offerImageURS.isNotEmpty
+                          ? Container(
+                              width: size.width,
+                              height: size.height * 0.7,
+                              decoration: BoxDecoration(
+                                  color: Colors.transparent,
+                                  borderRadius: BorderRadius.circular(16)),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child: Image.network(
+                                  c.offerImageURS.toString(),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            )
+                          : const Center(
+                              child: SizedBox(
+                                height: 50.0,
+                                width: 50.0,
+                                child: CircularProgressIndicator(
+                                  value: null,
+                                  strokeWidth: 7.0,
+                                ),
+                              ),
+                            ),
+                    ),
+                  ),
+                  const SizedBox(height: 20,),
+                  InkWell(
+                    onTap: () {
+                      String? uri = prefs.getString(Constant.WHATSPP_GROUP_LINK);
+                      debugPrint("uri: $uri");
+                      launchUrl(
+                        Uri.parse(uri!),
+                        mode: LaunchMode.externalApplication,
+                      );
+                    },
+                    child: Container(
+                      width: size.width * 0.6,
+                      height: 40,
                       decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(16)),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: Image.network(
-                          c.offerImageURS.toString(),
-                          fit: BoxFit.fill,
-                        ),
+                        borderRadius: BorderRadius.circular(5),
+                        color: const Color(0xFF00D95F),
                       ),
-                    )
-                  : const Center(
-                      child: SizedBox(
-                        height: 50.0,
-                        width: 50.0,
-                        child: CircularProgressIndicator(
-                          value: null,
-                          strokeWidth: 7.0,
-                        ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            "assets/images/whatsapp-icon-2048x2048-64wjztht 1.png",
+                            height: 30,
+                          ),
+                          const Text(
+                            'Whatsapp Group Link',
+                            style: TextStyle(
+                              fontFamily: 'MontserratBold',
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-            ),
-          ),
-          // child: Container(
-          //   width: size.width,
-          //   decoration: BoxDecoration(
-          //       color: Colors.transparent,
-          //       borderRadius: BorderRadius.circular(16)),
-          //   child: ClipRRect(
-          //     borderRadius: BorderRadius.circular(16),
-          //     child: Image.network(
-          //       offer_image,
-          //       fit: BoxFit.fill,
-          //     ),
-          //   ),
-          // ),
-          // child: ListView.builder(
-          //   itemCount: DeviceID.length,
-          //     itemBuilder: (context, index){
-          //       return Container(
-          //         color: Colors.white,
-          //         margin: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-          //         padding: const EdgeInsets.all(10),
-          //         child: Text(
-          //             DeviceID[index],
-          //           style: const TextStyle(
-          //             color: Colors.black,
-          //             fontSize: 16,
-          //           ),
-          //         ),
-          //       );
-          //     }
-          // ),
+                  ),
+                ],
+              ),
         ),
       ),
     );
   }
 }
-

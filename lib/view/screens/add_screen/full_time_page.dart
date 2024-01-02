@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:a1_ads/controller/pcc_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:a1_ads/Helper/apiCall.dart';
 import 'package:a1_ads/controller/full_time_page_con.dart';
@@ -33,6 +34,7 @@ class FullTimePage extends StatefulWidget {
 class FullTimePageState extends State<FullTimePage> {
   final FullTimePageCont fullTimePageCont = Get.find<FullTimePageCont>();
   final HomeController homeController = Get.find<HomeController>();
+  final PCC c = Get.find<PCC>();
   late SharedPreferences prefs;
   double starttime = 0; // Set the progress value between 0.0 and 1.0 here
   String today_ads_remain = "0";
@@ -86,6 +88,9 @@ class FullTimePageState extends State<FullTimePage> {
   int countdown = 5;
   late Timer timer;
   late Timer timerWatchAd;
+  String name = "";
+  String mobile_number = "";
+  String gender = "male";
 
   @override
   void initState() {
@@ -110,6 +115,10 @@ class FullTimePageState extends State<FullTimePage> {
       referText = prefs.getString(Constant.REFER_CODE)!;
       reward_ads = prefs.getString(Constant.REWARD_ADS)!;
       storeBalance = prefs.getString(Constant.STORE_BALANCE)!;
+      name = prefs.getString(Constant.NAME)!;
+      mobile_number = prefs.getString(Constant.MOBILE)!;
+      gender = prefs.getString(Constant.GENDER)!;
+      c.offerAPI(prefs.getString(Constant.ID)!);
       debugPrint("ads_time : $ads_time");
       // setState(() {
       //   ads_time = prefs.getString(Constant.ADS_TIME)!;
@@ -132,7 +141,9 @@ class FullTimePageState extends State<FullTimePage> {
   }
 
   void skipAdTimer() {
-    setState(() {skipAdButton = true;});
+    setState(() {
+      skipAdButton = true;
+    });
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         if (countdown > 0) {
@@ -145,7 +156,9 @@ class FullTimePageState extends State<FullTimePage> {
         }
       });
     });
-    setState(() {countdown = 5;});
+    setState(() {
+      countdown = 5;
+    });
   }
 
   // @override
@@ -307,9 +320,279 @@ class FullTimePageState extends State<FullTimePage> {
     }
   }
 
+  String maskModelNumber(String modelNumber) {
+    // Assuming you want to show the first two and last two digits
+    String maskedNumber =
+        '${modelNumber.substring(0, 2)}******${modelNumber.substring(modelNumber.length - 2)}';
+    return maskedNumber;
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    // String maskedNumber = maskModelNumber(mobile_number);
+    // return Scaffold(
+    //   backgroundColor: const Color(0xFFF2F2F2),
+    //   body: SingleChildScrollView(
+    //     physics: const BouncingScrollPhysics(),
+    //     child: Column(
+    //       children: [
+    //         const SizedBox(
+    //           height: 10,
+    //         ),
+    //         Padding(
+    //           padding: const EdgeInsets.symmetric(horizontal: 20.0),
+    //           child: Row(
+    //             children: [
+    //               Image.asset(
+    //                 gender == 'male'
+    //                     ? 'assets/images/Group 18201.png'
+    //                     : 'assets/images/Group 18200.png',
+    //                 height: size.height * 0.1,
+    //               ),
+    //               const SizedBox(
+    //                 width: 15,
+    //               ),
+    //               Column(
+    //                 crossAxisAlignment: CrossAxisAlignment.start,
+    //                 children: [
+    //                   Text(
+    //                     name.toString(),
+    //                     textAlign: TextAlign.start,
+    //                     style: const TextStyle(
+    //                       fontFamily: 'MontserratBold',
+    //                       color: Color(0xFF242426),
+    //                       fontSize: 20,
+    //                     ),
+    //                   ),
+    //                   const SizedBox(
+    //                     height: 5,
+    //                   ),
+    //                   Text(
+    //                     maskedNumber,
+    //                     textAlign: TextAlign.start,
+    //                     style: const TextStyle(
+    //                       fontFamily: 'MontserratLight',
+    //                       color: Color(0xFF242426),
+    //                       fontSize: 16,
+    //                     ),
+    //                   ),
+    //                 ],
+    //               ),
+    //             ],
+    //           ),
+    //         ),
+    //         const SizedBox(
+    //           height: 10,
+    //         ),
+    //         Padding(
+    //           padding: const EdgeInsets.symmetric(horizontal: 20.0),
+    //           child: Obx(
+    //             () => c.offerImageURS.isNotEmpty
+    //                 ? Container(
+    //                     width: size.width,
+    //                     height: size.height * 0.3,
+    //                     decoration: BoxDecoration(
+    //                         color: Colors.transparent,
+    //                         borderRadius: BorderRadius.circular(16)),
+    //                     child: ClipRRect(
+    //                       borderRadius: BorderRadius.circular(16),
+    //                       child: Image.network(
+    //                         c.offerImageURS.toString(),
+    //                         fit: BoxFit.fill,
+    //                       ),
+    //                     ),
+    //                   )
+    //                 : const Center(
+    //                     child: SizedBox(
+    //                       height: 50.0,
+    //                       width: 50.0,
+    //                       child: CircularProgressIndicator(
+    //                         value: null,
+    //                         strokeWidth: 7.0,
+    //                       ),
+    //                     ),
+    //                   ),
+    //           ),
+    //         ),
+    //         const SizedBox(
+    //           height: 10,
+    //         ),
+    //         Padding(
+    //           padding: const EdgeInsets.symmetric(horizontal: 20.0),
+    //           child: Row(
+    //             children: [
+    //               Image.asset(
+    //                 'assets/images/Group 18199.png',
+    //                 height: 24,
+    //               ),
+    //               const SizedBox(
+    //                 width: 15,
+    //               ),
+    //               const Text(
+    //                 "Ads activity performance",
+    //                 textAlign: TextAlign.start,
+    //                 style: TextStyle(
+    //                   fontFamily: 'MontserratBold',
+    //                   color: Color(0xFF242426),
+    //                   fontSize: 20,
+    //                 ),
+    //               ),
+    //             ],
+    //           ),
+    //         ),
+    //         const SizedBox(
+    //           height: 10,
+    //         ),
+    //         Padding(
+    //           padding: const EdgeInsets.symmetric(horizontal: 20.0),
+    //           child: Container(
+    //             height: size.height * 0.3,
+    //             width: double.infinity,
+    //             decoration: BoxDecoration(
+    //                 borderRadius: BorderRadius.circular(10),
+    //                 gradient: const LinearGradient(
+    //                     begin: Alignment.topCenter,
+    //                     end: Alignment.bottomCenter,
+    //                     colors: [
+    //                       Color(0xFFE27E1C),
+    //                       Color(0xFF851161),
+    //                     ])),
+    //             child: Stack(
+    //               children: [
+    //                 Align(
+    //                   alignment: Alignment.centerRight,
+    //                   child: Image.asset(
+    //                     'assets/images/noto_money-with-wings.png',
+    //                     height: 64,
+    //                   ),
+    //                 ),
+    //                 Align(
+    //                   alignment: Alignment.bottomLeft,
+    //                   child: Image.asset(
+    //                     'assets/images/Group.png',
+    //                     height: 34,
+    //                   ),
+    //                 ),
+    //                 Padding(
+    //                   padding: EdgeInsets.symmetric(
+    //                       horizontal: size.width * 0.1,
+    //                       vertical: size.height * 0.05),
+    //                   child: Column(
+    //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //                     children: [
+    //                       Row(
+    //                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //                         children: [
+    //                           Column(
+    //                             children: [
+    //                               const Text(
+    //                                 "Today Ads",
+    //                                 textAlign: TextAlign.start,
+    //                                 style: TextStyle(
+    //                                   fontFamily: 'MontserratLight',
+    //                                   color: Color(0xFFFFFFFF),
+    //                                   fontSize: 16,
+    //                                 ),
+    //                               ),
+    //                               Text(
+    //                                 today_ads,
+    //                                 textAlign: TextAlign.start,
+    //                                 style: const TextStyle(
+    //                                   fontFamily: 'MontserratLight',
+    //                                   color: Color(0xFF00FFFF),
+    //                                   fontSize: 20,
+    //                                 ),
+    //                               ),
+    //                             ],
+    //                           ),
+    //                           Column(
+    //                             children: [
+    //                               const Text(
+    //                                 "Total Ads",
+    //                                 textAlign: TextAlign.start,
+    //                                 style: TextStyle(
+    //                                   fontFamily: 'MontserratLight',
+    //                                   color: Color(0xFFFFFFFF),
+    //                                   fontSize: 16,
+    //                                 ),
+    //                               ),
+    //                               Text(
+    //                                 total_ads,
+    //                                 textAlign: TextAlign.start,
+    //                                 style: const TextStyle(
+    //                                   fontFamily: 'MontserratLight',
+    //                                   color: Color(0xFF00FFFF),
+    //                                   fontSize: 20,
+    //                                 ),
+    //                               ),
+    //                             ],
+    //                           ),
+    //                         ],
+    //                       ),
+    //                       Row(
+    //                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //                         children: [
+    //                           const Column(
+    //                             children: [
+    //                               Text(
+    //                                 "Total Referrals",
+    //                                 textAlign: TextAlign.start,
+    //                                 style: TextStyle(
+    //                                   fontFamily: 'MontserratLight',
+    //                                   color: Color(0xFFFFFFFF),
+    //                                   fontSize: 16,
+    //                                 ),
+    //                               ),
+    //                               Text(
+    //                                 "5",
+    //                                 textAlign: TextAlign.start,
+    //                                 style: TextStyle(
+    //                                   fontFamily: 'MontserratLight',
+    //                                   color: Color(0xFF00FFFF),
+    //                                   fontSize: 20,
+    //                                 ),
+    //                               ),
+    //                             ],
+    //                           ),
+    //                           Column(
+    //                             children: [
+    //                               const Text(
+    //                                 "Total Balance",
+    //                                 textAlign: TextAlign.start,
+    //                                 style: TextStyle(
+    //                                   fontFamily: 'MontserratLight',
+    //                                   color: Color(0xFFFFFFFF),
+    //                                   fontSize: 16,
+    //                                 ),
+    //                               ),
+    //                               Text(
+    //                                 "₹ $balance",
+    //                                 textAlign: TextAlign.start,
+    //                                 style: const TextStyle(
+    //                                   fontFamily: 'MontserratLight',
+    //                                   color: Color(0xFF00FFFF),
+    //                                   fontSize: 20,
+    //                                 ),
+    //                               ),
+    //                             ],
+    //                           ),
+    //                         ],
+    //                       ),
+    //                     ],
+    //                   ),
+    //                 ),
+    //               ],
+    //             ),
+    //           ),
+    //         ),
+    //         const SizedBox(
+    //           height: 10,
+    //         ),
+    //       ],
+    //     ),
+    //   ),
+    // );
     return Scaffold(
       body: Container(
         width:
@@ -490,6 +773,7 @@ class FullTimePageState extends State<FullTimePage> {
                                   debugPrint("syncUniqueId: $syncUniqueId");
                                   // Call the syncData function and get the result immediately
                                   fullTimePageCont.syncData(
+                                    context,
                                     prefs.getString(Constant.ID),
                                     adsCount.toString(),
                                     syncUniqueId.toString(),
@@ -579,7 +863,7 @@ class FullTimePageState extends State<FullTimePage> {
                                   Column(
                                     children: [
                                       const Text(
-                                        "Store Balance",
+                                        "Store Ads",
                                         style: TextStyle(
                                             fontFamily: 'MontserratLight',
                                             fontWeight: FontWeight.w500,
@@ -606,36 +890,36 @@ class FullTimePageState extends State<FullTimePage> {
                                       // ),),
                                     ],
                                   ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  InkWell(
-                                    onTap: (){
-                                      String uri =
-                                          Constant.PurchaseWebUrl;
-                                      launchUrl(
-                                        Uri.parse(uri),
-                                        mode: LaunchMode.inAppWebView,
-                                      );
-                                    },
-                                    child: Container(
-                                      height: 30,
-                                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10000),
-                                        color: colors.widget_color,
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: const Text(
-                                        'Purchase',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 10,
-                                            color: Colors.white
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                  // const SizedBox(
+                                  //   width: 10,
+                                  // ),
+                                  // InkWell(
+                                  //   onTap: (){
+                                  //     String uri =
+                                  //         Constant.PurchaseWebUrl;
+                                  //     launchUrl(
+                                  //       Uri.parse(uri),
+                                  //       mode: LaunchMode.inAppWebView,
+                                  //     );
+                                  //   },
+                                  //   child: Container(
+                                  //     height: 30,
+                                  //     padding: const EdgeInsets.symmetric(horizontal: 10),
+                                  //     decoration: BoxDecoration(
+                                  //         borderRadius: BorderRadius.circular(10000),
+                                  //       color: colors.widget_color,
+                                  //     ),
+                                  //     alignment: Alignment.center,
+                                  //     child: const Text(
+                                  //       'Purchase',
+                                  //       style: TextStyle(
+                                  //           fontWeight: FontWeight.bold,
+                                  //           fontSize: 10,
+                                  //           color: Colors.white
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                             ),
@@ -870,7 +1154,7 @@ class FullTimePageState extends State<FullTimePage> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 5),
                   Container(
                     margin: const EdgeInsets.only(right: 30),
                     alignment: Alignment.topRight,
@@ -901,6 +1185,7 @@ class FullTimePageState extends State<FullTimePage> {
                           )),
                     ),
                   ),
+                  const SizedBox(height: 5),
                   Image.network(
                     ads_image,
                     fit: BoxFit.contain,
@@ -1143,7 +1428,9 @@ class FullTimePageState extends State<FullTimePage> {
                 () {
                   debugPrint("action completed");
                   skipAdTimer();
-                  setState(() {countdown = 5;});
+                  setState(() {
+                    countdown = 5;
+                  });
                   watchAds();
                   Navigator.of(context).pop();
                 },

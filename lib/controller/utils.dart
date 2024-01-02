@@ -18,6 +18,9 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:platform_device_id_platform_interface/platform_device_id_platform_interface.dart';
+
+import 'package:flutter/services.dart';
 
 final googleSignIn = GoogleSignIn();
 
@@ -42,8 +45,8 @@ class Utils extends GetxController {
   //   late String deviceId;
   //
   //
-  //     AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
-  //     deviceId = androidInfo.androidId;
+  //   deviceId = (await PlatformDeviceIdPlatform.instance.getDeviceId())!;
+  //     // deviceId = androidInfo.androidId;
   //
   //   final prefs = await SharedPreferences.getInstance();
   //   prefs.setString(Constant.MY_DEVICE_ID, deviceId);

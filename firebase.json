@@ -1,6 +1,7 @@
 {
   "hosting": {
-    "site": "a1-ads-web",
+    "site": "a1-ads",
+//    "site": "a1-ads-web",
     "public": "build/web",
     "ignore": [
       "firebase.json",

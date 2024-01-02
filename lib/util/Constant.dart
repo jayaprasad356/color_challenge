@@ -9,10 +9,14 @@ class Constant {
   static const String A1AdsHelpWebUrl = "https://a1ads.site/";
   static const String PurchaseWebUrl = "https://slveenterprises.org/shop/A1Store?cid=5970735";
   //static const String MainBaseUrl = "http://192.168.35.38/color_challenge_admin/";
-  //static const String MainBaseUrl = "https://demo.colorjobs.site/";
+  // static const String MainBaseUrl = "https://demo.colorjobs.site/";
   static const String BaseUrl = "${MainBaseUrl}api/";
   static const String LOGIN_URL = "${BaseUrl}login.php";
   static const String USER_DETAIL_URL = "${BaseUrl}user_details.php";
+  static const String CATEGORY_LIST = "${BaseUrl}category_list.php";
+  static const String PRODUCT_LIST = "${BaseUrl}product_list.php";
+  static const String ORDERS = "${BaseUrl}orders.php";
+  static const String ORDERS_LIST = "${BaseUrl}orders_list.php";
   static const String REGISTER_URL = "${BaseUrl}register.php";
   static const String UPDATE_PROFILE_URL = "${BaseUrl}update_profile.php";
   static const String WITHDRAWAL_URL = "${BaseUrl}withdrawals.php";

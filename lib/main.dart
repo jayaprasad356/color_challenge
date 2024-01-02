@@ -4,16 +4,21 @@ import 'dart:io';
 // import 'package:color_challenge/test.dart';
 import 'package:a1_ads/controller/full_time_page_con.dart';
 import 'package:a1_ads/controller/home_controller.dart';
+import 'package:a1_ads/controller/job_con.dart';
 import 'package:a1_ads/controller/main_screen_controller.dart';
 import 'package:a1_ads/controller/pcc_controller.dart';
 import 'package:a1_ads/controller/upi_controller.dart';
 import 'package:a1_ads/data/api/api_client.dart';
 import 'package:a1_ads/data/repository/full_time_repo.dart';
 import 'package:a1_ads/data/repository/home_repo.dart';
+import 'package:a1_ads/data/repository/job_repo.dart';
 import 'package:a1_ads/data/repository/main_repo.dart';
 import 'package:a1_ads/data/repository/shorts_video_repo.dart';
 import 'package:a1_ads/data/repository/upi_repo.dart';
 import 'package:a1_ads/test.dart';
+import 'package:a1_ads/view/screens/home_page/address_fill.dart';
+import 'package:a1_ads/view/screens/job/a1_uploaaded_job.dart';
+import 'package:a1_ads/view/screens/job/jobs.dart';
 import 'package:a1_ads/view/screens/login/loginMobile.dart';
 import 'package:a1_ads/view/screens/login/mainScreen.dart';
 import 'package:a1_ads/view/screens/login/otpVerfication.dart';
@@ -35,6 +40,9 @@ import 'controller/utils.dart';
 import 'package:package_info/package_info.dart';
 import 'package:get/get.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'view/screens/home_page/homePage.dart';
+import 'view/screens/home_page/my_orders.dart';
+import 'view/screens/home_page/product_details.dart';
 import 'view/screens/profile_screen/new_profile_screen.dart';
 import 'view/screens/updateApp/updateApp.dart';
 import 'package:flutter/foundation.dart';
@@ -122,6 +130,18 @@ Future<void> main() async {
             storageLocal: storeLocal,
           ),
           storageLocal: storeLocal),
+    ),
+  );
+
+  Get.put(
+    JobCon(
+      jobRepo: JobRepo(
+        apiClient: ApiClient(
+          appBaseUrl: Constant.MainBaseUrl,
+          storageLocal: storeLocal,
+        ),
+        storageLocal: storeLocal,
+      ),
     ),
   );
 
@@ -306,6 +326,10 @@ class _MyAppState extends State<MyApp> {
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
+            darkTheme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            themeMode: ThemeMode.light,
             routes: {
               '/otpVerification': (context) => const OtpVerification(
                     mobileNumber: '',
@@ -354,17 +378,32 @@ class _MyAppState extends State<MyApp> {
               Get.put(
                 UPIController(
                   upiRepo: UPIRepo(
-                      apiClient: ApiClient(
-                          appBaseUrl: Constant.MainBaseUrl,
-                          storageLocal: storeLocal,),
-                      storageLocal: storeLocal,),
+                    apiClient: ApiClient(
+                      appBaseUrl: Constant.MainBaseUrl,
+                      storageLocal: storeLocal,
+                    ),
+                    storageLocal: storeLocal,
+                  ),
+                ),
+              );
+              Get.put(
+                JobCon(
+                  jobRepo: JobRepo(
+                    apiClient: ApiClient(
+                      appBaseUrl: Constant.MainBaseUrl,
+                      storageLocal: storeLocal,
+                    ),
+                    storageLocal: storeLocal,
+                  ),
                 ),
               );
             }),
             home: screens(prefs, update, link),
             // ca65ae48b1a00e20e4d2c81cc87f50de
             // b7512f3a7251c50a1737b614cf78d929
-            // home: LoginMobile(),
+            // home: const TestingPage(),
+            // home: const MainScreen(),
+            // home: const A1UploadedJob(),
             // home: isOpenLap() != 'true'
             //     ? screens(prefs, update, link)
             //     : const Scaffold(
@@ -380,6 +419,17 @@ class _MyAppState extends State<MyApp> {
       },
     );
   }
+  // @override
+  // Widget build(BuildContext context) {
+  //   return GetMaterialApp(
+  //     debugShowCheckedModeBanner: false,
+  //     title: 'A1 Ads',
+  //     theme: ThemeData(
+  //       primarySwatch: Colors.blue,
+  //     ),
+  //     home: const TestingPage(),
+  //   );
+  // }
 }
 
 Widget screens(SharedPreferences prefs, bool update, String link) {

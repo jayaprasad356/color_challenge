@@ -26,8 +26,7 @@ class _PostUploadState extends State<PostUpload> {
   late SharedPreferences prefs;
   List<XFile> photo = [];
   String basic_wallet = "";
-  String media_wallet = "",
-      post_left = "";
+  String media_wallet = "", post_left = "";
 
   @override
   void initState() {
@@ -228,7 +227,11 @@ class _PostUploadState extends State<PostUpload> {
                       alignment: Alignment.center,
                       child: Padding(
                         padding: const EdgeInsets.only(
-                            top: 3.0, left: 5.0, right: 5.0, bottom: 3.0,),
+                          top: 3.0,
+                          left: 5.0,
+                          right: 5.0,
+                          bottom: 3.0,
+                        ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -236,19 +239,21 @@ class _PostUploadState extends State<PostUpload> {
                               "Purchase Post\n₹20",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontFamily: 'MontserratBold', color: colors.white),
+                                  fontFamily: 'MontserratBold',
+                                  color: colors.white),
                             ),
                             const Text(
                               "10 likes = ₹1",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontFamily: 'MontserratBold', color: colors.white),
+                                  fontFamily: 'MontserratBold',
+                                  color: colors.white),
                             ),
                             const SizedBox(
                               height: 10,
                             ),
                             MaterialButton(
-                              onPressed: () async{
+                              onPressed: () async {
                                 prefs = await SharedPreferences.getInstance();
                                 String? userId = prefs.getString(Constant.ID);
                                 debugPrint("userId : $userId");
@@ -262,7 +267,8 @@ class _PostUploadState extends State<PostUpload> {
                                 width: size.width * 0.255,
                                 decoration: const BoxDecoration(
                                   image: DecorationImage(
-                                    image: AssetImage("assets/images/btnbg.png"),
+                                    image:
+                                        AssetImage("assets/images/btnbg.png"),
                                     fit: BoxFit.fill,
                                   ),
                                 ),
@@ -416,17 +422,30 @@ class PhotoDisplayWidget extends StatelessWidget {
       child: photo != null
           ? Image.file(File(photo!.path))
           : Container(
-              height: size.height * 0.2,
+              height: size.height * 0.25,
               decoration: BoxDecoration(
-                  color: Colors.blue, borderRadius: BorderRadius.circular(16)),
+                color: const Color(0xFFD9DDFF),
+                borderRadius: BorderRadius.circular(16),
+              ),
               alignment: Alignment.center,
-              child: const Text(
-                'Select Post Photo',
-                style: TextStyle(
-                    color: colors.white,
-                    fontSize: 14,
-                    fontFamily: "MontserratBold",
-                    fontWeight: FontWeight.bold),
+              child: const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'upload  image ',
+                    style: TextStyle(
+                        color: Color(0xFF242426),
+                        fontSize: 14,
+                        fontFamily: "MontserratLight",
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Icon(
+                    Icons.add,
+                    size: 24,
+                    color: Color(0xFF4F4F53),
+                  )
+                ],
               ),
             ),
     );

@@ -26,6 +26,32 @@ class UpdateProfileScreen extends StatefulWidget {
 class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    // return Scaffold(
+    //   backgroundColor: const Color(0xFFF8F8F8),
+    //   appBar: AppBar(
+    //     centerTitle: true,
+    //     automaticallyImplyLeading: false,
+    //     elevation: 0,
+    //     backgroundColor: const Color(0xFFF8F8F8),
+    //     title: const Text(
+    //       "Profile",
+    //       style: TextStyle(
+    //         fontFamily: 'MontserratLight',
+    //         color: Color(0xFF000000),
+    //       ),
+    //     ),
+    //     leading: IconButton(
+    //       onPressed: () {
+    //         Get.back();
+    //       },
+    //       icon: Image.asset(
+    //         'assets/images/Group 18197.png',
+    //         height: 34,
+    //       ),
+    //     ),
+    //   ),
+    //   body: ProfileForm(),
+    // );
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -122,19 +148,271 @@ class _ProfileFormState extends State<ProfileForm> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    // return Scaffold(
+    //   body: SingleChildScrollView(
+    //     physics: const BouncingScrollPhysics(),
+    //     child: Form(
+    //       key: _formKey,
+    //       child: Padding(
+    //         padding: const EdgeInsets.all(16.0),
+    //         child: Column(
+    //           crossAxisAlignment: CrossAxisAlignment.stretch,
+    //           children: [
+    //             TextField(
+    //               controller: _nameController,
+    //               decoration: InputDecoration(
+    //                 labelText: 'Enter Name',
+    //                 labelStyle: const TextStyle(color: Color(0xFF000000),fontFamily: 'MontserratBold',),
+    //                 hintStyle: const TextStyle(color: Color(0xFF878787)),
+    //                 border: OutlineInputBorder(
+    //                   borderSide: const BorderSide(
+    //                     width: 1,
+    //                     color: Color(0xFFD00000),
+    //                   ),
+    //                   borderRadius: BorderRadius.circular(10.0),
+    //                 ),
+    //                 enabledBorder: OutlineInputBorder(
+    //                   borderSide: const BorderSide(
+    //                     width: 1,
+    //                     color: Color(0xFFD00000),
+    //                   ),
+    //                   borderRadius: BorderRadius.circular(10.0),
+    //                 ),
+    //               ),
+    //               style: const TextStyle(color: Color(0xFF727272),fontFamily: 'MontserratBold',),
+    //             ),
+    //             const SizedBox(height: 16),
+    //             TextField(
+    //               controller: _cityController,
+    //               decoration: InputDecoration(
+    //                 labelText: 'Enter City',
+    //                 labelStyle: const TextStyle(color: Color(0xFF000000),fontFamily: 'MontserratBold',),
+    //                 hintStyle: const TextStyle(color: Color(0xFF878787),fontFamily: 'MontserratLight',),
+    //                 border: OutlineInputBorder(
+    //                   borderSide: const BorderSide(
+    //                     width: 1,
+    //                     color: Color(0xFFD00000),
+    //                   ),
+    //                   borderRadius: BorderRadius.circular(10.0),
+    //                 ),
+    //                 enabledBorder: OutlineInputBorder(
+    //                   borderSide: const BorderSide(
+    //                     width: 1,
+    //                     color: Color(0xFFD00000),
+    //                   ),
+    //                   borderRadius: BorderRadius.circular(10.0),
+    //                 ),
+    //               ),
+    //               style: const TextStyle(color: Color(0xFF727272),fontFamily: 'MontserratBold',),
+    //             ),
+    //             const SizedBox(height: 16),
+    //             TextField(
+    //               controller: _ageController,
+    //               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+    //               maxLength: 2,
+    //               decoration: InputDecoration(
+    //                 labelText: 'Enter Age',
+    //                 labelStyle: const TextStyle(color: Color(0xFF000000),fontFamily: 'MontserratBold',),
+    //                 hintStyle: const TextStyle(color: Color(0xFF878787)),
+    //                 border: OutlineInputBorder(
+    //                   borderSide: const BorderSide(
+    //                     width: 1,
+    //                     color: Color(0xFFD00000),
+    //                   ),
+    //                   borderRadius: BorderRadius.circular(10.0),
+    //                 ),
+    //                 enabledBorder: OutlineInputBorder(
+    //                   borderSide: const BorderSide(
+    //                     width: 1,
+    //                     color: Color(0xFFD00000),
+    //                   ),
+    //                   borderRadius: BorderRadius.circular(10.0),
+    //                 ),
+    //               ),
+    //               style: const TextStyle(color: Color(0xFF727272),fontFamily: 'MontserratBold',),
+    //               keyboardType: TextInputType.number,
+    //             ),
+    //             TextField(
+    //               controller: _emailController,
+    //               decoration: InputDecoration(
+    //                 labelText: 'Enter Email',
+    //                 labelStyle: const TextStyle(color: Color(0xFF000000),fontFamily: 'MontserratBold',),
+    //                 hintStyle: const TextStyle(color: Color(0xFF878787)),
+    //                 border: OutlineInputBorder(
+    //                   borderSide: const BorderSide(
+    //                     width: 1,
+    //                     color: Color(0xFFD00000),
+    //                   ),
+    //                   borderRadius: BorderRadius.circular(10.0),
+    //                 ),
+    //                 enabledBorder: OutlineInputBorder(
+    //                   borderSide: const BorderSide(
+    //                     width: 1,
+    //                     color: Color(0xFFD00000),
+    //                   ),
+    //                   borderRadius: BorderRadius.circular(10.0),
+    //                 ),
+    //               ),
+    //               style: const TextStyle(color: Color(0xFF727272),fontFamily: 'MontserratBold',),
+    //             ),
+    //             const SizedBox(height: 16),
+    //             // const SizedBox(height: 1),
+    //             const Text(
+    //               "Select Gender",
+    //               style: TextStyle(fontSize: 12, color: colors.black,fontFamily: 'MontserratBold',),
+    //             ),
+    //             const SizedBox(height: 5),
+    //             Container(
+    //               width: double
+    //                   .infinity, // Set the width to fill the available space
+    //               decoration: BoxDecoration(
+    //                 borderRadius: BorderRadius.circular(10),
+    //                 border: Border.all(
+    //                   color: const Color(0xFFD00000),
+    //                   width: 1.0,
+    //                 ),
+    //               ),
+    //               padding: const EdgeInsets.only(
+    //                 left: 10,
+    //                 right: 10,
+    //                 bottom: 5,
+    //               ),
+    //               child: DropdownButton(
+    //                 value: gender,
+    //                 icon: const Icon(Icons.keyboard_arrow_down),
+    //                 items: items.map((String item) {
+    //                   return DropdownMenuItem(
+    //                     value: item,
+    //                     child: Text(item,style: const TextStyle(color: colors.black,fontFamily: 'MontserratBold',),),
+    //                   );
+    //                 }).toList(),
+    //                 onChanged: (String? newValue) {
+    //                   setState(() {
+    //                     gender = newValue!;
+    //                   });
+    //                 },
+    //                 style: const TextStyle(color: colors.black,fontFamily: 'MontserratBold',),
+    //                 dropdownColor: const Color(0xFFF8F8F8),
+    //               ),
+    //             ),
+    //             const SizedBox(height: 16),
+    //             const Text(
+    //               "Select Customer Support",
+    //               style: TextStyle(fontSize: 12, color: colors.black,fontFamily: 'MontserratBold',),
+    //             ),
+    //             const SizedBox(height: 5),
+    //             Container(
+    //               width: double
+    //                   .infinity, // Set the width to fill the available space
+    //               decoration: BoxDecoration(
+    //                 borderRadius: BorderRadius.circular(10),
+    //                 border: Border.all(
+    //                   color: const Color(0xFFD00000),
+    //                   width: 1.0,
+    //                 ),
+    //               ),
+    //               padding: const EdgeInsets.only(
+    //                 left: 10,
+    //                 right: 10,
+    //                 bottom: 5,
+    //               ),
+    //               child: DropdownButton(
+    //                 value: language,
+    //                 icon: const Icon(Icons.keyboard_arrow_down),
+    //                 items: languages.map((String item) {
+    //                   return DropdownMenuItem(
+    //                     value: item,
+    //                     child: Text(item,style: const TextStyle(color: colors.black,fontFamily: 'MontserratBold',),),
+    //                   );
+    //                 }).toList(),
+    //                 onChanged: (String? newValue) {
+    //                   setState(() {
+    //                     language = newValue!;
+    //                   });
+    //                 },
+    //                 style: const TextStyle(color: colors.black,fontFamily: 'MontserratBold',),
+    //                 dropdownColor: const Color(0xFFF8F8F8),
+    //               ),
+    //             ),
+    //             const SizedBox(height: 16),
+    //             const Text(
+    //               "Are you Deaf or Dumb?",
+    //               style: TextStyle(fontSize: 12, color: colors.black,fontFamily: 'MontserratBold',),
+    //             ),
+    //             const SizedBox(height: 5),
+    //             Container(
+    //               width: double.infinity,
+    //               decoration: BoxDecoration(
+    //                 borderRadius: BorderRadius.circular(10),
+    //                 border: Border.all(
+    //                   color: const Color(0xFFD00000),
+    //                   width: 1.0,
+    //                 ),
+    //               ),
+    //               padding: const EdgeInsets.only(
+    //                 left: 10,
+    //                 right: 10,
+    //                 bottom: 5,
+    //               ),
+    //               child: DropdownButton(
+    //                 value: deafDumb,
+    //                 icon: const Icon(Icons.keyboard_arrow_down),
+    //                 items: itemsDeafDumb.map((String item) {
+    //                   return DropdownMenuItem(
+    //                     value: item,
+    //                     child: Text(item == '0' ? 'No' : 'Yes',style: const TextStyle(color: colors.black,fontFamily: 'MontserratBold',),),
+    //                   );
+    //                 }).toList(),
+    //                 onChanged: (String? newValue) {
+    //                   setState(() {
+    //                     deafDumb = newValue!;
+    //                   });
+    //                 },
+    //                 style: const TextStyle(color: colors.black,fontFamily: 'MontserratBold',),
+    //                 dropdownColor: const Color(0xFFF8F8F8),
+    //               ),
+    //             ),
+    //             const SizedBox(height: 24),
+    //             InkWell(
+    //               onTap: () {
+    //                 updateProfile();
+    //               },
+    //               child: Container(
+    //                 height: 50,
+    //                 width: size.width * 0.35,
+    //                 decoration: BoxDecoration(
+    //                   borderRadius: BorderRadius.circular(1000),
+    //                   color: const Color(0xFFBD732D),
+    //                 ),
+    //                 alignment: Alignment.center,
+    //                 child: const Text(
+    //                   'Update',
+    //                   style: TextStyle(
+    //                     fontFamily: 'MontserratLight',
+    //                     color: Color(0xFFFFFFFF),
+    //                     fontWeight: FontWeight.bold,
+    //                     fontSize: 14,
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //           ],
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    // );
     return Scaffold(
       body: Container(
         width:
-            MediaQuery.of(context).size.width, // Set width to the screen width
+        MediaQuery.of(context).size.width, // Set width to the screen width
         height: MediaQuery.of(context)
             .size
             .height, // Set height to the screen height
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              colors.primary_color,
-              colors.secondary_color
-            ], // Change these colors to your desired gradient colors
+            colors: [colors.primary_color, colors.secondary_color],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -152,48 +430,48 @@ class _ProfileFormState extends State<ProfileForm> {
                     controller: _nameController,
                     decoration: InputDecoration(
                       labelText: 'Enter Name',
-                      labelStyle: const TextStyle(color: Colors.white),
-                      hintStyle: const TextStyle(color: Colors.white),
+                      labelStyle: const TextStyle(color: Color(0xFFFFFFFF),fontFamily: 'MontserratBold',),
+                      hintStyle: const TextStyle(color: Color(0xFFFFFFFF)),
                       border: OutlineInputBorder(
                         borderSide: const BorderSide(
                           width: 1,
-                          color: Colors.white60,
+                          color: Colors.white70,
                         ),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: const BorderSide(
                           width: 1,
-                          color: Colors.white60,
+                          color: Colors.white70,
                         ),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Color(0xFFFFFFFF),fontFamily: 'MontserratLight',),
                   ),
                   const SizedBox(height: 16),
                   TextField(
                     controller: _cityController,
-                    style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       labelText: 'Enter City',
-                      labelStyle: const TextStyle(color: Colors.white),
-                      hintStyle: const TextStyle(color: Colors.white),
+                      labelStyle: const TextStyle(color: Color(0xFFFFFFFF),fontFamily: 'MontserratBold',),
+                      hintStyle: const TextStyle(color: Color(0xFFFFFFFF)),
                       border: OutlineInputBorder(
                         borderSide: const BorderSide(
                           width: 1,
-                          color: Colors.white60,
+                          color: Colors.white70,
                         ),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: const BorderSide(
                           width: 1,
-                          color: Colors.white60,
+                          color: Colors.white70,
                         ),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
+                    style: const TextStyle(color: Color(0xFFFFFFFF),fontFamily: 'MontserratLight',),
                   ),
                   const SizedBox(height: 16),
                   TextField(
@@ -202,54 +480,54 @@ class _ProfileFormState extends State<ProfileForm> {
                     maxLength: 2,
                     decoration: InputDecoration(
                       labelText: 'Enter Age',
-                      labelStyle: const TextStyle(color: Colors.white),
-                      hintStyle: const TextStyle(color: Colors.white),
+                      labelStyle: const TextStyle(color: Color(0xFFFFFFFF),fontFamily: 'MontserratBold',),
+                      hintStyle: const TextStyle(color: Color(0xFFFFFFFF)),
                       border: OutlineInputBorder(
                         borderSide: const BorderSide(
                           width: 1,
-                          color: Colors.white60,
+                          color: Colors.white70,
                         ),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: const BorderSide(
                           width: 1,
-                          color: Colors.white60,
+                          color: Colors.white70,
                         ),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Color(0xFFFFFFFF),fontFamily: 'MontserratLight',),
                     keyboardType: TextInputType.number,
                   ),
                   TextField(
                     controller: _emailController,
-                    style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       labelText: 'Enter Email',
-                      labelStyle: const TextStyle(color: Colors.white),
-                      hintStyle: const TextStyle(color: Colors.white),
+                      labelStyle: const TextStyle(color: Color(0xFFFFFFFF),fontFamily: 'MontserratBold',),
+                      hintStyle: const TextStyle(color: Color(0xFFFFFFFF)),
                       border: OutlineInputBorder(
                         borderSide: const BorderSide(
                           width: 1,
-                          color: Colors.white60,
+                          color: Colors.white70,
                         ),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: const BorderSide(
                           width: 1,
-                          color: Colors.white60,
+                          color: Colors.white70,
                         ),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
+                    style: const TextStyle(color: Color(0xFFFFFFFF),fontFamily: 'MontserratLight',),
                   ),
                   const SizedBox(height: 16),
                   // const SizedBox(height: 1),
                   const Text(
                     "Select Gender",
-                    style: TextStyle(fontSize: 12, color: colors.white),
+                    style: TextStyle(fontSize: 12, color: colors.white,fontFamily: 'MontserratBold',),
                   ),
                   const SizedBox(height: 5),
                   Container(
@@ -258,7 +536,7 @@ class _ProfileFormState extends State<ProfileForm> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
-                        color: Colors.white60,
+                        color: Colors.white70,
                         width: 1.0,
                       ),
                     ),
@@ -273,7 +551,7 @@ class _ProfileFormState extends State<ProfileForm> {
                       items: items.map((String item) {
                         return DropdownMenuItem(
                           value: item,
-                          child: Text(item),
+                          child: Text(item,style: const TextStyle(color: colors.white,fontFamily: 'MontserratLight',),),
                         );
                       }).toList(),
                       onChanged: (String? newValue) {
@@ -281,14 +559,14 @@ class _ProfileFormState extends State<ProfileForm> {
                           gender = newValue!;
                         });
                       },
-                      style: const TextStyle(color: colors.white),
-                      dropdownColor: colors.primary_color,
+                      style: const TextStyle(color: colors.white,fontFamily: 'MontserratLight',),
+                      dropdownColor:  colors.primary_color,
                     ),
                   ),
                   const SizedBox(height: 16),
                   const Text(
                     "Select Customer Support",
-                    style: TextStyle(fontSize: 12, color: colors.white),
+                    style: TextStyle(fontSize: 12, color: colors.white,fontFamily: 'MontserratBold',),
                   ),
                   const SizedBox(height: 5),
                   Container(
@@ -297,7 +575,7 @@ class _ProfileFormState extends State<ProfileForm> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
-                        color: Colors.white60,
+                        color: Colors.white70,
                         width: 1.0,
                       ),
                     ),
@@ -312,7 +590,7 @@ class _ProfileFormState extends State<ProfileForm> {
                       items: languages.map((String item) {
                         return DropdownMenuItem(
                           value: item,
-                          child: Text(item),
+                          child: Text(item,style: const TextStyle(color: colors.white,fontFamily: 'MontserratLight',),),
                         );
                       }).toList(),
                       onChanged: (String? newValue) {
@@ -320,14 +598,14 @@ class _ProfileFormState extends State<ProfileForm> {
                           language = newValue!;
                         });
                       },
-                      style: const TextStyle(color: colors.white),
+                      style: const TextStyle(color: colors.white,fontFamily: 'MontserratLight',),
                       dropdownColor: colors.primary_color,
                     ),
                   ),
                   const SizedBox(height: 16),
                   const Text(
                     "Are you Deaf or Dumb?",
-                    style: TextStyle(fontSize: 12, color: colors.white),
+                    style: TextStyle(fontSize: 12, color: colors.white,fontFamily: 'MontserratBold',),
                   ),
                   const SizedBox(height: 5),
                   Container(
@@ -335,7 +613,7 @@ class _ProfileFormState extends State<ProfileForm> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
-                        color: Colors.white60,
+                        color: Colors.white70,
                         width: 1.0,
                       ),
                     ),
@@ -350,7 +628,7 @@ class _ProfileFormState extends State<ProfileForm> {
                       items: itemsDeafDumb.map((String item) {
                         return DropdownMenuItem(
                           value: item,
-                          child: Text(item == '0' ? 'No' : 'Yes'),
+                          child: Text(item == '0' ? 'No' : 'Yes',style: const TextStyle(color: colors.white,fontFamily: 'MontserratLight',),),
                         );
                       }).toList(),
                       onChanged: (String? newValue) {
@@ -358,7 +636,7 @@ class _ProfileFormState extends State<ProfileForm> {
                           deafDumb = newValue!;
                         });
                       },
-                      style: const TextStyle(color: colors.white),
+                      style: const TextStyle(color: colors.white,fontFamily: 'MontserratLight',),
                       dropdownColor: colors.primary_color,
                     ),
                   ),

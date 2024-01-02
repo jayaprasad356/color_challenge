@@ -37,6 +37,7 @@ class FullTimePageCont extends GetxController implements GetxService {
   }
 
   Future<void> syncData(
+      context,
     userId,
     ads,
     syncUniqueId,
@@ -47,6 +48,10 @@ class FullTimePageCont extends GetxController implements GetxService {
   ) async {
     prefs = await SharedPreferences.getInstance();
     try {
+      showLoadingIndicator(context);
+
+      await Future.delayed(const Duration(seconds: 5));
+
       final value = await fullTimeRepo.syncData(
           userId, ads, syncUniqueId, deviceId, syncType, platformType);
       var responseData = value.body;
@@ -95,11 +100,36 @@ class FullTimePageCont extends GetxController implements GetxService {
 
       // Execute the callback after the function is completed
       callback(syncDataList.success.toString());
+
+      hideLoadingIndicator(context);
     } catch (e) {
       debugPrint("syncData errors: $e");
       // Handle errors
       callback('error');
     }
+  }
+
+  void showLoadingIndicator(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(height: 8),
+              Text('Loading...'),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void hideLoadingIndicator(BuildContext context) {
+    Navigator.of(context).pop();
   }
 
   // Future<void> syncData(userId, ads, syncUniqueId) async {

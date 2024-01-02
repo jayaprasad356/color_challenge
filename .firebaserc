@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "a1-ads-web"
-  }
+    "staging": "a1-ads"
+  },
+  "targets": {},
+  "etags": {}
 }

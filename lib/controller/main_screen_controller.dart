@@ -26,6 +26,7 @@ class MainController extends GetxController implements GetxService {
     });
   }
   late SharedPreferences prefs;
+  RxString whatsppGroupLink = ''.obs;
 
   Future<String?> getUserId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -70,7 +71,14 @@ class MainController extends GetxController implements GetxService {
         prefs.setString(Constant.ADS_COST, userDetailData.adsCost ?? '');
         prefs.setString(Constant.REWARD_ADS, userDetailData.rewardAds ?? '');
         prefs.setString(Constant.STORE_BALANCE, userDetailData.storeBalance ?? '');
-
+        update();
+      }
+      for (var userDetailSettings in userDetail.settings!) {
+        print(
+            'User ID: ${userDetailSettings.id}');
+        whatsppGroupLink.value = userDetailSettings.whatsppGroupLink ?? '';
+        prefs.setString(Constant.WHATSPP_GROUP_LINK, userDetailSettings.whatsppGroupLink ?? '');
+        update();
       }
     } catch (e) {
       debugPrint("shortsVideoData errors: $e");
