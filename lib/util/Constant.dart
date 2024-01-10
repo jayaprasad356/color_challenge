@@ -40,6 +40,7 @@ class Constant {
   static const String POST_MY_POST = "${BaseUrl}post.php";
   static const String SLIDE_API = "${BaseUrl}slide_list.php";
   static const String WALLET = "${BaseUrl}wallet.php";
+  static const String TODAY_INCOME = "${BaseUrl}today_income.php";
   static const String PURCHASE_POST = "${BaseUrl}purchase_post.php";
   static const String OFFER_LIST = "${BaseUrl}offer_list.php";
   static const String SHORTS_URL = "api/video_list.php";
@@ -60,6 +61,7 @@ class Constant {
   static const String BASIC_WALLET = "basic_wallet";
   static const String PREMIUM_WALLET = "premium_wallet";
   static const String TARGET_REFERS = "target_refers";
+  static const String TODAY_ADS_STATUS = "todayAdsStatus";
   static const String TODAY_ADS = "today_ads";
   static const String TOTAL_ADS = "total_ads";
   static const String REFER_BONUS = "refer_bonus";
@@ -77,6 +79,7 @@ class Constant {
   static const String USER_LIKE = "user_like";
   static const String OLD_PLAN = "old_plan";
   static const String PLAN = "plan";
+  static const String WITHOUT_WORK = "without_work";
   static const String TODAY_ADS_SYNC = "today_ads_sync";
   static const String TOTAL_ADS_SYNC = "total_ads_sync";
   static const String BALANVE_SYNC = "balance_sync";

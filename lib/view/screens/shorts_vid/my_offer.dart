@@ -101,97 +101,173 @@ class _MyOfferState extends State<MyOffer> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      // backgroundColor: const Color(0xFFF2F2F2),
-      body: Container(
-          width:
-          MediaQuery.of(context).size.width, // Set width to the screen width
-          height: MediaQuery.of(context)
-              .size
-              .height, // Set height to the screen height
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [colors.primary_color, colors.secondary_color],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
+      backgroundColor: const Color(0xFFF2F2F2),
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 10,
             ),
-          ),
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Obx(
-                      () => c.offerImageURS.isNotEmpty
-                          ? Container(
-                              width: size.width,
-                              height: size.height * 0.7,
-                              decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  borderRadius: BorderRadius.circular(16)),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(16),
-                                child: Image.network(
-                                  c.offerImageURS.toString(),
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            )
-                          : const Center(
-                              child: SizedBox(
-                                height: 50.0,
-                                width: 50.0,
-                                child: CircularProgressIndicator(
-                                  value: null,
-                                  strokeWidth: 7.0,
-                                ),
-                              ),
-                            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Obx(
+                    () => c.offerImageURS.isNotEmpty
+                    ? Container(
+                  width: size.width,
+                  height: size.height * 0.7,
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(16)),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Image.network(
+                      c.offerImageURS.toString(),
+                      fit: BoxFit.fill,
                     ),
                   ),
-                  const SizedBox(height: 20,),
-                  InkWell(
-                    onTap: () {
-                      String? uri = prefs.getString(Constant.WHATSPP_GROUP_LINK);
-                      debugPrint("uri: $uri");
-                      launchUrl(
-                        Uri.parse(uri!),
-                        mode: LaunchMode.externalApplication,
-                      );
-                    },
-                    child: Container(
-                      width: size.width * 0.6,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: const Color(0xFF00D95F),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            "assets/images/whatsapp-icon-2048x2048-64wjztht 1.png",
-                            height: 30,
-                          ),
-                          const Text(
-                            'Whatsapp Group Link',
-                            style: TextStyle(
-                              fontFamily: 'MontserratBold',
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
+                )
+                    : const Center(
+                  child: SizedBox(
+                    height: 50.0,
+                    width: 50.0,
+                    child: CircularProgressIndicator(
+                      value: null,
+                      strokeWidth: 7.0,
                     ),
                   ),
-                ],
+                ),
               ),
+            ),
+            const SizedBox(height: 20,),
+            InkWell(
+              onTap: () {
+                String? uri = prefs.getString(Constant.WHATSPP_GROUP_LINK);
+                debugPrint("uri: $uri");
+                launchUrl(
+                  Uri.parse(uri!),
+                  mode: LaunchMode.externalApplication,
+                );
+              },
+              child: Container(
+                width: size.width * 0.6,
+                height: 40,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: const Color(0xFF00D95F),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/whatsapp-icon-2048x2048-64wjztht 1.png",
+                      height: 30,
+                    ),
+                    const Text(
+                      'Whatsapp Group Link',
+                      style: TextStyle(
+                        fontFamily: 'MontserratBold',
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
+      // body: Container(
+      //     width:
+      //     MediaQuery.of(context).size.width, // Set width to the screen width
+      //     height: MediaQuery.of(context)
+      //         .size
+      //         .height, // Set height to the screen height
+      //     decoration: const BoxDecoration(
+      //       gradient: LinearGradient(
+      //         colors: [colors.primary_color, colors.secondary_color],
+      //         begin: Alignment.topCenter,
+      //         end: Alignment.bottomCenter,
+      //       ),
+      //     ),
+      //   child: SingleChildScrollView(
+      //     physics: const BouncingScrollPhysics(),
+      //     child: Column(
+      //       children: [
+      //         const SizedBox(
+      //           height: 10,
+      //         ),
+      //             Padding(
+      //               padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      //               child: Obx(
+      //                 () => c.offerImageURS.isNotEmpty
+      //                     ? Container(
+      //                         width: size.width,
+      //                         height: size.height * 0.7,
+      //                         decoration: BoxDecoration(
+      //                             color: Colors.transparent,
+      //                             borderRadius: BorderRadius.circular(16)),
+      //                         child: ClipRRect(
+      //                           borderRadius: BorderRadius.circular(16),
+      //                           child: Image.network(
+      //                             c.offerImageURS.toString(),
+      //                             fit: BoxFit.fill,
+      //                           ),
+      //                         ),
+      //                       )
+      //                     : const Center(
+      //                         child: SizedBox(
+      //                           height: 50.0,
+      //                           width: 50.0,
+      //                           child: CircularProgressIndicator(
+      //                             value: null,
+      //                             strokeWidth: 7.0,
+      //                           ),
+      //                         ),
+      //                       ),
+      //               ),
+      //             ),
+      //             const SizedBox(height: 20,),
+      //             InkWell(
+      //               onTap: () {
+      //                 String? uri = prefs.getString(Constant.WHATSPP_GROUP_LINK);
+      //                 debugPrint("uri: $uri");
+      //                 launchUrl(
+      //                   Uri.parse(uri!),
+      //                   mode: LaunchMode.externalApplication,
+      //                 );
+      //               },
+      //               child: Container(
+      //                 width: size.width * 0.6,
+      //                 height: 40,
+      //                 decoration: BoxDecoration(
+      //                   borderRadius: BorderRadius.circular(5),
+      //                   color: const Color(0xFF00D95F),
+      //                 ),
+      //                 child: Row(
+      //                   mainAxisAlignment: MainAxisAlignment.center,
+      //                   children: [
+      //                     Image.asset(
+      //                       "assets/images/whatsapp-icon-2048x2048-64wjztht 1.png",
+      //                       height: 30,
+      //                     ),
+      //                     const Text(
+      //                       'Whatsapp Group Link',
+      //                       style: TextStyle(
+      //                         fontFamily: 'MontserratBold',
+      //                         color: Colors.white,
+      //                         fontWeight: FontWeight.bold,
+      //                       ),
+      //                     ),
+      //                   ],
+      //                 ),
+      //               ),
+      //             ),
+      //           ],
+      //         ),
+      //   ),
+      // ),
     );
   }
 }

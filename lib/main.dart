@@ -17,6 +17,7 @@ import 'package:a1_ads/data/repository/shorts_video_repo.dart';
 import 'package:a1_ads/data/repository/upi_repo.dart';
 import 'package:a1_ads/test.dart';
 import 'package:a1_ads/view/screens/home_page/address_fill.dart';
+import 'package:a1_ads/view/screens/job/a1_all_job.dart';
 import 'package:a1_ads/view/screens/job/a1_uploaaded_job.dart';
 import 'package:a1_ads/view/screens/job/jobs.dart';
 import 'package:a1_ads/view/screens/login/loginMobile.dart';
@@ -403,7 +404,7 @@ class _MyAppState extends State<MyApp> {
             // b7512f3a7251c50a1737b614cf78d929
             // home: const TestingPage(),
             // home: const MainScreen(),
-            // home: const A1UploadedJob(),
+            // home: const Jobs(),
             // home: isOpenLap() != 'true'
             //     ? screens(prefs, update, link)
             //     : const Scaffold(

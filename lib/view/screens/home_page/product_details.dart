@@ -180,29 +180,29 @@ class _ProductDetailsState extends State<ProductDetails> {
                   SizedBox(
                     height: size.height * 0.1,
                   ),
-                  InkWell(
-                    onTap: (){
-                      Get.to( AddressFill(productId: widget.productId));
-                    },
-                    child: Container(
-                      height: 50,
-                      width: size.width * 0.6,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF161C7E),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      alignment: Alignment.center,
-                      child: const Text(
-                        'Purchase Now',
-                        style: TextStyle(
-                          fontFamily: 'MontserratBold',
-                          color: Color(0xFFFFFFFF),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                    )
-                  ),
+                  // InkWell(
+                  //   onTap: (){
+                  //     Get.to( AddressFill(productId: widget.productId));
+                  //   },
+                  //   child: Container(
+                  //     height: 50,
+                  //     width: size.width * 0.6,
+                  //     decoration: BoxDecoration(
+                  //       color: const Color(0xFF161C7E),
+                  //       borderRadius: BorderRadius.circular(16),
+                  //     ),
+                  //     alignment: Alignment.center,
+                  //     child: const Text(
+                  //       'Purchase Now',
+                  //       style: TextStyle(
+                  //         fontFamily: 'MontserratBold',
+                  //         color: Color(0xFFFFFFFF),
+                  //         fontWeight: FontWeight.bold,
+                  //         fontSize: 18,
+                  //       ),
+                  //     ),
+                  //   )
+                  // ),
                   SizedBox(
                     height: size.height * 0.05,
                   ),

@@ -1,24 +1,17 @@
-class UserDetail {
+class TodayIncome {
   bool? success;
   String? message;
   List<Data>? data;
-  List<Settings>? settings;
 
-  UserDetail({this.success, this.message, this.data, this.settings});
+  TodayIncome({this.success, this.message, this.data});
 
-  UserDetail.fromJson(Map<String, dynamic> json) {
+  TodayIncome.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
-      });
-    }
-    if (json['settings'] != null) {
-      settings = <Settings>[];
-      json['settings'].forEach((v) {
-        settings!.add(new Settings.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
   }
@@ -29,9 +22,6 @@ class UserDetail {
     data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
-    }
-    if (settings != null) {
-      data['settings'] = settings!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -353,81 +343,3 @@ class Data {
     return data;
   }
 }
-
-class Settings {
-  String? id;
-  String? withdrawalStatus;
-  String? contactUs;
-  String? minWithdrawal;
-  String? image;
-  String? offerImage;
-  String? referBonus;
-  String? a1JobVideo;
-  String? a1JobDetails;
-  String? a1PurchaseLink;
-  String? a2JobVideo;
-  String? a2JobDetails;
-  String? a2PurchaseLink;
-  String? watchAdStatus;
-  String? whatsppGroupLink;
-  String? rewardAdsDetails;
-
-  Settings(
-      {this.id,
-        this.withdrawalStatus,
-        this.contactUs,
-        this.minWithdrawal,
-        this.image,
-        this.offerImage,
-        this.referBonus,
-        this.a1JobVideo,
-        this.a1JobDetails,
-        this.a1PurchaseLink,
-        this.a2JobVideo,
-        this.a2JobDetails,
-        this.a2PurchaseLink,
-        this.watchAdStatus,
-        this.whatsppGroupLink,
-        this.rewardAdsDetails});
-
-  Settings.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    withdrawalStatus = json['withdrawal_status'];
-    contactUs = json['contact_us'];
-    minWithdrawal = json['min_withdrawal'];
-    image = json['image'];
-    offerImage = json['offer_image'];
-    referBonus = json['refer_bonus'];
-    a1JobVideo = json['a1_job_video'];
-    a1JobDetails = json['a1_job_details'];
-    a1PurchaseLink = json['a1_purchase_link'];
-    a2JobVideo = json['a2_job_video'];
-    a2JobDetails = json['a2_job_details'];
-    a2PurchaseLink = json['a2_purchase_link'];
-    watchAdStatus = json['watch_ad_status'];
-    whatsppGroupLink = json['whatspp_group_link'];
-    rewardAdsDetails = json['reward_ads_details'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['withdrawal_status'] = withdrawalStatus;
-    data['contact_us'] = contactUs;
-    data['min_withdrawal'] = minWithdrawal;
-    data['image'] = image;
-    data['offer_image'] = offerImage;
-    data['refer_bonus'] = referBonus;
-    data['a1_job_video'] = a1JobVideo;
-    data['a1_job_details'] = a1JobDetails;
-    data['a1_purchase_link'] = a1PurchaseLink;
-    data['a2_job_video'] = a2JobVideo;
-    data['a2_job_details'] = a2JobDetails;
-    data['a2_purchase_link'] = a2PurchaseLink;
-    data['watch_ad_status'] = watchAdStatus;
-    data['whatspp_group_link'] = whatsppGroupLink;
-    data['reward_ads_details'] = rewardAdsDetails;
-    return data;
-  }
-}
-

@@ -422,7 +422,8 @@ class PhotoDisplayWidget extends StatelessWidget {
       child: photo != null
           ? Image.file(File(photo!.path))
           : Container(
-              height: size.height * 0.25,
+              height: size.height * 0.2,
+              width: size.width * 0.7,
               decoration: BoxDecoration(
                 color: const Color(0xFFD9DDFF),
                 borderRadius: BorderRadius.circular(16),

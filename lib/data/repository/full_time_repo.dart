@@ -21,4 +21,11 @@ class FullTimeRepo {
     };
     return await apiClient.postData(Constant.WALLET, body, {});
   }
+
+  Future<Response> todayIncome(String userId) async {
+    Map<String, String> body = {
+      'user_id': userId,
+    };
+    return await apiClient.postData(Constant.TODAY_INCOME, body, {});
+  }
 }

@@ -71,6 +71,10 @@ class MainController extends GetxController implements GetxService {
         prefs.setString(Constant.ADS_COST, userDetailData.adsCost ?? '');
         prefs.setString(Constant.REWARD_ADS, userDetailData.rewardAds ?? '');
         prefs.setString(Constant.STORE_BALANCE, userDetailData.storeBalance ?? '');
+        prefs.setString(Constant.WITHOUT_WORK, userDetailData.withoutWork ?? '');
+        prefs.setString(Constant.TARGET_REFERS, userDetailData.targetRefers ?? '');
+        prefs.setString(Constant.TODAY_ADS_STATUS, userDetailData.todayAdsStatus ?? '');
+        debugPrint("userDetailData.todayAdsStatus : ${userDetailData.todayAdsStatus}");
         update();
       }
       for (var userDetailSettings in userDetail.settings!) {

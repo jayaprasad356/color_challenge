@@ -331,1000 +331,725 @@ class FullTimePageState extends State<FullTimePage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     // String maskedNumber = maskModelNumber(mobile_number);
-    // return Scaffold(
-    //   backgroundColor: const Color(0xFFF2F2F2),
-    //   body: SingleChildScrollView(
-    //     physics: const BouncingScrollPhysics(),
-    //     child: Column(
-    //       children: [
-    //         const SizedBox(
-    //           height: 10,
-    //         ),
-    //         Padding(
-    //           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-    //           child: Row(
-    //             children: [
-    //               Image.asset(
-    //                 gender == 'male'
-    //                     ? 'assets/images/Group 18201.png'
-    //                     : 'assets/images/Group 18200.png',
-    //                 height: size.height * 0.1,
-    //               ),
-    //               const SizedBox(
-    //                 width: 15,
-    //               ),
-    //               Column(
-    //                 crossAxisAlignment: CrossAxisAlignment.start,
-    //                 children: [
-    //                   Text(
-    //                     name.toString(),
-    //                     textAlign: TextAlign.start,
-    //                     style: const TextStyle(
-    //                       fontFamily: 'MontserratBold',
-    //                       color: Color(0xFF242426),
-    //                       fontSize: 20,
-    //                     ),
-    //                   ),
-    //                   const SizedBox(
-    //                     height: 5,
-    //                   ),
-    //                   Text(
-    //                     maskedNumber,
-    //                     textAlign: TextAlign.start,
-    //                     style: const TextStyle(
-    //                       fontFamily: 'MontserratLight',
-    //                       color: Color(0xFF242426),
-    //                       fontSize: 16,
-    //                     ),
-    //                   ),
-    //                 ],
-    //               ),
-    //             ],
-    //           ),
-    //         ),
-    //         const SizedBox(
-    //           height: 10,
-    //         ),
-    //         Padding(
-    //           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-    //           child: Obx(
-    //             () => c.offerImageURS.isNotEmpty
-    //                 ? Container(
-    //                     width: size.width,
-    //                     height: size.height * 0.3,
-    //                     decoration: BoxDecoration(
-    //                         color: Colors.transparent,
-    //                         borderRadius: BorderRadius.circular(16)),
-    //                     child: ClipRRect(
-    //                       borderRadius: BorderRadius.circular(16),
-    //                       child: Image.network(
-    //                         c.offerImageURS.toString(),
-    //                         fit: BoxFit.fill,
-    //                       ),
-    //                     ),
-    //                   )
-    //                 : const Center(
-    //                     child: SizedBox(
-    //                       height: 50.0,
-    //                       width: 50.0,
-    //                       child: CircularProgressIndicator(
-    //                         value: null,
-    //                         strokeWidth: 7.0,
-    //                       ),
-    //                     ),
-    //                   ),
-    //           ),
-    //         ),
-    //         const SizedBox(
-    //           height: 10,
-    //         ),
-    //         Padding(
-    //           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-    //           child: Row(
-    //             children: [
-    //               Image.asset(
-    //                 'assets/images/Group 18199.png',
-    //                 height: 24,
-    //               ),
-    //               const SizedBox(
-    //                 width: 15,
-    //               ),
-    //               const Text(
-    //                 "Ads activity performance",
-    //                 textAlign: TextAlign.start,
-    //                 style: TextStyle(
-    //                   fontFamily: 'MontserratBold',
-    //                   color: Color(0xFF242426),
-    //                   fontSize: 20,
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //         ),
-    //         const SizedBox(
-    //           height: 10,
-    //         ),
-    //         Padding(
-    //           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-    //           child: Container(
-    //             height: size.height * 0.3,
-    //             width: double.infinity,
-    //             decoration: BoxDecoration(
-    //                 borderRadius: BorderRadius.circular(10),
-    //                 gradient: const LinearGradient(
-    //                     begin: Alignment.topCenter,
-    //                     end: Alignment.bottomCenter,
-    //                     colors: [
-    //                       Color(0xFFE27E1C),
-    //                       Color(0xFF851161),
-    //                     ])),
-    //             child: Stack(
-    //               children: [
-    //                 Align(
-    //                   alignment: Alignment.centerRight,
-    //                   child: Image.asset(
-    //                     'assets/images/noto_money-with-wings.png',
-    //                     height: 64,
-    //                   ),
-    //                 ),
-    //                 Align(
-    //                   alignment: Alignment.bottomLeft,
-    //                   child: Image.asset(
-    //                     'assets/images/Group.png',
-    //                     height: 34,
-    //                   ),
-    //                 ),
-    //                 Padding(
-    //                   padding: EdgeInsets.symmetric(
-    //                       horizontal: size.width * 0.1,
-    //                       vertical: size.height * 0.05),
-    //                   child: Column(
-    //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                     children: [
-    //                       Row(
-    //                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                         children: [
-    //                           Column(
-    //                             children: [
-    //                               const Text(
-    //                                 "Today Ads",
-    //                                 textAlign: TextAlign.start,
-    //                                 style: TextStyle(
-    //                                   fontFamily: 'MontserratLight',
-    //                                   color: Color(0xFFFFFFFF),
-    //                                   fontSize: 16,
-    //                                 ),
-    //                               ),
-    //                               Text(
-    //                                 today_ads,
-    //                                 textAlign: TextAlign.start,
-    //                                 style: const TextStyle(
-    //                                   fontFamily: 'MontserratLight',
-    //                                   color: Color(0xFF00FFFF),
-    //                                   fontSize: 20,
-    //                                 ),
-    //                               ),
-    //                             ],
-    //                           ),
-    //                           Column(
-    //                             children: [
-    //                               const Text(
-    //                                 "Total Ads",
-    //                                 textAlign: TextAlign.start,
-    //                                 style: TextStyle(
-    //                                   fontFamily: 'MontserratLight',
-    //                                   color: Color(0xFFFFFFFF),
-    //                                   fontSize: 16,
-    //                                 ),
-    //                               ),
-    //                               Text(
-    //                                 total_ads,
-    //                                 textAlign: TextAlign.start,
-    //                                 style: const TextStyle(
-    //                                   fontFamily: 'MontserratLight',
-    //                                   color: Color(0xFF00FFFF),
-    //                                   fontSize: 20,
-    //                                 ),
-    //                               ),
-    //                             ],
-    //                           ),
-    //                         ],
-    //                       ),
-    //                       Row(
-    //                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                         children: [
-    //                           const Column(
-    //                             children: [
-    //                               Text(
-    //                                 "Total Referrals",
-    //                                 textAlign: TextAlign.start,
-    //                                 style: TextStyle(
-    //                                   fontFamily: 'MontserratLight',
-    //                                   color: Color(0xFFFFFFFF),
-    //                                   fontSize: 16,
-    //                                 ),
-    //                               ),
-    //                               Text(
-    //                                 "5",
-    //                                 textAlign: TextAlign.start,
-    //                                 style: TextStyle(
-    //                                   fontFamily: 'MontserratLight',
-    //                                   color: Color(0xFF00FFFF),
-    //                                   fontSize: 20,
-    //                                 ),
-    //                               ),
-    //                             ],
-    //                           ),
-    //                           Column(
-    //                             children: [
-    //                               const Text(
-    //                                 "Total Balance",
-    //                                 textAlign: TextAlign.start,
-    //                                 style: TextStyle(
-    //                                   fontFamily: 'MontserratLight',
-    //                                   color: Color(0xFFFFFFFF),
-    //                                   fontSize: 16,
-    //                                 ),
-    //                               ),
-    //                               Text(
-    //                                 "₹ $balance",
-    //                                 textAlign: TextAlign.start,
-    //                                 style: const TextStyle(
-    //                                   fontFamily: 'MontserratLight',
-    //                                   color: Color(0xFF00FFFF),
-    //                                   fontSize: 20,
-    //                                 ),
-    //                               ),
-    //                             ],
-    //                           ),
-    //                         ],
-    //                       ),
-    //                     ],
-    //                   ),
-    //                 ),
-    //               ],
-    //             ),
-    //           ),
-    //         ),
-    //         const SizedBox(
-    //           height: 10,
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
     return Scaffold(
-      body: Container(
-        width:
-            MediaQuery.of(context).size.width, // Set width to the screen width
-        height: MediaQuery.of(context)
-            .size
-            .height, // Set height to the screen height
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [colors.primary_color, colors.secondary_color],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 2.0),
-              child: Column(
-                children: [
-                  // const SizedBox(
-                  //   height: 10,
-                  // ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: [
-                  //     Container(
-                  //       decoration: BoxDecoration(
-                  //         border: Border.all(
-                  //           color: colors.widget_color,
-                  //           width: 2,
-                  //         ),
-                  //         borderRadius: BorderRadius.circular(8),
-                  //       ),
-                  //       padding: const EdgeInsets.symmetric(
-                  //         horizontal: 15,
-                  //         vertical: 10,
-                  //       ),
-                  //       child: Column(
-                  //         children: [
-                  //           const Text(
-                  //             "Main Balance",
-                  //             style: TextStyle(
-                  //                 fontFamily: 'MontserratLight',
-                  //                 fontWeight: FontWeight.w500,
-                  //                 color: Colors.white,
-                  //                 fontSize: 15.0),
-                  //           ),
-                  //           const SizedBox(
-                  //             height: 5,
-                  //           ),
-                  //           Text(
-                  //             "$balance + $multiplyCostValue",
-                  //             style: const TextStyle(
-                  //                 fontFamily: 'MontserratBold',
-                  //                 color: Colors.white,
-                  //                 fontSize: 15.0),
-                  //           ),
-                  //           // Obx(() => Text(
-                  //           //   "$balance + $multiplyCostValue",
-                  //           //   // "${fullTimePageCont.balance} + $multiplyCostValue",
-                  //           //   style: const TextStyle(
-                  //           //       fontFamily: 'MontserratBold',
-                  //           //       color: Colors.white,
-                  //           //       fontSize: 15.0),
-                  //           // ),),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //     const SizedBox(
-                  //       width: 10,
-                  //     ),
-                  //     const Column(
-                  //       crossAxisAlignment: CrossAxisAlignment.start,
-                  //       children: [
-                  //         Text(
-                  //           "Today Ads",
-                  //           style: TextStyle(
-                  //               fontFamily: 'MontserratLight',
-                  //               fontWeight: FontWeight.w500,
-                  //               color: Colors.white,
-                  //               fontSize: 15.0),
-                  //         ),
-                  //         SizedBox(
-                  //           height: 10,
-                  //         ),
-                  //         Text(
-                  //           "Total Ads",
-                  //           style: TextStyle(
-                  //               fontFamily: 'MontserratLight',
-                  //               fontWeight: FontWeight.w500,
-                  //               color: Colors.white,
-                  //               fontSize: 15.0),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //     const SizedBox(
-                  //       width: 10,
-                  //     ),
-                  //     Column(
-                  //       crossAxisAlignment: CrossAxisAlignment.start,
-                  //       children: [
-                  //         Text(
-                  //           "$today_ads + ${adsCount.toString()}",
-                  //           style: const TextStyle(
-                  //               fontFamily: 'MontserratBold',
-                  //               color: Colors.white,
-                  //               fontSize: 15.0),
-                  //         ),
-                  //         // Obx(() => Text(
-                  //         //   "$today_ads + ${adsCount.toString()}",
-                  //         //   // "${fullTimePageCont.totalAds} + ${adsCount.toString()}",
-                  //         //   style: const TextStyle(
-                  //         //       fontFamily: 'MontserratBold',
-                  //         //       color: Colors.white,
-                  //         //       fontSize: 15.0),
-                  //         // ),),
-                  //         const SizedBox(
-                  //           height: 10,
-                  //         ),
-                  //         Text(
-                  //           "$total_ads + ${adsCount.toString()}",
-                  //           // "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
-                  //           style: const TextStyle(
-                  //               fontFamily: 'MontserratBold',
-                  //               color: Colors.white,
-                  //               fontSize: 15.0),
-                  //         ),
-                  //         // Obx(() => Text(
-                  //         //   "$total_ads + ${adsCount.toString()}",
-                  //         //   // "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
-                  //         //   style: const TextStyle(
-                  //         //       fontFamily: 'MontserratBold',
-                  //         //       color: Colors.white,
-                  //         //       fontSize: 15.0),
-                  //         // ),),
-                  //       ],
-                  //     ),
-                  //   ],
-                  // ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CircularPercentIndicator(
-                          radius: 40.0,
-                          lineWidth: 13.0,
-                          animation: true,
-                          backgroundColor: Colors.grey.shade400,
-                          percent: progressPercentage.clamp(0.0, 1.0),
-                          animateFromLastPercent: true,
-                          center: Text(
-                            (progressPercentage * maximumValue)
-                                .toInt()
-                                .toString(),
-                            style: const TextStyle(
-                                fontFamily: 'MontserratBold',
-                                fontSize: 16.0,
-                                color: Colors.white),
-                          ),
-                          footer: IgnorePointer(
-                            ignoring: isButtonDisabled,
-                            child: InkWell(
-                              onTap: () async {
-                                syncType = 'regular_sync';
-                                debugPrint("syncType: $syncType");
-                                try {
-                                  prefs = await SharedPreferences.getInstance();
-                                  setState(() {
-                                    syncUniqueId;
-                                  });
-                                  debugPrint("syncUniqueId: $syncUniqueId");
-                                  // Call the syncData function and get the result immediately
-                                  fullTimePageCont.syncData(
-                                    context,
-                                    prefs.getString(Constant.ID),
-                                    adsCount.toString(),
-                                    syncUniqueId.toString(),
-                                    prefs
-                                        .getString(Constant.MY_DEVICE_ID)
-                                        .toString(),
-                                    syncType,
-                                    platformType,
-                                    (String syncDataSuccess) {
-                                      debugPrint(
-                                          "syncDataSuccess: $syncDataSuccess");
-                                      // Perform actions based on the result of the syncData function
-                                      if (syncDataSuccess == 'true') {
-                                        setState(() {
-                                          saveTimerCount(0, 0.0);
-                                          loadTimerCount();
-                                          isButtonDisabled = true;
-                                          multiplyCostValue = 0.0;
-                                          ads_time = prefs
-                                              .getString(Constant.ADS_TIME)!;
-                                          balance = prefs
-                                              .getString(Constant.BALANCE)!;
-                                          today_ads = prefs
-                                              .getString(Constant.TODAY_ADS)!;
-                                          total_ads = prefs
-                                              .getString(Constant.TOTAL_ADS)!;
-                                          ads_cost = prefs
-                                              .getString(Constant.ADS_COST)!;
-                                          storeBalance = prefs
-                                              .getString(Constant.STORE_BALANCE)!;
-                                        });
-                                      } else {}
-                                    },
-                                  );
-                                } catch (e) {
-                                  // Handle any errors that occur during the process
-                                  debugPrint("Error: $e");
-                                }
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: isButtonDisabled == false
-                                        ? Colors.deepPurpleAccent
-                                        : Colors.purple[50],
-                                    borderRadius: BorderRadius.circular(10)),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 15, vertical: 10),
-                                margin:
-                                    const EdgeInsets.only(top: 20),
-                                child: Text(
-                                  "Sync Now",
-                                  style: TextStyle(
-                                    fontFamily: 'MontserratBold',
-                                    fontSize: 12.0,
-                                    color: isButtonDisabled == false
-                                        ? Colors.white
-                                        : Colors.grey[500],
-                                    // : Colors.purpleAccent[200],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          progressColor: Colors.deepPurpleAccent,
+      backgroundColor: const Color(0xFFF2F2F2),
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 2.0),
+            child: Column(
+              children: [
+                // const SizedBox(
+                //   height: 10,
+                // ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     Container(
+                //       decoration: BoxDecoration(
+                //         border: Border.all(
+                //           color: colors.widget_color,
+                //           width: 2,
+                //         ),
+                //         borderRadius: BorderRadius.circular(8),
+                //       ),
+                //       padding: const EdgeInsets.symmetric(
+                //         horizontal: 15,
+                //         vertical: 10,
+                //       ),
+                //       child: Column(
+                //         children: [
+                //           const Text(
+                //             "Main Balance",
+                //             style: TextStyle(
+                //                 fontFamily: 'MontserratLight',
+                //                 fontWeight: FontWeight.w500,
+                //                 color: Colors.white,
+                //                 fontSize: 15.0),
+                //           ),
+                //           const SizedBox(
+                //             height: 5,
+                //           ),
+                //           Text(
+                //             "$balance + $multiplyCostValue",
+                //             style: const TextStyle(
+                //                 fontFamily: 'MontserratBold',
+                //                 color: Colors.white,
+                //                 fontSize: 15.0),
+                //           ),
+                //           // Obx(() => Text(
+                //           //   "$balance + $multiplyCostValue",
+                //           //   // "${fullTimePageCont.balance} + $multiplyCostValue",
+                //           //   style: const TextStyle(
+                //           //       fontFamily: 'MontserratBold',
+                //           //       color: Colors.white,
+                //           //       fontSize: 15.0),
+                //           // ),),
+                //         ],
+                //       ),
+                //     ),
+                //     const SizedBox(
+                //       width: 10,
+                //     ),
+                //     const Column(
+                //       crossAxisAlignment: CrossAxisAlignment.start,
+                //       children: [
+                //         Text(
+                //           "Today Ads",
+                //           style: TextStyle(
+                //               fontFamily: 'MontserratLight',
+                //               fontWeight: FontWeight.w500,
+                //               color: Colors.white,
+                //               fontSize: 15.0),
+                //         ),
+                //         SizedBox(
+                //           height: 10,
+                //         ),
+                //         Text(
+                //           "Total Ads",
+                //           style: TextStyle(
+                //               fontFamily: 'MontserratLight',
+                //               fontWeight: FontWeight.w500,
+                //               color: Colors.white,
+                //               fontSize: 15.0),
+                //         ),
+                //       ],
+                //     ),
+                //     const SizedBox(
+                //       width: 10,
+                //     ),
+                //     Column(
+                //       crossAxisAlignment: CrossAxisAlignment.start,
+                //       children: [
+                //         Text(
+                //           "$today_ads + ${adsCount.toString()}",
+                //           style: const TextStyle(
+                //               fontFamily: 'MontserratBold',
+                //               color: Colors.white,
+                //               fontSize: 15.0),
+                //         ),
+                //         // Obx(() => Text(
+                //         //   "$today_ads + ${adsCount.toString()}",
+                //         //   // "${fullTimePageCont.totalAds} + ${adsCount.toString()}",
+                //         //   style: const TextStyle(
+                //         //       fontFamily: 'MontserratBold',
+                //         //       color: Colors.white,
+                //         //       fontSize: 15.0),
+                //         // ),),
+                //         const SizedBox(
+                //           height: 10,
+                //         ),
+                //         Text(
+                //           "$total_ads + ${adsCount.toString()}",
+                //           // "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
+                //           style: const TextStyle(
+                //               fontFamily: 'MontserratBold',
+                //               color: Colors.white,
+                //               fontSize: 15.0),
+                //         ),
+                //         // Obx(() => Text(
+                //         //   "$total_ads + ${adsCount.toString()}",
+                //         //   // "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
+                //         //   style: const TextStyle(
+                //         //       fontFamily: 'MontserratBold',
+                //         //       color: Colors.white,
+                //         //       fontSize: 15.0),
+                //         // ),),
+                //       ],
+                //     ),
+                //   ],
+                // ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CircularPercentIndicator(
+                        radius: 40.0,
+                        lineWidth: 13.0,
+                        animation: true,
+                        backgroundColor: Colors.grey.shade400,
+                        percent: progressPercentage.clamp(0.0, 1.0),
+                        animateFromLastPercent: true,
+                        center: Text(
+                          (progressPercentage * maximumValue)
+                              .toInt()
+                              .toString(),
+                          style: const TextStyle(
+                              fontFamily: 'MontserratBold',
+                              fontSize: 16.0,
+                              color: Colors.black),
                         ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: colors.widget_color,
-                                  width: 2,
-                                ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 15,
-                                vertical: 10,
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Column(
-                                    children: [
-                                      const Text(
-                                        "Store Ads",
-                                        style: TextStyle(
-                                            fontFamily: 'MontserratLight',
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.white,
-                                            fontSize: 13.0),
-                                      ),
-                                      const SizedBox(
-                                        height: 3,
-                                      ),
-                                      Text(
-                                        "$storeBalance",
-                                        style: const TextStyle(
-                                            fontFamily: 'MontserratBold',
-                                            color: Colors.white,
-                                            fontSize: 15.0),
-                                      ),
-                                      // Obx(() => Text(
-                                      //   "$balance + $multiplyCostValue",
-                                      //   // "${fullTimePageCont.balance} + $multiplyCostValue",
-                                      //   style: const TextStyle(
-                                      //       fontFamily: 'MontserratBold',
-                                      //       color: Colors.white,
-                                      //       fontSize: 15.0),
-                                      // ),),
-                                    ],
-                                  ),
-                                  // const SizedBox(
-                                  //   width: 10,
-                                  // ),
-                                  // InkWell(
-                                  //   onTap: (){
-                                  //     String uri =
-                                  //         Constant.PurchaseWebUrl;
-                                  //     launchUrl(
-                                  //       Uri.parse(uri),
-                                  //       mode: LaunchMode.inAppWebView,
-                                  //     );
-                                  //   },
-                                  //   child: Container(
-                                  //     height: 30,
-                                  //     padding: const EdgeInsets.symmetric(horizontal: 10),
-                                  //     decoration: BoxDecoration(
-                                  //         borderRadius: BorderRadius.circular(10000),
-                                  //       color: colors.widget_color,
-                                  //     ),
-                                  //     alignment: Alignment.center,
-                                  //     child: const Text(
-                                  //       'Purchase',
-                                  //       style: TextStyle(
-                                  //           fontWeight: FontWeight.bold,
-                                  //           fontSize: 10,
-                                  //           color: Colors.white
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                const Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Today Ads",
-                                      style: TextStyle(
-                                          fontFamily: 'MontserratLight',
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.white,
-                                          fontSize: 13.0),
-                                    ),
-                                    SizedBox(
-                                      height: 4,
-                                    ),
-                                    Text(
-                                      "Total Ads",
-                                      style: TextStyle(
-                                          fontFamily: 'MontserratLight',
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.white,
-                                          fontSize: 13.0),
-                                    ),
-                                    SizedBox(
-                                      height: 4,
-                                    ),
-                                    Text(
-                                      "Balance",
-                                      style: TextStyle(
-                                        fontFamily: 'MontserratLight',
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.white,
-                                        fontSize: 13.0,),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "$today_ads + ${adsCount.toString()}",
-                                      style: const TextStyle(
-                                          fontFamily: 'MontserratBold',
-                                          color: Colors.white,
-                                          fontSize: 13.0),
-                                    ),
-                                    // Obx(() => Text(
-                                    //   "$today_ads + ${adsCount.toString()}",
-                                    //   // "${fullTimePageCont.totalAds} + ${adsCount.toString()}",
-                                    //   style: const TextStyle(
-                                    //       fontFamily: 'MontserratBold',
-                                    //       color: Colors.white,
-                                    //       fontSize: 15.0),
-                                    // ),),
-                                    const SizedBox(
-                                      height: 4,
-                                    ),
-                                    Text(
-                                      "$total_ads + ${adsCount.toString()}",
-                                      // "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
-                                      style: const TextStyle(
-                                          fontFamily: 'MontserratBold',
-                                          color: Colors.white,
-                                          fontSize: 13.0),
-                                    ),
-                                    const SizedBox(
-                                      height: 4,
-                                    ),
-                                    Text(
-                                      "$balance",
-                                      style: const TextStyle(
-                                          fontFamily: 'MontserratBold',
-                                          color: Colors.white,
-                                          fontSize: 13.0),),
-                                    // Obx(() => Text(
-                                    //   "$total_ads + ${adsCount.toString()}",
-                                    //   // "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
-                                    //   style: const TextStyle(
-                                    //       fontFamily: 'MontserratBold',
-                                    //       color: Colors.white,
-                                    //       fontSize: 15.0),
-                                    // ),),
-                                  ],
-                                ),
-                              ],
-                            )
-                          ],
-                        )
-                        // CircularPercentIndicator(
-                        //   radius: 35.0,
-                        //   lineWidth: 10.0,
-                        //   animation: true,
-                        //   percent: progressPercentageTwo.clamp(0.0, 1.0),
-                        //   backgroundWidth: 13,
-                        //   center: Text(
-                        //     (progressPercentageTwo * maximumValue)
-                        //         .toInt()
-                        //         .toString(),
-                        //     style: const TextStyle(
-                        //         fontFamily: 'MontserratBold',
-                        //         fontSize: 16.0,
-                        //         color: Colors.white),
-                        //   ),
-                        //   footer: Column(
-                        //     children: [
-                        //       IgnorePointer(
-                        //         ignoring: isClaimButtonDisabled,
-                        //         child: InkWell(
-                        //           onTap: () async {
-                        //             syncType = 'reward_sync';
-                        //             debugPrint("syncType: $syncType");
-                        //             try {
-                        //               prefs =
-                        //                   await SharedPreferences.getInstance();
-                        //               setState(() {
-                        //                 syncUniqueId;
-                        //               });
-                        //               debugPrint("syncUniqueId: $syncUniqueId");
-                        //               // Call the syncData function and get the result immediately
-                        //               fullTimePageCont.syncData(
-                        //                 prefs.getString(Constant.ID),
-                        //                 adsCount.toString(),
-                        //                 syncUniqueId.toString(),
-                        //                 prefs
-                        //                     .getString(Constant.MY_DEVICE_ID)
-                        //                     .toString(),
-                        //                 syncType,
-                        //                 platformType,
-                        //                 (String syncDataSuccess) {
-                        //                   debugPrint(
-                        //                       "syncDataSuccess: $syncDataSuccess");
-                        //                   // Perform actions based on the result of the syncData function
-                        //                   if (syncDataSuccess == 'true') {
-                        //                     setState(() {
-                        //                       isClaimButtonDisabled = true;
-                        //                       reward_ads = prefs.getString(
-                        //                           Constant.REWARD_ADS)!;
-                        //                       ads_time = prefs.getString(
-                        //                           Constant.ADS_TIME)!;
-                        //                       balance = prefs
-                        //                           .getString(Constant.BALANCE)!;
-                        //                       today_ads = prefs.getString(
-                        //                           Constant.TODAY_ADS)!;
-                        //                       total_ads = prefs.getString(
-                        //                           Constant.TOTAL_ADS)!;
-                        //                       ads_cost = prefs.getString(
-                        //                           Constant.ADS_COST)!;
-                        //                     });
-                        //                   } else {}
-                        //                 },
-                        //               );
-                        //             } catch (e) {
-                        //               // Handle any errors that occur during the process
-                        //               debugPrint("Error: $e");
-                        //             }
-                        //           },
-                        //           child: Container(
-                        //             decoration: isClaimButtonDisabled == false
-                        //                 ? BoxDecoration(
-                        //                     gradient: const LinearGradient(
-                        //                       begin: Alignment.topRight,
-                        //                       end: Alignment.bottomLeft,
-                        //                       colors: [
-                        //                         Colors.deepOrangeAccent,
-                        //                         Colors.pink,
-                        //                       ],
-                        //                     ),
-                        //                     borderRadius:
-                        //                         BorderRadius.circular(10),
-                        //                   )
-                        //                 : BoxDecoration(
-                        //                     color: Colors.orange.shade50,
-                        //                     borderRadius:
-                        //                         BorderRadius.circular(10),
-                        //                   ),
-                        //             padding: const EdgeInsets.symmetric(
-                        //                 horizontal: 15, vertical: 10),
-                        //             margin: const EdgeInsets.only(top: 10),
-                        //             child: Text(
-                        //               "Claim Reward",
-                        //               style: TextStyle(
-                        //                   fontFamily: 'MontserratBold',
-                        //                   fontSize: 12.0,
-                        //                   color: isClaimButtonDisabled == false
-                        //                       ? Colors.white
-                        //                       : Colors.grey[500]
-                        //                   // : Colors.orangeAccent[200],
-                        //                   ),
-                        //             ),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //       InkWell(
-                        //         onTap: () {
-                        //           launchUrl(
-                        //             Uri.parse(homeController.rewardAdsDetails
-                        //                 .toString()),
-                        //             mode: LaunchMode.externalApplication,
-                        //           );
-                        //         },
-                        //         child: Text(
-                        //           "more details",
-                        //           style: GoogleFonts.poppins(
-                        //             fontSize: 14,
-                        //             color: Colors.white,
-                        //             fontWeight: FontWeight.normal,
-                        //             decoration: TextDecoration.underline,
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        //   linearGradient: const LinearGradient(
-                        //     colors: [
-                        //       Colors.deepOrangeAccent,
-                        //       Colors.pink,
-                        //     ],
-                        //   ),
-                        //   circularStrokeCap: CircularStrokeCap.round,
-                        //   // progressColor: Colors.deepOrangeAccent,
-                        // ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  Container(
-                    margin: const EdgeInsets.only(right: 30),
-                    alignment: Alignment.topRight,
-                    child: InkWell(
-                      onTap: skipAdButton == false ? () {
-                        timerWatchAd.cancel();
-                        watchAds();
-                        skipAdTimer();
-                        print('Ad skipped manually!');
-                      } : () {},
-                      child: Container(
-                          height: 30,
-                          width: 80,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(1000),
-                              color: skipAdButton == false ? Colors.deepPurpleAccent : Colors.purple[50],),
-                          child: countdown == 0 ? Text(
-                            'Skip Ad',
-                            style: TextStyle(
-                              fontSize: 12, color: skipAdButton == false ? Colors.white
-                                : Colors.grey[500],fontWeight: FontWeight.bold,),
-                          ): Text(
-                            'Skip Ad ($countdown)',
-                            style: TextStyle(
-                                fontSize: 12, color: skipAdButton == false ? Colors.white
-                                : Colors.grey[500],fontWeight: FontWeight.bold,),
-                          )),
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  Image.network(
-                    ads_image,
-                    fit: BoxFit.contain,
-                    height: 300, // Set the desired height
-                    width: 300, // Set the desired width
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) {
-                        _isLoading = false;
-                        return child;
-                      } else if (_isLoading) {
-                        return const CircularProgressIndicator(); // Show loading indicator
-                      } else {
-                        return child;
-                      }
-                    },
-                  ),
-                  const SizedBox(height: 5),
-                  GestureDetector(
-                    onTap: () {
-                      launchUrl(
-                        Uri.parse(ads_link),
-                        mode: LaunchMode.externalApplication,
-                      );
-                    },
-                    child: Text(
-                      "click here to purchase",
-                      style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        color: Colors.white,
-                        fontWeight: FontWeight.normal,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ),
-                  // Text(
-                  //   timerStarted ? "$seconds seconds" : "",
-                  //   style: const TextStyle(
-                  //     fontSize: 14,
-                  //     color: Colors.red,
-                  //     fontWeight: FontWeight.normal,
-                  //   ),
-                  // ),
-                  const SizedBox(height: 5),
-                  MaterialButton(
-                    onPressed: isButtonEnabled == true
-                        ? () async {
-                            debugPrint(
-                                "homeController.watchAdStatus: ${homeController.watchAdStatus}");
-                            int adsTimeInSeconds = int.parse(ads_time);
-                            debugPrint("adsCount: $adsCount");
-                            var myDeviceId = isWeb == 'true'
-                                ? '12345678'
-                                : prefs.getString(Constant.MY_DEVICE_ID);
-                            var watchAdStatus =
-                                prefs.getString(Constant.WATCH_AD_STATUS);
-                            debugPrint("myDeviceId: $myDeviceId");
-                            if (homeController.watchAdStatus == "1" &&
-                                adsCount < 120) {
-                              if (!timerStarted) {
-                                generatedOtp = fullTimePageCont
-                                    .generateRandomFourDigitNumber()
-                                    .toString();
-                                showAlertDialog(context);
-                                // showAlertDialog(context, generatedOtp);
-                                debugPrint("isButtonEnabled is false");
+                        footer: IgnorePointer(
+                          ignoring: isButtonDisabled,
+                          child: InkWell(
+                            onTap: () async {
+                              syncType = 'regular_sync';
+                              debugPrint("syncType: $syncType");
+                              try {
+                                prefs = await SharedPreferences.getInstance();
                                 setState(() {
-                                  isButtonEnabled = false;
+                                  syncUniqueId;
                                 });
-                                Future.delayed(
-                                  Duration(seconds: adsTimeInSeconds),
-                                  () {
-                                    debugPrint("isButtonEnabled is true");
-                                    setState(() {
-                                      isButtonEnabled = true;
-                                    });
+                                debugPrint("syncUniqueId: $syncUniqueId");
+                                // Call the syncData function and get the result immediately
+                                fullTimePageCont.syncData(
+                                  context,
+                                  prefs.getString(Constant.ID),
+                                  adsCount.toString(),
+                                  syncUniqueId.toString(),
+                                  prefs
+                                      .getString(Constant.MY_DEVICE_ID)
+                                      .toString(),
+                                  syncType,
+                                  platformType,
+                                  (String syncDataSuccess) {
+                                    debugPrint(
+                                        "syncDataSuccess: $syncDataSuccess");
+                                    // Perform actions based on the result of the syncData function
+                                    if (syncDataSuccess == 'true') {
+                                      setState(() {
+                                        saveTimerCount(0, 0.0);
+                                        loadTimerCount();
+                                        isButtonDisabled = true;
+                                        multiplyCostValue = 0.0;
+                                        ads_time = prefs
+                                            .getString(Constant.ADS_TIME)!;
+                                        balance = prefs
+                                            .getString(Constant.BALANCE)!;
+                                        today_ads = prefs
+                                            .getString(Constant.TODAY_ADS)!;
+                                        total_ads = prefs
+                                            .getString(Constant.TOTAL_ADS)!;
+                                        ads_cost = prefs
+                                            .getString(Constant.ADS_COST)!;
+                                        storeBalance = prefs
+                                            .getString(Constant.STORE_BALANCE)!;
+                                      });
+                                    } else {}
                                   },
                                 );
-                                // showAlertDialog(context);
-                              } else {
-                                Utils().showToast("Please wait...");
+                              } catch (e) {
+                                // Handle any errors that occur during the process
+                                debugPrint("Error: $e");
                               }
-                            } else if (adsCount >= 120) {
-                              Utils().showToast("Sync Now Try Again...");
-                            } else {
-                              Utils().showToast("Watch Ad is disable...");
-                            }
-                            // if (!timerStarted) {
-                            //   // watchad();
-                            //   starttime = 0;
-                            //   timerStarted = true;
-                            //   startTimer();
-                            // } else {
-                            //   Utils().showToast("Please wait...");
-                            // }
-                          }
-                        : () {
-                            Utils().showToast("Please wait...");
-                          },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Container(
-                      height: 40,
-                      width: 140,
-                      decoration: homeController.watchAdStatus == "1" &&
-                              adsCount < 120
-                          ? const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/images/btnbg.png"),
-                                fit: BoxFit.fill,
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: isButtonDisabled == false
+                                      ? Colors.deepPurpleAccent
+                                      : Colors.purple[50],
+                                  borderRadius: BorderRadius.circular(10)),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              margin:
+                                  const EdgeInsets.only(top: 20),
+                              child: Text(
+                                "Sync Now",
+                                style: TextStyle(
+                                  fontFamily: 'MontserratBold',
+                                  fontSize: 12.0,
+                                  color: isButtonDisabled == false
+                                      ? Colors.white
+                                      : Colors.grey[500],
+                                  // : Colors.purpleAccent[200],
+                                ),
                               ),
-                            )
-                          : BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(100)),
-                      child: const Center(
-                        child: Text(
-                          'Watch Ad',
-                          style: TextStyle(
-                              color: colors.white,
-                              fontSize: 14,
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.bold),
+                            ),
+                          ),
                         ),
+                        progressColor: Colors.deepPurpleAccent,
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: colors.widget_color,
+                                width: 2,
+                              ),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 10,
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Column(
+                                  children: [
+                                    const Text(
+                                      "Store Ads",
+                                      style: TextStyle(
+                                          fontFamily: 'MontserratLight',
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black,
+                                          fontSize: 13.0),
+                                    ),
+                                    const SizedBox(
+                                      height: 3,
+                                    ),
+                                    Text(
+                                      "$storeBalance",
+                                      style: const TextStyle(
+                                          fontFamily: 'MontserratBold',
+                                          color: Colors.black,
+                                          fontSize: 15.0),
+                                    ),
+                                    // Obx(() => Text(
+                                    //   "$balance + $multiplyCostValue",
+                                    //   // "${fullTimePageCont.balance} + $multiplyCostValue",
+                                    //   style: const TextStyle(
+                                    //       fontFamily: 'MontserratBold',
+                                    //       color: Colors.white,
+                                    //       fontSize: 15.0),
+                                    // ),),
+                                  ],
+                                ),
+                                // const SizedBox(
+                                //   width: 10,
+                                // ),
+                                // InkWell(
+                                //   onTap: (){
+                                //     String uri =
+                                //         Constant.PurchaseWebUrl;
+                                //     launchUrl(
+                                //       Uri.parse(uri),
+                                //       mode: LaunchMode.inAppWebView,
+                                //     );
+                                //   },
+                                //   child: Container(
+                                //     height: 30,
+                                //     padding: const EdgeInsets.symmetric(horizontal: 10),
+                                //     decoration: BoxDecoration(
+                                //         borderRadius: BorderRadius.circular(10000),
+                                //       color: colors.widget_color,
+                                //     ),
+                                //     alignment: Alignment.center,
+                                //     child: const Text(
+                                //       'Purchase',
+                                //       style: TextStyle(
+                                //           fontWeight: FontWeight.bold,
+                                //           fontSize: 10,
+                                //           color: Colors.white
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: [
+                              const Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Today Ads",
+                                    style: TextStyle(
+                                        fontFamily: 'MontserratLight',
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black,
+                                        fontSize: 13.0),
+                                  ),
+                                  SizedBox(
+                                    height: 4,
+                                  ),
+                                  Text(
+                                    "Total Ads",
+                                    style: TextStyle(
+                                        fontFamily: 'MontserratLight',
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black,
+                                        fontSize: 13.0),
+                                  ),
+                                  SizedBox(
+                                    height: 4,
+                                  ),
+                                  Text(
+                                    "Balance",
+                                    style: TextStyle(
+                                      fontFamily: 'MontserratLight',
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                      fontSize: 13.0,),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "$today_ads + ${adsCount.toString()}",
+                                    style: const TextStyle(
+                                        fontFamily: 'MontserratBold',
+                                        color: Colors.black,
+                                        fontSize: 13.0),
+                                  ),
+                                  // Obx(() => Text(
+                                  //   "$today_ads + ${adsCount.toString()}",
+                                  //   // "${fullTimePageCont.totalAds} + ${adsCount.toString()}",
+                                  //   style: const TextStyle(
+                                  //       fontFamily: 'MontserratBold',
+                                  //       color: Colors.white,
+                                  //       fontSize: 15.0),
+                                  // ),),
+                                  const SizedBox(
+                                    height: 4,
+                                  ),
+                                  Text(
+                                    "$total_ads + ${adsCount.toString()}",
+                                    // "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
+                                    style: const TextStyle(
+                                        fontFamily: 'MontserratBold',
+                                        color: Colors.black,
+                                        fontSize: 13.0),
+                                  ),
+                                  const SizedBox(
+                                    height: 4,
+                                  ),
+                                  Text(
+                                    "$balance",
+                                    style: const TextStyle(
+                                        fontFamily: 'MontserratBold',
+                                        color: Colors.black,
+                                        fontSize: 13.0),),
+                                  // Obx(() => Text(
+                                  //   "$total_ads + ${adsCount.toString()}",
+                                  //   // "${fullTimePageCont.totalAds}  + ${adsCount.toString()}",
+                                  //   style: const TextStyle(
+                                  //       fontFamily: 'MontserratBold',
+                                  //       color: Colors.white,
+                                  //       fontSize: 15.0),
+                                  // ),),
+                                ],
+                              ),
+                            ],
+                          )
+                        ],
+                      )
+                      // CircularPercentIndicator(
+                      //   radius: 35.0,
+                      //   lineWidth: 10.0,
+                      //   animation: true,
+                      //   percent: progressPercentageTwo.clamp(0.0, 1.0),
+                      //   backgroundWidth: 13,
+                      //   center: Text(
+                      //     (progressPercentageTwo * maximumValue)
+                      //         .toInt()
+                      //         .toString(),
+                      //     style: const TextStyle(
+                      //         fontFamily: 'MontserratBold',
+                      //         fontSize: 16.0,
+                      //         color: Colors.white),
+                      //   ),
+                      //   footer: Column(
+                      //     children: [
+                      //       IgnorePointer(
+                      //         ignoring: isClaimButtonDisabled,
+                      //         child: InkWell(
+                      //           onTap: () async {
+                      //             syncType = 'reward_sync';
+                      //             debugPrint("syncType: $syncType");
+                      //             try {
+                      //               prefs =
+                      //                   await SharedPreferences.getInstance();
+                      //               setState(() {
+                      //                 syncUniqueId;
+                      //               });
+                      //               debugPrint("syncUniqueId: $syncUniqueId");
+                      //               // Call the syncData function and get the result immediately
+                      //               fullTimePageCont.syncData(
+                      //                 prefs.getString(Constant.ID),
+                      //                 adsCount.toString(),
+                      //                 syncUniqueId.toString(),
+                      //                 prefs
+                      //                     .getString(Constant.MY_DEVICE_ID)
+                      //                     .toString(),
+                      //                 syncType,
+                      //                 platformType,
+                      //                 (String syncDataSuccess) {
+                      //                   debugPrint(
+                      //                       "syncDataSuccess: $syncDataSuccess");
+                      //                   // Perform actions based on the result of the syncData function
+                      //                   if (syncDataSuccess == 'true') {
+                      //                     setState(() {
+                      //                       isClaimButtonDisabled = true;
+                      //                       reward_ads = prefs.getString(
+                      //                           Constant.REWARD_ADS)!;
+                      //                       ads_time = prefs.getString(
+                      //                           Constant.ADS_TIME)!;
+                      //                       balance = prefs
+                      //                           .getString(Constant.BALANCE)!;
+                      //                       today_ads = prefs.getString(
+                      //                           Constant.TODAY_ADS)!;
+                      //                       total_ads = prefs.getString(
+                      //                           Constant.TOTAL_ADS)!;
+                      //                       ads_cost = prefs.getString(
+                      //                           Constant.ADS_COST)!;
+                      //                     });
+                      //                   } else {}
+                      //                 },
+                      //               );
+                      //             } catch (e) {
+                      //               // Handle any errors that occur during the process
+                      //               debugPrint("Error: $e");
+                      //             }
+                      //           },
+                      //           child: Container(
+                      //             decoration: isClaimButtonDisabled == false
+                      //                 ? BoxDecoration(
+                      //                     gradient: const LinearGradient(
+                      //                       begin: Alignment.topRight,
+                      //                       end: Alignment.bottomLeft,
+                      //                       colors: [
+                      //                         Colors.deepOrangeAccent,
+                      //                         Colors.pink,
+                      //                       ],
+                      //                     ),
+                      //                     borderRadius:
+                      //                         BorderRadius.circular(10),
+                      //                   )
+                      //                 : BoxDecoration(
+                      //                     color: Colors.orange.shade50,
+                      //                     borderRadius:
+                      //                         BorderRadius.circular(10),
+                      //                   ),
+                      //             padding: const EdgeInsets.symmetric(
+                      //                 horizontal: 15, vertical: 10),
+                      //             margin: const EdgeInsets.only(top: 10),
+                      //             child: Text(
+                      //               "Claim Reward",
+                      //               style: TextStyle(
+                      //                   fontFamily: 'MontserratBold',
+                      //                   fontSize: 12.0,
+                      //                   color: isClaimButtonDisabled == false
+                      //                       ? Colors.white
+                      //                       : Colors.grey[500]
+                      //                   // : Colors.orangeAccent[200],
+                      //                   ),
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //       InkWell(
+                      //         onTap: () {
+                      //           launchUrl(
+                      //             Uri.parse(homeController.rewardAdsDetails
+                      //                 .toString()),
+                      //             mode: LaunchMode.externalApplication,
+                      //           );
+                      //         },
+                      //         child: Text(
+                      //           "more details",
+                      //           style: GoogleFonts.poppins(
+                      //             fontSize: 14,
+                      //             color: Colors.white,
+                      //             fontWeight: FontWeight.normal,
+                      //             decoration: TextDecoration.underline,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      //   linearGradient: const LinearGradient(
+                      //     colors: [
+                      //       Colors.deepOrangeAccent,
+                      //       Colors.pink,
+                      //     ],
+                      //   ),
+                      //   circularStrokeCap: CircularStrokeCap.round,
+                      //   // progressColor: Colors.deepOrangeAccent,
+                      // ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Container(
+                  margin: const EdgeInsets.only(right: 30),
+                  alignment: Alignment.topRight,
+                  child: InkWell(
+                    onTap: skipAdButton == false ? () {
+                      timerWatchAd.cancel();
+                      watchAds();
+                      skipAdTimer();
+                      print('Ad skipped manually!');
+                    } : () {},
+                    child: Container(
+                        height: 30,
+                        width: 80,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(1000),
+                            color: skipAdButton == false ? Colors.deepPurpleAccent : Colors.purple[50],),
+                        child: countdown == 0 ? Text(
+                          'Skip Ad',
+                          style: TextStyle(
+                            fontSize: 12, color: skipAdButton == false ? Colors.white
+                              : Colors.grey[500],fontWeight: FontWeight.bold,),
+                        ): Text(
+                          'Skip Ad ($countdown)',
+                          style: TextStyle(
+                              fontSize: 12, color: skipAdButton == false ? Colors.white
+                              : Colors.grey[500],fontWeight: FontWeight.bold,),
+                        )),
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Image.network(
+                  ads_image,
+                  fit: BoxFit.contain,
+                  height: 300, // Set the desired height
+                  width: 300, // Set the desired width
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) {
+                      _isLoading = false;
+                      return child;
+                    } else if (_isLoading) {
+                      return const CircularProgressIndicator(); // Show loading indicator
+                    } else {
+                      return child;
+                    }
+                  },
+                ),
+                const SizedBox(height: 5),
+                GestureDetector(
+                  onTap: () {
+                    launchUrl(
+                      Uri.parse(ads_link),
+                      mode: LaunchMode.externalApplication,
+                    );
+                  },
+                  child: Text(
+                    "click here to purchase",
+                    style: GoogleFonts.poppins(
+                      fontSize: 14,
+                      color: Colors.black,
+                      fontWeight: FontWeight.normal,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+                // Text(
+                //   timerStarted ? "$seconds seconds" : "",
+                //   style: const TextStyle(
+                //     fontSize: 14,
+                //     color: Colors.red,
+                //     fontWeight: FontWeight.normal,
+                //   ),
+                // ),
+                const SizedBox(height: 5),
+                MaterialButton(
+                  onPressed: isButtonEnabled == true
+                      ? () async {
+                          debugPrint(
+                              "homeController.watchAdStatus: ${homeController.watchAdStatus}");
+                          int adsTimeInSeconds = int.parse(ads_time);
+                          debugPrint("adsCount: $adsCount");
+                          var myDeviceId = isWeb == 'true'
+                              ? '12345678'
+                              : prefs.getString(Constant.MY_DEVICE_ID);
+                          var watchAdStatus =
+                              prefs.getString(Constant.WATCH_AD_STATUS);
+                          debugPrint("myDeviceId: $myDeviceId");
+                          if (homeController.watchAdStatus == "1" &&
+                              adsCount < 120) {
+                            if (!timerStarted) {
+                              generatedOtp = fullTimePageCont
+                                  .generateRandomFourDigitNumber()
+                                  .toString();
+                              showAlertDialog(context);
+                              // showAlertDialog(context, generatedOtp);
+                              debugPrint("isButtonEnabled is false");
+                              setState(() {
+                                isButtonEnabled = false;
+                              });
+                              Future.delayed(
+                                Duration(seconds: adsTimeInSeconds),
+                                () {
+                                  debugPrint("isButtonEnabled is true");
+                                  setState(() {
+                                    isButtonEnabled = true;
+                                  });
+                                },
+                              );
+                              // showAlertDialog(context);
+                            } else {
+                              Utils().showToast("Please wait...");
+                            }
+                          } else if (adsCount >= 120) {
+                            Utils().showToast("Sync Now Try Again...");
+                          } else {
+                            Utils().showToast("Watch Ad is disable...");
+                          }
+                          // if (!timerStarted) {
+                          //   // watchad();
+                          //   starttime = 0;
+                          //   timerStarted = true;
+                          //   startTimer();
+                          // } else {
+                          //   Utils().showToast("Please wait...");
+                          // }
+                        }
+                      : () {
+                          Utils().showToast("Please wait...");
+                        },
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Container(
+                    height: 40,
+                    width: 140,
+                    decoration: homeController.watchAdStatus == "1" &&
+                            adsCount < 120
+                        ? const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage("assets/images/btnbg.png"),
+                              fit: BoxFit.fill,
+                            ),
+                          )
+                        : BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.circular(100)),
+                    child: const Center(
+                      child: Text(
+                        'Watch Ad',
+                        style: TextStyle(
+                            color: colors.white,
+                            fontSize: 14,
+                            fontFamily: "Montserrat",
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 5),
-                  LinearProgressIndicator(
-                    value: progressbar,
-                    minHeight: 10, // Set the desired height of the progress bar
-                    backgroundColor: Colors
-                        .grey[300], // Background color of the progress bar
-                    valueColor: const AlwaysStoppedAnimation<Color>(
-                        colors.widget_color), // Color of the progress indicator
-                  ),
-                  const SizedBox(height: 5),
-                ],
-              ),
+                ),
+                const SizedBox(height: 5),
+                LinearProgressIndicator(
+                  value: progressbar,
+                  minHeight: 10, // Set the desired height of the progress bar
+                  backgroundColor: Colors
+                      .grey[300], // Background color of the progress bar
+                  valueColor: const AlwaysStoppedAnimation<Color>(
+                      colors.widget_color), // Color of the progress indicator
+                ),
+                const SizedBox(height: 5),
+              ],
             ),
           ),
         ),

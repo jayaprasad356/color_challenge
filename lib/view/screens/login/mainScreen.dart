@@ -11,6 +11,7 @@ import 'package:a1_ads/reports.dart';
 import 'package:a1_ads/util/Color.dart';
 import 'package:a1_ads/util/Constant.dart';
 import 'package:a1_ads/controller/utils.dart';
+import 'package:a1_ads/view/screens/add_screen/a1u_ads.dart';
 import 'package:a1_ads/view/screens/add_screen/ads_screen.dart';
 import 'package:a1_ads/view/screens/add_screen/full_time_page.dart';
 import 'package:a1_ads/view/screens/home_page/homePage.dart';
@@ -72,6 +73,7 @@ class _MainScreenState extends State<MainScreen> {
   String balance = "";
   String status = "";
   String old_plan = "";
+  String without_work = "";
   String plan = "";
   String text = 'Click here Send ScreenShoot';
   String link = 'http://t.me/Colorchallengeapp1';
@@ -102,11 +104,11 @@ class _MainScreenState extends State<MainScreen> {
     });
     startTimer();
     // offerImage();
-    if (status == '0') {
-      _selctedIndex = 0;
-    } else {
-      _selctedIndex = 2;
-    }
+    // if (status == '0') {
+    //   _selctedIndex = 0;
+    // } else {
+    //   _selctedIndex = 2;
+    // }
   }
 
   void startTimer() {
@@ -131,7 +133,8 @@ class _MainScreenState extends State<MainScreen> {
       status = prefs.getString(Constant.STATUS)!;
       old_plan = prefs.getString(Constant.OLD_PLAN)!;
       plan = prefs.getString(Constant.PLAN)!;
-      debugPrint("plan: $plan");
+      without_work = prefs.getString(Constant.WITHOUT_WORK)!;
+      debugPrint("plan: $without_work");
       balance = prefs.getString(Constant.BALANCE)!;
     });
   }
@@ -209,7 +212,9 @@ class _MainScreenState extends State<MainScreen> {
       //   _addPost = false;
       // } else if (index == 2) {
       if (index == 1) {
-        if (old_plan == "0" && (plan == "A1" || plan == "A1S" || plan == "A1U") && status == "1") {
+        if (old_plan == "0" &&
+            (plan == "A1" || plan == "A1S" || plan == "A1U") &&
+            status == "1") {
           title = "A1 Plan";
         } else {
           title = "A2 Plan";
@@ -296,298 +301,293 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: _isHomePage == true || _isAdsPage == true || _isMorePage == true  || _isJobsPage == true ? null : AppBar(
-          centerTitle: true,
-          automaticallyImplyLeading: false,
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  colors.primary_color,
-                  colors.primary_color2
-                ], // Change these colors to your desired gradient colors
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-            ),
+      // appBar: _isHomePage == true || _isAdsPage == true || _isMorePage == true  || _isJobsPage == true ? null : AppBar(
+      //   centerTitle: true,
+      //   automaticallyImplyLeading: false,
+      //   flexibleSpace: Container(
+      //     decoration: const BoxDecoration(
+      //       gradient: LinearGradient(
+      //         colors: [
+      //           colors.primary_color,
+      //           colors.primary_color2
+      //         ], // Change these colors to your desired gradient colors
+      //         begin: Alignment.topCenter,
+      //         end: Alignment.bottomCenter,
+      //       ),
+      //     ),
+      //   ),
+      //   title: Text(
+      //     title,
+      //     style:
+      //         const TextStyle(fontFamily: 'Montserra', color: colors.white),
+      //   ),
+      //   leading: _leftArrowVisible
+      //       ? const Icon(
+      //           Icons.arrow_back_outlined,
+      //           color: colors.black,
+      //         )
+      //       : (null),
+      //   actions: _actionsVisible
+      //       ? [
+      //           // GestureDetector(
+      //           //   onTap: () {
+      //           //     Navigator.push(
+      //           //       context,
+      //           //       MaterialPageRoute(
+      //           //         builder: (context) => NotifyScreen(),
+      //           //       ),
+      //           //     );
+      //           //   },
+      //           //   child: Padding(
+      //           //     padding: const EdgeInsets.all(12.0),
+      //           //     child: ColorFiltered(
+      //           //       colorFilter: const ColorFilter.mode(
+      //           //           Colors.white, BlendMode.srcIn),
+      //           //       child: Image.asset(
+      //           //         "assets/images/notification.png",
+      //           //         height: 24,
+      //           //         width: 30,
+      //           //       ),
+      //           //     ),
+      //           //   ),
+      //           // ),
+      //           Padding(
+      //             padding: const EdgeInsets.only(top: 10.0),
+      //             child: MaterialButton(
+      //               onPressed: () {
+      //                 String text = 'Hello I need help in app';
+      //                 String encodedText = Uri.encodeFull(text);
+      //                 String uri =
+      //                     Constant.A1AdsHelpWebUrl;
+      //                 launchUrl(
+      //                   Uri.parse(uri),
+      //                   mode: LaunchMode.inAppWebView,
+      //                 );
+      //               },
+      //               child: Row(
+      //                 mainAxisSize: MainAxisSize.min,
+      //                 children: <Widget>[
+      //                   Image.asset(
+      //                     'assets/images/help.png', // Replace with the actual image path
+      //                   ),
+      //                 ],
+      //               ),
+      //             ),
+      //           ),
+      //         ]
+      //       : [
+      //           _logoutVisible
+      //               ? GestureDetector(
+      //                   onTap: () {
+      //                     prefs.setString(Constant.LOGED_IN, "false");
+      //                     logout();
+      //                   },
+      //                   child: Padding(
+      //                     padding: const EdgeInsets.all(12.0),
+      //                     child: ColorFiltered(
+      //                       colorFilter: const ColorFilter.mode(
+      //                           Colors.white, BlendMode.srcIn),
+      //                       child: Image.asset(
+      //                         "assets/images/logout.png",
+      //                         height: 24,
+      //                         width: 30,
+      //                       ),
+      //                     ),
+      //                   ),
+      //                 )
+      //               : const Text(""),
+      //           _notificationVisible
+      //               ? GestureDetector(
+      //                   onTap: () {
+      //                     Navigator.push(
+      //                       context,
+      //                       MaterialPageRoute(
+      //                         builder: (context) => const NotifyScreen(),
+      //                       ),
+      //                     );
+      //                   },
+      //                   child: Padding(
+      //                     padding: const EdgeInsets.all(12.0),
+      //                     child: ColorFiltered(
+      //                       colorFilter: const ColorFilter.mode(
+      //                           Colors.white, BlendMode.srcIn),
+      //                       child: Image.asset(
+      //                         "assets/images/notification.png",
+      //                         height: 24,
+      //                         width: 30,
+      //                       ),
+      //                     ),
+      //                   ),
+      //                 )
+      //               : const Text(""),
+      //           _addPost
+      //               ? GestureDetector(
+      //                   onTap: () {
+      //                     Navigator.push(
+      //                       context,
+      //                       MaterialPageRoute(
+      //                         builder: (context) => const PostUpload(),
+      //                       ),
+      //                     );
+      //                   },
+      //                   child: const Padding(
+      //                     padding: EdgeInsets.all(12.0),
+      //                     child: ColorFiltered(
+      //                       colorFilter: ColorFilter.mode(
+      //                           Colors.white, BlendMode.srcIn),
+      //                       child: Icon(
+      //                         Icons.add_box,
+      //                         color: Colors.white,
+      //                         size: 30,
+      //                       ),
+      //                     ),
+      //                   ),
+      //                 )
+      //               : const Text(""),
+      //         ],
+      // ),
+      bottomNavigationBar: Container(
+          margin: const EdgeInsets.only(bottom: 1),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            boxShadow: [
+              BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
+            ],
           ),
-          title: Text(
-            title,
-            style:
-                const TextStyle(fontFamily: 'Montserra', color: colors.white),
-          ),
-          leading: _leftArrowVisible
-              ? const Icon(
-                  Icons.arrow_back_outlined,
-                  color: colors.black,
-                )
-              : (null),
-          actions: _actionsVisible
-              ? [
-                  // GestureDetector(
-                  //   onTap: () {
-                  //     Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(
-                  //         builder: (context) => NotifyScreen(),
-                  //       ),
-                  //     );
-                  //   },
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.all(12.0),
-                  //     child: ColorFiltered(
-                  //       colorFilter: const ColorFilter.mode(
-                  //           Colors.white, BlendMode.srcIn),
-                  //       child: Image.asset(
-                  //         "assets/images/notification.png",
-                  //         height: 24,
-                  //         width: 30,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: MaterialButton(
-                      onPressed: () {
-                        String text = 'Hello I need help in app';
-                        String encodedText = Uri.encodeFull(text);
-                        String uri =
-                            Constant.A1AdsHelpWebUrl;
-                        launchUrl(
-                          Uri.parse(uri),
-                          mode: LaunchMode.inAppWebView,
-                        );
-                      },
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Image.asset(
-                            'assets/images/help.png', // Replace with the actual image path
-                          ),
-                        ],
-                      ),
+          child: ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(1)),
+            child: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              backgroundColor: colors.primary_color,
+              items: <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: ImageIcon(
+                    const AssetImage(
+                      "assets/images/home.png",
                     ),
+                    color:
+                        _selctedIndex == 0 ? colors.widget_color : colors.white,
                   ),
-                ]
-              : [
-                  _logoutVisible
-                      ? GestureDetector(
-                          onTap: () {
-                            prefs.setString(Constant.LOGED_IN, "false");
-                            logout();
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: ColorFiltered(
-                              colorFilter: const ColorFilter.mode(
-                                  Colors.white, BlendMode.srcIn),
-                              child: Image.asset(
-                                "assets/images/logout.png",
-                                height: 24,
-                                width: 30,
-                              ),
-                            ),
-                          ),
-                        )
-                      : const Text(""),
-                  _notificationVisible
-                      ? GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const NotifyScreen(),
-                              ),
-                            );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: ColorFiltered(
-                              colorFilter: const ColorFilter.mode(
-                                  Colors.white, BlendMode.srcIn),
-                              child: Image.asset(
-                                "assets/images/notification.png",
-                                height: 24,
-                                width: 30,
-                              ),
-                            ),
-                          ),
-                        )
-                      : const Text(""),
-                  _addPost
-                      ? GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const PostUpload(),
-                              ),
-                            );
-                          },
-                          child: const Padding(
-                            padding: EdgeInsets.all(12.0),
-                            child: ColorFiltered(
-                              colorFilter: ColorFilter.mode(
-                                  Colors.white, BlendMode.srcIn),
-                              child: Icon(
-                                Icons.add_box,
-                                color: Colors.white,
-                                size: 30,
-                              ),
-                            ),
-                          ),
-                        )
-                      : const Text(""),
-                ],
-        ),
-        bottomNavigationBar: Container(
-            margin: const EdgeInsets.only(bottom: 1),
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black38, spreadRadius: 0, blurRadius: 10),
+                  label: 'Home',
+                  backgroundColor: colors.primary_color,
+                ),
+                BottomNavigationBarItem(
+                  icon: ImageIcon(
+                    const AssetImage(
+                      "assets/icon/Vector (1).png",
+                    ),
+                    color:
+                        _selctedIndex == 1 ? colors.widget_color : colors.white,
+                  ),
+                  label: "ADS",
+                  backgroundColor: colors.primary_color,
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.local_offer_outlined,
+                    color:
+                        _selctedIndex == 2 ? colors.widget_color : colors.white,
+                  ),
+                  label: 'My Offer',
+                  backgroundColor: colors.primary_color,
+                ),
+                // BottomNavigationBarItem(
+                //   icon: Icon(
+                //     Icons.monetization_on,
+                //     color: _selctedIndex == 2
+                //         ? colors.widget_color
+                //         : colors.white,
+                //   ),
+                //   label: 'Invest',
+                //   backgroundColor: colors.primary_color,
+                // ),
+                // BottomNavigationBarItem(
+                //   icon: ImageIcon(
+                //     const AssetImage(
+                //       // "assets/images/2666513_1-removebg-preview.png",
+                //       "assets/icon/Group (1).png",
+                //     ),
+                //     color:
+                //         _selctedIndex == 3 ? colors.widget_color : colors.white,
+                //   ),
+                //   // label: 'Reward',
+                //   label: 'Jobs',
+                //   backgroundColor: colors.primary_color,
+                // ),
+                // BottomNavigationBarItem(
+                //   icon: Icon(
+                //     Icons.storefront,
+                //     color: _selctedIndex == 2
+                //         ? colors.widget_color
+                //         : colors.white,
+                //   ),
+                //   label: 'Store',
+                //   backgroundColor: colors.primary_color,
+                // ),
+                // BottomNavigationBarItem(
+                //   icon: ImageIcon(
+                //     const AssetImage(
+                //       "assets/images/result.png",
+                //     ),
+                //     color: _selctedIndex == 3
+                //         ? colors.widget_color
+                //         : colors.white,
+                //   ),
+                //   label: 'Reports',
+                //   backgroundColor: colors.primary_color,
+                // ),
+                BottomNavigationBarItem(
+                    // icon: Icon(Icons.person,color: _selctedIndex == 4
+                    //     ? colors.widget_color
+                    //     : colors.white),
+                    icon: ImageIcon(
+                        const AssetImage(
+                          "assets/icon/Vector (2).png",
+                        ),
+                        color: _selctedIndex == 3
+                            ? colors.widget_color
+                            : colors.white),
+                    // label: 'Profile',
+                    label: 'More',
+                    backgroundColor: colors.white),
               ],
+              currentIndex: _selctedIndex,
+              selectedItemColor: colors.widget_color,
+              unselectedItemColor: colors.white,
+              onTap: _onItemTapped,
             ),
-            child: ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(1)),
-              child: BottomNavigationBar(
-                type: BottomNavigationBarType.fixed,
-                backgroundColor: colors.primary_color,
-                items: <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: ImageIcon(
-                      const AssetImage(
-                        "assets/images/home.png",
-                      ),
-                      color: _selctedIndex == 0
-                          ? colors.widget_color
-                          : colors.white,
-                    ),
-                    label: 'Home',
-                    backgroundColor: colors.primary_color,
-                  ),
-                  BottomNavigationBarItem(
-                    icon: ImageIcon(
-                      const AssetImage(
-                        "assets/icon/Vector (1).png",
-                      ),
-                      color: _selctedIndex == 1
-                          ? colors.widget_color
-                          : colors.white,
-                    ),
-                    label: "ADS",
-                    backgroundColor: colors.primary_color,
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.local_offer_outlined,
-                      color: _selctedIndex == 2
-                          ? colors.widget_color
-                          : colors.white,
-                    ),
-                    label: 'My Offer',
-                    backgroundColor: colors.primary_color,
-                  ),
-                  // BottomNavigationBarItem(
-                  //   icon: Icon(
-                  //     Icons.monetization_on,
-                  //     color: _selctedIndex == 2
-                  //         ? colors.widget_color
-                  //         : colors.white,
-                  //   ),
-                  //   label: 'Invest',
-                  //   backgroundColor: colors.primary_color,
-                  // ),
-                  BottomNavigationBarItem(
-                    icon: ImageIcon(
-                      const AssetImage(
-                        "assets/images/2666513_1-removebg-preview.png",
-                        // "assets/icon/Group (1).png",
-                      ),
-                      color: _selctedIndex == 3
-                          ? colors.widget_color
-                          : colors.white,
-                    ),
-                    label: 'Reward',
-                    // label: 'Jobs',
-                    backgroundColor: colors.primary_color,
-                  ),
-                  // BottomNavigationBarItem(
-                  //   icon: Icon(
-                  //     Icons.storefront,
-                  //     color: _selctedIndex == 2
-                  //         ? colors.widget_color
-                  //         : colors.white,
-                  //   ),
-                  //   label: 'Store',
-                  //   backgroundColor: colors.primary_color,
-                  // ),
-                  // BottomNavigationBarItem(
-                  //   icon: ImageIcon(
-                  //     const AssetImage(
-                  //       "assets/images/result.png",
-                  //     ),
-                  //     color: _selctedIndex == 3
-                  //         ? colors.widget_color
-                  //         : colors.white,
-                  //   ),
-                  //   label: 'Reports',
-                  //   backgroundColor: colors.primary_color,
-                  // ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.person,color: _selctedIndex == 4
-                        ? colors.widget_color
-                        : colors.white),
-                      // icon: ImageIcon(
-                      //     const AssetImage(
-                      //       "assets/icon/Vector (2).png",
-                      //     ),
-                      //     color: _selctedIndex == 4
-                      //         ? colors.widget_color
-                      //         : colors.white),
-                      label: 'Profile',
-                      // label: 'More',
-                      backgroundColor: colors.white),
-                ],
-                currentIndex: _selctedIndex,
-                selectedItemColor: colors.widget_color,
-                unselectedItemColor: colors.white,
-                onTap: _onItemTapped,
+          )),
+      backgroundColor: const Color(0xFFF2F2F2),
+      // body: getPage(_selctedIndex),
+      body: Column(
+        children: [
+          Stack(
+            children: [
+              SizedBox(
+                height: 80,
+                width: double.infinity,
+                child: Image.asset(
+                  'assets/images/Ellipse 11.png',
+                  fit: BoxFit.fill,
+                ),
               ),
-            )),
-        backgroundColor: const Color(0xFFF2F2F2),
-        body: getPage(_selctedIndex),
-        // body: Column(
-        //   children: [
-        //     Stack(
-        //       children: [
-        //         SizedBox(
-        //           height: 80,
-        //           width: double.infinity,
-        //           child: Image.asset(
-        //             'assets/images/Ellipse 11.png',
-        //             fit: BoxFit.fill,
-        //           ),
-        //         ),
-        //         const Padding(
-        //           padding: EdgeInsets.only(top: 20.0, left: 30),
-        //           child: Text(
-        //             'A1 - Store',
-        //             style: TextStyle(
-        //               fontFamily: 'MontserratBold',
-        //               color: Colors.white,
-        //               fontWeight: FontWeight.bold,
-        //               fontSize: 18,
-        //             ),
-        //           ),
-        //         ),
-        //       ],
-        //     ),
-        //     Expanded(child: getPage(_selctedIndex)),
-        //   ],
-        // ),
+              const Padding(
+                padding: EdgeInsets.only(top: 20.0, left: 30),
+                child: Text(
+                  'A1 - Store',
+                  style: TextStyle(
+                    fontFamily: 'MontserratBold',
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Expanded(child: getPage(_selctedIndex)),
+        ],
+      ),
     );
   }
 
@@ -792,27 +792,34 @@ class _MainScreenState extends State<MainScreen> {
       case 0:
         return const Home(); //HomePage(updateAmount: updateAmount);
       case 1:
-        // return const FullTimePage();
         // return const ADsScreen(); //HomePage(updateAmount: updateAmount);
-        // return const FullTimePage();
-        if (status == "1" && old_plan == "0" && (plan == "A1" || plan == "A1S" || plan == "A1U")) {
+        // return const A1UAds();
+        if (status == "1" &&
+            old_plan == "0" &&
+            (plan == "A2" || plan == "A1W")) {
+          return const ADsScreen();
+        } else if (status == "1" &&
+            old_plan == "0" &&
+            plan == "A1U" &&
+            without_work == '0') {
           return const FullTimePage();
         } else {
-          return const ADsScreen();
+          return const A1UAds();
         }
       case 2:
         // return const InvestScreen();
         return const MyOffer();
-        // return const JobFinder();
+      // return const JobFinder();
+      // return const Jobs();
       // case 1:
       //   return const JobShow();
-      case 3:
-        // return const Jobs();
-        // return const NotifyScreen();
-      return const Reward();
+      // case 3:
+      //   return const Jobs();
+      // return const NotifyScreen();
+      // return const Reward();
       // case 3:
       //   return const report();
-      case 4:
+      case 3:
         return const MyProfile();
       default:
         return const MyProfile();
@@ -896,5 +903,3 @@ class WebViewExample extends StatelessWidget {
     );
   }
 }
-
-

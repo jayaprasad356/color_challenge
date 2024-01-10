@@ -74,7 +74,7 @@ class HomeState extends State<Home> {
     homeController.productListData('1');
     SharedPreferences.getInstance().then((value) {
       prefs = value;
-      userDeatils();
+      // userDeatils();
       contact_us = prefs.getString(Constant.CONTACT_US).toString();
       basic_wallet = prefs.getString(Constant.BASIC_WALLET)!;
       premium_wallet = prefs.getString(Constant.PREMIUM_WALLET)!;
@@ -200,255 +200,260 @@ class HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      backgroundColor: const Color(0xFFF2F2F2),
-      body: Container(
-        height: size.height,
-        width: size.width,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [colors.primary_color, colors.secondary_color],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        padding: const EdgeInsets.all(20),
-        child: SafeArea(
-          child: Container(
-            width: size.width,
-            decoration: BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(16)),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: Image.asset('assets/images/WhatsApp Image 2023-12-20 at 1.35.15 AM.jpeg',
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
     // return Scaffold(
     //   backgroundColor: const Color(0xFFF2F2F2),
-    //   body: SingleChildScrollView(
-    //     physics: const BouncingScrollPhysics(),
-    //     child: Column(
-    //       children: [
-    //         const SizedBox(
-    //           height: 10,
-    //         ),
-    //         CarouselSlider(
-    //           options: CarouselOptions(
-    //             height: size.height * 0.27,
-    //             autoPlay: true,
-    //             enableInfiniteScroll: false,
-    //             onPageChanged: (index, reason) {
-    //               setState(() {
-    //                 _currentIndex = index;
-    //               });
-    //             },
-    //           ),
-    //           items:
-    //               homeController.sliderImageURL.asMap().entries.map((entry) {
-    //             int index = entry.key;
-    //             String imageUrl = entry.value;
-    //             // String imageName = homeController.sliderName[index];
-    //             return Builder(
-    //               builder: (BuildContext context) {
-    //                 return Container(
-    //                   // height: size.height * 0.01,
-    //                   width: size.width,
-    //                   margin: const EdgeInsets.symmetric(horizontal: 5.0),
-    //                   child: ClipRRect(
-    //                     borderRadius: BorderRadius.circular(16),
-    //                     child: Image.network(
-    //                       imageUrl,
-    //                     ),
-    //                   ),
-    //                 );
-    //               },
-    //             );
-    //           }).toList(),
-    //         ),
-    //         const SizedBox(
-    //           height: 10,
-    //         ),
-    //         // Image.network(
-    //         //   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfBJhHB86PPHocV3n-ou6ZwUWX8vSPEZ-H3w&usqp=CAU',
-    //         //   loadingBuilder: (BuildContext context, Widget child,
-    //         //       ImageChunkEvent? loadingProgress) {
-    //         //     if (loadingProgress == null) {
-    //         //       return child;
-    //         //     } else {
-    //         //       return Center(
-    //         //         child: CircularProgressIndicator(
-    //         //           value: loadingProgress.expectedTotalBytes != null
-    //         //               ? loadingProgress.cumulativeBytesLoaded /
-    //         //                   (loadingProgress.expectedTotalBytes ?? 1)
-    //         //               : null,
-    //         //         ),
-    //         //       );
-    //         //     }
-    //         //   },
-    //         // ),
-    //         SizedBox(
-    //           height: size.height * 0.17,
-    //           width: double.infinity,
-    //           child: Obx(
-    //             () => ListView.builder(
-    //               itemCount: homeController.categoryJson.length,
-    //               scrollDirection: Axis.horizontal,
-    //               shrinkWrap: true,
-    //               itemBuilder: (context, index) {
-    //                 return InkWell(
-    //                   onTap: () {
-    //                     setState(() {
-    //                       selectedCategoryIndex =
-    //                           index; // Update selected index on tap
-    //                     });
-    //                     debugPrint(
-    //                         "selectedCategoryIndex: $selectedCategoryIndex");
-    //                     homeController.productListData(
-    //                         homeController.categoryJson[index].id);
-    //                   },
-    //                   child: Container(
-    //                     height: size.height * 0.17,
-    //                     width: size.width * 0.2,
-    //                     margin: const EdgeInsets.symmetric(horizontal: 5),
-    //                     decoration: BoxDecoration(
-    //                       borderRadius: BorderRadius.circular(100000),
-    //                       color: index == selectedCategoryIndex
-    //                           ? const Color(0xFF161C7E)
-    //                           : const Color(0xFFFFFFFF),
-    //                     ),
-    //                     child: Column(
-    //                       children: [
-    //                         SizedBox(
-    //                     height: size.height * 0.1,
-    //                           child: ClipRRect(
-    //                             borderRadius: BorderRadius.circular(100000),
-    //                             child: Image.network(
-    //                               homeController.categoryJson[index].image,
-    //                               fit: BoxFit.cover,
-    //                             ),
-    //                           ),
-    //                         ),
-    //                         const SizedBox(
-    //                           height: 10,
-    //                         ),
-    //                         Text(
-    //                           homeController.categoryJson[index].name,
-    //                           style: TextStyle(
-    //                             fontFamily: 'MontserratLight',
-    //                             color: index == selectedCategoryIndex
-    //                                 ? const Color(0xFFFFFFFF)
-    //                                 : const Color(0xFF67666D),
-    //                           ),
-    //                           textAlign: TextAlign.center,
-    //                         ),
-    //                       ],
-    //                     ),
-    //                   ),
-    //                 );
-    //               },
-    //             ),
+    //   body: Container(
+    //     height: size.height,
+    //     width: size.width,
+    //     decoration: const BoxDecoration(
+    //       gradient: LinearGradient(
+    //         colors: [colors.primary_color, colors.secondary_color],
+    //         begin: Alignment.topCenter,
+    //         end: Alignment.bottomCenter,
+    //       ),
+    //     ),
+    //     padding: const EdgeInsets.all(20),
+    //     child: SafeArea(
+    //       child: Container(
+    //         width: size.width,
+    //         decoration: BoxDecoration(
+    //             color: Colors.transparent,
+    //             borderRadius: BorderRadius.circular(16)),
+    //         child: ClipRRect(
+    //           borderRadius: BorderRadius.circular(16),
+    //           child: Image.asset('assets/images/WhatsApp Image 2023-12-20 at 1.35.15 AM.jpeg',
+    //             fit: BoxFit.cover,
     //           ),
     //         ),
-    //         const SizedBox(
-    //           height: 10,
-    //         ),
-    //         SizedBox(
-    //           height: size.height * 0.3,
-    //           child: Obx(
-    //             () => ListView.builder(
-    //               itemCount: homeController.productJson.length,
-    //               scrollDirection: Axis.horizontal,
-    //               itemBuilder: (context, index) {
-    //                 return InkWell(
-    //                   onTap: () {
-    //                     setState(() {
-    //                       selectedProductIndex = index;
-    //                     });
-    //                     Get.to(ProductDetails(
-    //                       imageUrl: homeController.productJson[index].image,
-    //                       name: homeController.productJson[index].name,
-    //                       price:
-    //                           homeController.productJson[index].originalPrice,
-    //                       description:
-    //                           homeController.productJson[index].description,
-    //                       productId:
-    //                           homeController.productJson[index].categoryId,
-    //                     ));
-    //                   },
-    //                   child: Container(
-    //                     height: size.height * 0.3,
-    //                     width: size.width * 0.4,
-    //                     margin: const EdgeInsets.symmetric(horizontal: 5),
-    //                     decoration: BoxDecoration(
-    //                       borderRadius: BorderRadius.circular(16),
-    //                       color: const Color(0xFFF8F8F8),
-    //                     ),
-    //                     padding: const EdgeInsets.symmetric(
-    //                         horizontal: 15, vertical: 10),
-    //                     child: Column(
-    //                       crossAxisAlignment: CrossAxisAlignment.start,
-    //                       children: [
-    //                         Container(
-    //                           decoration: BoxDecoration(
-    //                             borderRadius: BorderRadius.circular(16),
-    //                             color: const Color(0xFFFFFFFF),
-    //                           ),
-    //                           padding: const EdgeInsets.symmetric(
-    //                               horizontal: 10, vertical: 5),
-    //                           child: Text(homeController.productList[index][4],style: TextStyle(fontFamily: 'MontserratLight'),),
-    //                         ),
-    //                         const SizedBox(
-    //                           height: 5,
-    //                         ),
-    //                         Container(
-    //                             height: size.height * 0.15,
-    //                             width: double.infinity,
-    //                             alignment: Alignment.center,
-    //                             child: Image.network(
-    //                               homeController.productJson[index].image,
-    //                               fit: BoxFit.fill,
-    //                             ),),
-    //                         Text(
-    //                           homeController.productJson[index].name,
-    //                           style: const TextStyle(
-    //                             color: Color(0xFF67666D),
-    //                             fontFamily: 'MontserratLight',
-    //                           ),
-    //                           textAlign: TextAlign.center,
-    //                         ),
-    //                         const SizedBox(
-    //                           height: 10,
-    //                         ),
-    //                         Text(
-    //                           "₹ ${homeController.productJson[index].originalPrice}",
-    //                           style: const TextStyle(
-    //                             color: Color(0xFF000000),
-    //                             fontWeight: FontWeight.bold,
-    //                             fontFamily: 'MontserratBold',
-    //                           ),
-    //                           textAlign: TextAlign.center,
-    //                         ),
-    //                       ],
-    //                     ),
-    //                   ),
-    //                 );
-    //               },
-    //             ),
-    //           ),
-    //         ),
-    //         const SizedBox(
-    //           height: 10,
-    //         ),
-    //       ],
+    //       ),
     //     ),
     //   ),
     // );
+    return Scaffold(
+      backgroundColor: const Color(0xFFF2F2F2),
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 10,
+            ),
+            CarouselSlider(
+              options: CarouselOptions(
+                height: size.height * 0.27,
+                autoPlay: true,
+                enableInfiniteScroll: false,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                },
+              ),
+              items:
+                  homeController.sliderImageURL.asMap().entries.map((entry) {
+                int index = entry.key;
+                String imageUrl = entry.value;
+                // String imageName = homeController.sliderName[index];
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                      // height: size.height * 0.01,
+                      width: size.width,
+                      margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.network(
+                          imageUrl,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              }).toList(),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            // Image.network(
+            //   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfBJhHB86PPHocV3n-ou6ZwUWX8vSPEZ-H3w&usqp=CAU',
+            //   loadingBuilder: (BuildContext context, Widget child,
+            //       ImageChunkEvent? loadingProgress) {
+            //     if (loadingProgress == null) {
+            //       return child;
+            //     } else {
+            //       return Center(
+            //         child: CircularProgressIndicator(
+            //           value: loadingProgress.expectedTotalBytes != null
+            //               ? loadingProgress.cumulativeBytesLoaded /
+            //                   (loadingProgress.expectedTotalBytes ?? 1)
+            //               : null,
+            //         ),
+            //       );
+            //     }
+            //   },
+            // ),
+            SizedBox(
+              height: size.height * 0.17,
+              width: double.infinity,
+              child: Obx(
+                () => ListView.builder(
+                  itemCount: homeController.categoryJson.length,
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        setState(() {
+                          selectedCategoryIndex =
+                              index; // Update selected index on tap
+                        });
+                        debugPrint(
+                            "selectedCategoryIndex: $selectedCategoryIndex");
+                        homeController.productListData(
+                            homeController.categoryJson[index].id);
+                      },
+                      child: Container(
+                        height: size.height * 0.17,
+                        width: size.width * 0.2,
+                        margin: const EdgeInsets.symmetric(horizontal: 5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100000),
+                          color: index == selectedCategoryIndex
+                              ? const Color(0xFF161C7E)
+                              : const Color(0xFFFFFFFF),
+                        ),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                        height: size.height * 0.1,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(100000),
+                                child: Image.network(
+                                  homeController.categoryJson[index].image,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              homeController.categoryJson[index].name,
+                              style: TextStyle(
+                                fontFamily: 'MontserratLight',
+                                color: index == selectedCategoryIndex
+                                    ? const Color(0xFFFFFFFF)
+                                    : const Color(0xFF67666D),
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              height: size.height * 0.3,
+              child: Obx(
+                () => GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 1, // Number of columns
+                    crossAxisSpacing: 8.0, // Spacing between columns
+                    mainAxisSpacing: 8.0, // Spacing between rows
+                  ),
+                  itemCount: homeController.productJson.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        setState(() {
+                          selectedProductIndex = index;
+                        });
+                        Get.to(ProductDetails(
+                          imageUrl: homeController.productJson[index].image,
+                          name: homeController.productJson[index].name,
+                          price:
+                              homeController.productJson[index].originalPrice,
+                          description:
+                              homeController.productJson[index].description,
+                          productId:
+                              homeController.productJson[index].categoryId,
+                        ));
+                      },
+                      child: Container(
+                        height: size.height * 0.3,
+                        width: size.width * 0.4,
+                        margin: const EdgeInsets.symmetric(horizontal: 5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          color: const Color(0xFF161C7E),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16),
+                                color: const Color(0xFFFFFFFF),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              child: const Text("50% OFF",style: TextStyle(fontFamily: 'MontserratLight'),),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Container(
+                                height: size.height * 0.15,
+                                width: double.infinity,
+                                alignment: Alignment.center,
+                                child: Image.network(
+                                  homeController.productJson[index].image,
+                                  fit: BoxFit.fill,
+                                ),),
+                            Text(
+                              homeController.productJson[index].name,
+                              style: const TextStyle(
+                                color: Color(0xFF67666D),
+                                fontFamily: 'MontserratLight',
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "₹ ${homeController.productJson[index].originalPrice}",
+                              style: const TextStyle(
+                                color: Color(0xFFFF03A9),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'MontserratBold',
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   showSheet() {

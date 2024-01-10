@@ -26,58 +26,58 @@ class UpdateProfileScreen extends StatefulWidget {
 class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    // return Scaffold(
-    //   backgroundColor: const Color(0xFFF8F8F8),
-    //   appBar: AppBar(
-    //     centerTitle: true,
-    //     automaticallyImplyLeading: false,
-    //     elevation: 0,
-    //     backgroundColor: const Color(0xFFF8F8F8),
-    //     title: const Text(
-    //       "Profile",
-    //       style: TextStyle(
-    //         fontFamily: 'MontserratLight',
-    //         color: Color(0xFF000000),
-    //       ),
-    //     ),
-    //     leading: IconButton(
-    //       onPressed: () {
-    //         Get.back();
-    //       },
-    //       icon: Image.asset(
-    //         'assets/images/Group 18197.png',
-    //         height: 34,
-    //       ),
-    //     ),
-    //   ),
-    //   body: ProfileForm(),
-    // );
     return Scaffold(
+      backgroundColor: const Color(0xFFF8F8F8),
       appBar: AppBar(
         centerTitle: true,
         automaticallyImplyLeading: false,
-        title: const Text('Profile',style: TextStyle(fontFamily: 'Montserra', color: colors.white),),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [colors.primary_color, colors.primary_color2], // Change these colors to your desired gradient colors
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
+        elevation: 0,
+        backgroundColor: const Color(0xFFF8F8F8),
+        title: const Text(
+          "Profile",
+          style: TextStyle(
+            fontFamily: 'MontserratLight',
+            color: Color(0xFF000000),
           ),
         ),
         leading: IconButton(
           onPressed: () {
             Get.back();
           },
-          icon: const Icon(
-            Icons.arrow_back_outlined,
-            color: colors.white,
+          icon: Image.asset(
+            'assets/images/Group 18197.png',
+            height: 34,
           ),
         ),
       ),
       body: ProfileForm(),
     );
+    // return Scaffold(
+    //   appBar: AppBar(
+    //     centerTitle: true,
+    //     automaticallyImplyLeading: false,
+    //     title: const Text('Profile',style: TextStyle(fontFamily: 'Montserra', color: colors.white),),
+    //     flexibleSpace: Container(
+    //       decoration: const BoxDecoration(
+    //         gradient: LinearGradient(
+    //           colors: [colors.primary_color, colors.primary_color2], // Change these colors to your desired gradient colors
+    //           begin: Alignment.topCenter,
+    //           end: Alignment.bottomCenter,
+    //         ),
+    //       ),
+    //     ),
+    //     leading: IconButton(
+    //       onPressed: () {
+    //         Get.back();
+    //       },
+    //       icon: const Icon(
+    //         Icons.arrow_back_outlined,
+    //         color: colors.white,
+    //       ),
+    //     ),
+    //   ),
+    //   body: ProfileForm(),
+    // );
   }
 }
 
@@ -149,534 +149,534 @@ class _ProfileFormState extends State<ProfileForm> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    // return Scaffold(
-    //   body: SingleChildScrollView(
-    //     physics: const BouncingScrollPhysics(),
-    //     child: Form(
-    //       key: _formKey,
-    //       child: Padding(
-    //         padding: const EdgeInsets.all(16.0),
-    //         child: Column(
-    //           crossAxisAlignment: CrossAxisAlignment.stretch,
-    //           children: [
-    //             TextField(
-    //               controller: _nameController,
-    //               decoration: InputDecoration(
-    //                 labelText: 'Enter Name',
-    //                 labelStyle: const TextStyle(color: Color(0xFF000000),fontFamily: 'MontserratBold',),
-    //                 hintStyle: const TextStyle(color: Color(0xFF878787)),
-    //                 border: OutlineInputBorder(
-    //                   borderSide: const BorderSide(
-    //                     width: 1,
-    //                     color: Color(0xFFD00000),
-    //                   ),
-    //                   borderRadius: BorderRadius.circular(10.0),
-    //                 ),
-    //                 enabledBorder: OutlineInputBorder(
-    //                   borderSide: const BorderSide(
-    //                     width: 1,
-    //                     color: Color(0xFFD00000),
-    //                   ),
-    //                   borderRadius: BorderRadius.circular(10.0),
-    //                 ),
-    //               ),
-    //               style: const TextStyle(color: Color(0xFF727272),fontFamily: 'MontserratBold',),
-    //             ),
-    //             const SizedBox(height: 16),
-    //             TextField(
-    //               controller: _cityController,
-    //               decoration: InputDecoration(
-    //                 labelText: 'Enter City',
-    //                 labelStyle: const TextStyle(color: Color(0xFF000000),fontFamily: 'MontserratBold',),
-    //                 hintStyle: const TextStyle(color: Color(0xFF878787),fontFamily: 'MontserratLight',),
-    //                 border: OutlineInputBorder(
-    //                   borderSide: const BorderSide(
-    //                     width: 1,
-    //                     color: Color(0xFFD00000),
-    //                   ),
-    //                   borderRadius: BorderRadius.circular(10.0),
-    //                 ),
-    //                 enabledBorder: OutlineInputBorder(
-    //                   borderSide: const BorderSide(
-    //                     width: 1,
-    //                     color: Color(0xFFD00000),
-    //                   ),
-    //                   borderRadius: BorderRadius.circular(10.0),
-    //                 ),
-    //               ),
-    //               style: const TextStyle(color: Color(0xFF727272),fontFamily: 'MontserratBold',),
-    //             ),
-    //             const SizedBox(height: 16),
-    //             TextField(
-    //               controller: _ageController,
-    //               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-    //               maxLength: 2,
-    //               decoration: InputDecoration(
-    //                 labelText: 'Enter Age',
-    //                 labelStyle: const TextStyle(color: Color(0xFF000000),fontFamily: 'MontserratBold',),
-    //                 hintStyle: const TextStyle(color: Color(0xFF878787)),
-    //                 border: OutlineInputBorder(
-    //                   borderSide: const BorderSide(
-    //                     width: 1,
-    //                     color: Color(0xFFD00000),
-    //                   ),
-    //                   borderRadius: BorderRadius.circular(10.0),
-    //                 ),
-    //                 enabledBorder: OutlineInputBorder(
-    //                   borderSide: const BorderSide(
-    //                     width: 1,
-    //                     color: Color(0xFFD00000),
-    //                   ),
-    //                   borderRadius: BorderRadius.circular(10.0),
-    //                 ),
-    //               ),
-    //               style: const TextStyle(color: Color(0xFF727272),fontFamily: 'MontserratBold',),
-    //               keyboardType: TextInputType.number,
-    //             ),
-    //             TextField(
-    //               controller: _emailController,
-    //               decoration: InputDecoration(
-    //                 labelText: 'Enter Email',
-    //                 labelStyle: const TextStyle(color: Color(0xFF000000),fontFamily: 'MontserratBold',),
-    //                 hintStyle: const TextStyle(color: Color(0xFF878787)),
-    //                 border: OutlineInputBorder(
-    //                   borderSide: const BorderSide(
-    //                     width: 1,
-    //                     color: Color(0xFFD00000),
-    //                   ),
-    //                   borderRadius: BorderRadius.circular(10.0),
-    //                 ),
-    //                 enabledBorder: OutlineInputBorder(
-    //                   borderSide: const BorderSide(
-    //                     width: 1,
-    //                     color: Color(0xFFD00000),
-    //                   ),
-    //                   borderRadius: BorderRadius.circular(10.0),
-    //                 ),
-    //               ),
-    //               style: const TextStyle(color: Color(0xFF727272),fontFamily: 'MontserratBold',),
-    //             ),
-    //             const SizedBox(height: 16),
-    //             // const SizedBox(height: 1),
-    //             const Text(
-    //               "Select Gender",
-    //               style: TextStyle(fontSize: 12, color: colors.black,fontFamily: 'MontserratBold',),
-    //             ),
-    //             const SizedBox(height: 5),
-    //             Container(
-    //               width: double
-    //                   .infinity, // Set the width to fill the available space
-    //               decoration: BoxDecoration(
-    //                 borderRadius: BorderRadius.circular(10),
-    //                 border: Border.all(
-    //                   color: const Color(0xFFD00000),
-    //                   width: 1.0,
-    //                 ),
-    //               ),
-    //               padding: const EdgeInsets.only(
-    //                 left: 10,
-    //                 right: 10,
-    //                 bottom: 5,
-    //               ),
-    //               child: DropdownButton(
-    //                 value: gender,
-    //                 icon: const Icon(Icons.keyboard_arrow_down),
-    //                 items: items.map((String item) {
-    //                   return DropdownMenuItem(
-    //                     value: item,
-    //                     child: Text(item,style: const TextStyle(color: colors.black,fontFamily: 'MontserratBold',),),
-    //                   );
-    //                 }).toList(),
-    //                 onChanged: (String? newValue) {
-    //                   setState(() {
-    //                     gender = newValue!;
-    //                   });
-    //                 },
-    //                 style: const TextStyle(color: colors.black,fontFamily: 'MontserratBold',),
-    //                 dropdownColor: const Color(0xFFF8F8F8),
-    //               ),
-    //             ),
-    //             const SizedBox(height: 16),
-    //             const Text(
-    //               "Select Customer Support",
-    //               style: TextStyle(fontSize: 12, color: colors.black,fontFamily: 'MontserratBold',),
-    //             ),
-    //             const SizedBox(height: 5),
-    //             Container(
-    //               width: double
-    //                   .infinity, // Set the width to fill the available space
-    //               decoration: BoxDecoration(
-    //                 borderRadius: BorderRadius.circular(10),
-    //                 border: Border.all(
-    //                   color: const Color(0xFFD00000),
-    //                   width: 1.0,
-    //                 ),
-    //               ),
-    //               padding: const EdgeInsets.only(
-    //                 left: 10,
-    //                 right: 10,
-    //                 bottom: 5,
-    //               ),
-    //               child: DropdownButton(
-    //                 value: language,
-    //                 icon: const Icon(Icons.keyboard_arrow_down),
-    //                 items: languages.map((String item) {
-    //                   return DropdownMenuItem(
-    //                     value: item,
-    //                     child: Text(item,style: const TextStyle(color: colors.black,fontFamily: 'MontserratBold',),),
-    //                   );
-    //                 }).toList(),
-    //                 onChanged: (String? newValue) {
-    //                   setState(() {
-    //                     language = newValue!;
-    //                   });
-    //                 },
-    //                 style: const TextStyle(color: colors.black,fontFamily: 'MontserratBold',),
-    //                 dropdownColor: const Color(0xFFF8F8F8),
-    //               ),
-    //             ),
-    //             const SizedBox(height: 16),
-    //             const Text(
-    //               "Are you Deaf or Dumb?",
-    //               style: TextStyle(fontSize: 12, color: colors.black,fontFamily: 'MontserratBold',),
-    //             ),
-    //             const SizedBox(height: 5),
-    //             Container(
-    //               width: double.infinity,
-    //               decoration: BoxDecoration(
-    //                 borderRadius: BorderRadius.circular(10),
-    //                 border: Border.all(
-    //                   color: const Color(0xFFD00000),
-    //                   width: 1.0,
-    //                 ),
-    //               ),
-    //               padding: const EdgeInsets.only(
-    //                 left: 10,
-    //                 right: 10,
-    //                 bottom: 5,
-    //               ),
-    //               child: DropdownButton(
-    //                 value: deafDumb,
-    //                 icon: const Icon(Icons.keyboard_arrow_down),
-    //                 items: itemsDeafDumb.map((String item) {
-    //                   return DropdownMenuItem(
-    //                     value: item,
-    //                     child: Text(item == '0' ? 'No' : 'Yes',style: const TextStyle(color: colors.black,fontFamily: 'MontserratBold',),),
-    //                   );
-    //                 }).toList(),
-    //                 onChanged: (String? newValue) {
-    //                   setState(() {
-    //                     deafDumb = newValue!;
-    //                   });
-    //                 },
-    //                 style: const TextStyle(color: colors.black,fontFamily: 'MontserratBold',),
-    //                 dropdownColor: const Color(0xFFF8F8F8),
-    //               ),
-    //             ),
-    //             const SizedBox(height: 24),
-    //             InkWell(
-    //               onTap: () {
-    //                 updateProfile();
-    //               },
-    //               child: Container(
-    //                 height: 50,
-    //                 width: size.width * 0.35,
-    //                 decoration: BoxDecoration(
-    //                   borderRadius: BorderRadius.circular(1000),
-    //                   color: const Color(0xFFBD732D),
-    //                 ),
-    //                 alignment: Alignment.center,
-    //                 child: const Text(
-    //                   'Update',
-    //                   style: TextStyle(
-    //                     fontFamily: 'MontserratLight',
-    //                     color: Color(0xFFFFFFFF),
-    //                     fontWeight: FontWeight.bold,
-    //                     fontSize: 14,
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //           ],
-    //         ),
-    //       ),
-    //     ),
-    //   ),
-    // );
     return Scaffold(
-      body: Container(
-        width:
-        MediaQuery.of(context).size.width, // Set width to the screen width
-        height: MediaQuery.of(context)
-            .size
-            .height, // Set height to the screen height
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [colors.primary_color, colors.secondary_color],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Form(
-            key: _formKey,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  TextField(
-                    controller: _nameController,
-                    decoration: InputDecoration(
-                      labelText: 'Enter Name',
-                      labelStyle: const TextStyle(color: Color(0xFFFFFFFF),fontFamily: 'MontserratBold',),
-                      hintStyle: const TextStyle(color: Color(0xFFFFFFFF)),
-                      border: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          width: 1,
-                          color: Colors.white70,
-                        ),
-                        borderRadius: BorderRadius.circular(10.0),
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                TextField(
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    labelText: 'Enter Name',
+                    labelStyle: const TextStyle(color: Color(0xFF000000),fontFamily: 'MontserratBold',),
+                    hintStyle: const TextStyle(color: Color(0xFF878787)),
+                    border: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        width: 1,
+                        color: Color(0xFFD00000),
                       ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          width: 1,
-                          color: Colors.white70,
-                        ),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
-                    style: const TextStyle(color: Color(0xFFFFFFFF),fontFamily: 'MontserratLight',),
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: _cityController,
-                    decoration: InputDecoration(
-                      labelText: 'Enter City',
-                      labelStyle: const TextStyle(color: Color(0xFFFFFFFF),fontFamily: 'MontserratBold',),
-                      hintStyle: const TextStyle(color: Color(0xFFFFFFFF)),
-                      border: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          width: 1,
-                          color: Colors.white70,
-                        ),
-                        borderRadius: BorderRadius.circular(10.0),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        width: 1,
+                        color: Color(0xFFD00000),
                       ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          width: 1,
-                          color: Colors.white70,
-                        ),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                    style: const TextStyle(color: Color(0xFFFFFFFF),fontFamily: 'MontserratLight',),
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: _ageController,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    maxLength: 2,
-                    decoration: InputDecoration(
-                      labelText: 'Enter Age',
-                      labelStyle: const TextStyle(color: Color(0xFFFFFFFF),fontFamily: 'MontserratBold',),
-                      hintStyle: const TextStyle(color: Color(0xFFFFFFFF)),
-                      border: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          width: 1,
-                          color: Colors.white70,
-                        ),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          width: 1,
-                          color: Colors.white70,
-                        ),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                    style: const TextStyle(color: Color(0xFFFFFFFF),fontFamily: 'MontserratLight',),
-                    keyboardType: TextInputType.number,
-                  ),
-                  TextField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      labelText: 'Enter Email',
-                      labelStyle: const TextStyle(color: Color(0xFFFFFFFF),fontFamily: 'MontserratBold',),
-                      hintStyle: const TextStyle(color: Color(0xFFFFFFFF)),
-                      border: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          width: 1,
-                          color: Colors.white70,
-                        ),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          width: 1,
-                          color: Colors.white70,
-                        ),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                    style: const TextStyle(color: Color(0xFFFFFFFF),fontFamily: 'MontserratLight',),
-                  ),
-                  const SizedBox(height: 16),
-                  // const SizedBox(height: 1),
-                  const Text(
-                    "Select Gender",
-                    style: TextStyle(fontSize: 12, color: colors.white,fontFamily: 'MontserratBold',),
-                  ),
-                  const SizedBox(height: 5),
-                  Container(
-                    width: double
-                        .infinity, // Set the width to fill the available space
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: Colors.white70,
-                        width: 1.0,
-                      ),
-                    ),
-                    padding: const EdgeInsets.only(
-                      left: 10,
-                      right: 10,
-                      bottom: 5,
-                    ),
-                    child: DropdownButton(
-                      value: gender,
-                      icon: const Icon(Icons.keyboard_arrow_down),
-                      items: items.map((String item) {
-                        return DropdownMenuItem(
-                          value: item,
-                          child: Text(item,style: const TextStyle(color: colors.white,fontFamily: 'MontserratLight',),),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          gender = newValue!;
-                        });
-                      },
-                      style: const TextStyle(color: colors.white,fontFamily: 'MontserratLight',),
-                      dropdownColor:  colors.primary_color,
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    "Select Customer Support",
-                    style: TextStyle(fontSize: 12, color: colors.white,fontFamily: 'MontserratBold',),
-                  ),
-                  const SizedBox(height: 5),
-                  Container(
-                    width: double
-                        .infinity, // Set the width to fill the available space
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: Colors.white70,
-                        width: 1.0,
+                  style: const TextStyle(color: Color(0xFF727272),fontFamily: 'MontserratBold',),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: _cityController,
+                  decoration: InputDecoration(
+                    labelText: 'Enter City',
+                    labelStyle: const TextStyle(color: Color(0xFF000000),fontFamily: 'MontserratBold',),
+                    hintStyle: const TextStyle(color: Color(0xFF878787),fontFamily: 'MontserratLight',),
+                    border: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        width: 1,
+                        color: Color(0xFFD00000),
                       ),
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
-                    padding: const EdgeInsets.only(
-                      left: 10,
-                      right: 10,
-                      bottom: 5,
-                    ),
-                    child: DropdownButton(
-                      value: language,
-                      icon: const Icon(Icons.keyboard_arrow_down),
-                      items: languages.map((String item) {
-                        return DropdownMenuItem(
-                          value: item,
-                          child: Text(item,style: const TextStyle(color: colors.white,fontFamily: 'MontserratLight',),),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          language = newValue!;
-                        });
-                      },
-                      style: const TextStyle(color: colors.white,fontFamily: 'MontserratLight',),
-                      dropdownColor: colors.primary_color,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    "Are you Deaf or Dumb?",
-                    style: TextStyle(fontSize: 12, color: colors.white,fontFamily: 'MontserratBold',),
-                  ),
-                  const SizedBox(height: 5),
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: Colors.white70,
-                        width: 1.0,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        width: 1,
+                        color: Color(0xFFD00000),
                       ),
-                    ),
-                    padding: const EdgeInsets.only(
-                      left: 10,
-                      right: 10,
-                      bottom: 5,
-                    ),
-                    child: DropdownButton(
-                      value: deafDumb,
-                      icon: const Icon(Icons.keyboard_arrow_down),
-                      items: itemsDeafDumb.map((String item) {
-                        return DropdownMenuItem(
-                          value: item,
-                          child: Text(item == '0' ? 'No' : 'Yes',style: const TextStyle(color: colors.white,fontFamily: 'MontserratLight',),),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          deafDumb = newValue!;
-                        });
-                      },
-                      style: const TextStyle(color: colors.white,fontFamily: 'MontserratLight',),
-                      dropdownColor: colors.primary_color,
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                  const SizedBox(height: 24),
-                  MaterialButton(
-                    onPressed: () {
-                      updateProfile();
+                  style: const TextStyle(color: Color(0xFF727272),fontFamily: 'MontserratBold',),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: _ageController,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  maxLength: 2,
+                  decoration: InputDecoration(
+                    labelText: 'Enter Age',
+                    labelStyle: const TextStyle(color: Color(0xFF000000),fontFamily: 'MontserratBold',),
+                    hintStyle: const TextStyle(color: Color(0xFF878787)),
+                    border: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        width: 1,
+                        color: Color(0xFFD00000),
+                      ),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        width: 1,
+                        color: Color(0xFFD00000),
+                      ),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  style: const TextStyle(color: Color(0xFF727272),fontFamily: 'MontserratBold',),
+                  keyboardType: TextInputType.number,
+                ),
+                TextField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Enter Email',
+                    labelStyle: const TextStyle(color: Color(0xFF000000),fontFamily: 'MontserratBold',),
+                    hintStyle: const TextStyle(color: Color(0xFF878787)),
+                    border: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        width: 1,
+                        color: Color(0xFFD00000),
+                      ),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        width: 1,
+                        color: Color(0xFFD00000),
+                      ),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  style: const TextStyle(color: Color(0xFF727272),fontFamily: 'MontserratBold',),
+                ),
+                const SizedBox(height: 16),
+                // const SizedBox(height: 1),
+                const Text(
+                  "Select Gender",
+                  style: TextStyle(fontSize: 12, color: colors.black,fontFamily: 'MontserratBold',),
+                ),
+                const SizedBox(height: 5),
+                Container(
+                  width: double
+                      .infinity, // Set the width to fill the available space
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: const Color(0xFFD00000),
+                      width: 1.0,
+                    ),
+                  ),
+                  padding: const EdgeInsets.only(
+                    left: 10,
+                    right: 10,
+                    bottom: 5,
+                  ),
+                  child: DropdownButton(
+                    value: gender,
+                    icon: const Icon(Icons.keyboard_arrow_down),
+                    items: items.map((String item) {
+                      return DropdownMenuItem(
+                        value: item,
+                        child: Text(item,style: const TextStyle(color: colors.black,fontFamily: 'MontserratBold',),),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        gender = newValue!;
+                      });
                     },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                    style: const TextStyle(color: colors.black,fontFamily: 'MontserratBold',),
+                    dropdownColor: const Color(0xFFF8F8F8),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  "Select Customer Support",
+                  style: TextStyle(fontSize: 12, color: colors.black,fontFamily: 'MontserratBold',),
+                ),
+                const SizedBox(height: 5),
+                Container(
+                  width: double
+                      .infinity, // Set the width to fill the available space
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: const Color(0xFFD00000),
+                      width: 1.0,
                     ),
-                    child: Container(
-                      margin: const EdgeInsets.only(left: 10),
-                      height: 50,
-                      width: double.infinity,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/images/btnbg.png"),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          'Update',
-                          style: TextStyle(
-                              color: colors.white,
-                              fontSize: 18,
-                              fontFamily: "Montserrat",
-                              fontWeight: FontWeight.bold),
-                        ),
+                  ),
+                  padding: const EdgeInsets.only(
+                    left: 10,
+                    right: 10,
+                    bottom: 5,
+                  ),
+                  child: DropdownButton(
+                    value: language,
+                    icon: const Icon(Icons.keyboard_arrow_down),
+                    items: languages.map((String item) {
+                      return DropdownMenuItem(
+                        value: item,
+                        child: Text(item,style: const TextStyle(color: colors.black,fontFamily: 'MontserratBold',),),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        language = newValue!;
+                      });
+                    },
+                    style: const TextStyle(color: colors.black,fontFamily: 'MontserratBold',),
+                    dropdownColor: const Color(0xFFF8F8F8),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  "Are you Deaf or Dumb?",
+                  style: TextStyle(fontSize: 12, color: colors.black,fontFamily: 'MontserratBold',),
+                ),
+                const SizedBox(height: 5),
+                Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: const Color(0xFFD00000),
+                      width: 1.0,
+                    ),
+                  ),
+                  padding: const EdgeInsets.only(
+                    left: 10,
+                    right: 10,
+                    bottom: 5,
+                  ),
+                  child: DropdownButton(
+                    value: deafDumb,
+                    icon: const Icon(Icons.keyboard_arrow_down),
+                    items: itemsDeafDumb.map((String item) {
+                      return DropdownMenuItem(
+                        value: item,
+                        child: Text(item == '0' ? 'No' : 'Yes',style: const TextStyle(color: colors.black,fontFamily: 'MontserratBold',),),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        deafDumb = newValue!;
+                      });
+                    },
+                    style: const TextStyle(color: colors.black,fontFamily: 'MontserratBold',),
+                    dropdownColor: const Color(0xFFF8F8F8),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                InkWell(
+                  onTap: () {
+                    updateProfile();
+                  },
+                  child: Container(
+                    height: 50,
+                    width: size.width * 0.35,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(1000),
+                      color: const Color(0xFFBD732D),
+                    ),
+                    alignment: Alignment.center,
+                    child: const Text(
+                      'Update',
+                      style: TextStyle(
+                        fontFamily: 'MontserratLight',
+                        color: Color(0xFFFFFFFF),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
                       ),
                     ),
-                  )
-                ],
-              ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
       ),
     );
+    // return Scaffold(
+    //   body: Container(
+    //     width:
+    //     MediaQuery.of(context).size.width, // Set width to the screen width
+    //     height: MediaQuery.of(context)
+    //         .size
+    //         .height, // Set height to the screen height
+    //     decoration: const BoxDecoration(
+    //       gradient: LinearGradient(
+    //         colors: [colors.primary_color, colors.secondary_color],
+    //         begin: Alignment.topCenter,
+    //         end: Alignment.bottomCenter,
+    //       ),
+    //     ),
+    //     child: SingleChildScrollView(
+    //       physics: const BouncingScrollPhysics(),
+    //       child: Form(
+    //         key: _formKey,
+    //         child: Padding(
+    //           padding: const EdgeInsets.all(16.0),
+    //           child: Column(
+    //             crossAxisAlignment: CrossAxisAlignment.stretch,
+    //             children: [
+    //               TextField(
+    //                 controller: _nameController,
+    //                 decoration: InputDecoration(
+    //                   labelText: 'Enter Name',
+    //                   labelStyle: const TextStyle(color: Color(0xFFFFFFFF),fontFamily: 'MontserratBold',),
+    //                   hintStyle: const TextStyle(color: Color(0xFFFFFFFF)),
+    //                   border: OutlineInputBorder(
+    //                     borderSide: const BorderSide(
+    //                       width: 1,
+    //                       color: Colors.white70,
+    //                     ),
+    //                     borderRadius: BorderRadius.circular(10.0),
+    //                   ),
+    //                   enabledBorder: OutlineInputBorder(
+    //                     borderSide: const BorderSide(
+    //                       width: 1,
+    //                       color: Colors.white70,
+    //                     ),
+    //                     borderRadius: BorderRadius.circular(10.0),
+    //                   ),
+    //                 ),
+    //                 style: const TextStyle(color: Color(0xFFFFFFFF),fontFamily: 'MontserratLight',),
+    //               ),
+    //               const SizedBox(height: 16),
+    //               TextField(
+    //                 controller: _cityController,
+    //                 decoration: InputDecoration(
+    //                   labelText: 'Enter City',
+    //                   labelStyle: const TextStyle(color: Color(0xFFFFFFFF),fontFamily: 'MontserratBold',),
+    //                   hintStyle: const TextStyle(color: Color(0xFFFFFFFF)),
+    //                   border: OutlineInputBorder(
+    //                     borderSide: const BorderSide(
+    //                       width: 1,
+    //                       color: Colors.white70,
+    //                     ),
+    //                     borderRadius: BorderRadius.circular(10.0),
+    //                   ),
+    //                   enabledBorder: OutlineInputBorder(
+    //                     borderSide: const BorderSide(
+    //                       width: 1,
+    //                       color: Colors.white70,
+    //                     ),
+    //                     borderRadius: BorderRadius.circular(10.0),
+    //                   ),
+    //                 ),
+    //                 style: const TextStyle(color: Color(0xFFFFFFFF),fontFamily: 'MontserratLight',),
+    //               ),
+    //               const SizedBox(height: 16),
+    //               TextField(
+    //                 controller: _ageController,
+    //                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+    //                 maxLength: 2,
+    //                 decoration: InputDecoration(
+    //                   labelText: 'Enter Age',
+    //                   labelStyle: const TextStyle(color: Color(0xFFFFFFFF),fontFamily: 'MontserratBold',),
+    //                   hintStyle: const TextStyle(color: Color(0xFFFFFFFF)),
+    //                   border: OutlineInputBorder(
+    //                     borderSide: const BorderSide(
+    //                       width: 1,
+    //                       color: Colors.white70,
+    //                     ),
+    //                     borderRadius: BorderRadius.circular(10.0),
+    //                   ),
+    //                   enabledBorder: OutlineInputBorder(
+    //                     borderSide: const BorderSide(
+    //                       width: 1,
+    //                       color: Colors.white70,
+    //                     ),
+    //                     borderRadius: BorderRadius.circular(10.0),
+    //                   ),
+    //                 ),
+    //                 style: const TextStyle(color: Color(0xFFFFFFFF),fontFamily: 'MontserratLight',),
+    //                 keyboardType: TextInputType.number,
+    //               ),
+    //               TextField(
+    //                 controller: _emailController,
+    //                 decoration: InputDecoration(
+    //                   labelText: 'Enter Email',
+    //                   labelStyle: const TextStyle(color: Color(0xFFFFFFFF),fontFamily: 'MontserratBold',),
+    //                   hintStyle: const TextStyle(color: Color(0xFFFFFFFF)),
+    //                   border: OutlineInputBorder(
+    //                     borderSide: const BorderSide(
+    //                       width: 1,
+    //                       color: Colors.white70,
+    //                     ),
+    //                     borderRadius: BorderRadius.circular(10.0),
+    //                   ),
+    //                   enabledBorder: OutlineInputBorder(
+    //                     borderSide: const BorderSide(
+    //                       width: 1,
+    //                       color: Colors.white70,
+    //                     ),
+    //                     borderRadius: BorderRadius.circular(10.0),
+    //                   ),
+    //                 ),
+    //                 style: const TextStyle(color: Color(0xFFFFFFFF),fontFamily: 'MontserratLight',),
+    //               ),
+    //               const SizedBox(height: 16),
+    //               // const SizedBox(height: 1),
+    //               const Text(
+    //                 "Select Gender",
+    //                 style: TextStyle(fontSize: 12, color: colors.white,fontFamily: 'MontserratBold',),
+    //               ),
+    //               const SizedBox(height: 5),
+    //               Container(
+    //                 width: double
+    //                     .infinity, // Set the width to fill the available space
+    //                 decoration: BoxDecoration(
+    //                   borderRadius: BorderRadius.circular(10),
+    //                   border: Border.all(
+    //                     color: Colors.white70,
+    //                     width: 1.0,
+    //                   ),
+    //                 ),
+    //                 padding: const EdgeInsets.only(
+    //                   left: 10,
+    //                   right: 10,
+    //                   bottom: 5,
+    //                 ),
+    //                 child: DropdownButton(
+    //                   value: gender,
+    //                   icon: const Icon(Icons.keyboard_arrow_down),
+    //                   items: items.map((String item) {
+    //                     return DropdownMenuItem(
+    //                       value: item,
+    //                       child: Text(item,style: const TextStyle(color: colors.white,fontFamily: 'MontserratLight',),),
+    //                     );
+    //                   }).toList(),
+    //                   onChanged: (String? newValue) {
+    //                     setState(() {
+    //                       gender = newValue!;
+    //                     });
+    //                   },
+    //                   style: const TextStyle(color: colors.white,fontFamily: 'MontserratLight',),
+    //                   dropdownColor:  colors.primary_color,
+    //                 ),
+    //               ),
+    //               const SizedBox(height: 16),
+    //               const Text(
+    //                 "Select Customer Support",
+    //                 style: TextStyle(fontSize: 12, color: colors.white,fontFamily: 'MontserratBold',),
+    //               ),
+    //               const SizedBox(height: 5),
+    //               Container(
+    //                 width: double
+    //                     .infinity, // Set the width to fill the available space
+    //                 decoration: BoxDecoration(
+    //                   borderRadius: BorderRadius.circular(10),
+    //                   border: Border.all(
+    //                     color: Colors.white70,
+    //                     width: 1.0,
+    //                   ),
+    //                 ),
+    //                 padding: const EdgeInsets.only(
+    //                   left: 10,
+    //                   right: 10,
+    //                   bottom: 5,
+    //                 ),
+    //                 child: DropdownButton(
+    //                   value: language,
+    //                   icon: const Icon(Icons.keyboard_arrow_down),
+    //                   items: languages.map((String item) {
+    //                     return DropdownMenuItem(
+    //                       value: item,
+    //                       child: Text(item,style: const TextStyle(color: colors.white,fontFamily: 'MontserratLight',),),
+    //                     );
+    //                   }).toList(),
+    //                   onChanged: (String? newValue) {
+    //                     setState(() {
+    //                       language = newValue!;
+    //                     });
+    //                   },
+    //                   style: const TextStyle(color: colors.white,fontFamily: 'MontserratLight',),
+    //                   dropdownColor: colors.primary_color,
+    //                 ),
+    //               ),
+    //               const SizedBox(height: 16),
+    //               const Text(
+    //                 "Are you Deaf or Dumb?",
+    //                 style: TextStyle(fontSize: 12, color: colors.white,fontFamily: 'MontserratBold',),
+    //               ),
+    //               const SizedBox(height: 5),
+    //               Container(
+    //                 width: double.infinity,
+    //                 decoration: BoxDecoration(
+    //                   borderRadius: BorderRadius.circular(10),
+    //                   border: Border.all(
+    //                     color: Colors.white70,
+    //                     width: 1.0,
+    //                   ),
+    //                 ),
+    //                 padding: const EdgeInsets.only(
+    //                   left: 10,
+    //                   right: 10,
+    //                   bottom: 5,
+    //                 ),
+    //                 child: DropdownButton(
+    //                   value: deafDumb,
+    //                   icon: const Icon(Icons.keyboard_arrow_down),
+    //                   items: itemsDeafDumb.map((String item) {
+    //                     return DropdownMenuItem(
+    //                       value: item,
+    //                       child: Text(item == '0' ? 'No' : 'Yes',style: const TextStyle(color: colors.white,fontFamily: 'MontserratLight',),),
+    //                     );
+    //                   }).toList(),
+    //                   onChanged: (String? newValue) {
+    //                     setState(() {
+    //                       deafDumb = newValue!;
+    //                     });
+    //                   },
+    //                   style: const TextStyle(color: colors.white,fontFamily: 'MontserratLight',),
+    //                   dropdownColor: colors.primary_color,
+    //                 ),
+    //               ),
+    //               const SizedBox(height: 24),
+    //               MaterialButton(
+    //                 onPressed: () {
+    //                   updateProfile();
+    //                 },
+    //                 shape: RoundedRectangleBorder(
+    //                   borderRadius: BorderRadius.circular(10),
+    //                 ),
+    //                 child: Container(
+    //                   margin: const EdgeInsets.only(left: 10),
+    //                   height: 50,
+    //                   width: double.infinity,
+    //                   decoration: const BoxDecoration(
+    //                     image: DecorationImage(
+    //                       image: AssetImage("assets/images/btnbg.png"),
+    //                       fit: BoxFit.fill,
+    //                     ),
+    //                   ),
+    //                   child: const Center(
+    //                     child: Text(
+    //                       'Update',
+    //                       style: TextStyle(
+    //                           color: colors.white,
+    //                           fontSize: 18,
+    //                           fontFamily: "Montserrat",
+    //                           fontWeight: FontWeight.bold),
+    //                     ),
+    //                   ),
+    //                 ),
+    //               )
+    //             ],
+    //           ),
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 
   Future<void> updateProfile() async {
