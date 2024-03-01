@@ -31,7 +31,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               children: [
                 SizedBox(
                     height: size.height * 0.56,
-                    width: double.infinity,child: Image.asset('assets/images/Ellipse 1.png',fit: BoxFit.fill,),),
+                    width: double.infinity,child: Image.asset('assets/images/Ellipse 1.png',fit: BoxFit.fill,color: const Color(0xFF161C7E),),),
                 Column(
                   children: [
                     InkWell(
@@ -46,44 +46,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ),
                     SizedBox(height: size.height * 0.01,),
                     SizedBox(
-                      height: size.height * 0.4,
+                      height: size.height * 0.39,
                       width: size.width * 0.8,child: Image.network(
                       widget.imageUrl,
                       fit: BoxFit.cover,
                     ),),
-                    SizedBox(height: size.height * 0.02,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 13,
-                          width: 13,
-                          decoration: const BoxDecoration(
-                            color: Color(0xFFFFFFFF),
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        const SizedBox(width: 10,),
-                        Container(
-                          height: 15,
-                          width: 15,
-                          decoration: const BoxDecoration(
-                            color: Color(0xFFF16A26),
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        const SizedBox(width: 10,),
-                        Container(
-                          height: 13,
-                          width: 13,
-                          decoration: const BoxDecoration(
-                            color: Color(0xFFFFFFFF),
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                      ],
-                    )
                   ],
                 ),
               ],
@@ -180,29 +147,29 @@ class _ProductDetailsState extends State<ProductDetails> {
                   SizedBox(
                     height: size.height * 0.1,
                   ),
-                  // InkWell(
-                  //   onTap: (){
-                  //     Get.to( AddressFill(productId: widget.productId));
-                  //   },
-                  //   child: Container(
-                  //     height: 50,
-                  //     width: size.width * 0.6,
-                  //     decoration: BoxDecoration(
-                  //       color: const Color(0xFF161C7E),
-                  //       borderRadius: BorderRadius.circular(16),
-                  //     ),
-                  //     alignment: Alignment.center,
-                  //     child: const Text(
-                  //       'Purchase Now',
-                  //       style: TextStyle(
-                  //         fontFamily: 'MontserratBold',
-                  //         color: Color(0xFFFFFFFF),
-                  //         fontWeight: FontWeight.bold,
-                  //         fontSize: 18,
-                  //       ),
-                  //     ),
-                  //   )
-                  // ),
+                  InkWell(
+                    onTap: (){
+                      Get.to( AddressFill(productId: widget.productId));
+                    },
+                    child: Container(
+                      height: 50,
+                      width: size.width * 0.6,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF161C7E),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      alignment: Alignment.center,
+                      child: const Text(
+                        'Purchase Now',
+                        style: TextStyle(
+                          fontFamily: 'MontserratBold',
+                          color: Color(0xFFFFFFFF),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                    )
+                  ),
                   SizedBox(
                     height: size.height * 0.05,
                   ),

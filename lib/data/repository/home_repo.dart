@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:a1_ads/data/api/api_client.dart';
 import 'package:a1_ads/util/Constant.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -12,6 +14,37 @@ class HomeRepo {
   Future<Response> allSettingsList() async {
     return await apiClient.postData(
       Constant.SETTINGS_URL,{},{}
+    );
+  }
+
+  Future<Response> uploadStatus(String userId, String noOfViews, File image) async {
+    try {
+      Map<String, String> body = {
+        'user_id': userId,
+        'no_of_views' : noOfViews,
+      };
+
+      List<MultipartBody> multipartBodies = [
+        MultipartBody(key: 'image', file: image,isNetworkImage: true,),
+      ];
+
+      return await apiClient.postMultipartData(
+        Constant.UPLOAD_STATUS,
+        body,
+        multipartBodies,
+        // headers: {},
+      );
+    } catch (e) {
+      return Response(statusCode: 1, statusText: 'uploadStatus Error: $e');
+    }
+  }
+
+  Future<Response> whatsappList(String userId,) async {
+    Map<String, dynamic> body = {
+      'user_id' : userId,
+    };
+    return await apiClient.postData(
+      Constant.WHATSAPP_LIST,body,{}
     );
   }
 
@@ -67,6 +100,15 @@ class HomeRepo {
     };
     return await apiClient.postData(
         Constant.ORDERS,body,{}
+    );
+  }
+
+  Future<Response> scratchCard(String userId) async {
+    Map<String, dynamic> body = {
+      'user_id' : userId,
+    };
+    return await apiClient.postData(
+        Constant.SCRATCH_CARD,body,{}
     );
   }
 }

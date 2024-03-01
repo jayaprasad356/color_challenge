@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "firebase": "^10.7.2",
     "har-validator": "^5.1.5"
   }
 }

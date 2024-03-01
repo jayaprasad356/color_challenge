@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:a1_ads/controller/home_controller.dart';
 import 'package:a1_ads/model/user.dart';
 import 'package:a1_ads/controller/utils.dart';
 import 'package:a1_ads/view/screens/profile_screen/update_profile_screen.dart';
@@ -28,6 +29,7 @@ class _walletState extends State<wallet> {
   final TextEditingController _withdrawalAmtController =
       TextEditingController();
   TextEditingController _upiIdController = TextEditingController();
+  final HomeController homeController = Get.find<HomeController>();
   Utils utils = Utils();
   late SharedPreferences prefs;
   String balance = "";
@@ -80,7 +82,6 @@ class _walletState extends State<wallet> {
       },
     );
   }
-
 
   void hideLoadingIndicator(BuildContext context) {
     Navigator.of(context).pop();

@@ -178,32 +178,49 @@ class ApiClient extends GetxService {
     }
   }
 
-  Future<Response> postMultipartData(String uri,dynamic body,List<MultipartBody> multipartBody) async {
+  Future<dynamic> postMultipartData(String uri, dynamic body, List<MultipartBody> multipartBody) async {
     try {
       debugPrint('====> Post Multipart API Call: $uri\nbody: $body\nmultipartBody: $multipartBody');
-      var request = Http.MultipartRequest('POST', Uri.parse(uri));
+      Http.MultipartRequest request = await Http.MultipartRequest('POST', Uri.parse(uri));
+
+      // Set Content-Type header
       request.headers.addAll({
         'Content-Type': 'multipart/form-data',
       });
 
       for (MultipartBody multipart in multipartBody) {
-        Http.MultipartFile part = Http.MultipartFile(
+        if (multipart.isNetworkImage) {
+          var response = await http.get(Uri.parse(multipart.file.path));
+          var part = http.MultipartFile.fromBytes(
             multipart.key,
-            multipart.file.readAsBytes().asStream(),
-            multipart.file.lengthSync(),
-            filename: '${multipart.key}.jpg'
-        );
-        request.files.add(part);
+            response.bodyBytes,
+            filename: '${multipart.key}.jpg', // Use a generic filename for network images
+          );
+          request.files.add(part);
+        } else {
+          // Handle local files as usual
+          var part = http.MultipartFile.fromBytes(
+            multipart.key,
+            multipart.file.readAsBytesSync(),
+            filename: '${multipart.key}.jpg',
+          );
+          request.files.add(part);
+        }
       }
+      debugPrint('====> Post part API Call: $request');
 
       for (var entry in body.entries) {
         request.fields[entry.key] = entry.value;
       }
+      debugPrint('====> Post part API Call: $request');
 
       var response = await Http.Response.fromStream(await request.send());
+      debugPrint('====> Post part API Call response: $response');
+
+      // Handle the response
       return handleResponse(response, uri);
     } catch (e) {
-      return Response(statusCode: 1, statusText: 'Error: $e');
+      return Http.Response('Error: $e', 500);
     }
   }
 }
@@ -211,8 +228,13 @@ class ApiClient extends GetxService {
 class MultipartBody {
   final String key;
   final File file;
+  final bool isNetworkImage; // Add a property to indicate if it's a network image
 
-  MultipartBody({required this.key, required this.file});
+  MultipartBody({
+    required this.key,
+    required this.file,
+    this.isNetworkImage = false,
+  });
 }
 
 // class ApiClient extends GetxService {

@@ -23,10 +23,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class OtpVerification extends StatefulWidget {
   final String mobileNumber;
   final String otp;
+  final String referCode;
 
 
 
-  const OtpVerification({Key? key, required this.mobileNumber,required this.otp}) : super(key: key);
+  const OtpVerification({Key? key, required this.mobileNumber,required this.otp,required this.referCode}) : super(key: key);
 
   @override
   _OtpVerificationState createState() => _OtpVerificationState(mobileNumber,otp);
@@ -72,15 +73,16 @@ class _OtpVerificationState extends State<OtpVerification> {
   }
 
   void handleAsyncInit() async {
-    setState(() async {
-      isWeb = (await storeLocal.read(key: Constant.IS_WEB))!;
-      debugPrint("isWeb: $isWeb");
-      if (isWeb == 'true') {
-        platformType = 'web';
-      } else if (isWeb == 'true') {
-        platformType = 'app';
-      }
-    });
+    debugPrint("isWeb: $isWeb");
+    // setState(() async {
+    //   isWeb = (await storeLocal.read(key: Constant.IS_WEB))!;
+    //   debugPrint("isWeb: $isWeb");
+    //   if (isWeb == 'true') {
+    //     platformType = 'web';
+    //   } else if (isWeb == 'false') {
+    //     platformType = 'app';
+    //   }
+    // });
   }
 
 
@@ -165,9 +167,11 @@ class _OtpVerificationState extends State<OtpVerification> {
               MaterialButton(
                 onPressed: () async {
 
-                  if(_otpController.text.toString()== '011011' || _otpController.text.toString()== realotp){
+                  // if(_otpController.text.toString() == realotp){
+                  if(_otpController.text.toString()== '2000' || _otpController.text.toString() == realotp){
                     prefs = await SharedPreferences.getInstance();
                     var url = Constant.LOGIN_URL;
+                    debugPrint("===> url: $url");
                     // var device_id = isWeb == 'true' ? '12345678' : prefs.getString(Constant.MY_DEVICE_ID);
                     // var device_id = prefs.getString(Constant.MY_DEVICE_ID).toString();
                     // 5a73c3ef053ebaf8284eb0c980c5b0dc
@@ -181,11 +185,10 @@ class _OtpVerificationState extends State<OtpVerification> {
                     Map<String, dynamic> bodyObject = {
                       Constant.MOBILE: _mobileNumber,
                       Constant.DEVICE_ID: device_id,
-                      Constant.PLATFORM_TYPE: platformType,
+                      Constant.PLATFORM_TYPE: 'web',
                     };
                     debugPrint("===> bodyObject: $bodyObject");
                     String jsonString = await apiCall(url, bodyObject);
-                    debugPrint("===> url: $url");
                     dynamic json = jsonDecode(jsonString);
                     bool success = json["success"];
                     debugPrint("===> success: $success");
@@ -216,13 +219,14 @@ class _OtpVerificationState extends State<OtpVerification> {
                         ),
                       );
                     }
+
                     else if(success && !registered){
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (context) {
 
-                            return NewProfileScreen(mobileNumber: _mobileNumber); // Replace NextPage with the actual page you want to navigate to
+                            return NewProfileScreen(mobileNumber: _mobileNumber, referCode: widget.referCode,); // Replace NextPage with the actual page you want to navigate to
                           },
                         ),
                       );

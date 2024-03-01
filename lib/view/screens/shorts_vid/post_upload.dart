@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:a1_ads/Helper/apiCall.dart';
@@ -8,6 +9,7 @@ import 'package:a1_ads/util/Color.dart';
 import 'package:a1_ads/util/Constant.dart';
 import 'package:a1_ads/util/index_path.dart';
 import 'package:a1_ads/view/screens/job/online_jobs.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -354,7 +356,7 @@ class _PostUploadState extends State<PostUpload> {
                     String? userId = await c.getUserId();
                     debugPrint("userId : $userId");
                     if (userId != null) {
-                      await c.postMyPost(userId, c.photo.value as XFile);
+                      // await c.uploadFile(userId, c.photo.value as XFile);
                     } else {
                       debugPrint('User ID not available.');
                     }
@@ -418,11 +420,14 @@ class PhotoDisplayWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Center(
       child: photo != null
-          ? Image.file(File(photo!.path))
+          ? kIsWeb
+              ? Image.network(photo!.path)
+              : Image.file(File(photo!.path))
           : Container(
-              height: size.height * 0.2,
+              height: size.height * 0.3,
               width: size.width * 0.7,
               decoration: BoxDecoration(
                 color: const Color(0xFFD9DDFF),

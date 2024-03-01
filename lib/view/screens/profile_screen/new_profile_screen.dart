@@ -20,8 +20,9 @@ import '../../../../Helper/apiCall.dart';
 
 class NewProfileScreen extends StatefulWidget {
   final String mobileNumber;
+  final String referCode;
 
-  const NewProfileScreen({Key? key, required this.mobileNumber})
+  const NewProfileScreen({Key? key, required this.mobileNumber, required this.referCode})
       : super(key: key);
 
   @override
@@ -273,7 +274,7 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
                   TextField(
                     controller: _referCodeController,
                     decoration: InputDecoration(
-                      labelText: 'Referral Code (optional)',
+                      labelText: 'Referral Code',
                       labelStyle: const TextStyle(color: Colors.white),
                       hintStyle: const TextStyle(color: Colors.white),
                       border: OutlineInputBorder(
@@ -370,6 +371,9 @@ class _NewProfileScreenState extends State<NewProfileScreen> {
   @override
   void initState() {
     super.initState();
+    setState(() {
+      _referCodeController.text = widget.referCode;
+    });
   }
 
   newRegister() async {

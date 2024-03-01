@@ -9,6 +9,8 @@ import 'package:a1_ads/model/purchase_data.dart';
 import 'package:a1_ads/model/upload_image.dart';
 import 'package:a1_ads/model/video_list.dart';
 import 'package:a1_ads/util/Constant.dart';
+// import 'package:dio/dio.dart' as dio;
+// import 'package:http/http.dart' as Http;
 import 'package:a1_ads/view/screens/shorts_vid/post_upload.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -36,6 +38,7 @@ class PCC extends GetxController implements GetxService {
   final RxList shareLink = [].obs;
   final RxList userLike = [].obs;
   var photo = Rxn<XFile>();
+  var getUploadStatusPhoto = Rxn<XFile>();
   // RxList<RxBool> isLikedList = <RxBool>[].obs;
   //
   // PCC1(int length) {
@@ -206,6 +209,30 @@ class PCC extends GetxController implements GetxService {
     }
   }
 
+  // Future<void> uploadFile(String uri, XFile file) async {
+  //   try {
+  //     dio.Dio dioClient = dio.Dio();
+  //
+  //     dio.FormData formData = dio.FormData.fromMap({
+  //       'file': await dio.MultipartFile.fromFile(file.path, filename: 'uploaded_file.jpg'),
+  //       'key': 'value',
+  //     });
+  //
+  //     var response = await dioClient.post(uri, data: formData);
+  //
+  //     // Handle the response
+  //     if (response.statusCode == 200) {
+  //       print('Upload successful!');
+  //       print('Server Response: ${response.data}');
+  //     } else {
+  //       print('Upload failed with status code: ${response.statusCode}');
+  //       print('Server Response: ${response.data}');
+  //     }
+  //   } catch (e) {
+  //     print('Error uploading file: $e');
+  //   }
+  // }
+
 
 
   Future<void> gallery() async {
@@ -215,6 +242,18 @@ class PCC extends GetxController implements GetxService {
     if (getPic != null) {
       print("get pic ${getPic.path}, ${getPic.name}");
       photo.value = getPic; // Set the photo
+      print("get pic ${getPic.path}");
+    }
+    update();
+  }
+
+  Future<void> getUploadWhatsappStatusPhoto() async {
+    ImagePicker picker = ImagePicker();
+    XFile? getPic = await picker.pickImage(source: ImageSource.gallery);
+
+    if (getPic != null) {
+      print("get pic ${getPic.path}, ${getPic.name}");
+      getUploadStatusPhoto.value = getPic; // Set the photo
       print("get pic ${getPic.path}");
     }
     update();

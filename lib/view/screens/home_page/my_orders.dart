@@ -48,90 +48,99 @@ class _MyOrdersState extends State<MyOrders> {
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
-        child: ListView.builder(
-          itemCount: homeController.ordersJson.length,
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            return Container(
-              height: size.height * 0.15,
-              width: double.infinity,
-              margin: const EdgeInsets.symmetric(horizontal: 15,vertical: 5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: const Color(0xFFF8F8F8),
-              ),
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 15, vertical: 10),
-              child: Row(
-                children: [
-                  Container(
-                      height: size.height * 0.12,
-                      width: size.width * 0.3,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFECEADD),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Image.asset(
-                          homeController.ordersJson[index].image),
-                ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+        child: Column(
+          children: [
+            Obx(
+              () => ListView.builder(
+                itemCount: homeController.ordersJson.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return Container(
+                    height: size.height * 0.15,
+                    width: double.infinity,
+                    margin: const EdgeInsets.symmetric(horizontal: 15,vertical: 5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: const Color(0xFFF8F8F8),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 10),
+                    child: Row(
                       children: [
                         Container(
-                          alignment: Alignment.topRight,
-                          child: Text(
-                            homeController.ordersJson[index].status == '0' ? 'Pending' : 'Completed',
-                            style: TextStyle(
-                              color: homeController.ordersJson[index].status == '0' ? const Color(0xFFFF0000) : const Color(0xFF161C7E),
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'MontserratLight',
+                            height: size.height * 0.12,
+                            width: size.width * 0.3,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF161C7E),
+                              borderRadius: BorderRadius.circular(16),
                             ),
-                            textAlign: TextAlign.center,
-                          ),
+                            child: Image.network(
+                                homeController.ordersJson[index].image),
+                      ),
+                        const SizedBox(
+                          width: 10,
                         ),
-                        Text(
-                          homeController.ordersJson[index].name,
-                          style: const TextStyle(
-                              color: Color(0xFF000000),
-                              fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'MontserratLight',
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                alignment: Alignment.topRight,
+                                child: Text(
+                                  homeController.ordersJson[index].status == '0' ? 'Pending' : 'Completed',
+                                  style: TextStyle(
+                                    color: homeController.ordersJson[index].status == '0' ? const Color(0xFFFF0000) : const Color(0xFF161C7E),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'MontserratLight',
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Text(
+                                homeController.ordersJson[index].name,
+                                style: const TextStyle(
+                                    color: Color(0xFF000000),
+                                    fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'MontserratLight',
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              Text(
+                                homeController.ordersJson[index].originalPrice,
+                                style: const TextStyle(
+                                    color: Color(0xFF000000),
+                                    fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'MontserratBold',
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              Text(
+                                "Delivery Time : ${homeController.ordersJson[index].deliveryDate}",
+                                style: const TextStyle(
+                                  color: Color(0xFF000000),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'MontserratLight',
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
                           ),
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          homeController.ordersJson[index].originalPrice,
-                          style: const TextStyle(
-                              color: Color(0xFF000000),
-                              fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'MontserratBold',
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          "Delivery Time : ${homeController.ordersJson[index].deliveryDate}",
-                          style: const TextStyle(
-                            color: Color(0xFF000000),
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'MontserratLight',
-                          ),
-                          textAlign: TextAlign.center,
                         ),
                       ],
                     ),
-                  ),
-                ],
+                  );
+                },
               ),
-            );
-          },
+            ),
+            SizedBox(
+              height: size.height * 0.1,
+            )
+          ],
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:a1_ads/data/api/api_client.dart';
 import 'package:a1_ads/data/repository/home_repo.dart';
@@ -10,17 +11,22 @@ import 'package:a1_ads/model/order_list.dart';
 import 'package:a1_ads/model/place_order.dart';
 import 'package:a1_ads/model/product_json_file.dart';
 import 'package:a1_ads/model/product_list_mod.dart';
+import 'package:a1_ads/model/scratch_card_data.dart';
+import 'package:a1_ads/model/scratch_card_json.dart';
 import 'package:a1_ads/model/settings_data.dart';
 import 'package:a1_ads/model/slider_data.dart';
+import 'package:a1_ads/model/upload_status.dart';
 import 'package:a1_ads/model/video_list.dart';
+import 'package:a1_ads/model/whatsapp_list.dart';
+import 'package:a1_ads/model/whatsapp_list_json.dart';
 import 'package:a1_ads/util/Color.dart';
 import 'package:a1_ads/util/Constant.dart';
-import 'package:a1_ads/view/screens/home_page/my_orders.dart';
+import 'package:a1_ads/view/screens/upi_screen/whatsapp_status.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:video_player/video_player.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 
 class SliderItem {
   final String imageUrl;
@@ -49,10 +55,18 @@ class HomeController extends GetxController implements GetxService {
   final RxString watchAdStatus = ''.obs;
   final RxString rewardAdsDetails = ''.obs;
   final RxString referBonus = ''.obs;
+  final RxString scratchCardDataDataID = ''.obs;
+  final RxString scratchCardDataDataUserId = ''.obs;
+  final RxString scratchCardDataDataAmount = ''.obs;
+  final RxString scratchCardDataDataStatus = ''.obs;
+  final RxString scratchCardDataDataMessage = ''.obs;
+  final RxBool scratchCardDataDataSuccess = false.obs;
 
   RxList<CategoryJson> categoryJson = <CategoryJson>[].obs;
   RxList<ProductJson> productJson = <ProductJson>[].obs;
   RxList<OrderJson> ordersJson = <OrderJson>[].obs;
+  RxList<ScratchCardJson> scratchCardJson = <ScratchCardJson>[].obs;
+  RxList<WhatsappListJson> whatsappListJson = <WhatsappListJson>[].obs;
 
   final List<String> sliderAssetsImage = [
     'assets/images/Group 18196.png',
@@ -134,6 +148,105 @@ class HomeController extends GetxController implements GetxService {
     }
   }
 
+  Future<void> uploadStatus(context, String noOfView, XFile image) async {
+    try {
+      File imageFile = File(image.path);
+      debugPrint("===> imageFile: $imageFile");
+      final value = await homeRepo.uploadStatus( prefs.getString(Constant.ID)!, noOfView, imageFile);
+      debugPrint("===> value: $value");
+
+      if (value == null || value.body == null) {
+        Get.snackbar(
+          "Oops",
+          "Invalid server response",
+          duration: const Duration(seconds: 3),
+          colorText: colors.primary_color,
+        );
+        debugPrint("Invalid server response: $value");
+        return;
+      }
+
+      var responseData = value.body;
+      debugPrint("===> responseData: $responseData");
+
+      // Process the response
+      if (responseData is Map<String, dynamic>) {
+        UploadStatus uploadStatus = UploadStatus.fromJson(responseData);
+        debugPrint("===> uploadStatus: ${uploadStatus.success}");
+        debugPrint("===> uploadStatus: ${uploadStatus.message}");
+
+        Get.snackbar(
+          uploadStatus.success.toString(),
+          "${uploadStatus.message}",
+          duration: const Duration(seconds: 3),
+          colorText: colors.primary_color,
+        );
+
+        if(uploadStatus.success == 'true'){
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const WhatsappStatus()),
+          );
+        }
+      } else {
+        Get.snackbar(
+          "Oops",
+          "Invalid server response format",
+          duration: const Duration(seconds: 3),
+          colorText: colors.primary_color,
+        );
+        debugPrint("Invalid server response format: $responseData");
+      }
+    } catch (e) {
+      Get.snackbar(
+        "Oops",
+        "Your image is not uploaded",
+        duration: const Duration(seconds: 3),
+        colorText: colors.primary_color,
+      );
+      debugPrint("jobsUpload errors: $e");
+    }
+  }
+
+  Future<void> whatsappListData() async {
+    try {
+      final value = await homeRepo.whatsappList('9462');
+      var responseData = value.body;
+      WhatsappList whatsappList = WhatsappList.fromJson(responseData);
+      debugPrint("===> whatsappList: $whatsappList");
+      debugPrint("===> whatsappList message: ${whatsappList.message}");
+
+      whatsappListJson.clear();
+
+      if (whatsappList.data != null && whatsappList.data!.isNotEmpty) {
+        // Use a loop if there can be multiple transactions
+        for (var whatsappListData in whatsappList.data!) {
+          var whatsappListDataId = whatsappListData.id!;
+          var whatsappListDataUserId = whatsappListData.userId!;
+          var whatsappListDataImage = whatsappListData.image!;
+          var whatsappListNoOfViews = whatsappListData.noOfViews!;
+          var whatsappListDataStatus = whatsappListData.status!;
+          var whatsappListDataDatetime = whatsappListData.datetime!;
+
+          // Create a TransactionData object and add it to the list
+          WhatsappListJson data = WhatsappListJson(
+            whatsappListDataId,
+              whatsappListDataUserId,
+              whatsappListDataImage,
+              whatsappListNoOfViews,
+              whatsappListDataStatus,
+              whatsappListDataDatetime,
+          );
+
+          whatsappListJson.add(data);
+        }
+        update();
+      }
+
+    } catch (e) {
+      debugPrint("whatsappList errors: $e");
+    }
+  }
+
   Future<void> slideList(userId) async {
     try {
       final value = await homeRepo.sliderList(userId);
@@ -206,15 +319,18 @@ class HomeController extends GetxController implements GetxService {
       if (ordersList.data != null && ordersList.data!.isNotEmpty) {
         // Use a loop if there can be multiple transactions
         for (var ordersListData in ordersList.data!) {
-          var ordersListDataID = ordersListData.id!;
+          debugPrint("===> ordersListData: $ordersListData");
+          var ordersListDataID = ordersListData.productId!;
           var ordersListDataName = ordersListData.name!;
           var ordersListDataImage = ordersListData.image!;
           var ordersListDataDescription = ordersListData.description!;
           var ordersListDataCategoryId = ordersListData.categoryId!;
           var ordersListDataAds = ordersListData.ads!;
           var ordersListDataOriginalPrice = ordersListData.originalPrice!;
-          var ordersListDataDeliveryDate = ordersListData.status!;
+          var ordersListDataDeliveryDate = ordersListData.deliveryDate! == null ? '0' : ordersListData.deliveryDate!;
           var ordersListDataStatus = ordersListData.status!;
+          debugPrint("===> ordersListDataID: $ordersListDataID\n$ordersListDataName\n$ordersListDataImage\n$ordersListDataDescription\n$ordersListDataCategoryId\n$ordersListDataAds\n$ordersListDataOriginalPrice\n");
+          debugPrint("===> ordersListData.deliveryDate: $ordersListDataDeliveryDate");
 
           // Create a TransactionData object and add it to the list
           OrderJson data = OrderJson(
@@ -286,15 +402,57 @@ class HomeController extends GetxController implements GetxService {
 
   Future<void> placeOrder(productId, address, pinCode) async {
     try {
+      debugPrint("prefs.getString(Constant.ID)!: {prefs.getString(Constant.ID)!},widget.productId: $productId, addressController.text: $address, pinCondeController.text: $pinCode");
       final value = await homeRepo.placeOrder(prefs.getString(Constant.ID)!, productId, address, pinCode);
       var responseData = value.body;
       PlaceOrder placeOrder = PlaceOrder.fromJson(responseData);
       debugPrint("===> placeOrder: $placeOrder");
       debugPrint("===> placeOrder message: ${placeOrder.message}");
+      if(placeOrder.success.toString() == 'true'){
+        Get.back();
+      }
       Get.snackbar('Place Order', placeOrder.message.toString(),colorText: colors.primary,backgroundColor: Colors.white,duration: const Duration(seconds: 3),);
-      Get.to(const MyOrders());
     } catch (e) {
       debugPrint("placeOrder errors: $e");
+    }
+  }
+
+  Future<void> scratchCard() async {
+    try {
+      final value = await homeRepo.scratchCard(prefs.getString(Constant.ID)!);
+      var responseData = value.body;
+      ScratchCardData scratchCardData = ScratchCardData.fromJson(responseData);
+      debugPrint("===> scratchCardData: $scratchCardData");
+      debugPrint("===> scratchCardData message: ${scratchCardData.message}");
+      scratchCardDataDataMessage.value = scratchCardData.message!;
+      scratchCardDataDataSuccess.value = scratchCardData.success!;
+      // if(placeOrder.success.toString() == 'true'){
+      //   Get.back();
+      // }
+      // Get.snackbar('Place Order', placeOrder.message.toString(),colorText: colors.primary,backgroundColor: Colors.white,duration: const Duration(seconds: 3),);
+
+      scratchCardJson.clear();
+
+      if (scratchCardData.data != null && scratchCardData.data!.isNotEmpty) {
+        // Use a loop if there can be multiple transactions
+        for (var scratchCardDataData in scratchCardData.data!) {
+          scratchCardDataDataID.value = scratchCardDataData.id!;
+          scratchCardDataDataUserId.value = scratchCardDataData.userId!;
+          scratchCardDataDataAmount.value = scratchCardDataData.amount!;
+          scratchCardDataDataStatus.value = scratchCardDataData.status!;
+
+          // // Create a TransactionData object and add it to the list
+          // ScratchCardJson data = ScratchCardJson(
+          //   scratchCardDataDataScratchCard,
+          // );
+          //
+          // scratchCardJson.add(data);
+        }
+
+        update();
+      }
+    } catch (e) {
+      debugPrint("scratchCardData errors: $e");
     }
   }
 }

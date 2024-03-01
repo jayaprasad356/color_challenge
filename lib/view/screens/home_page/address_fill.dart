@@ -254,6 +254,7 @@ class _AddressFillState extends State<AddressFill> {
               ),
               InkWell(
                 onTap: () {
+                  debugPrint("widget.productId: ${widget.productId}, addressController.text: ${addressController.text}, pinCondeController.text: ${pinCondeController.text}");
                   homeController.placeOrder(widget.productId, addressController.text, pinCondeController.text);
                 },
                   child: Container(

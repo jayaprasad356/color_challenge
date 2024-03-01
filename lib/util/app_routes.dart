@@ -10,7 +10,8 @@ class AppRoutes {
     switch (settings.name) {
       case otpVerification:
         final mobileNumber = settings.arguments as String;
-        return MaterialPageRoute(builder: (_) => OtpVerification(mobileNumber: mobileNumber, otp: '',));
+        final referCode = settings.arguments as String;
+        return MaterialPageRoute(builder: (_) => OtpVerification(mobileNumber: mobileNumber, otp: '', referCode: referCode,));
       default:
         return MaterialPageRoute(builder: (_) => const Scaffold(body: Text('Not found')));
     }

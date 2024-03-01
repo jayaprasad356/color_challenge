@@ -21,7 +21,7 @@ import '../../../util/Constant.dart';
 import '../job/online_jobs.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({Key? key,}) : super(key: key);
 
   @override
   State<Home> createState() => HomeState();
@@ -61,6 +61,7 @@ class HomeState extends State<Home> {
   int _currentPage = 0;
   int selectedCategoryIndex = 0;
   int selectedProductIndex = -1;
+  // String referralCode = '';
 
   @override
   void initState() {
@@ -89,10 +90,11 @@ class HomeState extends State<Home> {
   void handleAsyncInit() async {
     prefs = await SharedPreferences.getInstance();
     homeController.slideList(prefs.getString(Constant.ID));
-
-    setState(() {
+    setState(() async {
       debugPrint(homeController.sliderImageURL.string);
       debugPrint(homeController.sliderName.string);
+      // referralCode = (await storeLocal.read(key: Constant.REFERRAL_CODE))!;
+      // debugPrint('referralCode : $referralCode');
     });
   }
 
@@ -249,8 +251,7 @@ class HomeState extends State<Home> {
                   });
                 },
               ),
-              items:
-                  homeController.sliderImageURL.asMap().entries.map((entry) {
+              items: homeController.sliderImageURL.asMap().entries.map((entry) {
                 int index = entry.key;
                 String imageUrl = entry.value;
                 // String imageName = homeController.sliderName[index];
@@ -325,7 +326,7 @@ class HomeState extends State<Home> {
                         child: Column(
                           children: [
                             SizedBox(
-                        height: size.height * 0.1,
+                              height: size.height * 0.1,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(100000),
                                 child: Image.network(
@@ -383,7 +384,7 @@ class HomeState extends State<Home> {
                           description:
                               homeController.productJson[index].description,
                           productId:
-                              homeController.productJson[index].categoryId,
+                              homeController.productJson[index].id,
                         ));
                       },
                       child: Container(
@@ -406,23 +407,27 @@ class HomeState extends State<Home> {
                               ),
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 5),
-                              child: const Text("50% OFF",style: TextStyle(fontFamily: 'MontserratLight'),),
+                              child: const Text(
+                                "50% OFF",
+                                style: TextStyle(fontFamily: 'MontserratLight'),
+                              ),
                             ),
                             const SizedBox(
                               height: 5,
                             ),
                             Container(
-                                height: size.height * 0.15,
-                                width: double.infinity,
-                                alignment: Alignment.center,
-                                child: Image.network(
-                                  homeController.productJson[index].image,
-                                  fit: BoxFit.fill,
-                                ),),
+                              height: size.height * 0.15,
+                              width: double.infinity,
+                              alignment: Alignment.center,
+                              child: Image.network(
+                                homeController.productJson[index].image,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
                             Text(
                               homeController.productJson[index].name,
                               style: const TextStyle(
-                                color: Color(0xFF67666D),
+                                color: Color(0xFFFFFFFF),
                                 fontFamily: 'MontserratLight',
                               ),
                               textAlign: TextAlign.center,

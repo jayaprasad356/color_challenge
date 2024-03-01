@@ -1,5 +1,7 @@
+import 'package:a1_ads/controller/home_controller.dart';
 import 'package:a1_ads/util/Color.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class TestingPage extends StatefulWidget {
   const TestingPage({super.key});
@@ -26,3 +28,4 @@ class _TestingPageState extends State<TestingPage> {
     );
   }
 }
+

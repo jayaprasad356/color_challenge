@@ -12,13 +12,13 @@ class UserDetail {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
     if (json['settings'] != null) {
       settings = <Settings>[];
       json['settings'].forEach((v) {
-        settings!.add(new Settings.fromJson(v));
+        settings!.add(Settings.fromJson(v));
       });
     }
   }
@@ -114,6 +114,31 @@ class Data {
   String? enrolled;
   String? oldBalance;
   String? todayAdsStatus;
+  String? payLater;
+  String? whatsappStatus;
+  String? address;
+  String? pincode;
+  String? scratchCard;
+  String? basic;
+  String? lifetime;
+  String? premium;
+  String? basicDays;
+  String? lifetimeDays;
+  String? premiumDays;
+  String? basicIncome;
+  String? lifetimeIncome;
+  String? premiumIncome;
+  String? basicJoinedDate;
+  String? lifetimeJoinedDate;
+  String? premiumJoinedDate;
+  String? aadhaarNum;
+  String? freeIncome;
+  String? todayEarn;
+  String? teamSize;
+  String? validTeam;
+  String? totalAssets;
+  String? levelIncome;
+  String? referLevelIncome;
 
   Data(
       {this.id,
@@ -191,7 +216,32 @@ class Data {
         this.maxWithdrawal,
         this.enrolled,
         this.oldBalance,
-        this.todayAdsStatus});
+        this.todayAdsStatus,
+        this.payLater,
+        this.whatsappStatus,
+        this.address,
+        this.pincode,
+        this.scratchCard,
+        this.basic,
+        this.lifetime,
+        this.premium,
+        this.basicDays,
+        this.lifetimeDays,
+        this.premiumDays,
+        this.basicIncome,
+        this.lifetimeIncome,
+        this.premiumIncome,
+        this.basicJoinedDate,
+        this.lifetimeJoinedDate,
+        this.premiumJoinedDate,
+        this.aadhaarNum,
+        this.freeIncome,
+        this.todayEarn,
+        this.teamSize,
+        this.validTeam,
+        this.totalAssets,
+        this.levelIncome,
+        this.referLevelIncome});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -270,6 +320,31 @@ class Data {
     enrolled = json['enrolled'];
     oldBalance = json['old_balance'];
     todayAdsStatus = json['today_ads_status'];
+    payLater = json['pay_later'];
+    whatsappStatus = json['whatsapp_status'];
+    address = json['address'];
+    pincode = json['pincode'];
+    scratchCard = json['scratch_card'];
+    basic = json['basic'];
+    lifetime = json['lifetime'];
+    premium = json['premium'];
+    basicDays = json['basic_days'];
+    lifetimeDays = json['lifetime_days'];
+    premiumDays = json['premium_days'];
+    basicIncome = json['basic_income'];
+    lifetimeIncome = json['lifetime_income'];
+    premiumIncome = json['premium_income'];
+    basicJoinedDate = json['basic_joined_date'];
+    lifetimeJoinedDate = json['lifetime_joined_date'];
+    premiumJoinedDate = json['premium_joined_date'];
+    aadhaarNum = json['aadhaar_num'];
+    freeIncome = json['free_income'];
+    todayEarn = json['today_earn'];
+    teamSize = json['team_size'];
+    validTeam = json['valid_team'];
+    totalAssets = json['total_assets'];
+    levelIncome = json['level_income'];
+    referLevelIncome = json['refer_level_income'];
   }
 
   Map<String, dynamic> toJson() {
@@ -350,6 +425,31 @@ class Data {
     data['enrolled'] = enrolled;
     data['old_balance'] = oldBalance;
     data['today_ads_status'] = todayAdsStatus;
+    data['pay_later'] = payLater;
+    data['whatsapp_status'] = whatsappStatus;
+    data['address'] = address;
+    data['pincode'] = pincode;
+    data['scratch_card'] = scratchCard;
+    data['basic'] = basic;
+    data['lifetime'] = lifetime;
+    data['premium'] = premium;
+    data['basic_days'] = basicDays;
+    data['lifetime_days'] = lifetimeDays;
+    data['premium_days'] = premiumDays;
+    data['basic_income'] = basicIncome;
+    data['lifetime_income'] = lifetimeIncome;
+    data['premium_income'] = premiumIncome;
+    data['basic_joined_date'] = basicJoinedDate;
+    data['lifetime_joined_date'] = lifetimeJoinedDate;
+    data['premium_joined_date'] = premiumJoinedDate;
+    data['aadhaar_num'] = aadhaarNum;
+    data['free_income'] = freeIncome;
+    data['today_earn'] = todayEarn;
+    data['team_size'] = teamSize;
+    data['valid_team'] = validTeam;
+    data['total_assets'] = totalAssets;
+    data['level_income'] = levelIncome;
+    data['refer_level_income'] = referLevelIncome;
     return data;
   }
 }
@@ -430,4 +530,3 @@ class Settings {
     return data;
   }
 }
-

@@ -11,7 +11,7 @@ class OrdersList {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(Data.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
   }
@@ -28,49 +28,61 @@ class OrdersList {
 }
 
 class Data {
-  String? id;
+  String? productId;
   String? name;
   String? image;
   String? description;
+  String? status;
   String? categoryId;
   String? ads;
   String? originalPrice;
-  String? status;
+  String? categoryName;
+  String? categoryImage;
+  String? categoryStatus;
   String? deliveryDate;
 
   Data(
-      {this.id,
+      {this.productId,
         this.name,
         this.image,
         this.description,
+        this.status,
         this.categoryId,
         this.ads,
         this.originalPrice,
-        this.status,
+        this.categoryName,
+        this.categoryImage,
+        this.categoryStatus,
         this.deliveryDate});
 
   Data.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    productId = json['product_id'];
     name = json['name'];
     image = json['image'];
     description = json['description'];
+    status = json['status'];
     categoryId = json['category_id'];
     ads = json['ads'];
     originalPrice = json['original_price'];
-    status = json['status'];
+    categoryName = json['category_name'];
+    categoryImage = json['category_image'];
+    categoryStatus = json['category_status'];
     deliveryDate = json['delivery_date'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
+    data['product_id'] = productId;
     data['name'] = name;
     data['image'] = image;
     data['description'] = description;
+    data['status'] = status;
     data['category_id'] = categoryId;
     data['ads'] = ads;
     data['original_price'] = originalPrice;
-    data['status'] = status;
+    data['category_name'] = categoryName;
+    data['category_image'] = categoryImage;
+    data['category_status'] = categoryStatus;
     data['delivery_date'] = deliveryDate;
     return data;
   }

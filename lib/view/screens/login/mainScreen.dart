@@ -8,6 +8,7 @@ import 'package:a1_ads/controller/pcc_controller.dart';
 import 'package:a1_ads/model/jobs_show.dart';
 import 'package:a1_ads/model/user.dart';
 import 'package:a1_ads/reports.dart';
+import 'package:a1_ads/test.dart';
 import 'package:a1_ads/util/Color.dart';
 import 'package:a1_ads/util/Constant.dart';
 import 'package:a1_ads/controller/utils.dart';
@@ -18,9 +19,12 @@ import 'package:a1_ads/view/screens/home_page/homePage.dart';
 import 'package:a1_ads/view/screens/invest/invers_screen.dart';
 import 'package:a1_ads/view/screens/job/job.dart';
 import 'package:a1_ads/view/screens/job/jobs.dart';
+import 'package:a1_ads/view/screens/job/plan_screen.dart';
 import 'package:a1_ads/view/screens/login/loginMobile.dart';
+import 'package:a1_ads/view/screens/login/recharge_screen.dart';
 import 'package:a1_ads/view/screens/notification_screen/notification_screen.dart';
 import 'package:a1_ads/view/screens/notification_screen/reward.dart';
+import 'package:a1_ads/view/screens/profile_screen/my_customer.dart';
 import 'package:a1_ads/view/screens/profile_screen/my_profile.dart';
 import 'package:a1_ads/view/screens/shorts_vid/my_offer.dart';
 import 'package:a1_ads/view/screens/shorts_vid/preload_page.dart';
@@ -28,6 +32,7 @@ import 'package:a1_ads/view/screens/shorts_vid/post_upload.dart';
 import 'package:a1_ads/view/screens/store/store_page.dart';
 import 'package:a1_ads/view/screens/upi_screen/upiPay.dart';
 import 'package:a1_ads/view/screens/upi_screen/wallet.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -82,6 +87,7 @@ class _MainScreenState extends State<MainScreen> {
   late String _fcmToken;
   int executionCount = 0;
   Timer? timer;
+  // String referralCode = '';
 
   @override
   void initState() {
@@ -126,16 +132,21 @@ class _MainScreenState extends State<MainScreen> {
 
   Future<void> _initializeData() async {
     prefs = await SharedPreferences.getInstance();
+    debugPrint("===> userDetail");
     homeController.allSettingsData();
+    debugPrint("===> userDetail");
     mainController.userDetail(prefs.getString(Constant.ID));
+    debugPrint("===> userDetail");
     c.offerAPI(prefs.getString(Constant.ID)!);
-    setState(() {
+    setState(() async {
       status = prefs.getString(Constant.STATUS)!;
       old_plan = prefs.getString(Constant.OLD_PLAN)!;
       plan = prefs.getString(Constant.PLAN)!;
       without_work = prefs.getString(Constant.WITHOUT_WORK)!;
       debugPrint("plan: $without_work");
       balance = prefs.getString(Constant.BALANCE)!;
+      // referralCode = (await storeLocal.read(key: Constant.REFERRAL_CODE))!;
+      // debugPrint('referralCode : $referralCode');
     });
   }
 
@@ -300,6 +311,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       // appBar: _isHomePage == true || _isAdsPage == true || _isMorePage == true  || _isJobsPage == true ? null : AppBar(
       //   centerTitle: true,
@@ -483,14 +495,25 @@ class _MainScreenState extends State<MainScreen> {
                   backgroundColor: colors.primary_color,
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.local_offer_outlined,
+                  icon: ImageIcon(
+                    const AssetImage(
+                      "assets/icon/4624062-removebg-preview.png",
+                    ),
                     color:
                         _selctedIndex == 2 ? colors.widget_color : colors.white,
                   ),
-                  label: 'My Offer',
+                  label: 'My Team',
                   backgroundColor: colors.primary_color,
                 ),
+                // BottomNavigationBarItem(
+                //   icon: Icon(
+                //     Icons.local_offer_outlined,
+                //     color:
+                //         _selctedIndex == 2 ? colors.widget_color : colors.white,
+                //   ),
+                //   label: 'My Offer',
+                //   backgroundColor: colors.primary_color,
+                // ),
                 // BottomNavigationBarItem(
                 //   icon: Icon(
                 //     Icons.monetization_on,
@@ -504,15 +527,15 @@ class _MainScreenState extends State<MainScreen> {
                 // BottomNavigationBarItem(
                 //   icon: ImageIcon(
                 //     const AssetImage(
-                //       // "assets/images/2666513_1-removebg-preview.png",
-                //       "assets/icon/Group (1).png",
-                //     ),
-                //     color:
-                //         _selctedIndex == 3 ? colors.widget_color : colors.white,
-                //   ),
-                //   // label: 'Reward',
-                //   label: 'Jobs',
-                //   backgroundColor: colors.primary_color,
+                //       "assets/images/2666513_1-removebg-preview.png",
+                // "assets/icon/Group (1).png",
+                // ),
+                // color:
+                //     _selctedIndex == 3 ? colors.widget_color : colors.white,
+                // ),
+                // label: 'Reward',
+                // label: 'Jobs',
+                // backgroundColor: colors.primary_color,
                 // ),
                 // BottomNavigationBarItem(
                 //   icon: Icon(
@@ -524,18 +547,18 @@ class _MainScreenState extends State<MainScreen> {
                 //   label: 'Store',
                 //   backgroundColor: colors.primary_color,
                 // ),
-                // BottomNavigationBarItem(
-                //   icon: ImageIcon(
-                //     const AssetImage(
-                //       "assets/images/result.png",
-                //     ),
-                //     color: _selctedIndex == 3
-                //         ? colors.widget_color
-                //         : colors.white,
-                //   ),
-                //   label: 'Reports',
-                //   backgroundColor: colors.primary_color,
-                // ),
+                BottomNavigationBarItem(
+                  icon: ImageIcon(
+                    AssetImage(
+                      _selctedIndex == 3 ? "assets/icon/download-removebg-preview (3).png" : "assets/icon/download-removebg-preview (1).png",
+                    ),
+                    color: _selctedIndex == 3
+                        ? colors.widget_color
+                        : colors.white,
+                  ),
+                  label: 'Plan',
+                  backgroundColor: colors.primary_color,
+                ),
                 BottomNavigationBarItem(
                     // icon: Icon(Icons.person,color: _selctedIndex == 4
                     //     ? colors.widget_color
@@ -544,7 +567,7 @@ class _MainScreenState extends State<MainScreen> {
                         const AssetImage(
                           "assets/icon/Vector (2).png",
                         ),
-                        color: _selctedIndex == 3
+                        color: _selctedIndex == 4
                             ? colors.widget_color
                             : colors.white),
                     // label: 'Profile',
@@ -800,7 +823,7 @@ class _MainScreenState extends State<MainScreen> {
           return const ADsScreen();
         } else if (status == "1" &&
             old_plan == "0" &&
-            plan == "A1U" &&
+            (plan == "A1U" || plan == "A1S") &&
             without_work == '0') {
           return const FullTimePage();
         } else {
@@ -808,7 +831,8 @@ class _MainScreenState extends State<MainScreen> {
         }
       case 2:
         // return const InvestScreen();
-        return const MyOffer();
+        return const MyCustomer();
+      // return const MyOffer();
       // return const JobFinder();
       // return const Jobs();
       // case 1:
@@ -817,9 +841,9 @@ class _MainScreenState extends State<MainScreen> {
       //   return const Jobs();
       // return const NotifyScreen();
       // return const Reward();
-      // case 3:
-      //   return const report();
       case 3:
+        return const PlanScreen();
+      case 4:
         return const MyProfile();
       default:
         return const MyProfile();
@@ -882,7 +906,9 @@ class _MainScreenState extends State<MainScreen> {
     clearSharedPreferences();
     SystemNavigator.pop();
     FirebaseAuth.instance.signOut();
-    Get.to(const LoginMobile());
+    Get.to(const LoginMobile(
+      referCode: '',
+    ));
   }
 }
 

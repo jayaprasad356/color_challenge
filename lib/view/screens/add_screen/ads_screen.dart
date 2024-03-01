@@ -252,7 +252,8 @@ class ADsScreenState extends State<ADsScreen> {
                                 MaterialButton(
                                   onPressed: () {
                                     Share.share(
-                                        "$referText\nUse my Refer Code and Login to our website ${Constant.A1AdsWebUrl}");
+                                        "$referText\nUse my Refer Code and Login to our website https://a1-ads-web.web.app");
+                                        // "$referText\nUse my Refer Code and Login to our website ${Constant.A1AdsWebUrl}");
                                   },
                                   color: colors.primary_color,
                                   shape: const RoundedRectangleBorder(

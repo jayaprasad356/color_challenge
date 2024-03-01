@@ -6,6 +6,7 @@ const FlutterSecureStorage storeLocal = FlutterSecureStorage();
 class Constant {
   static const String MainBaseUrl = "https://admin.colorjobs.site/";
   static const String A1AdsWebUrl = "https://a1-ads-web.web.app";
+  // static const String A1AdsWebUrl = "https://a1-ads.web.app";
   static const String A1AdsHelpWebUrl = "https://a1ads.site/";
   static const String PurchaseWebUrl = "https://slveenterprises.org/shop/A1Store?cid=5970735";
   //static const String MainBaseUrl = "http://192.168.35.38/color_challenge_admin/";
@@ -21,13 +22,25 @@ class Constant {
   static const String UPDATE_PROFILE_URL = "${BaseUrl}update_profile.php";
   static const String WITHDRAWAL_URL = "${BaseUrl}withdrawals.php";
   static const String CHECK_MOBILE = "${BaseUrl}check_mobile.php";
+  static const String SCRATCH_CARD = "${BaseUrl}scratch_card.php";
+  static const String JOB_LIST_API = "${BaseUrl}jobs_list.php";
+  static const String ALL_JOBS = "${BaseUrl}all_jobs.php";
+  static const String JOB_RESULT = "${BaseUrl}result.php";
+  static const String APPLY_JOBS = "${BaseUrl}apply_jobs.php";
+  static const String USER_JOINED_JOBS = "${BaseUrl}user_joined_jobs.php";
+  static const String JOB_INCOME = "${BaseUrl}jobs_income.php";
+  static const String JOBS_JOINED_USERS = "${BaseUrl}jobs_joined_users.php";
+  static const String UPLOAD_JOBS = "${BaseUrl}upload_jobs.php";
   static const String MY_WITHDRAWALS_LIST_URL =
       "${BaseUrl}withdrawals_list.php";
   static const String TRANSACTIONS_LIST_URL = "${BaseUrl}transactions_list.php";
+  static const String MY_REFERS_LIST = "${BaseUrl}my_refers_list.php";
   static const String NOTIFICATION_LIST_URL =
       "${BaseUrl}notification_lists.php";
 
   static const String SETTINGS_URL = "${BaseUrl}settings.php";
+  static const String UPLOAD_STATUS = "${BaseUrl}upload_status.php";
+  static const String WHATSAPP_LIST = "${BaseUrl}whatsapp_list.php";
   static const String ADS_URL = "${BaseUrl}ads.php";
   static const String APPUPDATE_URL = "${BaseUrl}appupdate.php";
 
@@ -61,6 +74,7 @@ class Constant {
   static const String BASIC_WALLET = "basic_wallet";
   static const String PREMIUM_WALLET = "premium_wallet";
   static const String TARGET_REFERS = "target_refers";
+  static const String TOTAL_REFERS = "total_refers";
   static const String TODAY_ADS_STATUS = "todayAdsStatus";
   static const String TODAY_ADS = "today_ads";
   static const String TOTAL_ADS = "total_ads";
@@ -104,10 +118,15 @@ class Constant {
   static const String REWARD_ADS = "reward_ads";
   static const String STORE_BALANCE = "store_balance";
   static const String ADS_TIME = "ads_time";
+  static const String TEAM_SIZE = "team_size";
+  static const String VALID_TEAM = "valid_team";
+  static const String LEVEL_INCOME = "level_Income";
+  static const String TOTAL_ASSETS = "total_assets";
 
   static const String NAME = "name";
   static const String AGE = "age";
   static const String GENDER = "gender";
+  static const String TODAY_EARN = "today_earn";
   static const String DEAF = "deaf";
   static const String CITY = "city";
   static const String SUPPORT_LAN = "support_lan";
@@ -115,6 +134,7 @@ class Constant {
   static const String PLATFORM_TYPE = "platform_type";
   static const String SYNC_ABLE = "sync_able";
   static const String IS_WEB = "is_web";
+  static const String REFERRAL_CODE = "referral_code";
 
   static const String RESULT_ANNOUNCE_TIME = "result_announce_time";
   static String handleNullableString(String input) {

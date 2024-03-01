@@ -207,6 +207,7 @@ class FullTimePageCont extends GetxController implements GetxService {
           prefs.setString(Constant.STORE_BALANCE, todayIncomeData.storeBalance ?? '');
           prefs.setString(Constant.WITHOUT_WORK, todayIncomeData.withoutWork ?? '');
           prefs.setString(Constant.TARGET_REFERS, todayIncomeData.targetRefers ?? '');
+          prefs.setString(Constant.TOTAL_REFERS, todayIncomeData.totalReferrals ?? '');
           prefs.setString(Constant.TODAY_ADS_STATUS, todayIncomeData.todayAdsStatus ?? '');
           update();
         }
@@ -214,6 +215,7 @@ class FullTimePageCont extends GetxController implements GetxService {
       } catch (e) {
         debugPrint("todayIncome errors: $e");
       }
+      hideLoadingIndicator(context);
     });
   }
 

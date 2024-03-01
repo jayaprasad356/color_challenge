@@ -53,10 +53,10 @@ class _InvestScreenState extends State<InvestScreen> {
                   children: [
                     Image.asset('assets/images/images (10) 1.png',height: size.height * 0.1,),
                     const SizedBox(width: 10,),
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Local Ads",
                           style: TextStyle(
                               fontSize: 14,
@@ -64,27 +64,27 @@ class _InvestScreenState extends State<InvestScreen> {
                               fontWeight: FontWeight.w500,
                               fontFamily: "Montserrat"),
                         ),
-                        SizedBox(height: 5,),
-                        Text(
+                        const SizedBox(height: 5,),
+                        const Text(
                           "Daily views = 100",
                           style: TextStyle(
                               fontSize: 12,
                               color: Colors.yellow,
                               fontFamily: "Montserrat"),
                         ),
-                        SizedBox(height: 5,),
-                        Text(
+                        const SizedBox(height: 5,),
+                        const Text(
                           "Daily income  = Rs. 100",
                           style: TextStyle(
                               fontSize: 12,
                               color: Colors.yellow,
                               fontFamily: "Montserrat"),
                         ),
-                        SizedBox(height: 5,),
+                        const SizedBox(height: 5,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
+                          children: const [
                             Text(
                               "Total Earnings = Rs.80",
                               style: TextStyle(

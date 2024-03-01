@@ -23,6 +23,10 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../util/Color.dart';
 import '../../../util/Constant.dart';
 import 'package:slide_action/slide_action.dart';
+import 'package:http/http.dart' as http;
+import 'dart:typed_data';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
 class A1UAds extends StatefulWidget {
   const A1UAds({Key? key}) : super(key: key);
@@ -61,6 +65,8 @@ class A1UAdsState extends State<A1UAds> {
       basic_wallet = "",
       // premium_wallet = "",
       target_refers = "",
+      total_refers = "",
+      today_earn = "",
       today_ads = "0",
       total_ads = "0",
       reward_ads = "0",
@@ -108,18 +114,36 @@ class A1UAdsState extends State<A1UAds> {
 
     SharedPreferences.getInstance().then((value) {
       prefs = value;
+      debugPrint("ads_time gender");
       ads_time = prefs.getString(Constant.ADS_TIME)!;
+      debugPrint("ads_time gender: $ads_time");
       balance = prefs.getString(Constant.BALANCE)!;
+      debugPrint("balance gender: $balance");
       today_ads = prefs.getString(Constant.TODAY_ADS)!;
+      debugPrint("today_ads gender: $today_ads");
       total_ads = prefs.getString(Constant.TOTAL_ADS)!;
+      debugPrint("total_ads gender: $total_ads");
       ads_cost = prefs.getString(Constant.ADS_COST)!;
+      debugPrint("ads_cost gender: $ads_cost");
       referText = prefs.getString(Constant.REFER_CODE)!;
+      debugPrint("referText gender: $referText");
       reward_ads = prefs.getString(Constant.REWARD_ADS)!;
+      debugPrint("reward_ads gender: $reward_ads");
       storeBalance = prefs.getString(Constant.STORE_BALANCE)!;
+      debugPrint("storeBalance gender: $storeBalance");
       name = prefs.getString(Constant.NAME)!;
+      debugPrint("name gender: $name");
       mobile_number = prefs.getString(Constant.MOBILE)!;
+      debugPrint("mobile_number gender: $mobile_number");
       target_refers = prefs.getString(Constant.TARGET_REFERS)!;
+      debugPrint("target_refers gender: $target_refers");
+      total_refers = prefs.getString(Constant.TOTAL_REFERS)!;
+      debugPrint("total_refers gender: $total_refers");
+      today_earn = prefs.getString(Constant.TODAY_EARN)!;
+      debugPrint("today_earn gender: $today_earn");
       gender = prefs.getString(Constant.GENDER)!;
+      debugPrint("gender : $gender");
+      debugPrint("total_refers : $total_refers");
       todayAdsStatus = prefs.getString(Constant.TODAY_ADS_STATUS)!;
       c.offerAPI(prefs.getString(Constant.ID)!);
       debugPrint("todayAdsStatus : $todayAdsStatus");
@@ -138,9 +162,15 @@ class A1UAdsState extends State<A1UAds> {
 
     loadTimerCount();
     // skipAdTimer();
+    initializeData();
 
     // progressPercentageTwo = double.parse(reward_ads);
     // debugPrint("progressPercentageTwo : $progressPercentageTwo");
+  }
+
+  void initializeData() async {
+    c.offerAPI(prefs.getString(Constant.ID)!);
+    setState(() {});
   }
 
   void skipAdTimer() {
@@ -411,99 +441,131 @@ class A1UAdsState extends State<A1UAds> {
               //         ),
               // ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            InkWell(
-              onTap: () {
-                // fullTimePageCont.todayIncome(context);
-                if (todayAdsStatus == '1') {
-                  fullTimePageCont.todayIncome(context);
-                }
-                // setState(() {
-                //   ads_time = prefs.getString(Constant.ADS_TIME)!;
-                //   balance = prefs.getString(Constant.BALANCE)!;
-                //   today_ads = prefs.getString(Constant.TODAY_ADS)!;
-                //   total_ads = prefs.getString(Constant.TOTAL_ADS)!;
-                //   ads_cost = prefs.getString(Constant.ADS_COST)!;
-                //   referText = prefs.getString(Constant.REFER_CODE)!;
-                //   reward_ads = prefs.getString(Constant.REWARD_ADS)!;
-                //   storeBalance = prefs.getString(Constant.STORE_BALANCE)!;
-                //   name = prefs.getString(Constant.NAME)!;
-                //   mobile_number = prefs.getString(Constant.MOBILE)!;
-                //   target_refers = prefs.getString(Constant.TARGET_REFERS)!;
-                //   gender = prefs.getString(Constant.GENDER)!;
-                //   todayAdsStatus = prefs.getString(Constant.TODAY_ADS_STATUS)!;
-                //   c.offerAPI(prefs.getString(Constant.ID)!);
-                //   debugPrint("todayAdsStatus : $todayAdsStatus");
-                // });
-              },
-              child: Container(
-                height: 50,
-                width: size.width * 0.55,
-                decoration: todayAdsStatus == '1'
-                    ? BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Colors.teal,
-                            Colors.teal.shade200,
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border(
-                          bottom: BorderSide(
-                            width: 2,
-                            color: Colors.teal.shade700,
-                          ),
-                          right: BorderSide(
-                            width: 2,
-                            color: Colors.teal.shade700,
-                          ),
-                        ),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black12,
-                            offset: Offset(5, 5),
-                            blurRadius: 10,
-                          )
-                        ],
-                      )
-                    : BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border(
-                          bottom: BorderSide(
-                            width: 2,
-                            color: Colors.grey.shade700,
-                          ),
-                          right: BorderSide(
-                            width: 2,
-                            color: Colors.grey.shade700,
-                          ),
-                        ),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black12,
-                            offset: Offset(5, 5),
-                            blurRadius: 10,
-                          )
-                        ],
-                      ),
-                child: const Center(
-                  child: Text(
-                    'Get MY TODAY ADS EARNINGS',
-                    style: TextStyle(
-                      fontFamily: 'MontserratLight',
-                      color: Color(0xFFFFFFFF),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
+            // InkWell(
+            //   onTap: () async {
+            //     var imageUrl = c.offerImageURS.toString();
+            //     debugPrint('imageUrl: $imageUrl');
+            //     Share.share(imageUrl);
+            //   },
+            //   child: Container(
+            //     width: size.width * 0.6,
+            //     height: 40,
+            //     decoration: BoxDecoration(
+            //       borderRadius: BorderRadius.circular(5),
+            //       color: const Color(0xFF00D95F),
+            //     ),
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.center,
+            //       children: [
+            //         Image.asset(
+            //           "assets/images/whatsapp-icon-2048x2048-64wjztht 1.png",
+            //           height: 30,
+            //         ),
+            //         const Text(
+            //           'Share to Whatsapp',
+            //           style: TextStyle(
+            //             fontFamily: 'MontserratBold',
+            //             color: Colors.white,
+            //             fontWeight: FontWeight.bold,
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            // InkWell(
+            //   onTap: () {
+            //     // fullTimePageCont.todayIncome(context);
+            //     if (todayAdsStatus == '1') {
+            //       fullTimePageCont.todayIncome(context);
+            //     }
+            //     // setState(() {
+            //     //   ads_time = prefs.getString(Constant.ADS_TIME)!;
+            //     //   balance = prefs.getString(Constant.BALANCE)!;
+            //     //   today_ads = prefs.getString(Constant.TODAY_ADS)!;
+            //     //   total_ads = prefs.getString(Constant.TOTAL_ADS)!;
+            //     //   ads_cost = prefs.getString(Constant.ADS_COST)!;
+            //     //   referText = prefs.getString(Constant.REFER_CODE)!;
+            //     //   reward_ads = prefs.getString(Constant.REWARD_ADS)!;
+            //     //   storeBalance = prefs.getString(Constant.STORE_BALANCE)!;
+            //     //   name = prefs.getString(Constant.NAME)!;
+            //     //   mobile_number = prefs.getString(Constant.MOBILE)!;
+            //     //   target_refers = prefs.getString(Constant.TARGET_REFERS)!;
+            //     //   gender = prefs.getString(Constant.GENDER)!;
+            //     //   todayAdsStatus = prefs.getString(Constant.TODAY_ADS_STATUS)!;
+            //     //   c.offerAPI(prefs.getString(Constant.ID)!);
+            //     //   debugPrint("todayAdsStatus : $todayAdsStatus");
+            //     // });
+            //   },
+            //   child: Container(
+            //     height: 50,
+            //     width: size.width * 0.55,
+            //     decoration: todayAdsStatus == '1'
+            //         ? BoxDecoration(
+            //             gradient: LinearGradient(
+            //               colors: [
+            //                 Colors.teal,
+            //                 Colors.teal.shade200,
+            //               ],
+            //               begin: Alignment.topLeft,
+            //               end: Alignment.bottomRight,
+            //             ),
+            //             borderRadius: BorderRadius.circular(20),
+            //             border: Border(
+            //               bottom: BorderSide(
+            //                 width: 2,
+            //                 color: Colors.teal.shade700,
+            //               ),
+            //               right: BorderSide(
+            //                 width: 2,
+            //                 color: Colors.teal.shade700,
+            //               ),
+            //             ),
+            //             boxShadow: const [
+            //               BoxShadow(
+            //                 color: Colors.black12,
+            //                 offset: Offset(5, 5),
+            //                 blurRadius: 10,
+            //               )
+            //             ],
+            //           )
+            //         : BoxDecoration(
+            //             color: Colors.grey,
+            //             borderRadius: BorderRadius.circular(20),
+            //             border: Border(
+            //               bottom: BorderSide(
+            //                 width: 2,
+            //                 color: Colors.grey.shade700,
+            //               ),
+            //               right: BorderSide(
+            //                 width: 2,
+            //                 color: Colors.grey.shade700,
+            //               ),
+            //             ),
+            //             boxShadow: const [
+            //               BoxShadow(
+            //                 color: Colors.black12,
+            //                 offset: Offset(5, 5),
+            //                 blurRadius: 10,
+            //               )
+            //             ],
+            //           ),
+            //     child: const Center(
+            //       child: Text(
+            //         'Get MY TODAY ADS EARNINGS',
+            //         style: TextStyle(
+            //           fontFamily: 'MontserratLight',
+            //           color: Color(0xFFFFFFFF),
+            //           fontWeight: FontWeight.bold,
+            //           fontSize: 14,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
             const SizedBox(
               height: 10,
             ),
@@ -534,7 +596,8 @@ class A1UAdsState extends State<A1UAds> {
               height: 10,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
               child: Container(
                 height: size.height * 0.3,
                 width: double.infinity,
@@ -576,7 +639,7 @@ class A1UAdsState extends State<A1UAds> {
                               Column(
                                 children: [
                                   const Text(
-                                    "Today Ads",
+                                    "Today Income",
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
                                       fontFamily: 'MontserratLight',
@@ -585,7 +648,28 @@ class A1UAdsState extends State<A1UAds> {
                                     ),
                                   ),
                                   Text(
-                                    today_ads,
+                                    today_earn,
+                                    textAlign: TextAlign.start,
+                                    style: const TextStyle(
+                                      fontFamily: 'MontserratLight',
+                                      color: Color(0xFF00FFFF),
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: size.height * 0.05,
+                                  ),
+                                  const Text(
+                                    "Total Referrals",
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                      fontFamily: 'MontserratLight',
+                                      color: Color(0xFFFFFFFF),
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  Text(
+                                    total_refers,
                                     textAlign: TextAlign.start,
                                     style: const TextStyle(
                                       fontFamily: 'MontserratLight',
@@ -598,7 +682,7 @@ class A1UAdsState extends State<A1UAds> {
                               Column(
                                 children: [
                                   const Text(
-                                    "Total Ads",
+                                    "Total Income",
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
                                       fontFamily: 'MontserratLight',
@@ -615,39 +699,11 @@ class A1UAdsState extends State<A1UAds> {
                                       fontSize: 20,
                                     ),
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                children: [
-                                  const Text(
-                                    "Total Referrals",
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontFamily: 'MontserratLight',
-                                      color: Color(0xFFFFFFFF),
-                                      fontSize: 16,
-                                    ),
+                                  SizedBox(
+                                    height: size.height * 0.05,
                                   ),
-                                  Text(
-                                    target_refers,
-                                    textAlign: TextAlign.start,
-                                    style: const TextStyle(
-                                      fontFamily: 'MontserratLight',
-                                      color: Color(0xFF00FFFF),
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: [
                                   const Text(
-                                    "Total Balance",
+                                    "Remaining Balance",
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
                                       fontFamily: 'MontserratLight',
@@ -675,6 +731,148 @@ class A1UAdsState extends State<A1UAds> {
                 ),
               ),
             ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            //   child: Container(
+            //     height: size.height * 0.3,
+            //     width: double.infinity,
+            //     decoration: BoxDecoration(
+            //         borderRadius: BorderRadius.circular(10),
+            //         gradient: const LinearGradient(
+            //             begin: Alignment.topCenter,
+            //             end: Alignment.bottomCenter,
+            //             colors: [
+            //               Color(0xFFE27E1C),
+            //               Color(0xFF851161),
+            //             ])),
+            //     child: Stack(
+            //       children: [
+            //         Align(
+            //           alignment: Alignment.centerRight,
+            //           child: Image.asset(
+            //             'assets/images/noto_money-with-wings.png',
+            //             height: 64,
+            //           ),
+            //         ),
+            //         Align(
+            //           alignment: Alignment.bottomLeft,
+            //           child: Image.asset(
+            //             'assets/images/Group.png',
+            //             height: 34,
+            //           ),
+            //         ),
+            //         Padding(
+            //           padding: EdgeInsets.symmetric(
+            //               horizontal: size.width * 0.1,
+            //               vertical: size.height * 0.05),
+            //           child: Column(
+            //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //             children: [
+            //               Row(
+            //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //                 children: [
+            //                   Column(
+            //                     children: [
+            //                       const Text(
+            //                         "Today Ads",
+            //                         textAlign: TextAlign.start,
+            //                         style: TextStyle(
+            //                           fontFamily: 'MontserratLight',
+            //                           color: Color(0xFFFFFFFF),
+            //                           fontSize: 16,
+            //                         ),
+            //                       ),
+            //                       Text(
+            //                         today_ads,
+            //                         textAlign: TextAlign.start,
+            //                         style: const TextStyle(
+            //                           fontFamily: 'MontserratLight',
+            //                           color: Color(0xFF00FFFF),
+            //                           fontSize: 20,
+            //                         ),
+            //                       ),
+            //                     ],
+            //                   ),
+            //                   Column(
+            //                     children: [
+            //                       const Text(
+            //                         "Total Ads",
+            //                         textAlign: TextAlign.start,
+            //                         style: TextStyle(
+            //                           fontFamily: 'MontserratLight',
+            //                           color: Color(0xFFFFFFFF),
+            //                           fontSize: 16,
+            //                         ),
+            //                       ),
+            //                       Text(
+            //                         total_ads,
+            //                         textAlign: TextAlign.start,
+            //                         style: const TextStyle(
+            //                           fontFamily: 'MontserratLight',
+            //                           color: Color(0xFF00FFFF),
+            //                           fontSize: 20,
+            //                         ),
+            //                       ),
+            //                     ],
+            //                   ),
+            //                 ],
+            //               ),
+            //               Row(
+            //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //                 children: [
+            //                   Column(
+            //                     children: [
+            //                       const Text(
+            //                         "Total Referrals",
+            //                         textAlign: TextAlign.start,
+            //                         style: TextStyle(
+            //                           fontFamily: 'MontserratLight',
+            //                           color: Color(0xFFFFFFFF),
+            //                           fontSize: 16,
+            //                         ),
+            //                       ),
+            //                       Text(
+            //                         target_refers,
+            //                         textAlign: TextAlign.start,
+            //                         style: const TextStyle(
+            //                           fontFamily: 'MontserratLight',
+            //                           color: Color(0xFF00FFFF),
+            //                           fontSize: 20,
+            //                         ),
+            //                       ),
+            //                     ],
+            //                   ),
+            //                   Column(
+            //                     children: [
+            //                       const Text(
+            //                         "Total Balance",
+            //                         textAlign: TextAlign.start,
+            //                         style: TextStyle(
+            //                           fontFamily: 'MontserratLight',
+            //                           color: Color(0xFFFFFFFF),
+            //                           fontSize: 16,
+            //                         ),
+            //                       ),
+            //                       Text(
+            //                         "₹ $balance",
+            //                         textAlign: TextAlign.start,
+            //                         style: const TextStyle(
+            //                           fontFamily: 'MontserratLight',
+            //                           color: Color(0xFF00FFFF),
+            //                           fontSize: 20,
+            //                         ),
+            //                       ),
+            //                     ],
+            //                   ),
+            //                 ],
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
             const SizedBox(
               height: 10,
             ),

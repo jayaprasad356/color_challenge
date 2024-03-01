@@ -21,7 +21,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:device_info/device_info.dart';
 
 class LoginMobile extends StatefulWidget {
-  const LoginMobile({Key? key}) : super(key: key);
+  final String referCode;
+  const LoginMobile({Key? key, required this.referCode}) : super(key: key);
 
   @override
   State<LoginMobile> createState() => _LoginMobileState();
@@ -171,7 +172,9 @@ class _LoginMobileState extends State<LoginMobile> {
                                 return OtpVerification(
                                     mobileNumber: _mobileNumberController.text,
                                     otp: randomNumber
-                                        .toString()); // Replace NextPage with the actual page you want to navigate to
+                                        .toString(),
+                                    referCode : widget.referCode,
+                                ); // Replace NextPage with the actual page you want to navigate to
                               },
                             ),
                           );
@@ -389,10 +392,10 @@ class _LoginMobileState extends State<LoginMobile> {
                         ),
                       ),
 
-                      const Center(
+                      Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: const [
                             Text(
                               "Same device Multiple Register",
                               style: TextStyle(

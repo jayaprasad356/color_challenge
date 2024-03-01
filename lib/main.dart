@@ -16,10 +16,14 @@ import 'package:a1_ads/data/repository/main_repo.dart';
 import 'package:a1_ads/data/repository/shorts_video_repo.dart';
 import 'package:a1_ads/data/repository/upi_repo.dart';
 import 'package:a1_ads/test.dart';
+import 'package:a1_ads/util/dynamic_link_api.dart';
+import 'package:a1_ads/view/screens/add_screen/a1u_ads.dart';
+import 'package:a1_ads/view/screens/chat_screen/chat_screen.dart';
 import 'package:a1_ads/view/screens/home_page/address_fill.dart';
 import 'package:a1_ads/view/screens/job/a1_all_job.dart';
 import 'package:a1_ads/view/screens/job/a1_uploaaded_job.dart';
 import 'package:a1_ads/view/screens/job/jobs.dart';
+import 'package:a1_ads/view/screens/job/my_team.dart';
 import 'package:a1_ads/view/screens/login/loginMobile.dart';
 import 'package:a1_ads/view/screens/login/mainScreen.dart';
 import 'package:a1_ads/view/screens/login/otpVerfication.dart';
@@ -38,7 +42,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'util/Constant.dart';
 import 'Helper/apiCall.dart';
 import 'controller/utils.dart';
-import 'package:package_info/package_info.dart';
+// import 'package:package_info/package_info.dart';
 import 'package:get/get.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'view/screens/home_page/homePage.dart';
@@ -48,6 +52,7 @@ import 'view/screens/profile_screen/new_profile_screen.dart';
 import 'view/screens/updateApp/updateApp.dart';
 import 'package:flutter/foundation.dart';
 import 'package:device_info/device_info.dart' as device_info;
+import 'dart:html' as html;
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'high_importance_channel', // id
@@ -68,27 +73,41 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Get.put(const FlutterSecureStorage());
-  if (kIsWeb) {
-    debugPrint("The app is running on the web.");
-    await Firebase.initializeApp(
-      options: const FirebaseOptions(
-        apiKey: "AIzaSyBnBf0EAqIe6QL7aeO9yC6dd-yHI5mI9hc",
-        authDomain: "color-challenge-524cd.firebaseapp.com",
-        projectId: "color-challenge-524cd",
-        storageBucket: "color-challenge-524cd.appspot.com",
-        messagingSenderId: "766073031164",
-        appId: "1:766073031164:web:71aeb12543c06f15420a79",
-        measurementId: "G-SZPYEKQ7WJ",
-      ),
-    );
-    await storeLocal.write(key: Constant.IS_WEB, value: 'true');
-  } else {
-    debugPrint("The app is running on an Android device.");
-    await storeLocal.write(key: Constant.IS_WEB, value: 'false');
-  }
+  String referralCode = '';
+  try{
+    Get.put(const FlutterSecureStorage());
+    // setUpGetIt();
+    if (kIsWeb) {
+      debugPrint("The app is running on the web.");
+      await Firebase.initializeApp(
+        options: const FirebaseOptions(
+          apiKey: "AIzaSyBnBf0EAqIe6QL7aeO9yC6dd-yHI5mI9hc",
+          authDomain: "color-challenge-524cd.firebaseapp.com",
+          projectId: "color-challenge-524cd",
+          storageBucket: "color-challenge-524cd.appspot.com",
+          messagingSenderId: "766073031164",
+          appId: "1:766073031164:web:71aeb12543c06f15420a79",
+          measurementId: "G-SZPYEKQ7WJ",
+        ),
+      );
+      await storeLocal.write(key: Constant.IS_WEB, value: 'true');
 
-  await Firebase.initializeApp();
+      Uri uri = Uri.parse(html.window.location.href);
+
+      referralCode = uri.queryParameters['referralCode']!;
+
+      debugPrint('Referral Code: $referralCode');
+
+      await storeLocal.write(key: Constant.REFERRAL_CODE, value: referralCode);
+    } else {
+      debugPrint("The app is running on an Android device.");
+      await storeLocal.write(key: Constant.IS_WEB, value: 'false');
+    }
+
+    await Firebase.initializeApp();
+  } catch (e) {
+    debugPrint("this is a error: $e");
+  }
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
@@ -158,11 +177,12 @@ Future<void> main() async {
   });
 
   // runApp(MyVideoApp());
-  runApp(const MyApp());
+  runApp( MyApp(referCode: referralCode,));
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final String referCode;
+  const MyApp({Key? key, required this.referCode}) : super(key: key);
 
   @override
   _MyAppState createState() => _MyAppState();
@@ -281,8 +301,8 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> getAppVersion() async {
     try {
-      PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      appVersion = packageInfo.version;
+      // PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      // appVersion = packageInfo.version;
       var url = Constant.APPUPDATE_URL;
       Map<String, dynamic> bodyObject = {
         Constant.APP_VERSION: appVersion,
@@ -335,6 +355,7 @@ class _MyAppState extends State<MyApp> {
               '/otpVerification': (context) => const OtpVerification(
                     mobileNumber: '',
                     otp: '',
+                    referCode: '',
                   ),
             },
             initialBinding: BindingsBuilder(() {
@@ -399,10 +420,10 @@ class _MyAppState extends State<MyApp> {
                 ),
               );
             }),
-            home: screens(prefs, update, link),
+            home: screens(prefs, update, link, widget.referCode),
             // ca65ae48b1a00e20e4d2c81cc87f50de
             // b7512f3a7251c50a1737b614cf78d929
-            // home: const TestingPage(),
+            // home: const ChatScreen(),
             // home: const MainScreen(),
             // home: const Jobs(),
             // home: isOpenLap() != 'true'
@@ -433,7 +454,7 @@ class _MyAppState extends State<MyApp> {
   // }
 }
 
-Widget screens(SharedPreferences prefs, bool update, String link) {
+Widget screens(SharedPreferences prefs, bool update, String link, String referCode) {
   final String? isLoggedIn = prefs.getString(Constant.LOGED_IN);
   if (isLoggedIn != null && isLoggedIn == "true") {
     // showNotification();
@@ -444,7 +465,7 @@ Widget screens(SharedPreferences prefs, bool update, String link) {
     }
   } else {
     if (update) {
-      return const LoginMobile();
+      return LoginMobile(referCode: referCode);
     } else {
       return UpdateDialog(link: link);
     }
