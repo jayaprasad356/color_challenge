@@ -11,6 +11,9 @@ import 'package:a1_ads/model/order_list.dart';
 import 'package:a1_ads/model/place_order.dart';
 import 'package:a1_ads/model/product_json_file.dart';
 import 'package:a1_ads/model/product_list_mod.dart';
+import 'package:a1_ads/model/recharge_history.dart';
+import 'package:a1_ads/model/recharge_history_json.dart';
+import 'package:a1_ads/model/recharge_mod.dart';
 import 'package:a1_ads/model/scratch_card_data.dart';
 import 'package:a1_ads/model/scratch_card_json.dart';
 import 'package:a1_ads/model/settings_data.dart';
@@ -21,6 +24,7 @@ import 'package:a1_ads/model/whatsapp_list.dart';
 import 'package:a1_ads/model/whatsapp_list_json.dart';
 import 'package:a1_ads/util/Color.dart';
 import 'package:a1_ads/util/Constant.dart';
+import 'package:a1_ads/view/screens/login/recharge_screen.dart';
 import 'package:a1_ads/view/screens/upi_screen/whatsapp_status.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -67,6 +71,7 @@ class HomeController extends GetxController implements GetxService {
   RxList<OrderJson> ordersJson = <OrderJson>[].obs;
   RxList<ScratchCardJson> scratchCardJson = <ScratchCardJson>[].obs;
   RxList<WhatsappListJson> whatsappListJson = <WhatsappListJson>[].obs;
+  RxList<RechargeHistoryJson> rechargeHistoryJson = <RechargeHistoryJson>[].obs;
 
   final List<String> sliderAssetsImage = [
     'assets/images/Group 18196.png',
@@ -161,6 +166,7 @@ class HomeController extends GetxController implements GetxService {
           "Invalid server response",
           duration: const Duration(seconds: 3),
           colorText: colors.primary_color,
+          backgroundColor: Colors.white,
         );
         debugPrint("Invalid server response: $value");
         return;
@@ -180,9 +186,10 @@ class HomeController extends GetxController implements GetxService {
           "${uploadStatus.message}",
           duration: const Duration(seconds: 3),
           colorText: colors.primary_color,
+          backgroundColor: Colors.white,
         );
 
-        if(uploadStatus.success == 'true'){
+        if(uploadStatus.success.toString() == 'true'){
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => const WhatsappStatus()),
           );
@@ -193,6 +200,7 @@ class HomeController extends GetxController implements GetxService {
           "Invalid server response format",
           duration: const Duration(seconds: 3),
           colorText: colors.primary_color,
+          backgroundColor: Colors.white,
         );
         debugPrint("Invalid server response format: $responseData");
       }
@@ -202,8 +210,106 @@ class HomeController extends GetxController implements GetxService {
         "Your image is not uploaded",
         duration: const Duration(seconds: 3),
         colorText: colors.primary_color,
+        backgroundColor: Colors.white,
       );
       debugPrint("jobsUpload errors: $e");
+    }
+  }
+
+  Future<void> uploadRechargePhoto(context, XFile image) async {
+    try {
+      File imageFile = File(image.path);
+      debugPrint("===> imageFile: $imageFile");
+      final value = await homeRepo.uploadRechargePhoto( prefs.getString(Constant.ID)!, imageFile);
+      debugPrint("===> value: $value");
+
+      if (value == null || value.body == null) {
+        Get.snackbar(
+          "Oops",
+          "Invalid server response",
+          duration: const Duration(seconds: 3),
+          colorText: colors.primary_color,
+          backgroundColor: Colors.white,
+        );
+        debugPrint("Invalid server response: $value");
+        return;
+      }
+
+      var responseData = value.body;
+      debugPrint("===> responseData: $responseData");
+
+      // Process the response
+      if (responseData is Map<String, dynamic>) {
+        RechargeMod rechargeMod = RechargeMod.fromJson(responseData);
+        debugPrint("===> rechargeMod: ${rechargeMod.success}");
+        debugPrint("===> rechargeMod: ${rechargeMod.message}");
+
+        Get.snackbar(
+          rechargeMod.success.toString(),
+          rechargeMod.message.toString(),
+          duration: const Duration(seconds: 3),
+          colorText: colors.primary_color,
+          backgroundColor: Colors.white,
+        );
+
+        if(rechargeMod.success.toString() == 'true'){
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const RechargeScreen()),
+          );
+        }
+      } else {
+        Get.snackbar(
+          "Oops",
+          "Invalid server response format",
+          duration: const Duration(seconds: 3),
+          colorText: colors.primary_color,
+          backgroundColor: Colors.white,
+        );
+        debugPrint("Invalid server response format: $responseData");
+      }
+    } catch (e) {
+      Get.snackbar(
+        "Oops",
+        "Your image is not uploaded",
+        duration: const Duration(seconds: 3),
+        colorText: colors.primary_color,
+        backgroundColor: Colors.white,
+      );
+      debugPrint("rechargeMod errors: $e");
+    }
+  }
+
+  Future<void> rechargeHistory() async {
+    try {
+      final value = await homeRepo.rechargeHistory(prefs.getString(Constant.ID)!);
+      var responseData = value.body;
+      RechargeHistory rechargeHistory = RechargeHistory.fromJson(responseData);
+      debugPrint("===> RechargeHistory: $rechargeHistory");
+      debugPrint("===> RechargeHistory message: ${rechargeHistory.message}");
+
+      rechargeHistoryJson.clear();
+
+      if (rechargeHistory.data != null && rechargeHistory.data!.isNotEmpty) {
+        // Use a loop if there can be multiple transactions
+        for (var rechargeHistoryData in rechargeHistory.data!) {
+
+          // Create a TransactionData object and add it to the list
+          RechargeHistoryJson data = RechargeHistoryJson(
+            rechargeHistoryData.id!,
+            rechargeHistoryData.userId!,
+            rechargeHistoryData.image!,
+            rechargeHistoryData.rechargeAmount!,
+            rechargeHistoryData.status!,
+            rechargeHistoryData.datetime!,
+          );
+
+          rechargeHistoryJson.add(data);
+        }
+        update();
+      }
+
+    } catch (e) {
+      debugPrint("whatsappList errors: $e");
     }
   }
 

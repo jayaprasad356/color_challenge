@@ -165,8 +165,8 @@ class _JobDetailState extends State<JobDetail> {
               const SizedBox(
                 height: 10,
               ),
-              Row(
-                children: const [
+              const Row(
+                children: [
                   Icon(
                     Icons.monetization_on,
                     color: Colors.white,
@@ -202,8 +202,8 @@ class _JobDetailState extends State<JobDetail> {
               const SizedBox(
                 height: 10,
               ),
-              widget.job_type.isEmpty ? const SizedBox() : Row(
-                children: const [
+              widget.job_type.isEmpty ? const SizedBox() : const Row(
+                children: [
                   Icon(
                     Icons.work,
                     color: Colors.white,
@@ -252,8 +252,8 @@ class _JobDetailState extends State<JobDetail> {
               const SizedBox(
                 height: 10,
               ),
-              widget.job_timing.isEmpty ? const SizedBox() : Row(
-                children: const [
+              widget.job_timing.isEmpty ? const SizedBox() : const Row(
+                children: [
                   Icon(
                     Icons.access_time_filled,
                     color: Colors.white,

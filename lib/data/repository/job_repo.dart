@@ -69,6 +69,44 @@ class JobRepo {
     return await apiClient.postData(Constant.JOB_RESULT, body, {});
   }
 
+  Future<Response> planList(String userId) async {
+    Map<String, String> body = {
+      'user_id': userId,
+    };
+    return await apiClient.postData(Constant.PLAN_LIST, body, {});
+  }
+
+  Future<Response> userPlanList(String userId) async {
+    Map<String, String> body = {
+      'user_id': userId,
+    };
+    return await apiClient.postData(Constant.USER_PLAN_LIST, body, {});
+  }
+
+  Future<Response> teamList(String userId, String level) async {
+    Map<String, String> body = {
+      'user_id': userId,
+      'level': level,
+    };
+    return await apiClient.postData(Constant.TEAM_LIST, body, {});
+  }
+
+  Future<Response> activatePlan(String userId, String planId) async {
+    Map<String, String> body = {
+      'user_id': userId,
+      'plan_id': planId,
+    };
+    return await apiClient.postData(Constant.ACTIVATE_PLAN, body, {});
+  }
+
+  Future<Response> claim(String userId, String planId) async {
+    Map<String, String> body = {
+      'user_id': userId,
+      'plan_id': planId,
+    };
+    return await apiClient.postData(Constant.CLAIM, body, {});
+  }
+
   Future<Response> usersJoinedJobs(String userId) async {
     Map<String, String> body = {
       'user_id': userId,

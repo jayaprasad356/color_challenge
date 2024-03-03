@@ -1,3 +1,4 @@
+import 'package:a1_ads/controller/home_controller.dart';
 import 'package:a1_ads/controller/pcc_controller.dart';
 import 'package:a1_ads/util/Constant.dart';
 import 'package:a1_ads/view/screens/shorts_vid/post_upload.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dotted_border/dotted_border.dart';
 import '../../../util/Color.dart';
 
 class RechargeScreen extends StatefulWidget {
@@ -20,8 +22,16 @@ class RechargeScreen extends StatefulWidget {
 
 class _RechargeScreenState extends State<RechargeScreen>{
   late SharedPreferences prefs;
+  final HomeController homeController = Get.find<HomeController>();
   final PCC c = Get.find<PCC>();
-  List<XFile> uploadStatusPhoto = [];
+  List<XFile> rechargePhoto = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    homeController.rechargeHistory();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +84,15 @@ class _RechargeScreenState extends State<RechargeScreen>{
                   color: Colors.black,
                   fontFamily: 'MontserratLight',
                   fontSize: 14,
+                ),
+              ),
+              const SizedBox(height: 10,),
+              const Text(
+                'PAYMENT APPROVED TIME 9.00 AM TO 9.00 PM',
+                style: TextStyle(
+                  color: Color(0xFFD0D3F5),
+                  fontFamily: 'MontserratLight',
+                  fontSize: 12,
                 ),
               ),
               const SizedBox(height: 10,),
@@ -132,13 +151,13 @@ class _RechargeScreenState extends State<RechargeScreen>{
                       child: InkWell(
                         onTap: () {
                           // c.pickImageFromGallery();
-                          c.getUploadWhatsappStatusPhoto().then((value) {
+                          c.getRechargeScreenShort().then((value) {
                             picture:
-                            uploadStatusPhoto;
+                            rechargePhoto;
                           });
-                          print("photos : ${c.getUploadStatusPhoto}");
+                          print("photos : ${c.getRechargePhoto}");
                         },
-                        child: PhotoDisplayWidget(photo: c.getUploadStatusPhoto.value),
+                        child: PhotoDisplayWidget(photo: c.getRechargePhoto.value),
                       ),
                     ),
                   ),
@@ -151,13 +170,13 @@ class _RechargeScreenState extends State<RechargeScreen>{
                 alignment: Alignment.center,
                 child: InkWell(
                   onTap: () async {
-                    // prefs = await SharedPreferences.getInstance();
-                    // String userId = prefs.getString(Constant.ID)!;
-                    // debugPrint("userId: $userId");
-                    // var image = c.getUploadStatusPhoto.value;
-                    // debugPrint("photo: ${image}");
-                    // homeController.uploadStatus(context, noOfView.text,
-                    //     c.getUploadStatusPhoto.value as XFile);
+                    prefs = await SharedPreferences.getInstance();
+                    String userId = prefs.getString(Constant.ID)!;
+                    debugPrint("userId: $userId");
+                    var image = c.getRechargePhoto.value;
+                    debugPrint("photo: ${image}");
+                    homeController.uploadRechargePhoto(context,
+                        c.getRechargePhoto.value as XFile);
                     // if (userId != null) {
                     //   await c.postMyPost(userId, c.photo.value as XFile);
                     // } else {
@@ -183,6 +202,83 @@ class _RechargeScreenState extends State<RechargeScreen>{
                     ),
                   ),
                 ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Obx(
+                  () => ListView.builder(
+                    shrinkWrap: true,
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: homeController.rechargeHistoryJson.length,
+                  itemBuilder: (context, index) {
+                    return DottedBorder(
+                      color: Colors.grey,
+                      borderType: BorderType.RRect,
+                      strokeCap: StrokeCap.round,
+                      dashPattern: const [10, 5],
+                      radius: const Radius.circular(12),
+                      strokeWidth: 1,
+                      child: Container(
+                        height: size.height * 0.1,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: const Color(0xFFD0D3F5),
+                        ),
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          children: [
+                            Row(
+                              // mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      homeController.rechargeHistoryJson[index].datetime,
+                                      style: const TextStyle(
+                                        color: Colors.black54,
+                                        fontFamily: 'MontserratLight',
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 5,),
+                                    const Text(
+                                      "Recharge",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'MontserratMedium',
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Expanded(child: Container()),
+                                Text(
+                                  homeController.rechargeHistoryJson[index].status=="0"? "Pending": homeController.rechargeHistoryJson[index].status=="1" ? "Completed" : "Cancelled",
+                                  style: TextStyle(
+                                    color: homeController.rechargeHistoryJson[index].status=="0"? colors.primary : homeController.rechargeHistoryJson[index].status=="1" ? const Color(0xFF31800C) : Colors.red,
+                                    fontFamily: 'MontserratMedium',
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Divider(
+                              height: 1,
+                              color: Colors.grey,
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                ),
+              ),
+              SizedBox(
+                height: size.height * 0.05,
               ),
             ],
           ),

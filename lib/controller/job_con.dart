@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:a1_ads/data/repository/job_repo.dart';
+import 'package:a1_ads/model/activate_plan_mod.dart';
 import 'package:a1_ads/model/all_job_json.dart';
 import 'package:a1_ads/model/all_jobs.dart';
 import 'package:a1_ads/model/apply_jobs.dart';
+import 'package:a1_ads/model/claim_mod.dart';
 import 'package:a1_ads/model/job_incom_json.dart';
 import 'package:a1_ads/model/job_result_jsion.dart';
 import 'package:a1_ads/model/jobs_income.dart';
@@ -12,8 +14,14 @@ import 'package:a1_ads/model/jobs_list.dart';
 import 'package:a1_ads/model/jobs_result.dart';
 import 'package:a1_ads/model/jobs_upload.dart';
 import 'package:a1_ads/model/joined_user_json.dart';
+import 'package:a1_ads/model/plan_list.dart';
+import 'package:a1_ads/model/plan_list_json.dart';
+import 'package:a1_ads/model/team_list.dart';
+import 'package:a1_ads/model/team_list_json.dart';
 import 'package:a1_ads/model/upload_image.dart';
 import 'package:a1_ads/model/user_joined_jobs_json.dart';
+import 'package:a1_ads/model/user_plan_list.dart';
+import 'package:a1_ads/model/user_plan_list_json.dart';
 import 'package:a1_ads/model/users_joined_jobs.dart';
 import 'package:a1_ads/util/Color.dart';
 import 'package:a1_ads/util/Constant.dart';
@@ -24,7 +32,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class JobCon extends GetxController implements GetxService {
   final JobRepo jobRepo;
-  JobCon({required this.jobRepo}){
+  JobCon({required this.jobRepo}) {
     SharedPreferences.getInstance().then((value) {
       prefs = value;
     });
@@ -40,7 +48,7 @@ class JobCon extends GetxController implements GetxService {
   RxString jobsListDataAppliFees = ''.obs;
   RxString jobsListDataAppliedStatus = ''.obs;
   RxString jobsListDataJobUpdate = ''.obs;
-  RxString jobsListDataUploadStatus= ''.obs;
+  RxString jobsListDataUploadStatus = ''.obs;
   RxDouble percentageBar = 0.00.obs;
 
   RxList<JoinedUserJson> joinedUserJson = <JoinedUserJson>[].obs;
@@ -49,6 +57,9 @@ class JobCon extends GetxController implements GetxService {
   RxList<AllJobsData> allJobsJson = <AllJobsData>[].obs;
   RxList<AllJobsData> jobsListJson = <AllJobsData>[].obs;
   RxList<UserJoinedJobsJson> userJoinedJobsJson = <UserJoinedJobsJson>[].obs;
+  RxList<PlanListJson> planListJson = <PlanListJson>[].obs;
+  RxList<UserPlanListJson> userPlanListJson = <UserPlanListJson>[].obs;
+  RxList<TeamListJson> teamListJson = <TeamListJson>[].obs;
 
   Future<void> allJobs() async {
     try {
@@ -89,7 +100,6 @@ class JobCon extends GetxController implements GetxService {
 
         update();
       }
-
     } catch (e) {
       debugPrint("allJobs errors: $e");
     }
@@ -97,7 +107,8 @@ class JobCon extends GetxController implements GetxService {
 
   Future<void> jobsList(jobId) async {
     try {
-      final value = await jobRepo.jobsList(prefs.getString(Constant.ID)!,jobId);
+      final value =
+          await jobRepo.jobsList(prefs.getString(Constant.ID)!, jobId);
       var responseData = value.body;
       JobsList jobsList = JobsList.fromJson(responseData);
       debugPrint("===> jobsList: $jobsList");
@@ -107,24 +118,24 @@ class JobCon extends GetxController implements GetxService {
         // Use a loop if there can be multiple transactions
         for (var jobsListData in jobsList.data!) {
           jobsListDataID.value = jobsListData.id!;
-           jobsListDataJobId.value = jobsListData.jobId!;
-           jobsListDataName.value = jobsListData.name!;
-           jobsListDataProfile.value = jobsListData.profile!;
-           jobsListDataDescription.value = jobsListData.description!;
-           jobsListDataTotalSlots.value = jobsListData.totalSlots!;
-           jobsListDataSlotsLeft.value = jobsListData.slotsLeft!;
-           jobsListDataAppliFees.value = jobsListData.appliFees!;
+          jobsListDataJobId.value = jobsListData.jobId!;
+          jobsListDataName.value = jobsListData.name!;
+          jobsListDataProfile.value = jobsListData.profile!;
+          jobsListDataDescription.value = jobsListData.description!;
+          jobsListDataTotalSlots.value = jobsListData.totalSlots!;
+          jobsListDataSlotsLeft.value = jobsListData.slotsLeft!;
+          jobsListDataAppliFees.value = jobsListData.appliFees!;
           jobsListDataAppliedStatus.value = jobsListData.appliedStatus!;
-           jobsListDataJobUpdate.value = jobsListData.jobUpdate!;
+          jobsListDataJobUpdate.value = jobsListData.jobUpdate!;
           jobsListDataUploadStatus.value = jobsListData.uploadStatus!;
         }
 
-        percentageBar.value =
-            double.parse(jobsListDataSlotsLeft.toString()) / double.parse(jobsListDataTotalSlots.toString()) * 100;
+        percentageBar.value = double.parse(jobsListDataSlotsLeft.toString()) /
+            double.parse(jobsListDataTotalSlots.toString()) *
+            100;
 
         update();
       }
-
     } catch (e) {
       debugPrint("jobsList errors: $e");
     }
@@ -134,7 +145,8 @@ class JobCon extends GetxController implements GetxService {
     try {
       File imageFile = File(image.path);
       debugPrint("===> imageFile: $imageFile");
-      final value = await jobRepo.jobsUpload(jobsId, prefs.getString(Constant.ID)!, imageFile);
+      final value = await jobRepo.jobsUpload(
+          jobsId, prefs.getString(Constant.ID)!, imageFile);
       debugPrint("===> value: $value");
 
       if (value == null || value.body == null) {
@@ -183,7 +195,6 @@ class JobCon extends GetxController implements GetxService {
     }
   }
 
-
   // Future<void> jobsUpload( jobsId, image) async {
   //   try {
   //     final value = await jobRepo.jobsUpload( jobsId, prefs.getString(Constant.ID)!, image);
@@ -226,7 +237,6 @@ class JobCon extends GetxController implements GetxService {
 
         update();
       }
-
     } catch (e) {
       debugPrint("jobsJoinedUsers errors: $e");
     }
@@ -261,7 +271,6 @@ class JobCon extends GetxController implements GetxService {
 
         update();
       }
-
     } catch (e) {
       debugPrint("jobsIncome errors: $e");
     }
@@ -287,27 +296,182 @@ class JobCon extends GetxController implements GetxService {
           var jobsResultDataPosition = jobsResultData.position!;
 
           // Create a TransactionData object and add it to the list
-          JobResultJson data = JobResultJson(
-            jobsResultDataID,
-            jobsResultDataName,
-            jobsResultDataIncome,
-              jobsResultDataPosition
-          );
+          JobResultJson data = JobResultJson(jobsResultDataID,
+              jobsResultDataName, jobsResultDataIncome, jobsResultDataPosition);
 
           jobResultJson.add(data);
         }
 
         update();
       }
-
     } catch (e) {
       debugPrint("jobsResult errors: $e");
     }
   }
 
+  Future<void> planList() async {
+    try {
+      final value = await jobRepo.planList(prefs.getString(Constant.ID)!);
+      var responseData = value.body;
+      PlanDetail planDetail = PlanDetail.fromJson(responseData);
+      debugPrint("===> planDetail: $planDetail");
+      debugPrint("===> planDetail message: ${planDetail.message}");
+
+      planListJson.clear();
+
+      if (planDetail.data != null && planDetail.data!.isNotEmpty) {
+        // Use a loop if there can be multiple transactions
+        for (var planDetailData in planDetail.data!) {
+          var planDetailDataID = planDetailData.id!;
+          var planDetailDataProducts = planDetailData.products!;
+          var planDetailDataPrice = planDetailData.price!;
+          var planDetailDataTotalIncome = planDetailData.totalIncome!;
+          var planDetailDataImage = planDetailData.image!;
+          var planDetailDataPosition = planDetailData.dailyIncome!;
+          var planDetailDataDailyIncome = planDetailData.validity!;
+          var planDetailDataInviteBonus = planDetailData.inviteBonus!;
+          var planDetailDataLevelIncome = planDetailData.levelIncome!;
+
+          // Create a TransactionData object and add it to the list
+          PlanListJson data = PlanListJson(
+            planDetailDataID,
+            planDetailDataProducts,
+            planDetailDataPrice,
+            planDetailDataTotalIncome,
+            planDetailDataImage,
+            planDetailDataPosition,
+            planDetailDataDailyIncome,
+            planDetailDataInviteBonus,
+            planDetailDataLevelIncome,
+          );
+
+          planListJson.add(data);
+        }
+
+        update();
+      }
+    } catch (e) {
+      debugPrint("planDetail errors: $e");
+    }
+  }
+
+  Future<void> userPlanList() async {
+    try {
+      final value = await jobRepo.userPlanList(prefs.getString(Constant.ID)!);
+      var responseData = value.body;
+      UserPlanDetail userPlanDetail = UserPlanDetail.fromJson(responseData);
+      debugPrint("===> userPlanDetail: $userPlanDetail");
+      debugPrint("===> userPlanDetail message: ${userPlanDetail.message}");
+
+      userPlanListJson.clear();
+
+      if (userPlanDetail.data != null && userPlanDetail.data!.isNotEmpty) {
+        // Use a loop if there can be multiple transactions
+        for (var userPlanDetailData in userPlanDetail.data!) {
+          UserPlanListJson data = UserPlanListJson(
+            userPlanDetailData.id!,
+            userPlanDetailData.userId!,
+            userPlanDetailData.planId!,
+            userPlanDetailData.income!,
+            userPlanDetailData.joinedDate!,
+            userPlanDetailData.claim!,
+            userPlanDetailData.image!,
+            userPlanDetailData.products!,
+            userPlanDetailData.inviteBonus!,
+            userPlanDetailData.price!,
+            userPlanDetailData.levelIncome!,
+            userPlanDetailData.totalIncome!,
+            userPlanDetailData.dailyIncome!,
+            userPlanDetailData.validity!,
+          );
+
+          userPlanListJson.add(data);
+        }
+
+        update();
+      }
+    } catch (e) {
+      debugPrint("userPlanDetail errors: $e");
+    }
+  }
+
+  Future<void> teamList(String level) async {
+    try {
+      final value =
+          await jobRepo.teamList(prefs.getString(Constant.ID)!, level);
+      var responseData = value.body;
+      TeamList teamList = TeamList.fromJson(responseData);
+      debugPrint("===> teamList: $teamList");
+      debugPrint("===> teamList message: ${teamList.message}");
+
+      teamListJson.clear();
+
+      if (teamList.data != null && teamList.data!.isNotEmpty) {
+        // Use a loop if there can be multiple transactions
+        for (var teamListData in teamList.data!) {
+          TeamListJson data = TeamListJson(
+              teamListData.id!,
+              teamListData.mobile!,
+              teamListData.registeredDate!,
+              "11",
+              "10.00");
+
+          teamListJson.add(data);
+        }
+
+        update();
+      }
+    } catch (e) {
+      debugPrint("userPlanDetail errors: $e");
+    }
+  }
+
+  Future<void> activatePlan(String planId) async {
+    try {
+      final value =
+          await jobRepo.activatePlan(prefs.getString(Constant.ID)!, planId);
+      var responseData = value.body;
+      ActivatePlanMod activatePlanMod = ActivatePlanMod.fromJson(responseData);
+      debugPrint("===> activatePlanMod: $activatePlanMod");
+      debugPrint("===> activatePlanMod message: ${activatePlanMod.message}");
+
+      Get.snackbar(
+        activatePlanMod.success.toString(),
+        activatePlanMod.message.toString(),
+        duration: const Duration(seconds: 3),
+        colorText: colors.primary_color,
+        backgroundColor: Colors.white,
+      );
+    } catch (e) {
+      debugPrint("activatePlanMod errors: $e");
+    }
+  }
+
+  Future<void> claim(String planId) async {
+    try {
+      final value =
+          await jobRepo.activatePlan(prefs.getString(Constant.ID)!, planId);
+      var responseData = value.body;
+      ClaimMod claimMod = ClaimMod.fromJson(responseData);
+      debugPrint("===> claimMod: $claimMod");
+      debugPrint("===> claimMod message: ${claimMod.message}");
+
+      Get.snackbar(
+        claimMod.success.toString(),
+        claimMod.message.toString(),
+        duration: const Duration(seconds: 3),
+        colorText: colors.primary_color,
+        backgroundColor: Colors.white,
+      );
+    } catch (e) {
+      debugPrint("claimMod errors: $e");
+    }
+  }
+
   Future<void> usersJoinedJobs() async {
     try {
-      final value = await jobRepo.usersJoinedJobs(prefs.getString(Constant.ID)!);
+      final value =
+          await jobRepo.usersJoinedJobs(prefs.getString(Constant.ID)!);
       var responseData = value.body;
       UsersJoinedJobs usersJoinedJobs = UsersJoinedJobs.fromJson(responseData);
       debugPrint("===> usersJoinedJobs: $usersJoinedJobs");
@@ -329,30 +493,29 @@ class JobCon extends GetxController implements GetxService {
 
           // Create a TransactionData object and add it to the list
           UserJoinedJobsJson data = UserJoinedJobsJson(
-            usersJoinedJobsDataID,
+              usersJoinedJobsDataID,
               usersJoinedJobsDataJobID,
-            usersJoinedJobsDataName,
-            usersJoinedJobsDataProfile,
-            usersJoinedJobsDataDescription,
+              usersJoinedJobsDataName,
+              usersJoinedJobsDataProfile,
+              usersJoinedJobsDataDescription,
               usersJoinedJobsDataTotalSlots,
               usersJoinedJobsDataSlotsLeft,
-              usersJoinedJobsDataAppliFees
-          );
+              usersJoinedJobsDataAppliFees);
 
           userJoinedJobsJson.add(data);
         }
 
         update();
       }
-
     } catch (e) {
       debugPrint("usersJoinedJobs errors: $e");
     }
   }
 
-  Future<void> applyJobs( jobsId) async {
+  Future<void> applyJobs(jobsId) async {
     try {
-      final value = await jobRepo.applyJobs( prefs.getString(Constant.ID)!, jobsId);
+      final value =
+          await jobRepo.applyJobs(prefs.getString(Constant.ID)!, jobsId);
       var responseData = value.body;
       ApplyJobs applyJobs = ApplyJobs.fromJson(responseData);
       debugPrint("===> applyJobs: $applyJobs");

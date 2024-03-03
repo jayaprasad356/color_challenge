@@ -85,6 +85,7 @@ class MainController extends GetxController implements GetxService {
         prefs.setString(Constant.VALID_TEAM, userDetailData.validTeam ?? '');
         prefs.setString(Constant.LEVEL_INCOME, userDetailData.levelIncome ?? '');
         prefs.setString(Constant.TOTAL_ASSETS, userDetailData.totalAssets ?? '');
+        prefs.setString(Constant.RECHARGE, userDetailData.recharge ?? '');
         debugPrint("userDetailData.todayAdsStatus : ${userDetailData.todayAdsStatus}");
         update();
       }
@@ -144,6 +145,7 @@ class MainController extends GetxController implements GetxService {
         prefs.setString(Constant.TODAY_EARN, userDetailData.todayEarn ?? '');
         prefs.setString(Constant.TODAY_ADS_STATUS, userDetailData.todayAdsStatus ?? '');
         prefs.setString(Constant.GENDER, userDetailData.gender ?? '');
+        prefs.setString(Constant.RECHARGE, userDetailData.recharge ?? '');
         debugPrint("userDetailData.todayAdsStatus : ${userDetailData.todayAdsStatus}");
         update();
       }

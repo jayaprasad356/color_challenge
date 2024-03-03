@@ -39,6 +39,36 @@ class HomeRepo {
     }
   }
 
+  Future<Response> uploadRechargePhoto(String userId, File image) async {
+    try {
+      Map<String, String> body = {
+        'user_id': userId,
+      };
+
+      List<MultipartBody> multipartBodies = [
+        MultipartBody(key: 'image', file: image,isNetworkImage: true,),
+      ];
+
+      return await apiClient.postMultipartData(
+        Constant.RECHARGE_URL,
+        body,
+        multipartBodies,
+        // headers: {},
+      );
+    } catch (e) {
+      return Response(statusCode: 1, statusText: 'uploadStatus Error: $e');
+    }
+  }
+
+  Future<Response> rechargeHistory(String userId,) async {
+    Map<String, dynamic> body = {
+      'user_id' : userId,
+    };
+    return await apiClient.postData(
+      Constant.RECHARGE_HISTORY,body,{}
+    );
+  }
+
   Future<Response> whatsappList(String userId,) async {
     Map<String, dynamic> body = {
       'user_id' : userId,

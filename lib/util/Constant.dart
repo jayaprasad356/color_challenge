@@ -26,6 +26,11 @@ class Constant {
   static const String JOB_LIST_API = "${BaseUrl}jobs_list.php";
   static const String ALL_JOBS = "${BaseUrl}all_jobs.php";
   static const String JOB_RESULT = "${BaseUrl}result.php";
+  static const String PLAN_LIST = "${BaseUrl}plan_list.php";
+  static const String USER_PLAN_LIST = "${BaseUrl}user_plan_list.php";
+  static const String ACTIVATE_PLAN = "${BaseUrl}activate_plan.php";
+  static const String TEAM_LIST = "${BaseUrl}team_list.php";
+  static const String CLAIM = "${BaseUrl}claim.php";
   static const String APPLY_JOBS = "${BaseUrl}apply_jobs.php";
   static const String USER_JOINED_JOBS = "${BaseUrl}user_joined_jobs.php";
   static const String JOB_INCOME = "${BaseUrl}jobs_income.php";
@@ -40,7 +45,9 @@ class Constant {
 
   static const String SETTINGS_URL = "${BaseUrl}settings.php";
   static const String UPLOAD_STATUS = "${BaseUrl}upload_status.php";
+  static const String RECHARGE_URL = "${BaseUrl}recharge.php";
   static const String WHATSAPP_LIST = "${BaseUrl}whatsapp_list.php";
+  static const String RECHARGE_HISTORY = "${BaseUrl}recharge_history.php";
   static const String ADS_URL = "${BaseUrl}ads.php";
   static const String APPUPDATE_URL = "${BaseUrl}appupdate.php";
 
@@ -126,6 +133,7 @@ class Constant {
   static const String NAME = "name";
   static const String AGE = "age";
   static const String GENDER = "gender";
+  static const String RECHARGE = "recharge";
   static const String TODAY_EARN = "today_earn";
   static const String DEAF = "deaf";
   static const String CITY = "city";

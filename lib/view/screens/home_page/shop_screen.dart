@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:a1_ads/model/transactionl_data.dart';
-import 'package:a1_ads/model/withdrawal_data.dart';
 import 'package:a1_ads/view/screens/home_page/product_details.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:a1_ads/Helper/apiCall.dart';
@@ -13,7 +11,6 @@ import 'package:a1_ads/model/slider_data.dart';
 import 'package:a1_ads/model/user.dart';
 import 'package:a1_ads/controller/utils.dart';
 import 'package:a1_ads/view/screens/shorts_vid/post_upload.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,22 +20,21 @@ import '../../../util/Color.dart';
 import '../../../util/Constant.dart';
 import '../job/online_jobs.dart';
 
-class Home extends StatefulWidget {
-  const Home({
+class ShopScreen extends StatefulWidget {
+  const ShopScreen({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<Home> createState() => HomeState();
+  State<ShopScreen> createState() => ShopScreenState();
 }
 
-class HomeState extends State<Home> {
+class ShopScreenState extends State<ShopScreen> {
   final HomeController homeController = Get.find<HomeController>();
   late SharedPreferences prefs;
   double starttime = 0; // Set the progress value between 0.0 and 1.0 here
   String today_ads_remain = "0";
   String level = '0', status = '', group_link = '';
-  late List<WithdrawalData> withdrawalsData = [];
   String history_days = '0';
   String ads_image = 'https://admin.colorjobs.site/dist/img/logo.jpeg';
   String ads_link = '';
@@ -59,9 +55,8 @@ class HomeState extends State<Home> {
       basic_wallet = "",
       premium_wallet = "",
       target_refers = "",
-      totalIncome = "",
-      remainingBalance = "",
-  recharge = "";
+      today_ads = "0",
+      total_ads = "0";
   double progressbar = 0.0;
   int _currentIndex = 0;
   PageController _pageController = PageController();
@@ -84,7 +79,6 @@ class HomeState extends State<Home> {
       prefs = value;
       // userDeatils();
       contact_us = prefs.getString(Constant.CONTACT_US).toString();
-      contact_us = prefs.getString(Constant.CONTACT_US).toString();
       basic_wallet = prefs.getString(Constant.BASIC_WALLET)!;
       premium_wallet = prefs.getString(Constant.PREMIUM_WALLET)!;
       status = prefs.getString(Constant.STATUS)!;
@@ -101,9 +95,6 @@ class HomeState extends State<Home> {
     setState(() async {
       debugPrint(homeController.sliderImageURL.string);
       debugPrint(homeController.sliderName.string);
-      totalIncome = prefs.getString(Constant.EARN)!;
-      remainingBalance = prefs.getString(Constant.BALANCE)!;
-      recharge = prefs.getString(Constant.RECHARGE)!;
       // referralCode = (await storeLocal.read(key: Constant.REFERRAL_CODE))!;
       // debugPrint('referralCode : $referralCode');
     });
@@ -165,6 +156,8 @@ class HomeState extends State<Home> {
       basic_wallet = prefs.getString(Constant.BASIC_WALLET)!;
       premium_wallet = prefs.getString(Constant.PREMIUM_WALLET)!;
       target_refers = prefs.getString(Constant.TARGET_REFERS)!;
+      today_ads = prefs.getString(Constant.TODAY_ADS)!;
+      total_ads = prefs.getString(Constant.TOTAL_ADS)!;
       status = prefs.getString(Constant.STATUS)!;
     });
   }
@@ -188,31 +181,6 @@ class HomeState extends State<Home> {
         });
       }
     });
-  }
-
-  Future<List<WithdrawalData>> _getWithdrawalsData() async {
-    prefs = await SharedPreferences.getInstance();
-
-    Map<String, dynamic> bodyObject = {
-      Constant.USER_ID: prefs.getString(Constant.ID)!,
-    };
-
-    String response =
-    await apiCall(Constant.MY_WITHDRAWALS_LIST_URL, bodyObject);
-
-    final jsonsData = jsonDecode(response);
-    withdrawalsData.clear();
-
-    for (var Data in jsonsData['data']) {
-      final id = Data['id'];
-      final amount = Data["amount"];
-      final status = Data['status'];
-      final datetime = Data['datetime'];
-
-      WithdrawalData data = WithdrawalData(id, amount, status, datetime);
-      withdrawalsData.add(data);
-    }
-    return withdrawalsData;
   }
 
   String separateNumber(String number) {
@@ -274,297 +242,220 @@ class HomeState extends State<Home> {
             const SizedBox(
               height: 10,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      height: size.height * 0.1,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: const Color(0xFFFF6644),
+            CarouselSlider(
+              options: CarouselOptions(
+                height: size.height * 0.27,
+                autoPlay: true,
+                enableInfiniteScroll: false,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                },
+              ),
+              items: homeController.sliderImageURL.asMap().entries.map((entry) {
+                int index = entry.key;
+                String imageUrl = entry.value;
+                // String imageName = homeController.sliderName[index];
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                      // height: size.height * 0.01,
+                      width: size.width,
+                      margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.network(
+                          imageUrl,
+                        ),
                       ),
-                      padding: const EdgeInsets.all(10),
-                      child: Stack(
-                        children: [
-                          Align(
-                              alignment: Alignment.bottomRight,
-                              child: Image.asset(
-                                "assets/images/profits 1.png",
-                                height: 40,
-                              )),
-                          const Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Total Earning',
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontFamily: 'MontserratLight',
-                                  color: Color(0xFFFFFFFF),
-                                  fontSize: 12,
+                    );
+                  },
+                );
+              }).toList(),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            // Image.network(
+            //   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfBJhHB86PPHocV3n-ou6ZwUWX8vSPEZ-H3w&usqp=CAU',
+            //   loadingBuilder: (BuildContext context, Widget child,
+            //       ImageChunkEvent? loadingProgress) {
+            //     if (loadingProgress == null) {
+            //       return child;
+            //     } else {
+            //       return Center(
+            //         child: CircularProgressIndicator(
+            //           value: loadingProgress.expectedTotalBytes != null
+            //               ? loadingProgress.cumulativeBytesLoaded /
+            //                   (loadingProgress.expectedTotalBytes ?? 1)
+            //               : null,
+            //         ),
+            //       );
+            //     }
+            //   },
+            // ),
+            SizedBox(
+              height: size.height * 0.17,
+              width: double.infinity,
+              child: Obx(
+                () => ListView.builder(
+                  itemCount: homeController.categoryJson.length,
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        setState(() {
+                          selectedCategoryIndex =
+                              index; // Update selected index on tap
+                        });
+                        debugPrint(
+                            "selectedCategoryIndex: $selectedCategoryIndex");
+                        homeController.productListData(
+                            homeController.categoryJson[index].id);
+                      },
+                      child: Container(
+                        height: size.height * 0.17,
+                        width: size.width * 0.2,
+                        margin: const EdgeInsets.symmetric(horizontal: 5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100000),
+                          color: index == selectedCategoryIndex
+                              ? const Color(0xFF161C7E)
+                              : const Color(0xFFFFFFFF),
+                        ),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: size.height * 0.1,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(100000),
+                                child: Image.network(
+                                  homeController.categoryJson[index].image,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
-                              Text(
-                                '₹12,670',
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontFamily: 'MontserratBold',
-                                  color: Color(0xFFFFFFFF),
-                                  fontSize: 16,
-                                ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              homeController.categoryJson[index].name,
+                              style: TextStyle(
+                                fontFamily: 'MontserratLight',
+                                color: index == selectedCategoryIndex
+                                    ? const Color(0xFFFFFFFF)
+                                    : const Color(0xFF67666D),
                               ),
-                            ],
-                          ),
-                        ],
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Container(
-                      height: size.height * 0.1,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: const Color(0xFF161C7E),
-                      ),
-                      padding: const EdgeInsets.all(10),
-                      child: Stack(
-                        children: [
-                          Align(
-                              alignment: Alignment.bottomRight,
-                              child: Image.asset(
-                                "assets/images/profits 1.png",
-                                height: 40,
-                              )),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Total Income',
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontFamily: 'MontserratLight',
-                                  color: Color(0xFFFFFFFF),
-                                  fontSize: 12,
-                                ),
-                              ),
-                              Text(
-                                '₹$totalIncome',
-                                textAlign: TextAlign.start,
-                                style: const TextStyle(
-                                  fontFamily: 'MontserratBold',
-                                  color: Color(0xFFFFFFFF),
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                    );
+                  },
+                ),
               ),
             ),
             const SizedBox(
               height: 10,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      height: size.height * 0.1,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: const Color(0xFF8E02B1),
-                      ),
-                      padding: const EdgeInsets.all(10),
-                      child: Stack(
-                        children: [
-                          Align(
-                              alignment: Alignment.bottomRight,
-                              child: Image.asset(
-                                "assets/images/profits 1.png",
-                                height: 40,
-                              )),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Recharge balance',
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontFamily: 'MontserratLight',
-                                  color: Color(0xFFFFFFFF),
-                                  fontSize: 12,
-                                ),
-                              ),
-                              Text(
-                                '₹$recharge',
-                                textAlign: TextAlign.start,
-                                style: const TextStyle(
-                                  fontFamily: 'MontserratBold',
-                                  color: Color(0xFFFFFFFF),
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+            SizedBox(
+              height: size.height * 0.3,
+              child: Obx(
+                () => GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 1, // Number of columns
+                    crossAxisSpacing: 8.0, // Spacing between columns
+                    mainAxisSpacing: 8.0, // Spacing between rows
                   ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Container(
-                      height: size.height * 0.1,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: const Color(0xFF0291B1),
-                      ),
-                      padding: const EdgeInsets.all(10),
-                      child: Stack(
-                        children: [
-                          Align(
-                              alignment: Alignment.bottomRight,
-                              child: Image.asset(
-                                "assets/images/profits 1.png",
-                                height: 40,
-                              )),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Remaining balance',
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontFamily: 'MontserratLight',
-                                  color: Color(0xFFFFFFFF),
-                                  fontSize: 12,
-                                ),
-                              ),
-                              Text(
-                                '₹$remainingBalance',
-                                textAlign: TextAlign.start,
-                                style: const TextStyle(
-                                  fontFamily: 'MontserratBold',
-                                  color: Color(0xFFFFFFFF),
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 10,),
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: const Color(0xFFFFFFFF),
-              ),
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              child: FutureBuilder(
-                future: _getWithdrawalsData(),
-                builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                  if (withdrawalsData.isEmpty) {
-                    return const Center(
-                        child: Column(
-                          children: [
-                            // CircularProgressIndicator(color: colors.primary),
-                          ],
+                  itemCount: homeController.productJson.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        setState(() {
+                          selectedProductIndex = index;
+                        });
+                        Get.to(ProductDetails(
+                          imageUrl: homeController.productJson[index].image,
+                          name: homeController.productJson[index].name,
+                          price:
+                              homeController.productJson[index].originalPrice,
+                          description:
+                              homeController.productJson[index].description,
+                          productId:
+                              homeController.productJson[index].id,
                         ));
-                  } else {
-                    return Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        itemCount: withdrawalsData.length,
-                        shrinkWrap: true,
-                        itemBuilder: (BuildContext context, int index) {
-                          return SingleChildScrollView(
-                            child: GestureDetector(
-                                onTap: () {},
-                                child: Container(
-                                  height: size.height * 0.1,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: const Color(0xFFF1F1F9),
-                                  ),
-                                  padding: const EdgeInsets.all(10),
-                                  margin: const EdgeInsets.symmetric(vertical: 5),
-                                  child: Row(
-                                    // mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        height: size.height * 0.07,
-                                        width: size.height * 0.07,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(12),
-                                          color: const Color(0xFFC6C8E9),
-                                        ),
-                                        padding: const EdgeInsets.all(10),
-                                        child: Image.asset(
-                                          "assets/images/transfer 1.png",
-                                        ),
-                                      ),
-                                      const SizedBox(width: 15,),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            withdrawalsData[index].status=="0"? "Pending": withdrawalsData[index].status=="1" ? "Completed" : "Cancelled",
-                                            style: TextStyle(
-                                              color: withdrawalsData[index].status=="0"? colors.primary : withdrawalsData[index].status=="1" ? const Color(0xFF31800C) : Colors.red,
-                                              fontFamily: 'MontserratMedium',
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 5,),
-                                          Text(
-                                            withdrawalsData[index].datetime,
-                                            style: const TextStyle(
-                                              color: Colors.black,
-                                              fontFamily: 'MontserratLight',
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Expanded(child: Container()),
-                                      Text(
-                                        "₹${withdrawalsData[index].amount}",
-                                        style: const TextStyle(
-                                          color: Colors.green,
-                                          fontFamily: 'MontserratMedium',
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),),
-                          );
-                        },
+                      },
+                      child: Container(
+                        height: size.height * 0.3,
+                        width: size.width * 0.4,
+                        margin: const EdgeInsets.symmetric(horizontal: 5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          color: const Color(0xFF161C7E),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16),
+                                color: const Color(0xFFFFFFFF),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              child: const Text(
+                                "50% OFF",
+                                style: TextStyle(fontFamily: 'MontserratLight'),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Container(
+                              height: size.height * 0.15,
+                              width: double.infinity,
+                              alignment: Alignment.center,
+                              child: Image.network(
+                                homeController.productJson[index].image,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            Text(
+                              homeController.productJson[index].name,
+                              style: const TextStyle(
+                                color: Color(0xFFFFFFFF),
+                                fontFamily: 'MontserratLight',
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "₹ ${homeController.productJson[index].originalPrice}",
+                              style: const TextStyle(
+                                color: Color(0xFFFF03A9),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'MontserratBold',
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
                       ),
                     );
-                  }
-                },
+                  },
+                ),
               ),
+            ),
+            const SizedBox(
+              height: 10,
             ),
           ],
         ),

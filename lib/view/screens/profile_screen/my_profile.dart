@@ -15,6 +15,7 @@ import 'package:a1_ads/view/screens/job/my_team.dart';
 import 'package:a1_ads/view/screens/login/loginMobile.dart';
 import 'package:a1_ads/view/screens/login/recharge_screen.dart';
 import 'package:a1_ads/view/screens/profile_screen/my_customer.dart';
+import 'package:a1_ads/view/screens/profile_screen/my_plan.dart';
 import 'package:a1_ads/view/screens/profile_screen/update_profile_screen.dart';
 import 'package:a1_ads/view/screens/shorts_vid/post_upload.dart';
 import 'package:a1_ads/view/screens/upi_screen/bank_detail_screen.dart';
@@ -116,6 +117,7 @@ class _MyProfileState extends State<MyProfile> {
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(
               height: 10,
@@ -529,7 +531,7 @@ class _MyProfileState extends State<MyProfile> {
                   Expanded(
                     child: InkWell(
                       onTap: () {
-                        Get.to(const MyTeam());
+                        Get.to(const MyPlan());
                       },
                       child: Container(
                         height: 40,
@@ -603,7 +605,6 @@ class _MyProfileState extends State<MyProfile> {
                 ],
               ),
             ),
-
             const SizedBox(
               height: 10,
             ),
@@ -912,41 +913,41 @@ class _MyProfileState extends State<MyProfile> {
             SizedBox(
               height: size.height * 0.1,
             ),
-            Align(
-              alignment: Alignment.center,
-              child: InkWell(
-                onTap: () {
-                  prefs.setString(Constant.LOGED_IN, "false");
-                  logout();
-                },
-                child: Container(
-                  width: size.width * 0.3,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  alignment: Alignment.center,
-                  child: const Row(
-                    children: [
-                      Icon(
-                        Icons.power_settings_new,
-                        size: 28,
+            GestureDetector(
+              onTap: () {
+                prefs.setString(Constant.LOGED_IN, "false");
+                logout();
+              },
+              child: Container(
+                width: size.width * 0.3,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                alignment: Alignment.center,
+                child: const Row(
+                  children: [
+                    Icon(
+                      Icons.power_settings_new,
+                      size: 28,
+                      color: Color(0xFF242426),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      "Logout",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontFamily: 'MontserratLight',
                         color: Color(0xFF242426),
+                        fontSize: 20,
                       ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "Logout",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontFamily: 'MontserratLight',
-                          color: Color(0xFF242426),
-                          fontSize: 20,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
+            ),
+            SizedBox(
+              height: size.height * 0.05,
             ),
           ],
         ),

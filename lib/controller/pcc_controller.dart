@@ -39,6 +39,7 @@ class PCC extends GetxController implements GetxService {
   final RxList userLike = [].obs;
   var photo = Rxn<XFile>();
   var getUploadStatusPhoto = Rxn<XFile>();
+  var getRechargePhoto = Rxn<XFile>();
   // RxList<RxBool> isLikedList = <RxBool>[].obs;
   //
   // PCC1(int length) {
@@ -254,6 +255,18 @@ class PCC extends GetxController implements GetxService {
     if (getPic != null) {
       print("get pic ${getPic.path}, ${getPic.name}");
       getUploadStatusPhoto.value = getPic; // Set the photo
+      print("get pic ${getPic.path}");
+    }
+    update();
+  }
+
+  Future<void> getRechargeScreenShort() async {
+    ImagePicker picker = ImagePicker();
+    XFile? getPic = await picker.pickImage(source: ImageSource.gallery);
+
+    if (getPic != null) {
+      print("get pic ${getPic.path}, ${getPic.name}");
+      getRechargePhoto.value = getPic; // Set the photo
       print("get pic ${getPic.path}");
     }
     update();
